@@ -9,6 +9,7 @@ import React from 'react';
 import { View, Text, Image } from 'react-native';
 import usePublicState from '@core/hooks/usePublicState';
 import { LS as styles } from './style';
+import colors from '@core/templates/styles/colors';
 
 export default () => {
   const { navigation } = usePublicState();
@@ -22,6 +23,22 @@ export default () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.pendingBox}>
+        <View style={{...styles.pendingItem, backgroundColor: '#00A010',}}>
+          <View style={styles.pendingText}>
+            <Image source={require('./i/ic-down.png')} style={styles.pendingIcon} />
+            <Text style={{color: '#fff'}}>卖出</Text>
+          </View>
+          <Text style={styles.pendingAmount}>23.363</Text>
+        </View>
+        <View style={{...styles.pendingItem, backgroundColor: '#EE0A24',}}>
+          <View style={styles.pendingText}>
+            <Image source={require('./i/ic-up.png')} style={styles.pendingIcon} />
+            <Text style={{color: '#fff'}}>买入</Text>
+          </View>
+          <Text style={styles.pendingAmount}>23.403</Text>
+        </View>
+      </View>
       <View style={styles.dropItem}>
         <Text>挂单类型</Text>
         <View style={styles.dropMenu}>

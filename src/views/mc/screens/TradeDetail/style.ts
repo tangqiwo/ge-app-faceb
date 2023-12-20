@@ -16,6 +16,38 @@ export const LS = StyleSheet.create({
     fontSize: G.mixin.rem(12),
     color: '#2A2A2A',
   },
+  pendingBox: {
+    width: '90%',
+    flexDirection: 'row',
+    justifyContent: 'space-between', 
+    alignItems: 'center', 
+    marginHorizontal: '5%',
+  },
+  pendingItem: {
+    width: '49%',
+    height: G.mixin.rem(75),
+    borderRadius: G.mixin.rem(5),
+    marginTop: G.mixin.rem(20),
+    alignItems: 'center',
+  },
+  pendingText: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: G.mixin.rem(15),
+    fontSize: G.mixin.rem(15),
+  },
+  pendingIcon: {
+    width: G.mixin.rem(12),
+    height: G.mixin.rem(12),
+    marginRight: G.mixin.rem(8),
+  },
+  pendingAmount: {
+    fontSize: G.mixin.rem(21),
+    fontWeight: 'bold',
+    color: '#FFF',
+    marginTop: G.mixin.rem(5),
+  },
   dropItem: {
     height: G.mixin.rem(54),
     width: '90%',
