@@ -1,0 +1,129 @@
+/*
+ * @Author: ammo@xyzzdev.com
+ * @Date: 2023-11-09 14:00:27
+ * @LastEditors: Galen.GE
+ * @FilePath: /app_face_b/src/views/mc/screens/Trade/index.tsx
+ * @Description:
+ */
+import React from "react";
+import { View, Image, Text } from 'react-native';
+import { useSelector } from "react-redux";
+import usePublicState from "@core/hooks/usePublicState";
+import useTradeConnect from "@core/hooks/trade/useTradeConnect";
+import MyTouchableOpacity from "@core/templates/components/MyTouchableOpacity";
+import Overlay from "@core/templates/components/Overlay";
+import { Input } from '@ui-base/index';
+import Icon from '@icon/index';
+import Placing from "./Placing";
+import Position from "./Position";
+import TradeHistory from "./TradeHistory";
+import Button from '@this/components/Button'
+import useRouteWebCommon, { FORWARD_TYPES } from '@core/hooks/useRouteWebCommon';
+import ENUM from '@core/constants/enum';
+import { LS as styles, GS } from './style';
+
+export default () => {
+
+  const auth = useSelector((state: any) => state.trade.auth);
+  const { navigation, isMt4User, rs } = usePublicState();
+  const { forward } = useRouteWebCommon();
+  const { authToMt4 } = useTradeConnect();
+  const [ currentTab, setCurrentTab ] = React.useState(0);
+  const [ isShowLogin, setIsShowLogin ] = React.useState(false);
+  const [ password, setPassword ] = React.useState('083413yI');
+  const [ showPassword, setShowPassword ] = React.useState(false);
+
+  React.useEffect(() => {
+    navigation.setOptions({
+      headerTitle: '交易',
+      headerShown: true,
+    });
+  }, [])
+
+  // 未登录 或者 未开户
+  React.useEffect(() => {
+    if(!isMt4User){
+      // 继续注册引导
+      if(rs.user.registerProgress.code === ENUM.user.ERegisterProgress.WAITING_REAL_NAME_AUTHENTICATION) {
+        navigation.navigate('RealnameAuthentication');
+        return;
+      }
+      if(rs.user.registerProgress.code === ENUM.user.ERegisterProgress.WAITING_QUESTIONNAIRE) {
+        navigation.navigate('Questionnaire');
+        return;
+      }
+    }
+  }, [isMt4User])
+
+  const handleForgetPassword = () => {
+    setIsShowLogin(false);
+    forward(FORWARD_TYPES['USER_INFOS'])
+  }
+
+  const handleUnlockTrade = () => {
+    authToMt4({password, callback: () => {
+      setIsShowLogin(false);
+      navigation.navigate('TradeDetail');
+    }})
+  }
+
+  return (
+    <View style={styles.container}>
+      {
+        !auth &&
+        <>
+          <MyTouchableOpacity onPress={() => setIsShowLogin(true)}>
+            <Image style={styles.loginImage} source={require('./i/go-login.png')} resizeMode="contain" />
+          </MyTouchableOpacity>
+        </>
+      }
+      <View style={styles.tabsVeiw}>
+        <MyTouchableOpacity style={[styles.tabsItem, currentTab === 0 && styles.tabsItemActive]} onPress={() => setCurrentTab(0)}>
+          <Text style={[styles.tabsItemText, currentTab === 0 && styles.tabsItemTextActive]}>持仓</Text>
+        </MyTouchableOpacity>
+        <MyTouchableOpacity style={[styles.tabsItem, currentTab === 1 && styles.tabsItemActive]} onPress={() => setCurrentTab(1)}>
+          <Text style={[styles.tabsItemText, currentTab === 1 && styles.tabsItemTextActive]}>挂单</Text>
+        </MyTouchableOpacity>
+        <MyTouchableOpacity style={[styles.tabsItem, currentTab === 2 && styles.tabsItemActive]} onPress={() => setCurrentTab(2)}>
+          <Text style={[styles.tabsItemText, currentTab === 2 && styles.tabsItemTextActive]}>交易记录</Text>
+        </MyTouchableOpacity>
+      </View>
+      { currentTab === 0 && <Position /> }
+      { currentTab === 1 && <Placing /> }
+      { currentTab === 2 && <TradeHistory /> }
+      {
+        isShowLogin &&
+        <Overlay display>
+          <>
+            <View style={styles.loginBox}>
+              <Text style={styles.loginTitle}>解锁交易</Text>
+              <View style={styles.input} >
+                <Image source={require('./i/icon-pass.png')} style={styles.inputIcon} />
+                <Input
+                  value={password}
+                  placeholder="请输入登录密码"
+                  onChangeText={(value: string) => setPassword(value)}
+                  style={{...styles.inputText, width: GS.mixin.rem(200)}} type={showPassword ? 'text' : 'password'}
+                />
+                <MyTouchableOpacity style={{marginLeft: 'auto'}} onPress={() => setShowPassword(!showPassword)}>
+                  <Icon.Font type={Icon.T.Feather}  name={!showPassword ? 'eye' : 'eye-off'} size={GS.mixin.rem(20)} color="#94938F" />
+                </MyTouchableOpacity>
+              </View>
+              <Button
+                style={styles.submit}
+                textStyle={styles.submitText}
+                onPress={handleUnlockTrade}
+                text="提交"
+              />
+              <Text style={styles.forgetPassword} onPress={handleForgetPassword}>忘记交易密码？</Text>
+            </View>
+            <MyTouchableOpacity onPress={() => setIsShowLogin(false)}>
+              <Image source={require('./i/icon-close.png')} style={styles.close} />
+            </MyTouchableOpacity>
+          </>
+        </Overlay>
+      }
+    </View>
+  )
+
+}

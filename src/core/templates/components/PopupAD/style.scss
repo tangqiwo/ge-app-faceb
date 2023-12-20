@@ -1,0 +1,13 @@
+@import '~@style/mixins/index';
+@import '~@this/styles/index';
+
+:local(.wrapper) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+// 特有样式
+@import '~@this/shadow/PopupAD/style';

@@ -1,0 +1,13 @@
+{
+  "name": "web-build",
+  "version": "1.0.0",
+  "description": "编译彩票工程所使用的定制CLI",
+  "author": "ammo@xyzzdev.com",
+  "bin": {
+    "build": "./index.js"
+  },
+  "dependencies": {
+    "commander": "^6.0.0",
+    "inquirer": "^7.3.3"
+  }
+}
