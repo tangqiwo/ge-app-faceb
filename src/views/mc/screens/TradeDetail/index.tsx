@@ -6,11 +6,11 @@
  * @Description:
  */
 import React from 'react';
-import usePublicState from '@core/hooks/usePublicState';
 import { View, Text } from 'react-native';
+import usePublicState from '@core/hooks/usePublicState';
+import { LS as styles } from './style';
 
 export default () => {
-
   const { navigation } = usePublicState();
 
   React.useEffect(() => {
@@ -22,8 +22,9 @@ export default () => {
 
   return (
     <View>
-
+      <View>
+        <Text style={styles.title}>挂单类型123</Text>
+      </View>
     </View>
-  )
-
-}
+  );
+};
