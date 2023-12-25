@@ -151,31 +151,31 @@ export default () => {
           <>
             <MyTouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('AboutUs')}>
               <View style={styles.menuItemContent}>
-                <Image source={require('./i/icon-1.png')} style={{width: GS.mixin.rem(20), height: GS.mixin.rem(20)}} resizeMode='contain' />
+                <Image source={require('./i/icon/icon-1.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
                 <Text style={{...styles.buttonText, color: '#2A2A2A'}}>关于我们</Text>
               </View>
               <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
             </MyTouchableOpacity>
             <MyTouchableOpacity style={styles.menuItem} onPress={() => forward(FORWARD_TYPES['QA'])}>
               <View style={styles.menuItemContent}>
-                <Image source={require('./i/icon-2.png')} style={{width: GS.mixin.rem(20), height: GS.mixin.rem(20)}} resizeMode='contain' />
+                <Image source={require('./i/icon/icon-2.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
                 <Text style={{...styles.buttonText, color: '#2A2A2A'}}>常见问答</Text>
               </View>
               <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
             </MyTouchableOpacity>
             <MyTouchableOpacity style={styles.menuItem} onPress={() => forward(FORWARD_TYPES['CMS_INVEST'])}>
               <View style={styles.menuItemContent}>
-                <Image source={require('./i/icon-3.png')} style={{width: GS.mixin.rem(20), height: GS.mixin.rem(20)}} resizeMode='contain' />
+                <Image source={require('./i/icon/icon-3.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
                 <Text style={{...styles.buttonText, color: '#2A2A2A'}}>投资知识</Text>
               </View>
               <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
             </MyTouchableOpacity>
             <MyTouchableOpacity style={styles.menuItem} onPress={() => forward(FORWARD_TYPES['PRD_RULES'])}>
               <View style={styles.menuItemContent}>
-                <Image source={require('./i/icon-4.png')} style={{width: GS.mixin.rem(20), height: GS.mixin.rem(20)}} resizeMode='contain'/>
+                <Image source={require('./i/icon/icon-4.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover'/>
                 <Text style={{...styles.buttonText, color: '#2A2A2A'}}>产品细则</Text>
               </View>
-              <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} resizeMode='contain'/>
+              <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} resizeMode='cover'/>
             </MyTouchableOpacity>
           </>
         }
@@ -184,44 +184,44 @@ export default () => {
           <>
             <MyTouchableOpacity style={styles.menuItem} onPress={() => forward(FORWARD_TYPES['USER_INFOS'])}>
               <View style={styles.menuItemContent}>
-                <Image source={require('./i/icon-6.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(11)}} resizeMode='contain' />
+                <Image source={require('./i/icon/icon-6.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
                 <Text style={{...styles.buttonText, color: '#2A2A2A'}}>个人信息</Text>
               </View>
               <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
             </MyTouchableOpacity>
             <MyTouchableOpacity style={styles.menuItem} onPress={() => forward(FORWARD_TYPES['PAYMENT_SETTING'])}>
               <View style={styles.menuItemContent}>
-                <Image source={require('./i/icon-7.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(15)}} resizeMode='contain' />
+                <Image source={require('./i/icon/icon-7.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
                 <Text style={{...styles.buttonText, color: '#2A2A2A'}}>支付管理</Text>
               </View>
               <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
             </MyTouchableOpacity>
             <MyTouchableOpacity style={styles.menuItem} onPress={() => {}}>
               <View style={styles.menuItemContent}>
-                <Image source={require('./i/icon-8.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(13)}} resizeMode='contain' />
+                <Image source={require('./i/icon/icon-8.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
                 <Text style={{...styles.buttonText, color: '#2A2A2A'}}>持仓详情</Text>
               </View>
               <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
             </MyTouchableOpacity>
             <MyTouchableOpacity style={styles.menuItem} onPress={() => forward(FORWARD_TYPES['ATM_DETAIL'])}>
               <View style={styles.menuItemContent}>
-                <Image source={require('./i/icon-9.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(17)}} resizeMode='contain' />
+                <Image source={require('./i/icon/icon-9.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
                 <Text style={{...styles.buttonText, color: '#2A2A2A'}}>资金明细</Text>
               </View>
               <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
             </MyTouchableOpacity>
             <MyTouchableOpacity style={styles.menuItem} onPress={() => {}}>
               <View style={styles.menuItemContent}>
-                <Image source={require('./i/icon-10.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(14)}} resizeMode='contain' />
+                <Image source={require('./i/icon/icon-10.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
                 <Text style={{...styles.buttonText, color: '#2A2A2A'}}>交易记录</Text>
               </View>
               <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
             </MyTouchableOpacity>
           </>
         }
-        <MyTouchableOpacity style={styles.menuItem} onPress={() => forward({...FORWARD_TYPES['CUSTOMER_SERVICE'], uri: customerService})}>
+        <MyTouchableOpacity style={{...styles.menuItem, borderBottomWidth: 0}} onPress={() => forward({...FORWARD_TYPES['CUSTOMER_SERVICE'], uri: customerService})}>
           <View style={styles.menuItemContent}>
-            <Image source={require('./i/icon-5.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(14)}} resizeMode='contain' />
+            <Image source={require('./i/icon/icon-5.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
             <Text style={{...styles.buttonText, color: '#2A2A2A'}}>在线客服</Text>
           </View>
           <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />

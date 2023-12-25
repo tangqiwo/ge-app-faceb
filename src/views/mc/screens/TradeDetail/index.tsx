@@ -5,21 +5,36 @@
  * @FilePath: /app_face_b/src/views/mc/screens/TradeDetail/index.tsx
  * @Description:
  */
+import _ from 'lodash';
 import React from 'react';
 import { View, Text, Image } from 'react-native';
+import { useSelector } from 'react-redux';
 import usePublicState from '@core/hooks/usePublicState';
+import Selector from '@core/templates/components/Base/Selector';
+import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 import { LS as styles } from './style';
-import colors from '@core/templates/styles/colors';
 
 export default () => {
+
   const { navigation } = usePublicState();
+  const mt4Info = useSelector((state: any) => state.trade.mt4Info);
+  const [ currentSymbol, setCurrentSymbol ] = React.useState(mt4Info?.Symbols[0]);
+  const [ currentTab, setCurrentTab ] = React.useState(0);
 
   React.useEffect(() => {
     navigation.setOptions({
-      headerTitle: () => (<Text>123</Text>),
+      headerTitle: () => (
+        <Selector
+          style={{flexDirection: 'row', alignItems: 'center',}}
+          title='交易品种'
+          value={currentSymbol}
+          options={_.map(mt4Info?.Symbols, (item: any) => ({key: item, value: item}))}
+          cb={(value: string) => setCurrentSymbol(value)}
+        />
+      ),
       headerShown: true
     });
-  }, [])
+  }, [currentSymbol])
 
   return (
     <View style={styles.container}>
@@ -38,6 +53,14 @@ export default () => {
           </View>
           <Text style={styles.pendingAmount}>23.403</Text>
         </View>
+      </View>
+      <View style={styles.tabsVeiw}>
+        <MyTouchableOpacity style={[styles.tabsItem, currentTab === 0 && styles.tabsItemActive]} onPress={() => setCurrentTab(0)}>
+          <Text style={[styles.tabsItemText, currentTab === 0 && styles.tabsItemTextActive]}>建仓</Text>
+        </MyTouchableOpacity>
+        <MyTouchableOpacity style={[styles.tabsItem, currentTab === 1 && styles.tabsItemActive]} onPress={() => setCurrentTab(1)}>
+          <Text style={[styles.tabsItemText, currentTab === 1 && styles.tabsItemTextActive]}>挂单</Text>
+        </MyTouchableOpacity>
       </View>
       <View style={styles.dropItem}>
         <Text>挂单类型</Text>

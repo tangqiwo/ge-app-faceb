@@ -1,8 +1,8 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
- * @LastEditors: ammo@xyzzdev.com
- * @FilePath: /app_face_b/src/views/mc/screens/Home/style.ts
+ * @LastEditors: Galen.GE
+ * @FilePath: /app_face_b/src/views/mc/screens/TradeDetail/style.ts
  * @Description:
  */
 
@@ -16,11 +16,41 @@ export const LS = StyleSheet.create({
     fontSize: G.mixin.rem(12),
     color: '#2A2A2A',
   },
+  tabsVeiw: {
+    height: G.mixin.rem(40),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '80%',
+    marginLeft: '10%',
+    marginBottom: G.mixin.rem(20),
+  },
+  tabsItem: {
+    width: '50%',
+    height: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomColor: '#EBEBEB',
+    borderBottomWidth: 1,
+  },
+  tabsItemActive: {
+    borderBottomColor: '#FFC600',
+    borderBottomWidth: 2,
+  },
+  tabsItemText:{
+    fontSize: G.mixin.rem(15),
+    color: '#646464',
+  },
+  tabsItemTextActive:{
+    color: '#2A2A2A',
+    fontWeight: '600',
+  },
   pendingBox: {
     width: '90%',
     flexDirection: 'row',
-    justifyContent: 'space-between', 
-    alignItems: 'center', 
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginHorizontal: '5%',
   },
   pendingItem: {
@@ -52,16 +82,16 @@ export const LS = StyleSheet.create({
     height: G.mixin.rem(54),
     width: '90%',
     flexDirection: 'row',
-    justifyContent: 'space-between', 
-    alignItems: 'center', 
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginHorizontal: '5%',
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: G.mixin.rem(1),
     fontSize: G.mixin.rem(12),
   },
   dropMenu: {
-    flexDirection: 'row', 
-    alignItems: 'center', 
+    flexDirection: 'row',
+    alignItems: 'center',
     lignSelf: 'center',
     width: G.mixin.rem(120),
     height: G.mixin.rem(24),
@@ -88,16 +118,16 @@ export const LS = StyleSheet.create({
     height: G.mixin.rem(40),
     width: '90%',
     flexDirection: 'row',
-    justifyContent: 'space-between', 
-    alignItems: 'center', 
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginHorizontal: '5%',
     borderBottomColor: '#EBEBEB',
     fontSize: G.mixin.rem(12),
     color: '#2A2A2A',
   },
   optionsMenu: {
-    flexDirection: 'row', 
-    alignItems: 'center', 
+    flexDirection: 'row',
+    alignItems: 'center',
     lignSelf: 'center',
     width: '50%',
   },

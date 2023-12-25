@@ -86,6 +86,7 @@ export const LS = StyleSheet.create({
     height: G.mixin.rem(40),
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
+    marginTop: G.mixin.rem(10),
   },
   moneyDetailText: {
     fontSize: G.mixin.rem(23),

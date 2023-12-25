@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-27 12:20:08
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/views/mc/screens/Settings/index.tsx
  * @Description:
  */
@@ -134,7 +134,7 @@ export default () => {
           </View>
           <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
         </MyTouchableOpacity>
-        <MyTouchableOpacity style={styles.menuItem} onPress={() => openPopups('USER_PRIVACY')} >
+        <MyTouchableOpacity style={{...styles.menuItem, borderBottomWidth: 0}} onPress={() => openPopups('USER_PRIVACY')} >
           <View style={styles.menuItemContent}>
             <Image source={require('./i/icon-4.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(16)}} />
             <Text style={{...styles.buttonText, color: '#2A2A2A'}}>隐私政策</Text>

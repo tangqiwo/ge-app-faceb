@@ -14,5 +14,6 @@ export const connetMt4 = ({data, cb}: INTERFACE.IProps): INTERFACE.IAPI => ({
   type: TYPES.TRADE.CONNECT_MT4,
   payload: { key: 'trade/connect-mt4', data, method: HTTP.METHODS.POST, loading: true },
   password: data.password,
+  passError: true,
   cb
 })

@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/views/mc/screens/Home/components/Subsidy/style.ts
  * @Description:
  */
@@ -23,7 +23,7 @@ export const LS = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'black',
+    backgroundColor: '#2A2A2A',
   },
   titleText: {
     fontSize: G.mixin.rem(15),

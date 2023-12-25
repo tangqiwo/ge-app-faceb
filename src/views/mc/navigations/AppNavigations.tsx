@@ -33,7 +33,7 @@ export default () => {
 
   return (
     <MainStack.Navigator
-      initialRouteName="TradeDetail"
+      initialRouteName="Root"
       // initialRouteName="Login"
       screenOptions={{
         headerBackTitle: '返回',

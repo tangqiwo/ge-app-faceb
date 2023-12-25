@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-30 10:29:55
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/hooks/useInstantQuotes.ts
  * @Description:
  */
@@ -23,8 +23,8 @@ export default () => {
   }, [])
 
   React.useEffect(() => {
-    if(messages.length > 0) {
-      const res = JSON.parse(messages[messages.length - 1]);
+    if(messages) {
+      const res = JSON.parse(messages);
       if(_.includes(_.map(symbols, 'Key'), res.Data.Symbol)) {
         const closePrice = _.find(symbols, {Key: res.Data.Symbol}).Close;
         const currentInstant = _.find(instant, {Symbol: res.Data.Symbol}) || { Ask: 0, Bid: 0 };

@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/views/mc/screens/Home/style.ts
  * @Description:
  */
@@ -14,7 +14,7 @@ export const LS = {
   main: StyleSheet.create({
     container: {
       backgroundColor: '#F0F0F0',
-      marginBottom: G.mixin.rem(75)
+      marginBottom: G.mixin.rem(70)
     },
     buttons: {
       marginTop: G.mixin.rem(15),

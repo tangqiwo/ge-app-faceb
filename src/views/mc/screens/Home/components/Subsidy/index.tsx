@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-09 17:43:54
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/views/mc/screens/Home/components/Subsidy/index.tsx
  * @Description:
  */
@@ -28,7 +28,7 @@ export default () => {
   const { requestAuth } = useAuth();
   const { subsidy } = useBanner();
   const { applyPromotion, getPromotionDetail } = usePromotion();
-  const { isLogined, ossDomain, dispatch, ACTIONS } = usePublicState();
+  const { isLogined, ossDomain, dispatch, ACTIONS, isFocused } = usePublicState();
   const { promotionCenterList } = useSelector((state: any) => state.promotion);
   const Activity = useSelector((state: any) => state.base.homeInfos?.Subsidy100M?.Activity);
   const [ isShow, setIsShow ] = React.useState(true);
@@ -37,6 +37,7 @@ export default () => {
   const { forward } = useRouteWebCommon();
   const [ countdown, setCountdown ] = React.useState<any>();
   const [ applayData, setApplayData ] = React.useState<any>();
+  const [ mainId, setMainId ] = React.useState<any>();
   const timer = React.useRef<any>(null);
 
   React.useEffect(() => {
@@ -74,22 +75,29 @@ export default () => {
     setIsShow(true);
     // 如果已经参加过活动
     if(promotion.hasJoined){
-      getPromotionDetail({
-        mainId: promotion.mainId,
-        queryKey: ENUM.promotion.EPromotionQueryKey.NEW_USER_30000,
-        cb: (res: any) => {
-          setProgressDetail({
-            ...res.data,
-            isDoneFirstBonus: res.data?.qualifyVolumesOfBonus <= res.data?.currVolumesOfBonus,
-            isDoneTradeBonus: res.data?.volumeLimitOfTrading <= res.data?.currVolumesOfTrading,
-            rateForBonus: (res.data?.currVolumesOfBonus / res.data?.qualifyVolumesOfBonus) * 100,
-            rateForTrade: (res.data?.currVolumesOfTrading / res.data?.volumeLimitOfTrading) * 100,
-          })
-          // setProgressData(res.data?.record?.extra?.extraOfActivityJoinRecordRegisterExclusive);
-        },
-      });
+      setMainId(promotion.mainId);
     }
   }, [isLogined, promotionCenterList, Activity]);
+
+
+  React.useEffect(() => {
+    if(!mainId || !isFocused){
+      return;
+    }
+    getPromotionDetail({
+      mainId: mainId,
+      queryKey: ENUM.promotion.EPromotionQueryKey.NEW_USER_30000,
+      cb: (res: any) => {
+        setProgressDetail({
+          ...res.data,
+          isDoneFirstBonus: res.data?.qualifyVolumesOfBonus <= res.data?.currVolumesOfBonus,
+          isDoneTradeBonus: res.data?.volumeLimitOfTrading <= res.data?.currVolumesOfTrading,
+          rateForBonus: (res.data?.currVolumesOfBonus / res.data?.qualifyVolumesOfBonus) * 100,
+          rateForTrade: (res.data?.currVolumesOfTrading / res.data?.volumeLimitOfTrading) * 100,
+        })
+      },
+    });
+  }, [isFocused, mainId])
 
   React.useEffect(() => {
     if(_.isEmpty(progressData)){

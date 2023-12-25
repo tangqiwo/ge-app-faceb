@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-30 10:29:55
- * @LastEditors: Passion.KMG
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/hooks/useWebsocket.ts
  * @Description:
  */
@@ -16,10 +16,11 @@ interface IUseWebsocket {
 export default ({url, protocol, closeCallback}: IUseWebsocket) => {
 
   const [socket, setSocket] = useState(null);
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState();
   const [error, setError] = useState(null);
   const heartbeatInterval = 30000;
   const heartbeatTimer = useRef(null);
+  const ws = useRef(null);
 
   // 创建 WebSocket 连接
   useEffect((): any => {
@@ -27,25 +28,28 @@ export default ({url, protocol, closeCallback}: IUseWebsocket) => {
       return;
     }
     const createSocket = () => {
-      const ws = new WebSocket(url, protocol);
+      if(ws.current) {
+        ws.current.close();
+      }
+      ws.current = new WebSocket(url, protocol);
       setSocket(ws);
-      ws.onopen = () => {
+      ws.current.onopen = () => {
         if(heartbeatTimer.current) {
           clearInterval(heartbeatTimer.current);
         }
         // 发送心跳
         heartbeatTimer.current = setInterval(() => {
-          ws.send('ping');
+          ws.current.send('ping');
         }, heartbeatInterval)
       }
-      ws.onmessage = (event) => {
+      ws.current.onmessage = (event: any) => {
         if(event.data === 'pong') {
           return;
         }
-        setMessages(prev => [...prev, event.data]);
+        setMessages(event.data)
       }
-      ws.onerror = (event) => setError(event);
-      ws.onclose = () => {
+      ws.current.onerror = (event: any) => setError(event);
+      ws.current.onclose = () => {
         // 清理 ping pong..
         clearInterval(heartbeatTimer.current);
         // 如果有关闭回调，执行回调

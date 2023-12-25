@@ -1,8 +1,8 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:31
- * @LastEditors: ammo@xyzzdev.com
- * @FilePath: /app_face_b/src/views/mc/screens/Questionnaire/index.tsx
+ * @LastEditors: Galen.GE
+ * @FilePath: /app_face_b/src/views/mc/screens/Register/Questionnaire/index.tsx
  * @Description: 登录
  */
 import _ from 'lodash';
@@ -124,11 +124,8 @@ export default () => {
                 </View>
               )
             }
-            <View style={styles.questionsTitleView}>
-              <Text style={styles.questionsTitleText}>{`风险说明`}</Text>
-            </View>
             {
-              RISKS.map((item, index) =>
+              RISKS.map((item: any, index: number) =>
                 <View style={styles.questionsView} key={index}>
                   <Text style={styles.qText}>{item}</Text>
                   <View style={styles.aView}>

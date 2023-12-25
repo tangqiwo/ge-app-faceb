@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2022-07-25 10:45:04
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/reducers/baseReducer.ts
  * @Description: 基础状态
  */
@@ -217,6 +217,7 @@ export default function base(state = initialState.base, action: any) {
     case TYPES.USER.LOGOUT: {
       store.remove('AUTH');
       store.remove('USER-PROFILE');
+      store.remove('MT4-PASS');
       const router = action.isAuto ? { name: 'Login', type: 'replace' } : { };
       let initState = {
         ...initialState.base,

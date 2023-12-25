@@ -20,18 +20,29 @@ import TradeHistory from "./TradeHistory";
 import Button from '@this/components/Button'
 import useRouteWebCommon, { FORWARD_TYPES } from '@core/hooks/useRouteWebCommon';
 import ENUM from '@core/constants/enum';
+import store from '@helpers/storage'
 import { LS as styles, GS } from './style';
 
 export default () => {
 
   const auth = useSelector((state: any) => state.trade.auth);
-  const { navigation, isMt4User, rs } = usePublicState();
+  const { navigation, isMt4User, rs, isFocused } = usePublicState();
+  const mt4Info = useSelector((state: any) => state.trade.mt4Info);
   const { forward } = useRouteWebCommon();
   const { authToMt4 } = useTradeConnect();
   const [ currentTab, setCurrentTab ] = React.useState(0);
   const [ isShowLogin, setIsShowLogin ] = React.useState(false);
   const [ password, setPassword ] = React.useState('083413yI');
   const [ showPassword, setShowPassword ] = React.useState(false);
+
+  React.useEffect(() => {
+    if(isFocused && !mt4Info){
+      const pass = store.get('MT4-PASS');
+      if(pass){
+        authToMt4({password: pass, callback: () => {}})
+      }
+    }
+  }, [isFocused, mt4Info])
 
   React.useEffect(() => {
     navigation.setOptions({

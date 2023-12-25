@@ -19,12 +19,13 @@ export default () => {
 
   const promotionTypeId = ENUM.promotion.EPromotionTypes.RED_ENVELOPE88;
   const { forward } = useRouteWebCommon();
-  const { isMt4User, isLogined, navigation, rs, dispatch, ACTIONS } = usePublicState();
+  const { isMt4User, isLogined, navigation, rs, dispatch, ACTIONS, isFocused } = usePublicState();
   const { promotionCenterList } = useSelector((state: any) => state.promotion);
   const { requestAuth } = useAuth();
   const { getPromotionDetail } = usePromotion();
   const [ isShow, setIsShow ] = React.useState(true);
   const [ progressData, setProgressData ] = React.useState<any>({});
+  const [ mainId, setMainId ] = React.useState<any>();
 
   React.useEffect(() => {
     if(!isLogined){
@@ -39,14 +40,23 @@ export default () => {
       setIsShow(false);
       return;
     }
+    setMainId(promotion.mainId);
+
+  }, [isLogined, promotionCenterList]);
+
+
+  React.useEffect(() => {
+    if(!mainId || !isFocused){
+      return;
+    }
     getPromotionDetail({
-      mainId: promotion.mainId,
+      mainId: mainId,
       queryKey: ENUM.promotion.EPromotionQueryKey.RED_ENVELOPE88,
       cb: (res: any) => {
         setProgressData(res.data?.record?.extra?.extraOfActivityJoinRecordRegisterExclusive);
       },
     });
-  }, [isLogined, promotionCenterList]);
+  }, [mainId, isFocused])
 
   // 去实名
   const goRealName = requestAuth(() => {
@@ -87,7 +97,7 @@ export default () => {
   // 是否注册
   const isRegister = isLogined && progressData.stateOfRegisterGe !== 0;
   // 是否实名
-  const isRealName = isMt4User;
+  const isRealName = isLogined && rs.user.registerProgress.code !== ENUM.user.ERegisterProgress.WAITING_REAL_NAME_AUTHENTICATION;
   // 是否首次注资
   const isFirstDeposit = isMt4User && progressData.stateOfFirstDeposit !== 0;
   // 是否交易

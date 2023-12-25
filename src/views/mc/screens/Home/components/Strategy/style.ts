@@ -67,15 +67,16 @@ export const LS = StyleSheet.create({
   personalCountdown: {
     marginLeft: 'auto',
     paddingLeft: G.mixin.rem(5),
+    marginRight: G.mixin.rem(-14),
   },
   personalViewText: {
     marginTop: G.mixin.rem(15),
-    textAlign: 'right'
+    textAlign: 'center'
   },
   countdownView: {
     marginTop: G.mixin.rem(5),
     height: G.mixin.rem(20),
-    minWidth: G.mixin.rem(105),
+    minWidth: G.mixin.rem(100),
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

@@ -81,7 +81,7 @@ const StrategyItem = ({ data, showDetail }: { data: any, showDetail?: boolean}) 
         if(timer.current){
           clearInterval(timer.current);
         }
-        setCountdown(`已逾期`)
+        setCountdown(`00时00分00秒`)
         return
       }
       const hour = Math.floor(diff / (60 * 60 * 1000));
@@ -102,13 +102,13 @@ const StrategyItem = ({ data, showDetail }: { data: any, showDetail?: boolean}) 
       <View style={styles.personalView}>
         <Image source={{ uri: `${ossDomain}${data.TeacherProfile.Image}` }} style={styles.personalViewImage} />
         <View style={{marginLeft: GS.mixin.rem(10)}}>
-          <Text style={styles.personalUpdateTime}>更新时间：{dayjs(data.UpdatedAt).format('YYYY-MM-DD')}</Text>
+          <Text style={styles.personalUpdateTime}>发布时间：{dayjs(data.UpdatedAt).format('YYYY-MM-DD')}</Text>
           <Text style={styles.personalName} numberOfLines={1}>{`${data.TeacherProfile.Name}-${data.TeacherProfile?.Tags?.[0]}`}</Text>
         </View>
         <View style={styles.personalCountdown}>
-          <Text style={styles.personalViewText}>策略有效期</Text>
-          <View style={{...styles.countdownView, backgroundColor: countdown === '已逾期' ? '#F2F2F2' : '#FFC600'}}>
-            <Text>{countdown}</Text>
+          <Text style={styles.personalViewText}>{ countdown === '00时00分00秒' ? '策略已失效' : '策略有效期'}</Text>
+          <View style={{...styles.countdownView, backgroundColor: countdown === '00时00分00秒' ? '#B2B2B2' : '#FFC600'}}>
+            <Text style={{fontSize: GS.mixin.rem(10), color:  countdown === '00时00分00秒' ? '#FFFFFF' : '#2A2A2A'}}>{countdown}</Text>
           </View>
         </View>
       </View>
@@ -116,7 +116,7 @@ const StrategyItem = ({ data, showDetail }: { data: any, showDetail?: boolean}) 
       {
         !showDetail &&
         <Text
-          style={{marginTop: GS.mixin.rem(10), color: '#94938F', lineHeight: GS.mixin.rem(20), fontSize: GS.mixin.rem(10)}}
+          style={{marginTop: GS.mixin.rem(11), color: '#94938F', lineHeight: GS.mixin.rem(20), fontSize: GS.mixin.rem(10)}}
           numberOfLines={3}
           onPress={() => navigation.navigate('StrategyDetail', { data, title: data.Title })}
         >

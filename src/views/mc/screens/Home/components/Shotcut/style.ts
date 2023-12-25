@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/views/mc/screens/Home/components/Shotcut/style.ts
  * @Description:
  */
@@ -21,7 +21,7 @@ export const LS = StyleSheet.create({
     alignItems: 'center',
   },
   item: {
-    width: G.mixin.rem(45),
+    width: '20%',
     height: G.mixin.rem(50),
     flexDirection: 'row',
     justifyContent: 'center',
@@ -29,7 +29,7 @@ export const LS = StyleSheet.create({
     flexWrap: 'wrap',
   },
   itemText: {
-    fontSize: G.mixin.rem(10),
+    fontSize: G.mixin.rem(11),
     color: '#2A2A2A',
     marginTop: G.mixin.rem(15),
   }

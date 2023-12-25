@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-25 15:26:20
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/helpers/storage.ts
  * @Description: 原生本地存储转换成 web LS 使用方式
  */
@@ -29,6 +29,7 @@ type TKeys =  'AUTH'                          // 登录 TOKEN
             | 'CRASH-RECORD'                  // 崩溃记录
             | 'COUNTRY'                       // 国家
             | 'LANG'                          // 语言
+            | 'MT4-PASS'                      // MT4 密码
 
 
 /**
