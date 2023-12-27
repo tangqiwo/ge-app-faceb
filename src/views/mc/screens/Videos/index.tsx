@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-09 14:00:27
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/views/mc/screens/Videos/index.tsx
  * @Description:
  */
@@ -45,7 +45,7 @@ export default () => {
   }, [k10Videos, newsVideos, currentTab])
 
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false} >
       <Header
         title="影片"
       />

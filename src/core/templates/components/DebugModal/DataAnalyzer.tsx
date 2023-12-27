@@ -1,8 +1,8 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-10-10 20:10:46
- * @LastEditors: ammo@xyzzdev.com
- * @FilePath: /NativeAS/src/core/templates/components/DebugModal/DataAnalyzer.tsx
+ * @LastEditors: Galen.GE
+ * @FilePath: /app_face_b/src/core/templates/components/DebugModal/DataAnalyzer.tsx
  * @Description: 用户发送的 BUG 信息解析
  */
 import React from "react";
@@ -33,7 +33,7 @@ export default ({ close }: IProps) => {
         />
         {
           decode &&
-          <ScrollView style={{flex: 1, marginTop: 10, paddingTop: 10, borderTopColor: GS.var.colors.gray[200], borderTopWidth: 1}}>
+          <ScrollView showsVerticalScrollIndicator={false}  style={{flex: 1, marginTop: 10, paddingTop: 10, borderTopColor: GS.var.colors.gray[200], borderTopWidth: 1}}>
             <Text style={style.headerText}>解析数据内容</Text>
             <Text style={style.text} selectable>
               {decode}

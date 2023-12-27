@@ -17,6 +17,10 @@ export default function user(state = initialState.trade, action: any) {
       store.set('MT4-PASS', action.password)
       return {...state, mt4Info: {...action.res, Password: action.password}};
     }
+    // 设置来自ws的实时行情数据
+    case TYPES.TRADE.SET_INSTANT_QUOTES: {
+      return { ...state, instant: action.data };
+    }
     case TYPES.USER.LOGOUT: {
       return {...initialState.trade };
     }

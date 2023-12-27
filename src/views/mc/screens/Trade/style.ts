@@ -115,7 +115,25 @@ export const LS = StyleSheet.create({
     marginTop: G.mixin.rem(20),
     width: G.mixin.rem(28),
     height: G.mixin.rem(28),
-  }
+  },
+  buttonItem: {
+    height: G.mixin.rem(40),
+    width: G.mixin.rem(140),
+    backgroundColor: '#2A2A2A',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: G.mixin.rem(30),
+  },
+  buttonIcon: {
+    height: G.mixin.rem(18),
+    width: G.mixin.rem(16)
+  },
+  buttonText: {
+    color: '#E7CC8F',
+    marginLeft: G.mixin.rem(5),
+    fontSize: G.mixin.rem(15),
+  },
 })
 
 // 固定导出

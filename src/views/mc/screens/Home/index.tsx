@@ -58,7 +58,7 @@ export default () => {
   }
 
   return (
-    <ScrollView style={styles.container} disableScrollViewPanResponder={true}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false} disableScrollViewPanResponder={true}>
       <Banner />
       <View style={LS.contents.container}>
         <Ad />

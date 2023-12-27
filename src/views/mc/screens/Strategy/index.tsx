@@ -54,12 +54,15 @@ export default () => {
         {
           currentTab === 0 &&
           <View style={{height: webViewHeight, width: '100%'}}>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false} >
               <News style={{...GS.mixin.padding(0,0,0,0)}} />
               {
                 newsCounseling?.length > 0 &&
                 <>
-                  <Title title="金十访谈" moreForword={() => navigation.navigate('Videos', { type: 'k10' })} />
+                  <View style={styles.title}>
+                    <Text style={styles.titleText}>金十访谈</Text>
+                    <Text style={styles.titleMore} onPress={() => navigation.navigate('Videos', { type: 'k10' })}>{`更多 >`}</Text>
+                  </View>
                   <MyTouchableOpacity style={styles.banner} onPress={() => setCurrentPlay(newsCounseling[0])}>
                     <Image
                       style={{...styles.banner, marginTop: 0, marginBottom: 0}}
@@ -74,7 +77,7 @@ export default () => {
         {
           currentTab === 1 &&
           <View style={{height: webViewHeight, width: '100%'}}>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false} >
               <Strategy type="list" />
             </ScrollView>
           </View>

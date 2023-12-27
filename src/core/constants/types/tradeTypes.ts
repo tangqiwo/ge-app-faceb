@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-12-12 00:49:36
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/constants/types/tradeTypes.ts
  * @Description:
  */
@@ -16,3 +16,4 @@ export const GET_SYMBOLS = 'TRADE/GET_SYMBOLS';
 export const OPEN_MARKET_ORDER = 'TRADE/OPEN_MARKET_ORDER';
 
 //
+export const SET_INSTANT_QUOTES = 'TRADE/SET_INSTANT_QUOTES';

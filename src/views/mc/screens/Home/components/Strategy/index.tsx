@@ -102,7 +102,7 @@ const StrategyItem = ({ data, showDetail }: { data: any, showDetail?: boolean}) 
       <View style={styles.personalView}>
         <Image source={{ uri: `${ossDomain}${data.TeacherProfile.Image}` }} style={styles.personalViewImage} />
         <View style={{marginLeft: GS.mixin.rem(10)}}>
-          <Text style={styles.personalUpdateTime}>发布时间：{dayjs(data.UpdatedAt).format('YYYY-MM-DD')}</Text>
+          <Text style={styles.personalUpdateTime}>发布时间：{dayjs(data.StartAt).format('YYYY-MM-DD')}</Text>
           <Text style={styles.personalName} numberOfLines={1}>{`${data.TeacherProfile.Name}-${data.TeacherProfile?.Tags?.[0]}`}</Text>
         </View>
         <View style={styles.personalCountdown}>
@@ -135,9 +135,9 @@ const StrategyItem = ({ data, showDetail }: { data: any, showDetail?: boolean}) 
         <View style={styles.progressViewPriceText}>
           <Text style={styles.prizeText}>{data.Category}</Text>
           <Text style={styles.prizeText}>{data.Direction}</Text>
-          <Text style={styles.prizeText}>{data.BuildPositionPrice}</Text>
-          <Text style={styles.prizeText}>{data.StopLossPrice}</Text>
-          <Text style={styles.prizeText}>{data.TargetPrice}</Text>
+          <Text style={styles.prizeText}>{Number(data.BuildPositionPrice).toFixed(2)}</Text>
+          <Text style={styles.prizeText}>{Number(data.StopLossPrice).toFixed(2)}</Text>
+          <Text style={styles.prizeText}>{Number(data.TargetPrice).toFixed(2)}</Text>
         </View>
         {
           showDetail &&
@@ -164,7 +164,7 @@ export const StrategyDetail = () => {
   }, [])
 
   return (
-    <ScrollView contentContainerStyle={styles.detailView}>
+    <ScrollView showsVerticalScrollIndicator={false}  contentContainerStyle={styles.detailView}>
       <StrategyItem data={route.params.data} showDetail />
     </ScrollView>
   )

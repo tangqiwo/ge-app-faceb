@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-09-15 17:23:49
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/templates/components/DebugModal/index.tsx
  * @Description: 调试弹窗
  */
@@ -68,7 +68,7 @@ const [networkRecord, setNetworkRecord] = React.useState([]);
 
   return (
     <BackgroundView style={GS.style.wrapper} source={require('@this/public/images/screen-background.png')} >
-      <ScrollView style={{flex: 1, marginBottom: insets.bottom}}>
+      <ScrollView showsVerticalScrollIndicator={false}  style={{flex: 1, marginBottom: insets.bottom}}>
         <PopupContent>
           <Input
             placeholder='输入调试使用持久化 API 地址'
@@ -164,7 +164,7 @@ const [networkRecord, setNetworkRecord] = React.useState([]);
                 <Text style={{...style.errorMessage, color: GS.var.colors.red[500]}}>BODY:</Text>
                 <Text style={style.errorMessage}>{item.data}</Text>
                 <Text style={{...style.errorMessage, color: GS.var.colors.red[500]}}>RESPONSE:</Text>
-                <ScrollView style={{maxHeight: 100}}>
+                <ScrollView showsVerticalScrollIndicator={false}  style={{maxHeight: 100}}>
                   <MyText.Selectable style={style.errorMessage}>{JSON.stringify(JSON.parse(item.res), null, 4)}</MyText.Selectable>
                 </ScrollView>
               </View>
@@ -189,7 +189,7 @@ const [networkRecord, setNetworkRecord] = React.useState([]);
                 <Text style={{...style.errorMessage, color: GS.var.colors.red[500]}}>BODY:</Text>
                 <Text style={style.errorMessage}>{item.data}</Text>
                 <Text style={{...style.errorMessage, color: GS.var.colors.red[500]}}>RESPONSE:</Text>
-                <ScrollView style={{maxHeight: 100}}>
+                <ScrollView showsVerticalScrollIndicator={false}  style={{maxHeight: 100}}>
                   <MyText.Selectable style={style.errorMessage}>{JSON.stringify(JSON.parse(item.res), null, 4)}</MyText.Selectable>
                 </ScrollView>
               </View>
@@ -265,7 +265,7 @@ const [networkRecord, setNetworkRecord] = React.useState([]);
                   <MyText.Selectable style={{...style.text, marginTop: 5, marginBottom: 5, color: GS.var.colors.red[500]}}>KEY: {item.key}</MyText.Selectable>
                 </TouchableOpacity>
                 <Text style={{...style.text, marginTop: 5, marginBottom: 5, color: GS.var.colors.red[500]}}>过期时间：{moment(item.expires).format('YYYY-MM-DD HH:mm:ss')}</Text>
-                <ScrollView style={{maxHeight: 100}}>
+                <ScrollView showsVerticalScrollIndicator={false}  style={{maxHeight: 100}}>
                   <MyText.Selectable style={style.errorMessage}>{JSON.stringify(item.data, null, 4)}</MyText.Selectable>
                 </ScrollView>
               </View>

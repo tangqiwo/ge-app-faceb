@@ -67,7 +67,6 @@ export const LS = StyleSheet.create({
   personalCountdown: {
     marginLeft: 'auto',
     paddingLeft: G.mixin.rem(5),
-    marginRight: G.mixin.rem(-14),
   },
   personalViewText: {
     marginTop: G.mixin.rem(15),

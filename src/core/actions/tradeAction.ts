@@ -17,3 +17,9 @@ export const connetMt4 = ({data, cb}: INTERFACE.IProps): INTERFACE.IAPI => ({
   passError: true,
   cb
 })
+
+// 设置来自ws的实时行情数据
+export const setInstantQuotes = ({data}: INTERFACE.IProps): INTERFACE.IBase => ({
+  type: TYPES.TRADE.SET_INSTANT_QUOTES,
+  data
+})

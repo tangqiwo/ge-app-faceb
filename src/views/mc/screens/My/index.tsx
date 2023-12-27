@@ -69,7 +69,7 @@ export default () => {
                   开户立即领取88元红包
                 </Text>
                 <BackgroundView source={require('./i/icon-new.png')} style={styles.tips}>
-                  <Text style={{color: 'white'}}>
+                  <Text style={{color: 'white', marginLeft: GS.mixin.rem(4)}}>
                     新客专享
                   </Text>
                 </BackgroundView>

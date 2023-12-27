@@ -29,6 +29,8 @@ export const LS = StyleSheet.create({
     flexWrap: 'wrap',
   },
   itemText: {
+    width: '100%',
+    textAlign: 'center',
     fontSize: G.mixin.rem(11),
     color: '#2A2A2A',
     marginTop: G.mixin.rem(15),

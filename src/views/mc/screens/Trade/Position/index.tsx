@@ -13,7 +13,7 @@ export default () => {
 
   return (
     <View style={{flex: 1}}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false} >
 
       </ScrollView>
     </View>

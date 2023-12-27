@@ -2,7 +2,7 @@
  * @Description: REDUX 初始化状态
  * @Author: Galen.GE
  * @Date: 2019-12-19 16:20:56
- * @LastEditTime: 2023-12-18 11:54:27
+ * @LastEditTime: 2023-12-27 10:36:36
  * @LastEditors: Galen.GE
  */
 import { UserInfo, RegisterGuide } from '@core/schemas/interface';

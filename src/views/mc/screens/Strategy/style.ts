@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/views/mc/screens/Strategy/style.ts
  * @Description:
  */
@@ -26,7 +26,7 @@ export const LS = StyleSheet.create({
   },
   contentView: {
     marginTop: G.mixin.rem(20),
-    marginBottom: G.mixin.rem(75),
+    marginBottom: G.mixin.rem(70),
     marginLeft: G.mixin.rem(14),
     marginRight: G.mixin.rem(14),
     paddingTop: G.mixin.rem(14),
@@ -70,7 +70,25 @@ export const LS = StyleSheet.create({
     marginBottom: G.mixin.rem(20),
     height: G.mixin.rem(180),
     width: '100%',
-  }
+  },
+  title: {
+    height: G.mixin.rem(20),
+    borderLeftColor: '#FFC600',
+    borderLeftWidth: G.mixin.rem(3),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  titleText: {
+    marginLeft: G.mixin.rem(5),
+    fontWeight: '600',
+    color: '#2A2A2A',
+    fontSize: G.mixin.rem(15),
+  },
+  titleMore: {
+    color: '#94938F',
+    fontSize: G.mixin.rem(12),
+  },
 })
 
 // 固定导出

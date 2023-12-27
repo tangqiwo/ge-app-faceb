@@ -2,7 +2,7 @@
  * @Author: Galen.GE
  * @Date: 2023-12-18 12:52:42
  * @LastEditors: Galen.GE
- * @FilePath: /app_face_b/src/views/mc/screens/Trade/Placing/index.tsx
+ * @FilePath: /app_face_b/src/views/mc/screens/Trade/TradeHistory/index.tsx
  * @Description: 挂单
  */
 import React from 'react';
@@ -13,7 +13,7 @@ export default () => {
 
   return (
     <View style={{flex: 1}}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false} >
 
       </ScrollView>
     </View>

@@ -12,6 +12,7 @@ import usePublicState from "@core/hooks/usePublicState";
 import useTradeConnect from "@core/hooks/trade/useTradeConnect";
 import MyTouchableOpacity from "@core/templates/components/MyTouchableOpacity";
 import Overlay from "@core/templates/components/Overlay";
+import BackgroundView from "@core/templates/components/BackgroundView";
 import { Input } from '@ui-base/index';
 import Icon from '@icon/index';
 import Placing from "./Placing";
@@ -25,7 +26,6 @@ import { LS as styles, GS } from './style';
 
 export default () => {
 
-  const auth = useSelector((state: any) => state.trade.auth);
   const { navigation, isMt4User, rs, isFocused } = usePublicState();
   const mt4Info = useSelector((state: any) => state.trade.mt4Info);
   const { forward } = useRouteWebCommon();
@@ -81,11 +81,52 @@ export default () => {
   return (
     <View style={styles.container}>
       {
-        !auth &&
+        !mt4Info &&
         <>
           <MyTouchableOpacity onPress={() => setIsShowLogin(true)}>
             <Image style={styles.loginImage} source={require('./i/go-login.png')} resizeMode="contain" />
           </MyTouchableOpacity>
+        </>
+      }
+      {
+        mt4Info &&
+        <>
+          <BackgroundView style={styles.loginImage} source={require('./i/banner.png')} resizeMode="contain">
+            <View>
+              <View>
+                <Text>资产净值（USD）</Text>
+                <Text>{mt4Info.AccountSummary.balance}</Text>
+              </View>
+              <View>
+                <View>
+                  <Text>可用保证金</Text>
+                  <Text>{mt4Info.AccountSummary.freeMargin}</Text>
+                </View>
+                <View>
+                  <Text>占用保证金</Text>
+                  <Text>{mt4Info.AccountSummary.margin}</Text>
+                </View>
+                <View>
+                  <Text>持仓盈亏</Text>
+                  <Text>{mt4Info.AccountSummary.profit}</Text>
+                </View>
+              </View>
+            </View>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '80%'}}>
+              <MyTouchableOpacity style={styles.buttonItem} onPress={() => forward(FORWARD_TYPES['DEPOSIT'])}>
+                <View style={styles.buttonItem}>
+                  <Image source={require('./i/icon-1.png')} style={styles.buttonIcon} />
+                  <Text style={styles.buttonText}>注资</Text>
+                </View>
+              </MyTouchableOpacity>
+              <MyTouchableOpacity style={styles.buttonItem} onPress={() => navigation.navigate('TradeDetail')}>
+                <View style={{...styles.buttonItem, backgroundColor: '#FFFFFF'}}>
+                  <Image source={require('./i/icon-2.png')} style={{...styles.buttonIcon, width: GS.mixin.rem(20), height: GS.mixin.rem(18)}} />
+                  <Text style={{...styles.buttonText, color: 'black'}}>开仓</Text>
+                </View>
+              </MyTouchableOpacity>
+            </View>
+          </BackgroundView>
         </>
       }
       <View style={styles.tabsVeiw}>

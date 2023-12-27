@@ -127,7 +127,15 @@ export type ITrade = {
     Mt4ClientApiToken: string;
     Url: string;
     Password: string;
-  }
+  },
+  instant?: Array<{
+    Ask: number,
+    Bid: number,
+    Symbol: string,
+    Time: string,
+    askStatus: 'UP' | 'DOWN' | 'FLAT',
+    bidStatus: 'UP' | 'DOWN' | 'FLAT'
+  }>;
 }
 
 // 入口
