@@ -24,6 +24,39 @@ export const LS = StyleSheet.create({
     width: '100%',
     height: G.mixin.rem(165),
   },
+  loginImageContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontalHorizontal: G.mixin.rem(20),
+    marginTop: G.mixin.rem(20),
+    marginHorizontal: G.mixin.rem(20),
+    paddingBottom: G.mixin.rem(15),
+    borderBottomColor: '#fff',
+    borderBottomWidth: G.mixin.rem(1), 
+  },
+  loginLeftTitle : {
+    fontSize: G.mixin.rem(15),
+  },
+  loginLeftNumber : {
+    fontSize: G.mixin.rem(23),
+    lineHeight: G.mixin.rem(36),
+    fontWeight: '700',
+  },
+  loginRight: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  loginRightTitle: {
+    width: '38%',
+    fontSize: G.mixin.rem(12),
+    color: '#646464',
+    lineHeight: G.mixin.rem(18),
+  },
+  loginRightNumber: {
+    fontSize: G.mixin.rem(12),
+    color: '#2a2a2a',
+    lineHeight: G.mixin.rem(18),
+  }, 
   tabsVeiw: {
     height: G.mixin.rem(40),
     flexDirection: 'row',
@@ -115,6 +148,13 @@ export const LS = StyleSheet.create({
     marginTop: G.mixin.rem(20),
     width: G.mixin.rem(28),
     height: G.mixin.rem(28),
+  },
+  buttonBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontalHorizontal: G.mixin.rem(20),
+    marginTop: G.mixin.rem(15),
+    marginHorizontal: G.mixin.rem(20),
   },
   buttonItem: {
     height: G.mixin.rem(40),

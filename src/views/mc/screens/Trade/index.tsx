@@ -92,27 +92,27 @@ export default () => {
         mt4Info &&
         <>
           <BackgroundView style={styles.loginImage} source={require('./i/banner.png')} resizeMode="contain">
-            <View>
+            <View style={styles.loginImageContent}>
               <View>
-                <Text>资产净值（USD）</Text>
-                <Text>{mt4Info.AccountSummary.balance}</Text>
+                <Text style={styles.loginLeftTitle}>资产净值（USD）</Text>
+                <Text style={styles.loginLeftNumber}>{mt4Info.AccountSummary.balance}</Text>
               </View>
               <View>
-                <View>
-                  <Text>可用保证金</Text>
-                  <Text>{mt4Info.AccountSummary.freeMargin}</Text>
+                <View style={styles.loginRight}>
+                  <Text style={styles.loginRightTitle}>可用保证金</Text>
+                  <Text style={styles.loginRightNumber}>{mt4Info.AccountSummary.freeMargin}</Text>
                 </View>
-                <View>
-                  <Text>占用保证金</Text>
-                  <Text>{mt4Info.AccountSummary.margin}</Text>
+                <View style={styles.loginRight}>
+                  <Text style={styles.loginRightTitle}>占用保证金</Text>
+                  <Text style={styles.loginRightNumber}>{mt4Info.AccountSummary.margin}</Text>
                 </View>
-                <View>
-                  <Text>持仓盈亏</Text>
-                  <Text>{mt4Info.AccountSummary.profit}</Text>
+                <View style={styles.loginRight}>
+                  <Text style={styles.loginRightTitle}>持仓盈亏</Text>
+                  <Text style={styles.loginRightNumber}>{mt4Info.AccountSummary.profit}</Text>
                 </View>
               </View>
             </View>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '80%'}}>
+            <View style={styles.buttonBox}>
               <MyTouchableOpacity style={styles.buttonItem} onPress={() => forward(FORWARD_TYPES['DEPOSIT'])}>
                 <View style={styles.buttonItem}>
                   <Image source={require('./i/icon-1.png')} style={styles.buttonIcon} />
