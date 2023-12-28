@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-10-01 17:07:29
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/hooks/usePublicState.ts
  * @Description: 简易的获取一些常见的状态
  */
@@ -30,6 +30,7 @@ export default () => {
   return {
     rs,
     isLogined,
+    cacheReady: rs.base.cacheReady,
     isMt4User: rs.user.info.Mt4Id && rs.user.info.Mt4Id !== 0,
     infos: rs.user.info,
     api: rs.base.api,

@@ -32,7 +32,7 @@ export const LS = StyleSheet.create({
     marginHorizontal: G.mixin.rem(20),
     paddingBottom: G.mixin.rem(15),
     borderBottomColor: '#fff',
-    borderBottomWidth: G.mixin.rem(1), 
+    borderBottomWidth: G.mixin.rem(1),
   },
   loginLeftTitle : {
     fontSize: G.mixin.rem(15),
@@ -47,7 +47,6 @@ export const LS = StyleSheet.create({
     justifyContent: 'space-between',
   },
   loginRightTitle: {
-    width: '38%',
     fontSize: G.mixin.rem(12),
     color: '#646464',
     lineHeight: G.mixin.rem(18),
@@ -56,7 +55,7 @@ export const LS = StyleSheet.create({
     fontSize: G.mixin.rem(12),
     color: '#2a2a2a',
     lineHeight: G.mixin.rem(18),
-  }, 
+  },
   tabsVeiw: {
     height: G.mixin.rem(40),
     flexDirection: 'row',

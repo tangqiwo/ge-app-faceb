@@ -24,6 +24,7 @@ import { StrategyDetail } from '@this/screens/Home/components/Strategy';
 import AboutUs from '@this/screens/AboutUs';
 import Videos from '@this/screens/Videos';
 import TradeDetail from '@this/screens/TradeDetail';
+import TradeDone from '@this/screens/TradeDetail/Done';
 import ScreenHOC from '@views/mc/shadow/ScreenHOC';
 import WebView from '@this/screens/WebFrame';
 
@@ -33,7 +34,7 @@ export default () => {
 
   return (
     <MainStack.Navigator
-      initialRouteName="Root"
+      initialRouteName="TradeDone"
       // initialRouteName="Login"
       screenOptions={{
         headerBackTitle: '返回',
@@ -59,6 +60,7 @@ export default () => {
       <MainStack.Screen name='StrategyDetail' component={ScreenHOC(StrategyDetail)} options={{headerShown: true}} />
       <MainStack.Screen name='Videos' component={ScreenHOC(Videos)} />
       <MainStack.Screen name='TradeDetail' component={ScreenHOC(TradeDetail)} />
+      <MainStack.Screen name='TradeDone' component={ScreenHOC(TradeDone)} />
       <MainStack.Screen name='WEB-COMMON' component={ScreenHOC(WebView)} />
     </MainStack.Navigator>
   )

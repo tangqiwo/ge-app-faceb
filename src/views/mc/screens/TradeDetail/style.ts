@@ -23,7 +23,7 @@ export const LS = StyleSheet.create({
     alignItems: 'center',
     width: '80%',
     marginLeft: '10%',
-    marginBottom: G.mixin.rem(20),
+    marginBottom: G.mixin.rem(10),
   },
   tabsItem: {
     width: '50%',
@@ -136,7 +136,16 @@ export const LS = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     textAlignVertical: 'center',
-    width:'30%',
+    width: G.mixin.rem(100),
+  },
+  inputNumber: {
+    borderWidth: 0,
+    textAlign: 'center',
+    borderBottomColor: '#94938F',
+    borderBottomWidth: 1,
+    width: G.mixin.rem(60),
+    marginLeft: G.mixin.rem(20),
+    marginRight: G.mixin.rem(20),
   },
   optionsText: {
     color: '#94938F',

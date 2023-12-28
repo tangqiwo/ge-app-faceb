@@ -26,7 +26,7 @@ import { LS as styles, GS } from './style';
 
 export default () => {
 
-  const { navigation, isMt4User, rs, isFocused } = usePublicState();
+  const { navigation, isMt4User, rs, isFocused, cacheReady } = usePublicState();
   const mt4Info = useSelector((state: any) => state.trade.mt4Info);
   const { forward } = useRouteWebCommon();
   const { authToMt4 } = useTradeConnect();
@@ -36,13 +36,13 @@ export default () => {
   const [ showPassword, setShowPassword ] = React.useState(false);
 
   React.useEffect(() => {
-    if(isFocused && !mt4Info){
+    if(isFocused && !mt4Info && cacheReady){
       const pass = store.get('MT4-PASS');
       if(pass){
         authToMt4({password: pass, callback: () => {}})
       }
     }
-  }, [isFocused, mt4Info])
+  }, [isFocused, mt4Info, cacheReady])
 
   React.useEffect(() => {
     navigation.setOptions({
@@ -93,11 +93,11 @@ export default () => {
         <>
           <BackgroundView style={styles.loginImage} source={require('./i/banner.png')} resizeMode="contain">
             <View style={styles.loginImageContent}>
-              <View>
+              <View style={{width: '50%'}}>
                 <Text style={styles.loginLeftTitle}>资产净值（USD）</Text>
                 <Text style={styles.loginLeftNumber}>{mt4Info.AccountSummary.balance}</Text>
               </View>
-              <View>
+              <View style={{width: '50%'}}>
                 <View style={styles.loginRight}>
                   <Text style={styles.loginRightTitle}>可用保证金</Text>
                   <Text style={styles.loginRightNumber}>{mt4Info.AccountSummary.freeMargin}</Text>
@@ -140,7 +140,7 @@ export default () => {
           <Text style={[styles.tabsItemText, currentTab === 2 && styles.tabsItemTextActive]}>交易记录</Text>
         </MyTouchableOpacity>
       </View>
-      { currentTab === 0 && <Position /> }
+      { currentTab === 0 && mt4Info && <Position /> }
       { currentTab === 1 && <Placing /> }
       { currentTab === 2 && <TradeHistory /> }
       {

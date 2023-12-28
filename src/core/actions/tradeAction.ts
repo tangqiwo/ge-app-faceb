@@ -23,3 +23,17 @@ export const setInstantQuotes = ({data}: INTERFACE.IProps): INTERFACE.IBase => (
   type: TYPES.TRADE.SET_INSTANT_QUOTES,
   data
 })
+
+// 建仓市场价
+export const openMarketOrder = ({data, cb}: INTERFACE.IProps): INTERFACE.IAPI => ({
+  type: TYPES.BASE.HTTP_ONLY,
+  payload: { key: 'trade/open-market-order', data, method: HTTP.METHODS.POST, loading: true },
+  cb
+})
+
+// 挂单
+export const openPendingOrder = ({data, cb}: INTERFACE.IProps): INTERFACE.IAPI => ({
+  type: TYPES.BASE.HTTP_ONLY,
+  payload: { key: 'trade/open-pending-order', data, method: HTTP.METHODS.POST, loading: true },
+  cb
+})

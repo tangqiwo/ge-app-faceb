@@ -1,0 +1,366 @@
+/*
+ * @Author: Galen.GE
+ * @Date: 2023-12-27 11:22:53
+ * @LastEditors: Galen.GE
+ * @FilePath: /app_face_b/src/core/hooks/trade/useTradeManager.ts
+ * @Description: 交易管理
+ */
+import _ from 'lodash';
+import dayjs from 'dayjs';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import usePublicState from "../usePublicState"
+
+export default () => {
+
+  const { dispatch, ACTIONS, infos } = usePublicState();
+  const mt4Info = useSelector((state: any) => state.trade.mt4Info);
+  const instant = useSelector((state: any) => state.trade.instant);
+  const Mt4ClientApiToken = useSelector((state: any) => state.trade.mt4Info.Mt4ClientApiToken);
+  // const SymbolList = useSelector((state: any) => state.trade.mt4Info.Symbols);
+  const [referPayment, setReferPayment] = React.useState('0');
+  const [limitInput, setLimitInput] = React.useState<any>({
+    // 止盈止损
+    Stoploss: {
+      Buy: '',
+      Sell: ''
+    },
+    Takeprofit: {
+      Buy: '',
+      Sell: ''
+    },
+    Price: {
+      BuyLimit: '',
+      SellLimit: '',
+      BuyStop: '',
+      SellStop: ''
+    }
+  })
+
+  const [ payload, setPayload ] = React.useState<{
+    Mt4ClientApiToken: string;
+    Symbol: string;
+    Operation: 'Buy' | 'Sell' | 'BuyLimit' | 'SellLimit' | 'BuyStop' | 'SellStop'
+    Volume: number;
+    Stoploss: number;
+    Takeprofit: number;
+    Price?: number;
+    Expiration?: string;
+  }>({
+    Mt4ClientApiToken,
+    Symbol: 'XAUUSDpro',
+    Operation: 'Buy',
+    Volume: 0.01,
+    Stoploss: 0,
+    Takeprofit: 0,
+    Price: 0,
+    Expiration: ''
+  });
+
+
+  React.useEffect(() => {
+    if(!mt4Info || !_.find(instant, {Symbol: payload.Symbol})) {
+      return;
+    }
+    // 单价
+    const symbol = _.find(instant, {Symbol: payload.Symbol});
+    const price = payload.Operation === 'Buy' ? symbol.Ask : symbol.Bid;
+    // 单位
+    const unit = _.find(mt4Info.SymbolParamsMany, {symbolName: payload.Symbol}).symbol.contractSize;
+    // 保证金比例
+    const isPro = infos.KycScore >= 33;
+    var rate = 0.02;
+    if(payload.Symbol === 'XAUUSDpro') {
+      rate = isPro ? 0.005 : 0.02;
+    }
+    if(payload.Symbol === 'XAGUSDpro') {
+      rate = isPro ? 0.01 : 0.02;
+    }
+    setReferPayment((payload.Volume * price * unit * rate).toFixed(2));
+  }, [payload, mt4Info.SymbolParamsMany, instant])
+
+  React.useEffect(() => {
+    if(!instant || !_.find(instant, {Symbol: payload.Symbol})) {
+      return;
+    }
+    // 买价，卖价
+    const symbol = _.find(instant, {Symbol: payload.Symbol});
+    const ask = symbol.Ask;
+    const bid = symbol.Bid;
+    // 金银步长
+    const step = payload.Symbol === 'XAUUSDpro' ? 2 : 0.2;
+    const data = {
+      // 止盈止损
+      Stoploss: {
+        Buy: Number((ask - step).toFixed(2)),
+        Sell: Number((bid + step).toFixed(2))
+      },
+      Takeprofit: {
+        Buy: Number((ask + step).toFixed(2)),
+        Sell: Number((bid - step).toFixed(2))
+      },
+      Price: {
+
+      }
+    }
+    setLimitInput(data)
+  }, [payload.Symbol, instant])
+
+  React.useEffect(() => {
+    changeLimitPrice('reset')
+    changeStoploss('reset');
+    changeTakeprofit('reset');
+  }, [payload.Symbol, payload.Operation])
+
+  // 建仓市场价
+  const openMarketOrder = () => {
+    const data = {
+      ..._.omit(payload, ['Price', 'Expiration']),
+      Stoploss: payload.Stoploss === 0 ? '' : `${payload.Stoploss}`,
+      Takeprofit: payload.Takeprofit === 0 ? '' : `${payload.Takeprofit}`,
+      Volume: payload.Volume.toFixed(2),
+    }
+    dispatch(ACTIONS.TRADE.openMarketOrder({ data, cb: (res: any) => {
+      console.log(res);
+    }}))
+  }
+
+  // 挂单
+  const openPendingOrder = () => {
+    const data = {
+      ...payload,
+      Stoploss: `${payload.Stoploss}`,
+      Takeprofit: `${payload.Takeprofit}`,
+      Volume: payload.Volume.toFixed(2),
+    }
+    dispatch(ACTIONS.TRADE.openPendingOrder({ data, cb: (res: any) => {
+      console.log(res);
+    }}))
+  }
+
+  // 加减手数
+  const changeVolume = (type: 'add' | 'sub' | 'reset' | any) => {
+    const volume = payload.Volume;
+    if(type !== 'add' && type !== 'sub' && type !== 'reset') {
+      // 不能小于0.01，自动舍去小数点后两位之后的内容
+      var value = Number(type);
+      if(value < 0.01) {
+        value = 0.01;
+        dispatch(ACTIONS.BASE.openToast({ text: '手数不能小于0.01' }));
+      }
+      setPayload({
+        ...payload,
+        Volume: Number(value.toFixed(2))
+      })
+      return;
+    }
+    if(type === 'reset') {
+      setPayload((state) => ({
+        ...state,
+        Volume: 0.01
+      }))
+      return;
+    }
+    if(type === 'add') {
+      setPayload({
+        ...payload,
+        Volume: Number((volume + 0.01).toFixed(2))
+      })
+      return;
+    }
+    if(volume <= 0.01) {
+      dispatch(ACTIONS.BASE.openToast({ text: '手数不能小于0.01' }));
+      return;
+    }
+    setPayload({
+      ...payload,
+      Volume: Number((volume - 0.01).toFixed(2))
+    })
+  }
+
+  // 加减止损
+  const changeStoploss = (type: 'add' | 'sub' | 'reset' | any) => {
+    const step = 0.01;
+    if(type !== 'add' && type !== 'sub' && type !== 'reset') {
+      setPayload({
+        ...payload,
+        Stoploss: Number(Number(type).toFixed(2))
+      })
+      return;
+    }
+    if(type === 'reset') {
+      setPayload((state) =>({
+        ...state,
+        Stoploss: 0
+      }))
+      return;
+    }
+    if(payload.Stoploss === 0){
+      setPayload({...payload, Stoploss: limitInput.Stoploss[payload.Operation]})
+      return;
+    }
+    if(type === 'add') {
+      if(STOPLOSS_TAKEPROFIT[payload.Operation]?.Stoploss == '≤') {
+        if(payload.Stoploss + step > limitInput.Stoploss[payload.Operation]) {
+          dispatch(ACTIONS.BASE.openToast({ text: '止损不能大于限价' }));
+          return;
+        }
+      }
+      setPayload({
+        ...payload,
+        Stoploss: Number((payload.Stoploss + step).toFixed(2))
+      })
+      return;
+    }
+    if(STOPLOSS_TAKEPROFIT[payload.Operation]?.Stoploss == '≥') {
+      if(payload.Stoploss - step < limitInput.Stoploss[payload.Operation]) {
+        dispatch(ACTIONS.BASE.openToast({ text: '止损不能小于限价' }));
+        return;
+      }
+    }
+    setPayload({
+      ...payload,
+      Stoploss: Number((payload.Stoploss - step).toFixed(2))
+    })
+  }
+
+  // 加减止盈
+  const changeTakeprofit = (type: 'add' | 'sub' | 'reset' | any) => {
+    const step = 0.01;
+    if(type !== 'add' && type !== 'sub' && type !== 'reset') {
+      setPayload({
+        ...payload,
+        Takeprofit: Number(Number(type).toFixed(2))
+      })
+      return;
+    }
+    if(type === 'reset') {
+      setPayload((state) =>({
+        ...state,
+        Takeprofit: 0
+      }))
+      return;
+    }
+    if(payload.Takeprofit === 0){
+      setPayload({...payload, Takeprofit: limitInput.Takeprofit[payload.Operation]})
+      return;
+    }
+    if(type === 'add') {
+      if(STOPLOSS_TAKEPROFIT[payload.Operation]?.Takeprofit == '≤') {
+        if(payload.Takeprofit + step > limitInput.Takeprofit[payload.Operation]) {
+          dispatch(ACTIONS.BASE.openToast({ text: '止赢不能大于限价' }));
+          return;
+        }
+      }
+      setPayload({
+        ...payload,
+        Takeprofit: Number((payload.Takeprofit + step).toFixed(2))
+      })
+      return;
+    }
+    if(STOPLOSS_TAKEPROFIT[payload.Operation]?.Takeprofit == '≥') {
+      if(payload.Takeprofit - step < limitInput.Takeprofit[payload.Operation]) {
+        dispatch(ACTIONS.BASE.openToast({ text: '止赢不能小于限价' }));
+        return;
+      }
+    }
+    setPayload({
+      ...payload,
+      Takeprofit: Number((payload.Takeprofit - step).toFixed(2))
+    })
+  }
+
+  // 限价停损
+  const changeLimitPrice = (type: 'add' | 'sub' | 'reset' | any) => {
+    const step = 0.01;
+    if(type !== 'add' && type !== 'sub' && type !== 'reset') {
+      // 不能小于0.01，自动舍去小数点后两位之后的内容
+      var value = Number(type);
+      if(value < 0.01) {
+        value = 0.01;
+        dispatch(ACTIONS.BASE.openToast({ text: '限价不能小于0.01' }));
+      }
+      setPayload({
+        ...payload,
+        Price: Number(value.toFixed(2))
+      })
+      return;
+    }
+  }
+
+
+  return {
+    instant,
+    symbols: mt4Info?.SymbolParamsMany.map((item: any) => ({ key: item.symbolName, ...item.symbol })),
+    mt4Info,
+    payload,
+    setPayload,
+    openMarketOrder,
+    changeVolume,
+    referPayment,
+    changeStoploss,
+    changeTakeprofit,
+    changeLimitPrice,
+    openPendingOrder,
+    limitInput
+  }
+
+}
+
+// 交易类型
+export const TRADE_TYPE = {
+  Buy: '买入',
+  Sell: '卖出'
+}
+
+// TRADE_TYPE 转换成 [{key: '买入, value: 'Buy'}]
+export const TRADE_TYPE_LIST = _.map(TRADE_TYPE, (value, key) => ({ key, value }));
+
+
+// 限额类型
+export const LIMIT_TYPE = {
+  BuyLimit: '买入限价',
+  SellLimit: '卖出限价',
+  BuyStop: '买入停损',
+  SellStop: '卖出停损'
+}
+
+// TRADE_TYPE 转换成 [{key: '买入, value: 'Buy'}]
+export const LIMIT_TYPE_LIST = _.map(LIMIT_TYPE, (value, key) => ({ key, value }));
+
+// 所有类型
+export const ALL_TYPE_LIST: any = [...TRADE_TYPE_LIST, ...LIMIT_TYPE_LIST];
+
+// 有效期
+export const EXPIRATION: any = [{key: '', value: '撤单前有效'}, { key: dayjs().endOf('day').format('YYYY-MM-DDTHH:mm:ss'), value: '当天有效' }]
+
+// 止盈止损
+export const STOPLOSS_TAKEPROFIT: any = {
+  // 买入
+  Buy: {
+    // 止损
+    Stoploss: "≤",
+    // 止盈
+    Takeprofit: "≥"
+  },
+  // 卖出
+  Sell: {
+    // 止损
+    Stoploss: "≥",
+    // 止盈
+    Takeprofit: "≤"
+  }
+}
+
+// 限价停损
+export const LIMIT_PRICE: any = {
+  // 买入
+  BuyLimit: "≤",
+  // 卖出
+  SellLimit: "≥",
+  // 买入
+  BuyStop: "≥",
+  // 卖出
+  SellStop: "≤"
+}
+

@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2022-07-24 21:20:05
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/actions/baseAction.ts
  * @Description: 基础类
  */
@@ -265,4 +265,9 @@ export const getPopupAdvert = (): INTERFACE.IAPI => ({
 export const getAppConfig = (): INTERFACE.IAPI => ({
   type: TYPES.BASE.GET_APP_DISPLAY_CONFIG,
   payload: { key: 'base/get-app-config', cache: { expires: 5, forward: true } }
+})
+
+// 缓存准备就绪
+export const cacheReady = (): INTERFACE.IBase => ({
+  type: TYPES.BASE.CACHE_READY
 })

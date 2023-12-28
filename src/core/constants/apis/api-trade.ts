@@ -7,6 +7,10 @@
  */
 export default {
 
-  ['trade/connect-mt4']: 'Mt4Trading/Connect'
+  ['trade/connect-mt4']: 'Mt4Trading/Connect',
+
+  ['trade/open-market-order']: 'Mt4Trading/OrderOpenMarket',
+
+  ['trade/open-pending-order']: 'Mt4Trading/OrderOpenPending',
 
 }

@@ -2,8 +2,8 @@
  * @Description: BASE 的一些 ACTIONS
  * @Author: Galen.GE
  * @Date: 2019-12-17 17:57:05
- * @LastEditTime: 2023-12-07 15:58:42
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditTime: 2023-12-27 17:50:57
+ * @LastEditors: Galen.GE
  */
 
 // 设置API
@@ -89,3 +89,6 @@ export const GET_APP_DISPLAY_CONFIG = 'BASE/GET_APP_DISPLAY_CONFIG';
 
 // 获取首页相关的信息，例如banner，视频，广告等
 export const GET_HOME_INFOS = 'BASE/GET_HOME_INFOS';
+
+// 缓存准备就绪
+export const CACHE_READY = 'BASE/CACHE_READY';

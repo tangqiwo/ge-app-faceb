@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-08-02 00:56:42
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/hooks/useStart.ts
  * @Description: 初始化
  */
@@ -51,6 +51,7 @@ export default () => {
   React.useEffect(() => {
     if(cacheInit){
       // 网站设置
+      dispatch(ACTIONS.BASE.cacheReady());
       dispatch(ACTIONS.BASE.getHomeInfos());
       dispatch(ACTIONS.BASE.getContactInfo());
       dispatch(ACTIONS.BASE.getConfigs());

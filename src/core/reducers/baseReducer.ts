@@ -213,6 +213,13 @@ export default function base(state = initialState.base, action: any) {
         homeInfos: action.res,
       };
     }
+    // 缓存准备就绪
+    case TYPES.BASE.CACHE_READY: {
+      return {
+        ...state,
+        cacheReady: true,
+      };
+    }
     // 登出
     case TYPES.USER.LOGOUT: {
       store.remove('AUTH');
