@@ -94,8 +94,6 @@ export default () => {
     openPendingOrder();
   };
 
-  console.log(payload.Volume)
-
   return (
     <View style={styles.container}>
       <View style={styles.pendingBox}>
@@ -148,17 +146,21 @@ export default () => {
             </View>
           </MyTouchableOpacity>
           <View style={styles.optionsItem}>
-            <Text>价格 {LIMIT_PRICE[payload.Operation]}</Text>
+            <Text>价格 {LIMIT_PRICE[payload.Operation]} {limitInput?.Price[payload.Operation]}</Text>
             <View style={styles.optionsMenu}>
-              <Image source={require('./i/ic-reduce.png')} style={styles.optionsIcon} />
+              <MyTouchableOpacity style={styles.optionsIcon} onPress={() => changeLimitPrice('sub')}>
+                <Image source={require('./i/ic-reduce.png')} style={styles.optionsIcon} />
+              </MyTouchableOpacity>
               <Input
                 keyboardType='decimal-pad'
                 style={styles.inputNumber}
-                value={payload.Price.toFixed(2)}
+                value={payload?.Price?.toFixed(2)}
                 onChangeText={(value: string) => changeLimitPrice(value)}
               />
               <Text style={styles.optionsNumber}>{payload.Price}</Text>
-              <Image source={require('./i/ic-add.png')} style={styles.optionsIcon} />
+              <MyTouchableOpacity style={styles.optionsIcon} onPress={() => changeLimitPrice('add')}>
+                <Image source={require('./i/ic-add.png')} style={styles.optionsIcon} />
+              </MyTouchableOpacity>
               <Text style={styles.optionsText} onPress={() => changeLimitPrice('reset')}>重置</Text>
             </View>
           </View>

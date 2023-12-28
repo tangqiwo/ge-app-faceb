@@ -32,7 +32,8 @@ export default () => {
   const { authToMt4 } = useTradeConnect();
   const [ currentTab, setCurrentTab ] = React.useState(0);
   const [ isShowLogin, setIsShowLogin ] = React.useState(false);
-  const [ password, setPassword ] = React.useState('083413yI');
+  // const [ password, setPassword ] = React.useState('083413yI');
+  const [ password, setPassword ] = React.useState();
   const [ showPassword, setShowPassword ] = React.useState(false);
 
   React.useEffect(() => {
