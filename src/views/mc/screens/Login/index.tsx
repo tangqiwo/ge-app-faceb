@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:31
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/views/mc/screens/Login/index.tsx
  * @Description: 登录
  */
@@ -66,6 +66,7 @@ export default () => {
         <View style={styles.input} >
           <Image source={require('./i/icon-phone.png')} style={{...styles.inputIcon, height: GS.mixin.rem(23)}} />
           <Input
+            autoComplete="off"
             placeholder="请输入手机号"
             style={styles.inputText}
             onBlur={() => validate('PhoneNumber')}
@@ -86,6 +87,7 @@ export default () => {
           <View style={styles.input} >
             <Image source={require('./i/icon-pass.png')} style={styles.inputIcon} />
             <Input
+              autoComplete="off"
               value={payload.Password}
               placeholder="请输入登录密码"
               onBlur={() => validate('Password')}
@@ -102,6 +104,7 @@ export default () => {
           <View style={styles.input} >
             <Image source={require('./i/icon-email.png')} style={{...styles.inputIcon, width: GS.mixin.rem(19), height: GS.mixin.rem(15)}} />
             <Input
+              autoComplete="off"
               value={payload.AuthCode}
               placeholder="请输入短信验证码"
               keyboardType='numeric'

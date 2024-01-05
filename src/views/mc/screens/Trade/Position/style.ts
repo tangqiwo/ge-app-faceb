@@ -2,7 +2,7 @@
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
  * @LastEditors: Galen.GE
- * @FilePath: /app_face_b/src/views/mc/screens/Trade/Placing/style.ts
+ * @FilePath: /app_face_b/src/views/mc/screens/Trade/Position/style.ts
  * @Description:
  */
 
@@ -19,8 +19,14 @@ export const LS = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  main: { 
-    marginTop: G.mixin.rem(20),
+  half: {
+    width: '45%',
+  },
+  main: {
+    paddingTop: G.mixin.rem(10),
+    paddingBottom: G.mixin.rem(10),
+    borderBottomColor: '#EBEBEB',
+    borderBottomWidth: G.mixin.rem(1),
   },
   title: {
     fontSize: G.mixin.rem(16),
@@ -40,12 +46,25 @@ export const LS = StyleSheet.create({
   variety: {
     width: '40%',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
   },
   infoBox: {
-    width: '45%',
     flexDirection: 'row',
-    lineHeight: G.mixin.rem(28),
+    height: G.mixin.rem(35),
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  money: {
+    width: '40%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginLeft: 'auto',
+    alignItems: 'center'
+  },
+  moneyText:{
+    color: '#E3262A',
+    fontSize: G.mixin.rem(16),
+    fontWeight: '700',
   },
   info: {
     fontSize: G.mixin.rem(12),
@@ -61,12 +80,12 @@ export const LS = StyleSheet.create({
     marginHorizontal: G.mixin.rem(5),
   },
   positionLeft: {
-    width: '45%',
+    width: '60%',
     fontSize: G.mixin.rem(12),
     lineHeight: G.mixin.rem(28),
   },
   positionRight: {
-    width: '55%',
+    width: '40%',
     position: 'relative',
   },
   mark: {
@@ -77,20 +96,23 @@ export const LS = StyleSheet.create({
     color: '#E3262A',
   },
   positionDate: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
+    width: '100%',
+    textAlign: 'right',
     color: '#94938F',
     fontSize: G.mixin.rem(12),
+    lineHeight: G.mixin.rem(28),
   },
   buttonBox: {
     marginTop: G.mixin.rem(20),
+    marginleft: 'auto',
+    marginRight: 'auto',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    width: '100%',
+    justifyContent: 'space-evenly',
   },
   buttonYellow: {
     height: G.mixin.rem(30),
-    width: G.mixin.rem(100),
+    width: G.mixin.rem(150),
     backgroundColor: '#FFC600',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -99,7 +121,7 @@ export const LS = StyleSheet.create({
   },
   buttonBlack: {
     height: G.mixin.rem(30),
-    width: G.mixin.rem(100),
+    width: G.mixin.rem(150),
     backgroundColor: '#2A2A2A',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -109,7 +131,7 @@ export const LS = StyleSheet.create({
   },
   buttonWhite: {
     height: G.mixin.rem(30),
-    width: G.mixin.rem(100),
+    width: G.mixin.rem(150),
     backgroundColor: '#fff',
     flexDirection: 'row',
     justifyContent: 'center',

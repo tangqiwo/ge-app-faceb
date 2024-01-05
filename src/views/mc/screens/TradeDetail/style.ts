@@ -34,6 +34,19 @@ export const LS = StyleSheet.create({
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
   },
+  orderInfo: {
+    height: G.mixin.rem(42),
+    paddingLeft: G.mixin.rem(14),
+    paddingRight: G.mixin.rem(14),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#F4F4F4',
+  },
+  orderInfoText: {
+    fontSize: G.mixin.rem(12),
+    color: '#2A2A2A',
+  },
   tabsItemActive: {
     borderBottomColor: '#FFC600',
     borderBottomWidth: 2,

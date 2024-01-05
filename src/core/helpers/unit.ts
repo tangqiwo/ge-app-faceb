@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-08-12 02:50:51
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/helpers/unit.ts
  * @Description: 通用的帮助方法
  */
@@ -177,12 +177,12 @@ export const toUpperCaseObj = (obj: any): any => {
   if (typeof obj !== 'object' || !obj) return obj;
   // 如果是obj是素组
   if (Array.isArray(obj)) {
-    return obj.map((item) => toLowerCaseObj(item));
+    return obj.map((item) => toUpperCaseObj(item));
   }
   const result: any = {};
   Object.keys(obj).forEach((key) => {
     if (typeof obj[key] === 'object') {
-      result[_.upperFirst(key)] = toLowerCaseObj(obj[key]);
+      result[_.upperFirst(key)] = toUpperCaseObj(obj[key]);
     } else {
       result[_.upperFirst(key)] = obj[key];
     }

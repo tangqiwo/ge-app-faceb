@@ -1,8 +1,8 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-08-01 17:25:01
- * @LastEditors: ammo@xyzzdev.com
- * @FilePath: \NativeAS\src\core\templates\components\Base\Input\index.tsx
+ * @LastEditors: Galen.GE
+ * @FilePath: /app_face_b/src/core/templates/components/Base/Input/index.tsx
  * @Description: 输入框，带有PASSWORD TYPE
  */
 import React from 'react';
@@ -72,9 +72,7 @@ export default React.memo(({
   const [displayBorder, setDisplayBorder] = React.useState(style.borderColor || borderColor);
 
   React.useEffect(() => {
-    if(typeof value === 'string'){
-      myRef.current.setNativeProps({ text: value });
-    }
+    myRef.current.setNativeProps({ text: `${value}` });
   }, [value])
 
   React.useEffect(() => {

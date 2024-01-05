@@ -53,7 +53,9 @@ const quotes: INTERFACE.IQuotes = {
 }
 
 const trade: INTERFACE.ITrade = {
-  auth: null
+  auth: null,
+  mt4Info: null,
+  instantOrders: null,
 }
 
 const store: INTERFACE.IStore = {

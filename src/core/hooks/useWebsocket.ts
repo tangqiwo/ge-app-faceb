@@ -5,8 +5,10 @@
  * @FilePath: /app_face_b/src/core/hooks/useWebsocket.ts
  * @Description:
  */
-
+import _ from 'lodash';
+import React from 'react';
 import { useState, useEffect, useCallback, useRef } from 'react';
+import usePublicState from './usePublicState';
 
 interface IUseWebsocket {
   url: string;
@@ -15,6 +17,7 @@ interface IUseWebsocket {
 }
 export default ({url, protocol, closeCallback}: IUseWebsocket) => {
 
+  const { dispatch, ACTIONS } = usePublicState();
   const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState();
   const [error, setError] = useState(null);
@@ -48,7 +51,10 @@ export default ({url, protocol, closeCallback}: IUseWebsocket) => {
         }
         setMessages(event.data)
       }
-      ws.current.onerror = (event: any) => setError(event);
+      ws.current.onerror = (event: any) => {
+        setError(event);
+        dispatch(ACTIONS.BASE.openToast({types: 'error', text: `ws:` + event.message}));
+      }
       ws.current.onclose = () => {
         // 清理 ping pong..
         clearInterval(heartbeatTimer.current);
@@ -58,7 +64,7 @@ export default ({url, protocol, closeCallback}: IUseWebsocket) => {
           return;
         }
         // 自动使用原来的链接进行链接
-        createSocket();
+        _.delay(createSocket, 30000)
       };
     }
     createSocket();
@@ -74,6 +80,13 @@ export default ({url, protocol, closeCallback}: IUseWebsocket) => {
       socket.send(message);
     }
   }, [socket]);
+
+  React.useEffect(() => {
+    if(error) {
+      console.log(error);
+      // dispatch(ACTIONS.BASE.openToast({types: 'error', text: `ws:` + error}));
+    }
+  }, [error])
 
   // 返回 socket 实例、消息列表、错误信息和发送消息的函数
   return {

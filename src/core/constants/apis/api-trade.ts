@@ -13,4 +13,16 @@ export default {
 
   ['trade/open-pending-order']: 'Mt4Trading/OrderOpenPending',
 
+  ['trade/get-history-orders']: 'Mt4Trading/OrderHistory',
+
+  ['trade/cancel-pending-order']: 'Mt4Trading/OrderCancelPendingOrder',
+
+  ['trade/get-kline-data']: 'Mt4Trading/RequestQuoteHistory',
+
+  ['trade/close-order']: 'Mt4Trading/OrderCloseMarket',
+
+  ['trade/set-stop-loss-take-profit']: 'Mt4Trading/OrderModifyOpenedOrder',
+
+  ['trade/modify-pending-order']: 'Mt4Trading/OrderModifyPendingOrder'
+
 }

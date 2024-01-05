@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:31
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/views/mc/screens/Login/ForgotPass/index.tsx
  * @Description: 登录
  */
@@ -71,6 +71,7 @@ export default () => {
         <View style={styles.input} >
           <Image source={require('./i/icon-email.png')} style={{...styles.inputIcon, width: GS.mixin.rem(19), height: GS.mixin.rem(15)}} />
           <Input
+            autoComplete="off"
             value={payload.AuthCode}
             placeholder="请输入短信验证码"
             keyboardType='numeric'
@@ -87,6 +88,7 @@ export default () => {
         <View style={styles.input} >
           <Image source={require('./i/icon-pass.png')} style={styles.inputIcon} />
           <Input
+            autoComplete="off"
             value={payload.Password}
             placeholder="请设置8-20位含英文字母+数字"
             onBlur={() => validate('Password')}

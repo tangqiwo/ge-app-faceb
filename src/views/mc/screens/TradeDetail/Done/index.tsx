@@ -74,13 +74,13 @@ export default () => {
         </View>
       </View>
       <View style={styles.button}>
-        <MyTouchableOpacity style={styles.buttonBlack}>
+        <MyTouchableOpacity style={styles.buttonBlack} onPress={() => navigation.navigate('Root')}>
           <Text style={styles.buttonTextYellow}>查看持仓</Text>
         </MyTouchableOpacity>
-        <MyTouchableOpacity style={styles.buttonYellow}>
+        <MyTouchableOpacity style={styles.buttonYellow} onPress={() => navigation.navigate('TradeDetail')}>
           <Text style={styles.buttonText}>继续交易</Text>
         </MyTouchableOpacity>
-      </View> 
+      </View>
     </View>
   );
 };

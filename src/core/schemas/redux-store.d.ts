@@ -136,6 +136,8 @@ export type ITrade = {
     askStatus: 'UP' | 'DOWN' | 'FLAT',
     bidStatus: 'UP' | 'DOWN' | 'FLAT'
   }>;
+  mt4Info: any,
+  instantOrders: any
 }
 
 // 入口

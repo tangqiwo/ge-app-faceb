@@ -37,3 +37,56 @@ export const openPendingOrder = ({data, cb}: INTERFACE.IProps): INTERFACE.IAPI =
   payload: { key: 'trade/open-pending-order', data, method: HTTP.METHODS.POST, loading: true },
   cb
 })
+
+// 查询历史注单
+export const getHistoryOrders = ({data, cb}: INTERFACE.IProps): INTERFACE.IAPI => ({
+  type: TYPES.BASE.HTTP_ONLY,
+  payload: { key: 'trade/get-history-orders', data, method: HTTP.METHODS.POST },
+  cb
+})
+
+// 撤销挂单
+export const cancelPendingOrder = ({data, cb}: INTERFACE.IProps): INTERFACE.IAPI => ({
+  type: TYPES.BASE.HTTP_ONLY,
+  payload: { key: 'trade/cancel-pending-order', data, method: HTTP.METHODS.POST, loading: true },
+  cb
+})
+
+// K线数据
+export const getKlineData = ({data, cb}: INTERFACE.IProps): INTERFACE.IAPI => ({
+  type: TYPES.BASE.HTTP_ONLY,
+  payload: { key: 'trade/get-kline-data', data, method: HTTP.METHODS.POST },
+  cb
+})
+
+// 设置实时订单
+interface ISetInstantOrders extends INTERFACE.IProps {
+  isUpdate: boolean
+}
+export const setInstantOrders = ({data, isUpdate}: ISetInstantOrders): INTERFACE.IBase => ({
+  type: TYPES.TRADE.SET_INSTANT_ORDERS,
+  isUpdate,
+  data
+})
+
+// 平仓
+export const closeOrder = ({data, cb}: INTERFACE.IProps): INTERFACE.IAPI => ({
+  type: TYPES.BASE.HTTP_ONLY,
+  payload: { key: 'trade/close-order', data, method: HTTP.METHODS.POST, loading: true },
+  cb
+})
+
+// 设置止盈止损
+export const setStopLossTakeProfit = ({data, cb}: INTERFACE.IProps): INTERFACE.IAPI => ({
+  type: TYPES.BASE.HTTP_ONLY,
+  payload: { key: 'trade/set-stop-loss-take-profit', data, method: HTTP.METHODS.POST, loading: true },
+  cb
+})
+
+// 修改挂单
+
+export const modifyPendingOrder = ({data, cb}: INTERFACE.IProps): INTERFACE.IAPI => ({
+  type: TYPES.BASE.HTTP_ONLY,
+  payload: { key: 'trade/modify-pending-order', data, method: HTTP.METHODS.POST, loading: true },
+  cb
+})

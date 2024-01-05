@@ -29,18 +29,20 @@ export default () => {
   const { navigation, isMt4User, rs, isFocused, cacheReady } = usePublicState();
   const mt4Info = useSelector((state: any) => state.trade.mt4Info);
   const { forward } = useRouteWebCommon();
-  const { authToMt4 } = useTradeConnect();
+  const { authToMt4, makeFirstInstant } = useTradeConnect();
   const [ currentTab, setCurrentTab ] = React.useState(0);
   const [ isShowLogin, setIsShowLogin ] = React.useState(false);
-  // const [ password, setPassword ] = React.useState('083413yI');
-  const [ password, setPassword ] = React.useState();
+  // const [ password, setPassword ] = React.useState('862343hJ');
+  const [ password, setPassword ] = React.useState<any>();
   const [ showPassword, setShowPassword ] = React.useState(false);
 
   React.useEffect(() => {
     if(isFocused && !mt4Info && cacheReady){
       const pass = store.get('MT4-PASS');
       if(pass){
-        authToMt4({password: pass, callback: () => {}})
+        authToMt4({password: pass, callback: (res: any) => {
+          makeFirstInstant(res.Data.SymbolsQuote);
+        }})
       }
     }
   }, [isFocused, mt4Info, cacheReady])
@@ -73,7 +75,8 @@ export default () => {
   }
 
   const handleUnlockTrade = () => {
-    authToMt4({password, callback: () => {
+    authToMt4({password, callback: (res: any) => {
+      makeFirstInstant(res.Data.SymbolsQuote);
       setIsShowLogin(false);
       navigation.navigate('TradeDetail');
     }})
@@ -96,20 +99,20 @@ export default () => {
             <View style={styles.loginImageContent}>
               <View style={{width: '50%'}}>
                 <Text style={styles.loginLeftTitle}>资产净值（USD）</Text>
-                <Text style={styles.loginLeftNumber}>{mt4Info.AccountSummary.balance}</Text>
+                <Text style={styles.loginLeftNumber}>{Number(mt4Info.AccountSummary.Balance)?.toFixed(2)}</Text>
               </View>
               <View style={{width: '50%'}}>
                 <View style={styles.loginRight}>
                   <Text style={styles.loginRightTitle}>可用保证金</Text>
-                  <Text style={styles.loginRightNumber}>{mt4Info.AccountSummary.freeMargin}</Text>
+                  <Text style={styles.loginRightNumber}>{Number(mt4Info.AccountSummary.FreeMargin)?.toFixed(2)}</Text>
                 </View>
                 <View style={styles.loginRight}>
                   <Text style={styles.loginRightTitle}>占用保证金</Text>
-                  <Text style={styles.loginRightNumber}>{mt4Info.AccountSummary.margin}</Text>
+                  <Text style={styles.loginRightNumber}>{Number(mt4Info.AccountSummary.Margin)?.toFixed(2)}</Text>
                 </View>
                 <View style={styles.loginRight}>
                   <Text style={styles.loginRightTitle}>持仓盈亏</Text>
-                  <Text style={styles.loginRightNumber}>{mt4Info.AccountSummary.profit}</Text>
+                  <Text style={styles.loginRightNumber}>{Number(mt4Info.AccountSummary.Profit)?.toFixed(2)}</Text>
                 </View>
               </View>
             </View>
@@ -141,7 +144,7 @@ export default () => {
           <Text style={[styles.tabsItemText, currentTab === 2 && styles.tabsItemTextActive]}>交易记录</Text>
         </MyTouchableOpacity>
       </View>
-      { currentTab === 0 && mt4Info && <Position /> }
+      { currentTab === 0 && <Position /> }
       { currentTab === 1 && <Placing /> }
       { currentTab === 2 && <TradeHistory /> }
       {
