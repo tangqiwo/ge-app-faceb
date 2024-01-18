@@ -196,7 +196,7 @@ export default () => {
               </View>
               <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
             </MyTouchableOpacity>
-            <MyTouchableOpacity style={styles.menuItem} onPress={() => {}}>
+            <MyTouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Root', {screen: 'Trade', params: {tab: 0}})}>
               <View style={styles.menuItemContent}>
                 <Image source={require('./i/icon/icon-8.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
                 <Text style={{...styles.buttonText, color: '#2A2A2A'}}>持仓详情</Text>
@@ -210,7 +210,7 @@ export default () => {
               </View>
               <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
             </MyTouchableOpacity>
-            <MyTouchableOpacity style={styles.menuItem} onPress={() => {}}>
+            <MyTouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Root', {screen: 'Trade', params: {tab: 2}})}>
               <View style={styles.menuItemContent}>
                 <Image source={require('./i/icon/icon-10.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
                 <Text style={{...styles.buttonText, color: '#2A2A2A'}}>交易记录</Text>

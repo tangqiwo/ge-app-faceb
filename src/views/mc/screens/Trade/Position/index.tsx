@@ -7,7 +7,7 @@
  */
 import _ from 'lodash';
 import React from 'react';
-import { ScrollView } from 'react-native';
+import { FlatList } from 'react-native';
 import { View, Text } from "react-native-animatable"
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 import { NoData } from '@template/components/Loader'
@@ -38,12 +38,14 @@ export default () => {
 
   return (
     <View style={{flex: 1, paddingBottom: GS.mixin.rem(60)}}>
-      <ScrollView showsVerticalScrollIndicator={false} >
         { !mt4Info || (data && data.length === 0) && <NoData /> }
         {
           data && data.length > 0 &&
-          data.map((item: any, index: number) =>
-            <View style={styles.main} key={item.Ticket}>
+          <FlatList
+            data={data}
+            keyExtractor={(item: any) => item.Ticket}
+            renderItem={({item, index}) => (
+              <View style={styles.main} key={item.Ticket}>
               <MyTouchableOpacity activeOpacity={1} onPress={() => setShowButton(showButton === index ? -1 : index)}>
                 <>
                   <View style={styles.spaceBetween}>
@@ -70,7 +72,7 @@ export default () => {
                           <Text style={styles.grey}>利息:{item.Swaps}</Text>
                         </View>
                         <View style={[styles.half]}>
-                          <Text style={styles.grey}>佣金:{item.Commission}</Text>
+                          <Text style={styles.grey}>手续费:{item.Commission}</Text>
                         </View>
                       </View>
                       <View style={styles.spaceBetween}>
@@ -97,12 +99,15 @@ export default () => {
                   <MyTouchableOpacity style={styles.buttonBlack} onPress={() => handleSetStopLoss(item.Ticket, item.Volume, item.Symbol, item.Cmd)}>
                     <Text style={styles.buttonTextYellow}>设置止盈止损</Text>
                   </MyTouchableOpacity>
+                  <MyTouchableOpacity style={styles.buttonWhite} onPress={() => navigation.navigate('KLine', { symbol: item.Symbol })}>
+                    <Text>图表</Text>
+                  </MyTouchableOpacity>
                 </View>
               }
             </View>
-          )
+            )}
+          />
         }
-      </ScrollView>
     </View>
   )
 

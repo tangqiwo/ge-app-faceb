@@ -20,3 +20,6 @@ export const SET_INSTANT_QUOTES = 'TRADE/SET_INSTANT_QUOTES';
 
 // 设置实时订单
 export const SET_INSTANT_ORDERS = 'TRADE/SET_INSTANT_ORDERS';
+
+// K线数据
+export const GET_KLINE_DATA = 'TRADE/GET_KLINE_DATA';

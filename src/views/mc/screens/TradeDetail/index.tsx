@@ -22,7 +22,7 @@ import useTradeManager, {
 } from '@core/hooks/trade/useTradeManager';
 import Selector from '@core/templates/components/Base/Selector';
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
-import { CommonPicker } from "@yz1311/react-native-wheel-picker";
+import CommonPicker from "@core/templates/components/CommonPicker";
 import Input from '@core/templates/components/Base/Input';
 import { CMD_MAPPING } from '@core/hooks/trade/useTradeConnect';
 import { LS as styles } from './style';
@@ -53,7 +53,6 @@ export default () => {
   const [ showSelector, setShowSelector ] = React.useState<'' | 'Expiration' | 'OperationType'>('');
 
   React.useEffect(() => {
-    console.log(params)
     if(!params || params.type === 'updateOrder'){
       navigation.setOptions({
         headerTitle: () => (
@@ -105,10 +104,10 @@ export default () => {
     setShowSelector('')
   }
 
-  const handleSelectExpiration = (data: any) => {
-    setPayload({...payload, Expiration: _.find(EXPIRATION, {value: data[0]}).key});
+  const handleSelectExpiration = React.useCallback((data: any) => {
+    setPayload((state => ({...state, Expiration: _.find(EXPIRATION, {value: data[0]}).key})));
     setShowSelector('')
-  }
+  }, [])
 
   const handleOnBlur = (type: 'Volume' | 'Stoploss' | 'Takeprofit' | 'Price') => {
     if(type === 'Volume'){
@@ -163,6 +162,10 @@ export default () => {
       return;
     }
   };
+
+  const handleOnPickerCancel = React.useCallback(() => {
+    setShowSelector('');
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -220,12 +223,12 @@ export default () => {
         </View>
       }
       {
-        (currentTab === 1 || !_.includes(['closePosition', 'setStopLoss'], params?.type)) &&
+        (currentTab === 1 || (params?.type && !_.includes(['closePosition', 'setStopLoss'], params?.type))) &&
         <>
           <MyTouchableOpacity style={styles.dropItem} onPress={() => setShowSelector('Expiration')}>
             <Text>有效期</Text>
             <View style={[styles.dropMenu, styles.dropWireframe]}>
-              <Text style={styles.dropText}>{ payload.Expiration ? '今日有效' : '撤单前有效' }</Text>
+              <Text style={styles.dropText}>{ _.find(EXPIRATION, { key: payload.Expiration }).value }</Text>
               <Image source={require('./i/ic-drop.png')} style={styles.dropIcon} />
             </View>
           </MyTouchableOpacity>
@@ -352,28 +355,24 @@ export default () => {
         <Text style={styles.submitText}>提交</Text>
       </MyTouchableOpacity>
       <Text style={styles.submitTips}>*市价模式下是成交价格，可能会与请求价格有一定差异</Text>
-      {
-        <CommonPicker
-          pickerData={_.map(EXPIRATION, 'value')}
-          selectedValue={_.find(EXPIRATION, { key: payload.Expiration })?.value}
-          isModal={true}
-          modalVisible={showSelector === 'Expiration'}
-          onPickerCancel={() => setShowSelector('')}
-          onPickerConfirm={(data: any) => handleSelectExpiration(data)}
-          pickerTitle={'请选择有效期'}
-        />
-      }
-      {
-        <CommonPicker
-          pickerData={_.map((currentTab === 0 ? TRADE_TYPE_LIST : LIMIT_TYPE_LIST), 'value')}
-          selectedValue={_.find(ALL_TYPE_LIST, { key: payload.Operation })?.value}
-          isModal={true}
-          modalVisible={showSelector === 'OperationType'}
-          onPickerCancel={() => setShowSelector('')}
-          onPickerConfirm={(data: any) => handleSelectOP(data)}
-          pickerTitle={'请选择交易类型'}
-        />
-      }
+      <CommonPicker
+        pickerData={_.map(EXPIRATION, 'value')}
+        selectedValue={_.find(EXPIRATION, { key: payload.Expiration })?.value}
+        isModal={true}
+        modalVisible={showSelector === 'Expiration'}
+        onPickerCancel={handleOnPickerCancel}
+        onPickerConfirm={handleSelectExpiration}
+        pickerTitle={'请选择有效期'}
+      />
+      <CommonPicker
+        pickerData={_.map((currentTab === 0 ? TRADE_TYPE_LIST : LIMIT_TYPE_LIST), 'value')}
+        selectedValue={_.find(ALL_TYPE_LIST, { key: payload.Operation })?.value}
+        isModal={true}
+        modalVisible={showSelector === 'OperationType'}
+        onPickerCancel={handleOnPickerCancel}
+        onPickerConfirm={(data: any) => handleSelectOP(data)}
+        pickerTitle={'请选择交易类型'}
+      />
     </View>
   );
 };

@@ -12,38 +12,69 @@ import { useSelector } from 'react-redux';
 import useWebsocket from '../useWebsocket';
 import { INSTANT_QUOTES_STATUS } from '../useInstantQuotes';
 import { toUpperCaseObj } from '@helpers/unit';
+import { useIsFocused } from '@react-navigation/native';
 import store from '@helpers/storage';
 
 export default () => {
 
-  const { dispatch, ACTIONS } = usePublicState();
+  const { dispatch, ACTIONS, navigation } = usePublicState();
   const mt4Info = useSelector((state: any) => state.trade.mt4Info);
-  const { messages } = useWebsocket({url: mt4Info?.Url, protocol: 'mt4'});
+  const { messages, socket } = useWebsocket({url: mt4Info?.Url, protocol: 'mt4', closeCallback: () => {
+    const pass = store.get('MT4-PASS');
+    if(pass){
+      authToMt4({password: pass, callback: () => {}});
+    }else{
+      dispatch(ACTIONS.BASE.openToast({text: 'MT4密码已过期，请重新登录'}));
+      navigation.navigate('Root', { screen: 'Trade' });
+    }
+  }});
   const symbols = mt4Info?.Symbols
   const instant = useSelector((state: any) => state.trade.instant);
+  const isFocused = useIsFocused();
 
   React.useEffect(() => {
-    if(messages && symbols && symbols.length > 0) {
-      try{
+    return () => {
+      socket?.close();
+    }
+  }, [])
+
+  React.useEffect(() => {
+    if(!messages){
+      return;
+    }
+    try{
+      requestAnimationFrame(() => {
         const res = toUpperCaseObj(JSON.parse(messages))
         if(res.Type === 'Quote') {
           handleQuotes(res);
           return;
         }
         if(res.Type === 'OrderProfit') {
+          if(!isFocused) return;
           handleOrders(res, false);
           return;
         }
         if(res.Type == 'OrderUpdate'){
-          console.log(res.Type, res)
           handleOrders(res, true);
+          return;
         }
-      }
-      catch(e){
-        console.log(e);
-      }
+        if(res.Type == 'QuoteHistory'){
+          if(res.Data?.Bars?.length < 10) return;
+          const data = res.Data?.Bars.map((i: any) => ({
+            ...i,
+            Close: Number(i.Close.toFixed(2)),
+            High: Number(i.High.toFixed(2)),
+            Low: Number(i.Low.toFixed(2)),
+            Open: Number(i.Open.toFixed(2)),
+          }))
+          dispatch(ACTIONS.TRADE.setKlineData({data}));
+        }
+      })
     }
-  }, [messages])
+    catch(e){
+      console.log(e);
+    }
+  }, [messages, isFocused])
 
   // 处理报价
   const handleQuotes = (res: any) => {
@@ -104,7 +135,6 @@ export default () => {
         dispatch(ACTIONS.BASE.openToast({ text: res.Desc }));
         return;
       }
-      console.log(callback, res);
       callback(res);
     }}))
   }, [])

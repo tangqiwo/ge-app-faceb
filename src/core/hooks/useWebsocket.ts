@@ -8,7 +8,6 @@
 import _ from 'lodash';
 import React from 'react';
 import { useState, useEffect, useCallback, useRef } from 'react';
-import usePublicState from './usePublicState';
 
 interface IUseWebsocket {
   url: string;
@@ -17,13 +16,14 @@ interface IUseWebsocket {
 }
 export default ({url, protocol, closeCallback}: IUseWebsocket) => {
 
-  const { dispatch, ACTIONS } = usePublicState();
   const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState();
   const [error, setError] = useState(null);
   const heartbeatInterval = 30000;
   const heartbeatTimer = useRef(null);
   const ws = useRef(null);
+  // 限流 OrderProfit
+  const throttleTimer = useRef(null);
 
   // 创建 WebSocket 连接
   useEffect((): any => {
@@ -49,11 +49,24 @@ export default ({url, protocol, closeCallback}: IUseWebsocket) => {
         if(event.data === 'pong') {
           return;
         }
-        setMessages(event.data)
+        if(!_.includes(event.data, `"type":"OrderProfit"`)) {
+          requestAnimationFrame(() => {
+            setMessages(event.data)
+          })
+          return;
+        }
+        if(throttleTimer.current) {
+          return;
+        }
+        requestAnimationFrame(() => {
+          setMessages(event.data)
+        })
+        throttleTimer.current = setTimeout(() => {
+          throttleTimer.current = null;
+        }, 2000)
       }
       ws.current.onerror = (event: any) => {
         setError(event);
-        dispatch(ACTIONS.BASE.openToast({types: 'error', text: `ws:` + event.message}));
       }
       ws.current.onclose = () => {
         // 清理 ping pong..

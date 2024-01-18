@@ -106,7 +106,7 @@ export const LS = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     lignSelf: 'center',
-    width: G.mixin.rem(120),
+    width: G.mixin.rem(160),
     height: G.mixin.rem(24),
     backgroundColor: '#EBEBEB',
     borderRadius: G.mixin.rem(50),

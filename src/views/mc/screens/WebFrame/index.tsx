@@ -1,30 +1,51 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-24 02:38:00
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/views/mc/screens/WebFrame/index.tsx
  * @Description:
  */
 import React from 'react';
 import WebView from '@core/templates/components/WebView';
 import { useRoute, useNavigation } from '@react-navigation/native';
+import usePublicState from '@core/hooks/usePublicState';
+import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
+import Icon from '@icon/index';
 import CONFIG from '@this/configs';
-
+import { LS as styles, GS } from './style';
 
 export default () => {
 
   const route = useRoute<any>();
   const navigation = useNavigation<any>();
+  const {dispatch, ACTIONS} = usePublicState();
   // 官网
   const domain = route.params.type === 'origin' ? '' : route.params.type === 'official' ? CONFIG.OFFICE_WEB_DOMAIN : CONFIG.MC_WEB_DOMAIN;
   // 样式注入
   const styelInject = [...styleCover, ...(pageStyleCover[route.params.page] || [])].join('');
 
+  const handleBack = () => {
+    if(route.params.reset){
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Root', screen: 'Home' }],
+      });
+      dispatch(ACTIONS.USER.getUserInfo({}))
+      return;
+    }
+    navigation.goBack();
+  }
+
   React.useEffect(() => {
     navigation.setOptions({
       headerTitle: route.params.title,
       headerShown: route.params.headerShown,
-    });
+      // 返回按键
+      headerLeft: () => (
+        <MyTouchableOpacity style={{}} onPress={handleBack}>
+          <Icon.Font style={styles.goBackIcon} type={Icon.T.SimpleLineIcons} name='arrow-left' />
+        </MyTouchableOpacity>
+    )});
   }, [])
 
   return (

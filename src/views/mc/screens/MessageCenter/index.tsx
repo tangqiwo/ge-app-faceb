@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-27 12:20:08
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/views/mc/screens/MessageCenter/index.tsx
  * @Description:
  */
@@ -21,7 +21,7 @@ import { LS as styles, GS } from './style';
 
 export default () => {
 
-  const [ currentTab, setCurrentTab ] = React.useState(0);
+  const [ currentTab, setCurrentTab ] = React.useState(1);
   const { data, doQuery, querys, recordsCount } = useMessage();
   const { infos, navigation } = usePublicState();
   const [ details, setDetails ] = React.useState<any>(null);
@@ -44,9 +44,9 @@ export default () => {
       <Header title='消息中心' />
       <View style={styles.contentView}>
         <View style={styles.tabsVeiw}>
-          <MyTouchableOpacity style={[styles.tabsItem, currentTab === 0 && styles.tabsItemActive]} onPress={() => setCurrentTab(0)}>
+          {/* <MyTouchableOpacity style={[styles.tabsItem, currentTab === 0 && styles.tabsItemActive]} onPress={() => setCurrentTab(0)}>
             <Text style={[styles.tabsItemText, currentTab === 0 && styles.tabsItemTextActive]}>系统推送</Text>
-          </MyTouchableOpacity>
+          </MyTouchableOpacity> */}
           <MyTouchableOpacity style={[styles.tabsItem, currentTab === 1 && styles.tabsItemActive]} onPress={() => setCurrentTab(1)}>
             <Text style={[styles.tabsItemText, currentTab === 1 && styles.tabsItemTextActive]}>会员消息</Text>
           </MyTouchableOpacity>

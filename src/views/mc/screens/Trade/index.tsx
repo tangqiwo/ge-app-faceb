@@ -5,8 +5,10 @@
  * @FilePath: /app_face_b/src/views/mc/screens/Trade/index.tsx
  * @Description:
  */
+import _ from 'lodash'
 import React from "react";
 import { View, Image, Text } from 'react-native';
+import { useRoute } from '@react-navigation/native';
 import { useSelector } from "react-redux";
 import usePublicState from "@core/hooks/usePublicState";
 import useTradeConnect from "@core/hooks/trade/useTradeConnect";
@@ -28,13 +30,23 @@ export default () => {
 
   const { navigation, isMt4User, rs, isFocused, cacheReady } = usePublicState();
   const mt4Info = useSelector((state: any) => state.trade.mt4Info);
+  const route = useRoute<any>();
   const { forward } = useRouteWebCommon();
   const { authToMt4, makeFirstInstant } = useTradeConnect();
   const [ currentTab, setCurrentTab ] = React.useState(0);
   const [ isShowLogin, setIsShowLogin ] = React.useState(false);
   // const [ password, setPassword ] = React.useState('862343hJ');
-  const [ password, setPassword ] = React.useState<any>();
+  const [ password, setPassword ] = React.useState<any>('');
   const [ showPassword, setShowPassword ] = React.useState(false);
+
+  console.log(route)
+
+  React.useEffect(() => {
+    console.log(route.name)
+    if(route.params?.tab){
+      setCurrentTab(route.params.tab);
+    }
+  }, [route?.params?.tab])
 
   React.useEffect(() => {
     if(isFocused && !mt4Info && cacheReady){
@@ -99,16 +111,16 @@ export default () => {
             <View style={styles.loginImageContent}>
               <View style={{width: '50%'}}>
                 <Text style={styles.loginLeftTitle}>资产净值（USD）</Text>
-                <Text style={styles.loginLeftNumber}>{Number(mt4Info.AccountSummary.Balance)?.toFixed(2)}</Text>
+                <Text style={styles.loginLeftNumber} numberOfLines={1}>{Number(mt4Info.AccountSummary.Equity)?.toFixed(2)}</Text>
               </View>
               <View style={{width: '50%'}}>
                 <View style={styles.loginRight}>
                   <Text style={styles.loginRightTitle}>可用保证金</Text>
-                  <Text style={styles.loginRightNumber}>{Number(mt4Info.AccountSummary.FreeMargin)?.toFixed(2)}</Text>
+                  <Text style={styles.loginRightNumber}>{_.round(Number(mt4Info.AccountSummary.FreeMargin), 2)?.toFixed(2)}</Text>
                 </View>
                 <View style={styles.loginRight}>
                   <Text style={styles.loginRightTitle}>占用保证金</Text>
-                  <Text style={styles.loginRightNumber}>{Number(mt4Info.AccountSummary.Margin)?.toFixed(2)}</Text>
+                  <Text style={styles.loginRightNumber}>{_.round(Number(mt4Info.AccountSummary.Margin), 2)?.toFixed(2)}</Text>
                 </View>
                 <View style={styles.loginRight}>
                   <Text style={styles.loginRightTitle}>持仓盈亏</Text>
@@ -179,6 +191,16 @@ export default () => {
           </>
         </Overlay>
       }
+      {/* <DatePicker
+        mode={'date'}
+        date={new Date()}
+        isModal={true}
+        modalVisible={true}
+        onPickerConfirm={(value: any)=>{
+            //不管mode的值是哪一种, value均是一个Date对象, 需要转换为所需的值
+            //譬如: 如果mode=='year', 则可以通过`moment(value).year()`
+        }}
+      /> */}
     </View>
   )
 

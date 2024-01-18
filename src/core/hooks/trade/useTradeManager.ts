@@ -78,7 +78,7 @@ export default () => {
       price = payload.Price;
     }
     // 单位
-    const unit = _.find(mt4Info.SymbolParamsMany, {symbolName: payload.Symbol}).symbol.contractSize;
+    const unit = _.find(mt4Info.SymbolParamsMany, {SymbolName: payload.Symbol}).Symbol.ContractSize;
     // 保证金比例
     const isPro = infos.KycScore >= 33;
     var rate = 0.02;
@@ -147,7 +147,7 @@ export default () => {
     }
     dispatch(ACTIONS.TRADE.modifyPendingOrder({ data, cb: (res: any) => {
       dispatch(ACTIONS.BASE.openToast({ text: '修改挂单成功' }));
-      navigation.goBack();
+      navigation.navigate('TradeDone', { data: {...res.Data, Type: '修改挂单'} });
     }}))
   }
 
@@ -160,8 +160,8 @@ export default () => {
       Takeprofit: payload.Takeprofit === 0 ? '0' : `${payload.Takeprofit}`,
     }
     dispatch(ACTIONS.TRADE.setStopLossTakeProfit({ data, cb: (res: any) => {
-      dispatch(ACTIONS.BASE.openToast({ text: '修改止盈止损操作成功' }));
-      navigation.goBack();
+      dispatch(ACTIONS.BASE.openToast({ text: '设置止盈止损操作成功' }));
+      navigation.navigate('TradeDone', { data: {...res.Data, Type: '设置止盈止损'} });
     }}))
   }
 
@@ -176,7 +176,7 @@ export default () => {
     }
     dispatch(ACTIONS.TRADE.closeOrder({ data, cb: (res: any) => {
       dispatch(ACTIONS.BASE.openToast({ text: '平仓操作成功' }));
-      navigation.goBack();
+      navigation.navigate('TradeDone', { data: {...res.Data, Type: '平仓'} });
     }}))
   }
 
@@ -190,7 +190,7 @@ export default () => {
     }
     dispatch(ACTIONS.TRADE.openMarketOrder({ data, cb: (res: any) => {
       dispatch(ACTIONS.BASE.openToast({ text: '建仓成功' }));
-      navigation.navigate('TradeDone');
+      navigation.navigate('TradeDone', { data: {...res.Data, Type: '开仓'} });
     }}))
   }
 
@@ -204,7 +204,7 @@ export default () => {
     }
     dispatch(ACTIONS.TRADE.openPendingOrder({ data, cb: (res: any) => {
       dispatch(ACTIONS.BASE.openToast({ text: '创建挂单成功' }));
-      navigation.navigate('TradeDone');
+      navigation.navigate('TradeDone', { data: {...res.Data, Type: '创建挂单'} });
     }}))
   }
 
@@ -296,7 +296,7 @@ export default () => {
 
   // 加减止盈
   const changeTakeprofit = (type: 'add' | 'sub' | 'reset' | any, step = 0.01) => {
-    const _takeprofit = Number(Number(payload.Stoploss).toFixed(2));
+    const _takeprofit = Number(Number(payload.Takeprofit).toFixed(2));
     if(type !== 'add' && type !== 'sub' && type !== 'reset') {
       setPayload({
         ...payload,
@@ -407,8 +407,8 @@ export default () => {
 
 // 交易类型
 export const TRADE_TYPE = {
-  Buy: '买入',
-  Sell: '卖出'
+  Buy: 'Buy(买入)',
+  Sell: 'Sell(卖出)'
 }
 
 // TRADE_TYPE 转换成 [{key: '买入, value: 'Buy'}]
@@ -417,10 +417,10 @@ export const TRADE_TYPE_LIST = _.map(TRADE_TYPE, (value, key) => ({ key, value }
 
 // 限额类型
 export const LIMIT_TYPE = {
-  BuyLimit: '买入限价',
-  SellLimit: '卖出限价',
-  BuyStop: '买入停损',
-  SellStop: '卖出停损'
+  BuyLimit: 'Buy Limit(买入限价)',
+  SellLimit: 'Sell Limit(卖出限价)',
+  BuyStop: 'Buy Stop(买入停损)',
+  SellStop: 'Sell Stop(卖出停损)'
 }
 
 // TRADE_TYPE 转换成 [{key: '买入, value: 'Buy'}]
@@ -430,7 +430,12 @@ export const LIMIT_TYPE_LIST = _.map(LIMIT_TYPE, (value, key) => ({ key, value }
 export const ALL_TYPE_LIST: any = [...TRADE_TYPE_LIST, ...LIMIT_TYPE_LIST];
 
 // 有效期
-export const EXPIRATION: any = [{key: '', value: '撤单前有效'}, { key: dayjs().endOf('day').format('YYYY-MM-DDTHH:mm:ss'), value: '当天有效' }]
+export const EXPIRATION: any = [
+  {key: '', value: '撤单前有效'},
+  {key: dayjs().add(7, 'day').endOf('day').format('YYYY-MM-DDTHH:mm:ss'), value: '7天有效' },
+  { key: dayjs().add(1, 'month').endOf('day').format('YYYY-MM-DDTHH:mm:ss'), value: '1个月有效' },
+  { key: dayjs().endOf('day').format('YYYY-MM-DDTHH:mm:ss'), value: '当天有效' }
+]
 
 // 止盈止损
 export const STOPLOSS_TAKEPROFIT: any = {

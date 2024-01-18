@@ -18,7 +18,7 @@ export default function user(state = initialState.trade, action: any) {
         return state;
       }
       store.set('MT4-PASS', action.password)
-      return {...state, mt4Info: {...action.res, Password: action.password}, instantOrders: action.res.TradesNotClose};
+      return {...state, mt4Info: {...action.res, Password: action.password}, instantOrders: action.res.OpenedOrders};
     }
     // 设置来自ws的实时行情数据
     case TYPES.TRADE.SET_INSTANT_QUOTES: {
@@ -77,6 +77,12 @@ export default function user(state = initialState.trade, action: any) {
         },
         instantOrders: action.isUpdate ? instantOrders : newOrders
       };
+    }
+    case TYPES.TRADE.GET_KLINE_DATA: {
+      return {
+        ...state,
+        klineData: action.data
+      }
     }
     case TYPES.USER.LOGOUT: {
       return {...initialState.trade };

@@ -13,14 +13,16 @@ export default () => {
 
   const { dispatch, ACTIONS } = usePublicState();
   const [ data, setData ] = React.useState<any>();
-
+  const [ date, setDate ] = React.useState<'today' | '7days' | '30days' | 'others'>('today');
   const Mt4ClientApiToken = useSelector((state: any) => state.trade.mt4Info?.Mt4ClientApiToken);
+  const [startDate, setStartDate] = React.useState<string>();
+  const [endDate, setEndDate] = React.useState<string>();
 
   // 历史订单
-  const getHistoryOrders = () => {
+  const getHistoryOrders = (Range: Array<any>) => {
     const data: any = {
       Symbol: "",
-      Range: [],
+      Range,
       Page: 1,
       PageSize: 40,
     }
@@ -40,7 +42,6 @@ export default () => {
         cb: () => {
           dispatch(ACTIONS.TRADE.cancelPendingOrder({ data: { Ticket: tiketId, Mt4ClientApiToken}, cb: (res: any) => {
             dispatch(ACTIONS.BASE.openToast({ text: '撤单成功' }));
-            getHistoryOrders();
           }}));
         }
       }]
@@ -50,6 +51,12 @@ export default () => {
 
   return {
     data,
+    date,
+    startDate,
+    endDate,
+    setStartDate,
+    setEndDate,
+    setDate,
     getHistoryOrders,
     cancelPendingOrder
   }

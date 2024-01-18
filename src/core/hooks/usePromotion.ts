@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2023-07-05 11:27:16
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/hooks/usePromotion.ts
  * @Description: 推广活动相关
  */
@@ -49,19 +49,17 @@ export default () => {
   }: {
     id: number;
     subId?: string;
-    customSuccessPopup?: (res: any, cb: () => void) => void;
+    customSuccessPopup?: (res: any) => void;
   }) => {
     dispatch(
       ACTIONS.PROMOTION.applyPromotion({
         data: { Id: id, SubId: subId },
         cb: (res: any) => {
+          getPromotionCenterList();
           if (customSuccessPopup) {
-            customSuccessPopup(res, () => {
-              getPromotionCenterList();
-            });
+            customSuccessPopup(res);
           } else {
             dispatch(ACTIONS.BASE.openToast({ text: res.desc, types: 'success' }));
-            getPromotionCenterList();
           }
         },
       }),

@@ -90,3 +90,9 @@ export const modifyPendingOrder = ({data, cb}: INTERFACE.IProps): INTERFACE.IAPI
   payload: { key: 'trade/modify-pending-order', data, method: HTTP.METHODS.POST, loading: true },
   cb
 })
+
+// 设置K线数据
+export const setKlineData = ({data}: INTERFACE.IProps): INTERFACE.IBase => ({
+  type: TYPES.TRADE.GET_KLINE_DATA,
+  data
+})

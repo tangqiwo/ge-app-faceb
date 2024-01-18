@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-12-06 16:26:05
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/hooks/useRouteWebCommon.ts
  * @Description: 跳转去通用的路由
  */
@@ -18,13 +18,15 @@ export default () => {
     type?: 'origin' | 'mc' | 'official',
     headerShown?: boolean,
     page?: string,
+    reset?: boolean
   }
   const forward = (params: IForward) => {
     params = {
       ...params,
       type: params.type || 'mc',
       headerShown: _.isUndefined(params.headerShown) || true,
-      page: params.page || ''
+      page: params.page || '',
+      reset: params.reset
     }
     navigation.navigate('WEB-COMMON', params);
   }

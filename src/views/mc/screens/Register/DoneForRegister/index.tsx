@@ -80,7 +80,7 @@ export default () => {
           <Text style={styles.adText}>新客充<Text style={styles.adText2}>$200</Text>送<Text style={styles.adText2}>$400</Text>起</Text>
           <Text style={styles.adText}>开户<Text style={styles.adText2}>24</Text>小时注资加送<Text style={styles.adText2}>$100</Text>！</Text>
         </View>
-        <MyTouchableOpacity style={styles.submitView} onPress={() => forward(FORWARD_TYPES['DEPOSIT'])}>
+        <MyTouchableOpacity style={styles.submitView} onPress={() => forward({...FORWARD_TYPES['DEPOSIT'], reset: true})}>
           <Text style={styles.submitText}>立即注资</Text>
         </MyTouchableOpacity>
       </View>

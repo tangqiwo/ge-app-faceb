@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/views/mc/screens/MessageCenter/style.ts
  * @Description:
  */
@@ -35,7 +35,7 @@ export const LS = StyleSheet.create({
 
   },
   tabsItem: {
-    width: '33.333%',
+    width: '50%',
     height: '100%',
     flexDirection: 'row',
     justifyContent: 'center',

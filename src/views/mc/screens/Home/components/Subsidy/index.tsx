@@ -184,7 +184,7 @@ export default () => {
         isShow && progressData?.hasJoined && progressDetail &&
         <View style={styles.processContentView}>
           <View style={styles.processTitle}>
-            <Text style={styles.processTitleText}>{progressDetail.isDoneFirstBonus ? '交易增金' : '首笔赠金'}</Text>
+            <Text style={styles.processTitleText}>{progressDetail.isDoneFirstBonus ? '交易赠金' : '首笔赠金'}</Text>
             <Text>{!progressDetail.isDoneFirstBonus && '交易赠金待开启'}</Text>
           </View>
           <View style={styles.processView}>
