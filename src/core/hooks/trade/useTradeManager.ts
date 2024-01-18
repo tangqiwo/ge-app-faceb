@@ -210,7 +210,7 @@ export default () => {
 
   // 加减手数
   const changeVolume = (type: 'add' | 'sub' | 'reset' | any, step=0.01) => {
-    const _volume = Number(Number(payload.Stoploss).toFixed(2));
+    const _volume = Number(Number(payload.Volume).toFixed(2));
     if(type !== 'add' && type !== 'sub' && type !== 'reset') {
       setPayload({
         ...payload,

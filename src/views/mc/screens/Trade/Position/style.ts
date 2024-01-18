@@ -112,7 +112,7 @@ export const LS = StyleSheet.create({
   },
   buttonYellow: {
     height: G.mixin.rem(30),
-    width: G.mixin.rem(100),
+    width: G.mixin.rem(140),
     backgroundColor: '#FFC600',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -121,7 +121,7 @@ export const LS = StyleSheet.create({
   },
   buttonBlack: {
     height: G.mixin.rem(30),
-    width: G.mixin.rem(100),
+    width: G.mixin.rem(140),
     backgroundColor: '#2A2A2A',
     flexDirection: 'row',
     justifyContent: 'center',

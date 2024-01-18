@@ -39,10 +39,7 @@ export default () => {
   const [ password, setPassword ] = React.useState<any>('');
   const [ showPassword, setShowPassword ] = React.useState(false);
 
-  console.log(route)
-
   React.useEffect(() => {
-    console.log(route.name)
     if(route.params?.tab){
       setCurrentTab(route.params.tab);
     }

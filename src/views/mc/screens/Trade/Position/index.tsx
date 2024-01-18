@@ -99,9 +99,9 @@ export default () => {
                   <MyTouchableOpacity style={styles.buttonBlack} onPress={() => handleSetStopLoss(item.Ticket, item.Volume, item.Symbol, item.Cmd)}>
                     <Text style={styles.buttonTextYellow}>设置止盈止损</Text>
                   </MyTouchableOpacity>
-                  <MyTouchableOpacity style={styles.buttonWhite} onPress={() => navigation.navigate('KLine', { symbol: item.Symbol })}>
+                  {/* <MyTouchableOpacity style={styles.buttonWhite} onPress={() => navigation.navigate('KLine', { symbol: item.Symbol })}>
                     <Text>图表</Text>
-                  </MyTouchableOpacity>
+                  </MyTouchableOpacity> */}
                 </View>
               }
             </View>
