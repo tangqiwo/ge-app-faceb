@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2023-08-05 01:39:24
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/hooks/useValidateCode.ts
  * @Description: 验证码
  */
@@ -48,14 +48,18 @@ export default ({ type }: TValidateCode) => {
   interface TValidateCode {
     CountryCode: string;
     PhoneNumber: string;
+    focus?: any
   }
-  const getValidateCode = ({CountryCode, PhoneNumber}: TValidateCode): void => {
+  const getValidateCode = ({CountryCode, PhoneNumber, focus}: TValidateCode): void => {
     if(countDown > 0){
       return;
     }
     if(!/^[0-9]{8,20}$/.test(PhoneNumber) || !PhoneNumber){
       dispatch(ACTIONS.BASE.openToast({text: '请输入正确的手机号'}));
       return;
+    }
+    if(focus){
+      focus.focus();
     }
     dispatch(ACTIONS.BASE.getVerifyCode({data: { CountryCode, PhoneNumber }, apiType, cb: () => {
       dispatch(ACTIONS.BASE.openToast({text: '验证码已发送', types: 'success'}));

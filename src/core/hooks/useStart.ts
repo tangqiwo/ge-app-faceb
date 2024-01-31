@@ -52,13 +52,13 @@ export default () => {
     if(cacheInit){
       // 网站设置
       dispatch(ACTIONS.BASE.cacheReady());
+      dispatch(ACTIONS.BASE.getAppConfig());
       dispatch(ACTIONS.BASE.getHomeInfos());
       dispatch(ACTIONS.BASE.getContactInfo());
       dispatch(ACTIONS.BASE.getConfigs());
       dispatch(ACTIONS.BASE.getAppVersion());
       dispatch(ACTIONS.BASE.getMemberInfo());
       dispatch(ACTIONS.BASE.getChannelKeys());
-      dispatch(ACTIONS.BASE.getAppConfig());
       dispatch(ACTIONS.BASE.initUI());
       if(store.get('AUTH')){
         dispatch(ACTIONS.USER.getUserInfo({passError: true, cb: (res: any) => {

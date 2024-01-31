@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-12-08 19:11:16
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/hooks/useAds.ts
  * @Description:
  */
@@ -15,7 +15,9 @@ export default () => {
   const { ossDomain } = usePublicState();
   const { forward } = useRouteWebCommon();
   const LoginPageAd = useSelector((state: any) => state.base.appDisplayConfig?.LoginPageAd?.Data?.[0]);
+  const RegisterPageAd = useSelector((state: any) => state.base.appDisplayConfig?.RegisterPageAd?.Data?.[0]);
   const [loginAd, setLoginAd] = React.useState<any>(null);
+  const [registerAd, setRegisterAd] = React.useState<any>(null);
 
   React.useEffect(() => {
     if(!LoginPageAd){
@@ -30,9 +32,22 @@ export default () => {
     });
   }, [LoginPageAd])
 
+  React.useEffect(() => {
+    if(!RegisterPageAd){
+      return;
+    }
+    setRegisterAd({
+      Image: ossDomain + RegisterPageAd.BannerImg,
+      Content: RegisterPageAd.Content,
+      Name: RegisterPageAd.Name,
+      OnPress: () => forward({ type: 'origin', title: RegisterPageAd.Name, uri: RegisterPageAd.Content })
+    });
+  }, [RegisterPageAd])
+
 
   return {
-    LoginPageAd: loginAd
+    LoginPageAd: loginAd,
+    RegisterPageAd: registerAd
   }
 
 }

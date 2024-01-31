@@ -1,24 +1,26 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-09 15:51:39
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/views/mc/screens/Home/components/FlashAd/index.tsx
  * @Description:
  */
 import _ from 'lodash'
 import React from 'react';
 import dayjs from 'dayjs';
-import { View, Text, Image, Linking } from 'react-native'
+import { View, Text, Image } from 'react-native'
 import Enum from '@constants/enum';
 import Overlay from '@core/templates/components/Overlay';
 import usePublicState from '@core/hooks/usePublicState';
 import BackgroundView from '@core/templates/components/BackgroundView';
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
+import useRouteWebCommon from '@core/hooks/useRouteWebCommon';
 import G from '@constants/global';
 import { GS, LS as styles } from './style';
 
 export default (() => {
 
+  const { forward } = useRouteWebCommon();
   const { rs, ossDomain, infos, navigation, isFocused } = usePublicState();
   const [ content, setContent ] = React.useState<any>(null);
   const [ showPopup, setShowPopup ] = React.useState<boolean>(false);
@@ -127,7 +129,12 @@ export default (() => {
       navigation.navigate('Register');
       return;
     }
-    Linking.openURL(content.Data.RedirectUrl);
+    console.log(content.Data);
+    forward({
+      type: 'origin',
+      uri: content.Data.RedirectUrl,
+      title: '活动详情'
+    });
   }
 
   if(!content) return null;

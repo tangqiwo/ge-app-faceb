@@ -7,6 +7,7 @@
  */
 import _ from 'lodash';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { ScrollView, View, Text  } from 'react-native';
 import MyImage from '@core/templates/components/Base/Image';
 import BackgroundView from "@core/templates/components/BackgroundView";
@@ -15,6 +16,7 @@ import usePublicState from '@core/hooks/usePublicState';
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 import useRegister, { QUESTION_LIST, RISKS, } from "@core/hooks/useRegister";
 import PopupAD from '@template/components/PopupAD';
+import ExitPopup from '@this/components/ExitPopup';
 import Icon from '@icon/index';
 import G from '@constants/global';
 import { LS as styles, GS } from './style';
@@ -24,7 +26,9 @@ export default () => {
 
   const { rs, dispatch, ACTIONS, isFocused, navigation } = usePublicState();
   const insets = useSafeAreaInsets();
+  const exitInfo = useSelector((state: any) => state.base.appDisplayConfig?.RegisterFailedDialog.Data[0]);
   const [ showAd, setShowAd ] = React.useState(false);
+  const [ showExitAd, setShowExitAd ] = React.useState(false);
   const { questionnaire, setQuestionnaire, submitQuestionnaire } = useRegister();
 
   React.useEffect(() => {
@@ -88,7 +92,7 @@ export default () => {
     <View>
       <BackgroundView source={require('./i/bg.png')} style={{...styles.header}} resizeMode="contain" >
         <View style={{...styles.titleView, marginTop: insets.top}}>
-          <MyTouchableOpacity style={styles.goBack} onPress={() => navigation.goBack()}>
+          <MyTouchableOpacity style={styles.goBack} onPress={() => setShowExitAd(true)}>
             <Icon.Font style={styles.goBackIcon} type={Icon.T.SimpleLineIcons} name='arrow-left' />
           </MyTouchableOpacity>
           <Text style={styles.titleText}>问卷调查</Text>
@@ -155,6 +159,15 @@ export default () => {
       <PopupAD visible={showAd} onClose={() => setShowAd(false)}>
         <MyImage width={GS.mixin.rem(335)} source={{uri: rs.base.popupAd.CustomDomain + rs.base.popupAd.KYC?.Data[0]?.BannerImg}} />
       </PopupAD>
+      <ExitPopup
+        display={showExitAd}
+        close={() => setShowExitAd(false)}
+        exit={() => navigation.goBack()}
+        cancelText="继续认证"
+        text={JSON.parse(exitInfo?.Content)?.Content}
+      >
+        <MyImage width={GS.mixin.rem(170)} source={{uri: rs.base.popupAd.CustomDomain + exitInfo.BannerImg}} />
+      </ExitPopup>
     </View>
   )
 

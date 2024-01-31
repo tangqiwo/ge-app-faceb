@@ -185,7 +185,7 @@ export const GET_UPLOAD_URL = ({
   };
   cb: Function;
 }): INTERFACE.IAPI => ({
-  type: TYPES.BASE.GET_UPLOAD_URL,
+  type: TYPES.BASE.HTTP_ONLY,
   payload: {
     key: 'base/get_upload_url',
     data,

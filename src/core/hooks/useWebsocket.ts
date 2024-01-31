@@ -49,6 +49,10 @@ export default ({url, protocol, closeCallback}: IUseWebsocket) => {
         if(event.data === 'pong') {
           return;
         }
+        requestAnimationFrame(() => {
+          setMessages(event.data)
+        })
+        return;
         if(!_.includes(event.data, `"type":"OrderProfit"`)) {
           requestAnimationFrame(() => {
             setMessages(event.data)

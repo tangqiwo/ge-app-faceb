@@ -26,6 +26,8 @@ export default () => {
   const insets = useSafeAreaInsets();
   const { navigation } = usePublicState();
   const { LoginPageAd } = useAds();
+  const textInputRef = React.useRef(null);
+
   const {
     payload,
     setPayload,
@@ -79,7 +81,7 @@ export default () => {
             onChangeText={(value: string) => setPayload({...payload, AuthCode: value})}
             style={{...styles.inputText, width: GS.mixin.rem(200), marginLeft: GS.mixin.rem(6)} }
           />
-          <MyTouchableOpacity style={styles.validateCode} onPress={() => getValidateCode({ CountryCode: payload.CountryCode, PhoneNumber: payload.PhoneNumber })}>
+          <MyTouchableOpacity style={styles.validateCode} onPress={() => getValidateCode({ CountryCode: payload.CountryCode, PhoneNumber: payload.PhoneNumber, focus: textInputRef.current })}>
             <Text style={{fontSize: GS.mixin.rem(10), color: '#2A2A2A'}}>
               { countDown > 0 ? `${countDown}秒后重试` : '获取验证码' }
             </Text>

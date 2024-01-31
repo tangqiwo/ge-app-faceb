@@ -30,7 +30,7 @@ const styles = LS.main;
 export default () => {
 
   const isFocused = useIsFocused();
-  const { isLogined, navigation } = usePublicState();
+  const { isLogined, navigation, dispatch, ACTIONS } = usePublicState();
   const { forward } = useRouteWebCommon();;
   const { promotionCenterList } = usePromotion();
 
@@ -40,8 +40,12 @@ export default () => {
   // 新人领金
   const handleNewUser = () => {
     const recommend = _.find(promotionCenterList, { type: RECOMMEND_ID });
-    if (isLogined && recommend) {
-      forward({...FORWARD_TYPES['PROMOTIONS'], uri: `/promotion-center/${recommend.id}`, type: 'mc'})
+    if (isLogined) {
+      if(recommend){
+        forward({...FORWARD_TYPES['PROMOTIONS'], uri: `/promotion-center/${recommend.id}`, type: 'mc'})
+        return;
+      }
+      dispatch(ACTIONS.BASE.openToast({text: '暂无推荐人活动'}));
     } else {
       navigation.navigate('Login')
     }
@@ -50,12 +54,12 @@ export default () => {
   // 快速入金
   const handleDeposit = () => {
     if(isLogined) {
-      navigation.navigate('Deposit')
-    } else {
       forward(FORWARD_TYPES['DEPOSIT'])
+    } else {
       navigation.navigate('Login')
     }
   }
+
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false} disableScrollViewPanResponder={true}>

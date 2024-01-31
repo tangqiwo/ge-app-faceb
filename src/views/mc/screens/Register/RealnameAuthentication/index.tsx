@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:31
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/views/mc/screens/Register/RealnameAuthentication/index.tsx
  * @Description: 登录
  */
@@ -17,9 +17,10 @@ import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 import useRegister from '@core/hooks/useRegister';
 import useAds from '@core/hooks/useAds';
 import PopupAD from '@template/components/PopupAD';
+import ExitPopup from '@this/components/ExitPopup';
 import Icon from '@icon/index';
 import { LS as styles, GS } from './style';
-
+import { useSelector } from 'react-redux';
 
 export default () => {
 
@@ -34,7 +35,9 @@ export default () => {
     setShowPassword,
     validateRealName
   } = useRegister();
+  const exitInfo = useSelector((state: any) => state.base.appDisplayConfig?.RegisterFailedDialog.Data[0]);
   const [ showAd, setShowAd ] = React.useState(false);
+  const [ showExitAd, setShowExitAd ] = React.useState(false);
 
   React.useEffect(() => {
     dispatch(ACTIONS.BASE.getPopupAd());
@@ -54,7 +57,7 @@ export default () => {
     <View>
       <BackgroundView source={require('./i/bg.png')} style={{...styles.header}} resizeMode="contain" >
         <View style={{...styles.titleView, marginTop: insets.top}}>
-          <MyTouchableOpacity style={styles.goBack} onPress={() => navigation.goBack()}>
+          <MyTouchableOpacity style={styles.goBack} onPress={() => setShowExitAd(true)}>
             <Icon.Font style={styles.goBackIcon} type={Icon.T.SimpleLineIcons} name='arrow-left' />
           </MyTouchableOpacity>
           <Text style={styles.titleText}>实名认证</Text>
@@ -117,6 +120,15 @@ export default () => {
       <PopupAD visible={showAd} onClose={() => setShowAd(false)}>
         <MyImage width={GS.mixin.rem(335)} source={{uri: rs.base.popupAd.CustomDomain + rs.base.popupAd.CreateUser?.Data[0]?.BannerImg}} />
       </PopupAD>
+      <ExitPopup
+        display={showExitAd}
+        close={() => setShowExitAd(false)}
+        exit={() => navigation.goBack()}
+        cancelText="继续认证"
+        text={JSON.parse(exitInfo?.Content)?.Content}
+      >
+        <MyImage width={GS.mixin.rem(170)} source={{uri: rs.base.popupAd.CustomDomain + exitInfo.BannerImg}} />
+      </ExitPopup>
     </View>
   )
 

@@ -19,6 +19,7 @@ import Overlay from '@core/templates/components/Overlay';
 import useAuth from '@core/hooks/useAuth';
 import useRouteWebCommon from '@core/hooks/useRouteWebCommon';
 import ENUM from '@core/constants/enum';
+import Rule from './Rule';
 import { toLowerCaseObj } from '@helpers/unit';
 import { LS as styles, GS } from './style';
 
@@ -38,6 +39,7 @@ export default () => {
   const [ countdown, setCountdown ] = React.useState<any>();
   const [ applayData, setApplayData ] = React.useState<any>();
   const [ mainId, setMainId ] = React.useState<any>();
+  const [displayRule, setDisplayRule] = React.useState<boolean>(false);
   const timer = React.useRef<any>(null);
 
   React.useEffect(() => {
@@ -49,6 +51,7 @@ export default () => {
       setProgressData({
         id: Number(Activity.Id),
         hasJoined: false,
+        startAt: Activity.StartAt,
         stopAt: Activity.StopAt,
         levels: toLowerCaseObj(Activity.Extra?.ExtraOfEquityGiveCash30000)?.levels,
         appLink: Activity.AppLink
@@ -68,6 +71,7 @@ export default () => {
     setProgressData({
       id: Number(promotion.id),
       hasJoined: promotion.hasJoined,
+      startAt: Activity.StartAt,
       stopAt: promotion.stopAt,
       levels:promotion.extra?.extraOfEquityGiveCash30000?.levels,
       appLink: promotion.appLink
@@ -158,7 +162,7 @@ export default () => {
               <Text style={styles.textCommon}>秒</Text>
             </View>
           }
-          <Text style={styles.detail} onPress={() => forward({title: '百亿补贴', type: 'origin', uri: progressDetail?.appLink})}>{`详情>`}</Text>
+          <Text style={styles.detail} onPress={() => forward({title: '百亿补贴', type: 'origin', uri: progressData?.appLink})}>{`详情>`}</Text>
         </View>
       }
       {
@@ -225,7 +229,7 @@ export default () => {
         <View style={styles.popupContent}>
           <Text style={styles.levelTitle}>已选活动等级</Text>
           <Image source={LEVEL_IMAGES[applayData?.subId]} style={styles.levelImage} />
-          <Text style={styles.levelText}>活动详情，请按<Text style={{color: '#FFC600'}}>查阅</Text></Text>
+          <Text style={styles.levelText}>活动详情，请按<Text style={{color: '#FFC600'}} onPress={() => setDisplayRule(true)}>查阅</Text></Text>
           <Button
             onPress={() => applyPromotion({
               id: progressData.id,
@@ -243,6 +247,9 @@ export default () => {
           <Image source={require('./i/icon-close.png')} style={styles.iconClose} />
         </MyTouchableOpacity>
       </Overlay>
+      {
+        displayRule && <Rule close={() => setDisplayRule(false)} start={progressData.startAt} end={progressData.stopAt} />
+      }
     </View>
   )
 

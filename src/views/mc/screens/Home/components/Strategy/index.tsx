@@ -7,9 +7,10 @@
  */
 import _ from 'lodash';
 import React from 'react';
-import { View, Text, Image, ScrollView } from 'react-native';
+import { View, Text, Image, ScrollView, Dimensions } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useRoute } from '@react-navigation/native';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 import usePublicState from '@core/hooks/usePublicState';
 import { LS as styles, GS } from './style';
 import dayjs from 'dayjs';
@@ -20,9 +21,11 @@ interface StrategyItemProps {
 export default ({ type }: StrategyItemProps) => {
 
   const { navigation } = usePublicState();
+  const [ activeSlide, setActiveSlide ] = React.useState(0);
   const GeTeacherPoint = useSelector((state: any) => state.base.homeInfos?.GeTeacherPoint);
   const data = GeTeacherPoint?.Data;
   const list = GeTeacherPoint?.Datas;
+  const { width } = Dimensions.get('window');
 
   if(!data){
     return <></>
@@ -37,7 +40,20 @@ export default ({ type }: StrategyItemProps) => {
             <Text style={styles.titleText}>全时段交易策略</Text>
           <Text style={styles.titleMore} onPress={() => navigation.navigate('Root', { screen: 'Strategy', params: {type: 1} }) }>{`更多 >`}</Text>
           </View>
-          <StrategyItem data={data} />
+          <Carousel
+            style={{width: '100%', height: GS.mixin.rem(211), backgroundColor: 'red'}}
+            vertical={false}
+            inactiveSlideScale={1}
+            firstItem={0}
+            sliderWidth={width - GS.mixin.rem(56)}
+            itemWidth={width - GS.mixin.rem(56)}
+            data={_.take(list, 3)}
+            onSnapToItem={(index) => setActiveSlide(index) }
+            renderItem={({ item }: any) =>
+              <StrategyItem data={item} />
+            }
+          />
+          <MyPagination activeSlide={activeSlide} dotsLength={list.length} />
         </>
       }
       {
@@ -169,4 +185,34 @@ export const StrategyDetail = () => {
     </ScrollView>
   )
 
+}
+
+interface IEntry {
+  activeSlide: number;
+  dotsLength: number;
+}
+export const MyPagination = ({ activeSlide, dotsLength }: IEntry) => {
+
+  return(
+    <Pagination
+      dotsLength={dotsLength}
+      activeDotIndex={activeSlide}
+      containerStyle={{
+        width: '100%',
+      }}
+      dotStyle={{
+        width: GS.mixin.rem(8),
+        height: GS.mixin.rem(8),
+        backgroundColor: '#FFC600'
+      }}
+      inactiveDotStyle={{
+        width: GS.mixin.rem(8),
+        height: GS.mixin.rem(8),
+        borderRadius: GS.mixin.rem(8),
+        backgroundColor: '#ccc',
+      }}
+      inactiveDotOpacity={0.8}
+      inactiveDotScale={0.8}
+    />
+  )
 }

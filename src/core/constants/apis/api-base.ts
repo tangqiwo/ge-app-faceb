@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2022-07-25 10:58:18
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/constants/apis/api-base.ts
  * @Description: 基本接口
  */
@@ -11,7 +11,7 @@ export default {
   ['base/get-contact-info']: 'portal/get_contact_us',
 
   // 获取首页配置
-  ['base/get-home-config']: 'official_web/index?Platform=BannerPlatformOnPc',
+  ['base/get-home-config']: 'official_web/index',
 
   // 获取APP版本
   ['base/get-app-version']: 'portal/get_app_version',
@@ -32,7 +32,7 @@ export default {
   ['base/get-verify-code']: 'portal/$',
 
   // 获取弹出广告
-  ['base/get-popup-ad']: 'dialogs/get_dialogs?Platform=GePlatformOnPc',
+  ['base/get-popup-ad']: 'dialogs/get_dialogs',
 
   // 获取常用地区信息
   ['base/get-locations']: 'global_api/country_and_region/select',

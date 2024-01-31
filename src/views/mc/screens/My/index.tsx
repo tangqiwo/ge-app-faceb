@@ -182,7 +182,7 @@ export default () => {
         {
           !_.isEmpty(infos) &&
           <>
-            <MyTouchableOpacity style={styles.menuItem} onPress={() => forward(FORWARD_TYPES['USER_INFOS'])}>
+            <MyTouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Profile')}>
               <View style={styles.menuItemContent}>
                 <Image source={require('./i/icon/icon-6.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
                 <Text style={{...styles.buttonText, color: '#2A2A2A'}}>个人信息</Text>

@@ -25,6 +25,8 @@ import AboutUs from '@this/screens/AboutUs';
 import Videos from '@this/screens/Videos';
 import TradeDetail from '@this/screens/TradeDetail';
 import TradeDone from '@this/screens/TradeDetail/Done';
+import BootScreen from '@this/screens/Home/components/BootScreen';
+import ProfileScreen from '@this/screens/Profile'
 import ScreenHOC from '@views/mc/shadow/ScreenHOC';
 import WebView from '@this/screens/WebFrame';
 
@@ -34,7 +36,7 @@ export default () => {
 
   return (
     <MainStack.Navigator
-      initialRouteName="Root"
+      initialRouteName="Boot"
       // initialRouteName="Login"
       screenOptions={{
         headerBackTitle: '返回',
@@ -46,7 +48,9 @@ export default () => {
         },
         headerTitleAlign: 'center'
       }}>
+      <MainStack.Screen name="Boot" component={ScreenHOC(BootScreen)} />
       <MainStack.Screen name="Root" component={ScreenHOC(RootNavigations)} />
+      <MainStack.Screen name="Profile" component={ScreenHOC(ProfileScreen)} options={{headerShown: true, title: '个人信息'}} />
       <MainStack.Screen name='Login' component={ScreenHOC(LoginScreen)} />
       <MainStack.Screen name='ForgotPass' component={ScreenHOC(ForgotPass)} />
       <MainStack.Screen name='Register' component={ScreenHOC(RegisterScreen)} />

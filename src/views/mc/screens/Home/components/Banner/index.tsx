@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-08-12 01:04:13
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/views/mc/screens/Home/components/Banner/index.tsx
  * @Description: 动态BANNER图
  */
@@ -55,7 +55,7 @@ interface IEntry {
   activeSlide: number;
   dotsLength: number;
 }
-const MyPagination = ({ activeSlide, dotsLength }: IEntry) => {
+export const MyPagination = ({ activeSlide, dotsLength }: IEntry) => {
 
   return(
     <Pagination

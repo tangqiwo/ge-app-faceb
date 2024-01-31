@@ -8,7 +8,6 @@
 import React from "react";
 import dayjs from 'dayjs';
 import { ScrollView, View, Text, Image } from 'react-native';
-import { useSelector } from "react-redux";
 import { useRoute } from "@react-navigation/native";
 import usePublicState from '@core/hooks/usePublicState';
 import MyTouchableOpacity from "@core/templates/components/MyTouchableOpacity";
@@ -21,28 +20,36 @@ export default () => {
 
   const route = useRoute<any>();
 
-  const { ossDomain } = usePublicState();
+  const { ossDomain, dispatch, ACTIONS } = usePublicState();
   const [ currentTab, setCurrentTab ] = React.useState(route.params.type ==='news' ? 0 : 1);
-  // 金十访谈
-  const k10Videos = useSelector((state: any) => state.base.homeInfos.GeNewsCounseling?.Data);
-  const newsVideos = useSelector((state: any) => state.base.homeInfos.GeVideoCounseling?.Data);
   const [currentPlay, setCurrentPlay] = React.useState<{Video: string, Title: string}>();
 
   const [currentVideos, setCurrentVideos] = React.useState<any[]>([]);
 
+  const getVideos = React.useCallback((type: 'video' | 'ks') => {
+    const uri = type === 'video' ? 'transaction_lesson/get_jinshi_videos?Page=1&PageSize=200' : 'transaction_lesson/get_jinshi_news?Page=1&PageSize=200';
+    dispatch(ACTIONS.BASE.commonRequest({
+      uri,
+      cache: {
+        forward: true,
+        expires: 10
+      },
+      cb: (res: any) => {
+        setCurrentVideos(res.Data.Data);
+      }
+    }))
+  }, [])
+
   React.useEffect(() => {
-    if(!k10Videos || !newsVideos){
-      return;
-    }
     if(currentTab === 0){
-      setCurrentVideos(newsVideos);
+      getVideos('video');
       return;
     }
     if(currentTab === 1){
-      setCurrentVideos(k10Videos);
+      getVideos('ks');
       return;
     }
-  }, [k10Videos, newsVideos, currentTab])
+  }, [currentTab])
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} >
