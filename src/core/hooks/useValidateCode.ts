@@ -9,7 +9,7 @@ import React from 'react';
 import usePublicState from "./usePublicState";
 
 type TValidateCode = {
-  type: 'register' | 'login' | 'reset'
+  type?: 'register' | 'login' | 'reset' | 'mt4'
 }
 export default ({ type }: TValidateCode) => {
 
@@ -44,7 +44,6 @@ export default ({ type }: TValidateCode) => {
     }
   }, []);
 
-
   interface TValidateCode {
     CountryCode: string;
     PhoneNumber: string;
@@ -76,11 +75,31 @@ export default ({ type }: TValidateCode) => {
     }}));
   }
 
+  const getMT4ValidateCode = (callback?: Function) => {
+    if(countDown > 0){
+      return;
+    }
+    dispatch(ACTIONS.USER.getAuthCode({cb: () => {
+      setCountDown(60);
+      timer.current = setInterval(() => {
+        setCountDown(countDown => {
+          if (countDown === 0) {
+            clearInterval(timer.current);
+            return 0;
+          }
+          return countDown - 1;
+        })
+      }, 1000)
+      callback && callback();
+    }}))
+  }
+
   return {
     countDown,
     validateCode,
     setValidateCode,
-    getValidateCode
+    getValidateCode,
+    getMT4ValidateCode
   }
 
 }

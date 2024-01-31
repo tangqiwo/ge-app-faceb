@@ -9,6 +9,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import React from 'react';
 import { View, Text, Image, ScrollView } from 'react-native';
 import useUploadOss from '@core/hooks/useUploadOss';
+import useProfile from '@core/hooks/useProfile';
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 import Button from '@this/components/Button';
 import { LS as styles, GS } from './style';
@@ -16,7 +17,7 @@ import { LS as styles, GS } from './style';
 export default () => {
 
   const { uploadOss } = useUploadOss();
-
+  const { improveIdCardImage } = useProfile();
   const [fontImage, setFontImage] = React.useState(null);
   const [backImage, setBackImage] = React.useState(null);
 
@@ -39,13 +40,13 @@ export default () => {
       <Text style={styles.desc}>补充提交资料以完成身份证绑定资料</Text>
       <View style={styles.imageBox}>
         {
-          fontImage ? <Image style={styles.image} source={{uri: fontImage.uri}} resizeMode='contain' /> :
+          fontImage ? <Image style={styles.image} source={require('./i/submit-success.png')} resizeMode='contain' /> :
                       <MyTouchableOpacity onPress={() => selectImage('font_id')}>
                         <Image style={styles.image} source={require('./i/identity-front.png')} resizeMode='contain' />
                       </MyTouchableOpacity>
         }
         {
-          backImage ? <Image style={styles.image} source={{uri: backImage.uri}} resizeMode='contain' /> :
+          backImage ? <Image style={styles.image} source={require('./i/submit-success.png')} resizeMode='contain' /> :
                       <MyTouchableOpacity onPress={() => selectImage('back_id')}>
                         <Image style={styles.image} source={require('./i/identity-back.png')} resizeMode='contain' />
                       </MyTouchableOpacity>
@@ -55,6 +56,7 @@ export default () => {
       <Button
         text='立即提交'
         style={styles.button}
+        onPress={() => improveIdCardImage(fontImage?.path, backImage?.path)}
       />
     </ScrollView>
   )

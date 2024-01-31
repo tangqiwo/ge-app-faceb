@@ -44,17 +44,18 @@ export default () => {
             type: file.type,
             uri: Platform.OS === 'android' ? file.uri : file.uri.replace('file://', '')
           });
-          await fetch(host, {method: 'POST',body: formData})
-                    .then(res => {
-                      if(res.status !== 200){
-                        dispatch(ACTIONS.BASE.openToast({types: 'error', text: '上传OSS失败'}));
-                      }
-                      return res.text();
-                    })
-                    .finally(() => {
-                      dispatch(ACTIONS.BASE.closeLoading());
-                    })
-          callback && callback(json['Directory']);
+          fetch(host, {method: 'POST',body: formData})
+               .then(res => {
+                  if(res.status !== 200){
+                    dispatch(ACTIONS.BASE.openToast({types: 'error', text: '上传OSS失败'}));
+                    return;
+                  }
+                  callback && callback(json['Directory']);
+               })
+               .finally(() => {
+                  dispatch(ACTIONS.BASE.closeLoading());
+                })
+
         }
       }),
     )

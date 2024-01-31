@@ -29,7 +29,7 @@ export default {
   'base/get_select_bank_list': 'global_api/bank_list/select',
 
   // 获取验证码
-  ['base/get-verify-code']: 'portal/$',
+  ['base/get-verify-code']: '$/$',
 
   // 获取弹出广告
   ['base/get-popup-ad']: 'dialogs/get_dialogs',

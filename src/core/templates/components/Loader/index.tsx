@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-08-02 16:31:36
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/templates/components/Loader/index.tsx
  * @Description: 全局Loading 等
  */

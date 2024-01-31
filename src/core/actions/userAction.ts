@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2022-07-24 21:20:42
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/actions/userAction.ts
  * @Description: 用户相关的ACTIONS
  */
@@ -230,6 +230,7 @@ export const getAuthCode = ({ cb }: INTERFACE.IProps): INTERFACE.IAPI => ({
   type: TYPES.USER.GET_AUTH_CODE,
   payload: {
     key: 'user/get_uth_code',
+    loading: true,
   },
   cb,
 });
