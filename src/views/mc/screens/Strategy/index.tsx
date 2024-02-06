@@ -13,7 +13,6 @@ import { useRoute } from "@react-navigation/native";
 import WebView from "@core/templates/components/WebView";
 import usePublicState from '@core/hooks/usePublicState';
 import MyTouchableOpacity from "@core/templates/components/MyTouchableOpacity";
-import Title from "./components/Title";
 import News from "../Home/components/News";
 import Strategy from "../Home/components/Strategy";
 import MyVideo from '@core/templates/components/MyVideo';
@@ -31,8 +30,10 @@ export default () => {
   const newsCounseling = useSelector((state: any) => state.base.homeInfos.GeNewsCounseling?.Data);
   const [currentPlay, setCurrentPlay] = React.useState<{Video: string, Title: string}>();
 
+  console.log(ossDomain);
+
   return (
-    <ScrollView>
+    <View style={{flex: 1}}>
       <View style={{...styles.header, height: GS.mixin.rem(44) + insets.top}} >
         <Text style={{...styles.headerText, marginTop: insets.top}}>策略</Text>
       </View>
@@ -76,10 +77,8 @@ export default () => {
         }
         {
           currentTab === 1 &&
-          <View style={{height: webViewHeight, width: '100%'}}>
-            <ScrollView showsVerticalScrollIndicator={false} >
-              <Strategy type="list" />
-            </ScrollView>
+          <View style={{height: webViewHeight, width: '100%', flex: 1}}>
+            <Strategy type="list" />
           </View>
         }
         {
@@ -107,7 +106,7 @@ export default () => {
           close={() => setCurrentPlay(null)}
         />
       }
-    </ScrollView>
+    </View>
   )
 
 }

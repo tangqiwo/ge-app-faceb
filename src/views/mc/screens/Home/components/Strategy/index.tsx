@@ -7,7 +7,7 @@
  */
 import _ from 'lodash';
 import React from 'react';
-import { View, Text, Image, ScrollView, Dimensions } from 'react-native';
+import { View, Text, Image, ScrollView, Dimensions, FlatList, ActivityIndicator } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useRoute } from '@react-navigation/native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
@@ -20,15 +20,40 @@ interface StrategyItemProps {
 }
 export default ({ type }: StrategyItemProps) => {
 
-  const { navigation } = usePublicState();
+  const { navigation, dispatch, ACTIONS } = usePublicState();
   const [ activeSlide, setActiveSlide ] = React.useState(0);
   const GeTeacherPoint = useSelector((state: any) => state.base.homeInfos?.GeTeacherPoint);
   const data = GeTeacherPoint?.Data;
-  const list = GeTeacherPoint?.Datas;
+  const [list, setList] = React.useState<any[]>(GeTeacherPoint?.Datas);
+  const [max, setMax] = React.useState<any>(3);
+  const [isloading, setIsloading] = React.useState(false);
   const { width } = Dimensions.get('window');
 
   if(!data){
     return <></>
+  }
+
+  React.useEffect(() => {
+    if(type === 'list'){
+      dispatch(ACTIONS.BASE.commonRequest({
+        uri: 'transaction_lesson/get_teacher_point?PageSize=100&Page=1',
+        cb: (res: any) => {
+          setMax(3);
+          setList(res.Data.Data);
+        }
+      }))
+    }
+  }, [type])
+
+  const nextPage = () => {
+    if(isloading || max === list.length){
+      return
+    }
+    setIsloading(true);
+    _.delay(() => {
+      setIsloading(false);
+      setMax(max + 3);
+    }, 1000)
   }
 
   return (
@@ -58,12 +83,41 @@ export default ({ type }: StrategyItemProps) => {
       }
       {
         type === 'list' &&
-        list.map((item: any, index: number) =>
-          <StrategyItem data={item} key={index} />
-        )
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={_.take(list, max)}
+          renderItem={({ item }: any) => <StrategyItem data={item} />}
+          keyExtractor={(item: any) => item.Id}
+          onEndReached={nextPage}
+          ListFooterComponent={
+            max >= list.length ?
+              <ListFooterComponent type='end' /> :
+            isloading ?
+              <ListFooterComponent type='loading' /> :
+              <ListFooterComponent type='none' />
+          }
+        />
       }
     </View>
   )
+}
+
+const ListFooterComponent = ({ type }: { type?: 'end' | 'loading' | 'none' }) => {
+  if (type === 'loading') {
+    return (
+      <View style={styles.endView}>
+        <ActivityIndicator size="small" color={GS.var.colors.gray[400]} /><Text style={styles.endViewText}>加载更多中...</Text>
+      </View>
+    )
+  }
+  if (type === 'end') {
+    return (
+      <View style={styles.endView}>
+        <Text style={styles.endViewText}>已经到底啦！</Text>
+      </View>
+    )
+  }
+  return <></>
 }
 
 // 单个策略

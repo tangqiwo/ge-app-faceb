@@ -25,7 +25,6 @@ import AboutUs from '@this/screens/AboutUs';
 import Videos from '@this/screens/Videos';
 import TradeDetail from '@this/screens/TradeDetail';
 import TradeDone from '@this/screens/TradeDetail/Done';
-import BootScreen from '@this/screens/Home/components/BootScreen';
 import ProfileScreen from '@this/screens/Profile'
 import ScreenHOC from '@views/mc/shadow/ScreenHOC';
 import WebView from '@this/screens/WebFrame';
@@ -36,11 +35,12 @@ export default () => {
 
   return (
     <MainStack.Navigator
-      initialRouteName="Boot"
-      // initialRouteName="Login"
+      initialRouteName="Root"
+      // initialRouteName="DoneForRegister"
       screenOptions={{
         headerBackTitle: '返回',
         animation: 'slide_from_right',
+        animationDuration: 100,
         headerRight: () => (<HeaderRight marginRight={0} />),
         headerShown: false,
         headerStyle: {
@@ -48,7 +48,6 @@ export default () => {
         },
         headerTitleAlign: 'center'
       }}>
-      <MainStack.Screen name="Boot" component={ScreenHOC(BootScreen)} />
       <MainStack.Screen name="Root" component={ScreenHOC(RootNavigations)} />
       <MainStack.Screen name="Profile" component={ScreenHOC(ProfileScreen)} options={{headerShown: true, title: '个人信息'}} />
       <MainStack.Screen name='Login' component={ScreenHOC(LoginScreen)} />

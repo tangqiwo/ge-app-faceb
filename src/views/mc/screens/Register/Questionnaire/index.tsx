@@ -24,7 +24,7 @@ import { LS as styles, GS } from './style';
 
 export default () => {
 
-  const { rs, dispatch, ACTIONS, isFocused, navigation } = usePublicState();
+  const { rs, dispatch, ACTIONS, isFocused, navigation, ossDomain } = usePublicState();
   const insets = useSafeAreaInsets();
   const exitInfo = useSelector((state: any) => state.base.appDisplayConfig?.RegisterFailedDialog.Data[0]);
   const [ showAd, setShowAd ] = React.useState(false);
@@ -157,7 +157,7 @@ export default () => {
         <Text style={styles.rateText}>{`剩余${8 - (questionnaire.qas.filter(i => i || i===0).length + questionnaire.risk.filter(i => i).length)}题`}</Text>
       </View>
       <PopupAD visible={showAd} onClose={() => setShowAd(false)}>
-        <MyImage width={GS.mixin.rem(335)} source={{uri: rs.base.popupAd.CustomDomain + rs.base.popupAd.KYC?.Data[0]?.BannerImg}} />
+        <MyImage width={GS.mixin.rem(335)} source={{uri: ossDomain + rs.base.popupAd.KYC?.Data[0]?.BannerImg}} />
       </PopupAD>
       <ExitPopup
         display={showExitAd}
@@ -166,7 +166,7 @@ export default () => {
         cancelText="继续认证"
         text={JSON.parse(exitInfo?.Content)?.Content}
       >
-        <MyImage width={GS.mixin.rem(170)} source={{uri: rs.base.popupAd.CustomDomain + exitInfo.BannerImg}} />
+        <MyImage width={GS.mixin.rem(170)} source={{uri: ossDomain + exitInfo.BannerImg}} />
       </ExitPopup>
     </View>
   )

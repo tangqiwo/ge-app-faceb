@@ -7,40 +7,51 @@
  */
 import _ from 'lodash';
 import React from 'react';
-import { Image} from 'react-native';
+import { Image, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import Overlay from '@core/templates/components/Overlay';
 import usePublicState from '@core/hooks/usePublicState';
+import Overlay from '@core/templates/components/Overlay';
+import G from '@constants/global'
 
-export default () => {
+interface IProps {
+  close: () => void;
+}
+export default ({close}: IProps) => {
 
   const appDisplayConfig = useSelector((state: any) => state.base.appDisplayConfig);
-  const {ossDomain, navigation} = usePublicState();
+  const {ossDomain} = usePublicState();
   const ref = React.useRef<any>(null);
 
   React.useEffect(() => {
-    if(_.isEmpty(appDisplayConfig) || !ossDomain){
+    if(G.GET('INIT_BOOT_SCREEN')){
+      close();
+    }
+    return () => {
+      if(ref.current) clearTimeout(ref.current);
+    }
+  }, [])
+
+  React.useEffect(() => {
+    if(_.isEmpty(appDisplayConfig) || !ossDomain || G.GET('INIT_BOOT_SCREEN')){
       return;
     }
     if(ref.current) clearTimeout(ref.current);
-    ref.current = setTimeout(() => {
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'Root', screen: 'Home' }],
-      });
+    ref.current = _.delay(() => {
+      G.SET('INIT_BOOT_SCREEN', true);
+      close();
     }, 3000)
   }, [appDisplayConfig, ossDomain])
 
-  if(_.isEmpty(appDisplayConfig) || !ossDomain){
-    return <></>;
-  }
-
   return (
-    <Overlay zIndex={1000} display>
-      <Image
-        source={{uri: ossDomain + appDisplayConfig?.LaunchImages[0].Image}}
-        style={{width: '100%', height: '100%'}}
-      />
+    <Overlay display zIndex={100}>
+      {
+        !_.isEmpty(appDisplayConfig) &&
+        <Image
+          source={{uri: ossDomain + appDisplayConfig?.LaunchImages[0]?.Image}}
+          style={{width: '100%', height: '100%', flex: 1}}
+          resizeMode='cover'
+        />
+      }
     </Overlay>
   )
 }

@@ -40,6 +40,12 @@ export default () => {
   const [ showPassword, setShowPassword ] = React.useState(false);
 
   React.useEffect(() => {
+    if(showPassword){
+      setPassword('');
+    }
+  }, [showPassword])
+
+  React.useEffect(() => {
     if(route.params?.tab){
       setCurrentTab(route.params.tab);
     }

@@ -2,8 +2,8 @@
  * @Description: 请求中间件
  * @Author: Galen.GE
  * @Date: 2019-12-19 18:03:47
- * @LastEditTime: 2023-11-15 15:36:18
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditTime: 2024-02-05 16:03:50
+ * @LastEditors: Galen.GE
  */
 import _ from 'lodash';
 import { Dispatch } from 'redux';
@@ -108,17 +108,19 @@ export class HTTP {
       'X-Api-Token'     : storage.get('AUTH'),
       'X-Country'       : 'China',
       'X-Lang'          : 'zh-CN',
-      'X-Origin'        : ''
+      'X-Origin'        : '',
+      'X-Channel-Code'  : CONFIGS.CHANNEL_CODE
     }
+    const dataBody = this.request.method === 'GET' ? {} : {data: requestData};
     axios(_.merge(
       {
         url: `${CONFIGS.API}/${this.request.url}`,
         method: this.request.method,
-        params: this.request.method === 'GET' && this.request.data,
+        params: this.request.method === 'GET' && (this.request.data || {}),
         headers,
         timeout: this.timeout * 1000,
       },
-      requestData && { data: requestData },
+      dataBody,
     ))
     .then((res: any) => res.data)
     .then(this.resCheck)

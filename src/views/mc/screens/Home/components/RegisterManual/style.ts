@@ -72,6 +72,38 @@ export const LS = StyleSheet.create({
   },
   contentTextContent: {
     height: G.mixin.rem(100),
+  },
+  tradeContent: {
+    width: G.mixin.rem(295),
+    height: G.mixin.rem(320),
+    borderRadius: G.mixin.rem(10),
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  tradeTitle: {
+    fontSize: G.mixin.rem(20),
+    fontWeight: '600',
+  },
+  tradeImage: {
+    width: G.mixin.rem(167),
+    height: G.mixin.rem(134),
+    marginTop: G.mixin.rem(10),
+    marginBottom: G.mixin.rem(10),
+  },
+  tradeText: {
+    mrginTop: G.mixin.rem(5),
+    fontSize: G.mixin.rem(15),
+  },
+  tradeButton: {
+    width: G.mixin.rem(200),
+    height: G.mixin.rem(40),
+    marginTop: G.mixin.rem(20),
+  },
+  close: {
+    width: G.mixin.rem(35),
+    height: G.mixin.rem(35),
+    marginTop: G.mixin.rem(20),
   }
 })
 

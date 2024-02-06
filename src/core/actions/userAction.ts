@@ -179,6 +179,7 @@ export const updateAvatar = ({ Avatar, cb }: { Avatar: string; cb: Function }): 
   payload: {
     key: 'user/update_avatar',
     method: HTTP.METHODS.POST,
+    loading: true,
     data: {
       Avatar,
     },
@@ -192,6 +193,7 @@ export const updateNickname = ({ Nickname, cb }: { Nickname: string; cb: Functio
   payload: {
     key: 'user/update_nickname',
     method: HTTP.METHODS.POST,
+    loading: true,
     data: {
       Nickname,
     },
@@ -205,6 +207,7 @@ export const updateEmail = ({ Email, cb }: { Email: string; cb: Function }): INT
   payload: {
     key: 'user/update_email',
     method: HTTP.METHODS.POST,
+    loading: true,
     data: {
       Email,
     },
@@ -218,6 +221,7 @@ export const updateAddress = ({ Address, cb }: { Address: string; cb: Function }
   payload: {
     key: 'user/update_address',
     method: HTTP.METHODS.POST,
+    loading: true,
     data: {
       Address,
     },
@@ -250,6 +254,7 @@ export const updateGeUserPassword = ({
   payload: {
     key: 'user/update_ge_user_password',
     method: HTTP.METHODS.POST,
+    loading: true,
     data,
   },
   cb,
@@ -270,6 +275,7 @@ export const updateMT4Password = ({
   payload: {
     key: 'user/update_mt4_password',
     method: HTTP.METHODS.POST,
+    loading: true,
     data,
   },
   cb,

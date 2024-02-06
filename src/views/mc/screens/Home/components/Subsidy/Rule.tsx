@@ -12,6 +12,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import Popup, {PopupContent} from '@core/templates/components/Popup';
 import { WebView } from 'react-native-webview';
+import Rule from './rule';
 
 interface IProps {
   close: () => void;
@@ -27,7 +28,8 @@ export default ({close, start, end}: IProps) => {
       <PopupContent isFull>
         <WebView
           style={{ flex: 1 }}
-          source={require(`./rule.html`)}
+          source={{html: Rule}}
+          allowFileAccess={true}
           injectedJavaScriptBeforeContentLoaded={injectedJavaScript}
         />
       </PopupContent>

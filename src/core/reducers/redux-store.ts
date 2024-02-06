@@ -2,7 +2,7 @@
  * @Description: REDUX 初始化状态
  * @Author: Galen.GE
  * @Date: 2019-12-19 16:20:56
- * @LastEditTime: 2023-12-27 10:36:36
+ * @LastEditTime: 2024-02-05 16:17:54
  * @LastEditors: Galen.GE
  */
 import { UserInfo, RegisterGuide } from '@core/schemas/interface';
@@ -33,7 +33,15 @@ const user: INTERFACE.IUser = {
   info:  {} as UserInfo,
   registerProgress: {
     code: undefined,
-    data: {},
+    data: {
+      Mt4Id: 1231231,
+      Password: 'asfasf',
+      Server: 'sfsfsdfs',
+      tips: {
+        Url: 'http://www.baidu.com',
+        Content: 'as'
+      }
+    },
     desc: '',
   },
   leaveModal: { display: false, content: '', img: '', callback: null },

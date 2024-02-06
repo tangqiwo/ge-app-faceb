@@ -7,6 +7,7 @@
  */
 import _ from 'lodash';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { View, Image, Text, TouchableWithoutFeedback } from 'react-native';
 import { Input } from '@ui-base/index';
 import Selector from '@core/templates/components/Base/Selector';
@@ -14,19 +15,22 @@ import BackgroundView from "@core/templates/components/BackgroundView";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import usePublicState from '@core/hooks/usePublicState';
 import usePopups from '@core/hooks/componentController/usePopups';
+import MyImage from '@core/templates/components/Base/Image';
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 import useAds from '@core/hooks/useAds';
 import useRegister from '@core/hooks/useRegister';
+import ExitPopup from '@this/components/ExitPopup';
 import Icon from '@icon/index';
 import { LS as styles, GS } from './style';
-
 
 export default () => {
 
   const insets = useSafeAreaInsets();
-  const { navigation } = usePublicState();
+  const { rs, navigation, ossDomain } = usePublicState();
+  const exitInfo = useSelector((state: any) => state.base.appDisplayConfig?.RegisterFailedDialog.Data[0]);
   const { openPopups } = usePopups();
   const { RegisterPageAd } = useAds();
+  const [ showExitAd, setShowExitAd ] = React.useState(false);
   const textInputRef = React.useRef(null);
 
   const {
@@ -43,7 +47,7 @@ export default () => {
     <View>
       <BackgroundView source={require('./i/bg.png')} style={{...styles.header}} resizeMode="contain" >
         <View style={{...styles.titleView, marginTop: insets.top}}>
-          <MyTouchableOpacity style={styles.goBack} onPress={() => navigation.goBack()}>
+          <MyTouchableOpacity style={styles.goBack} onPress={() => setShowExitAd(true)}>
             <Icon.Font style={styles.goBackIcon} type={Icon.T.SimpleLineIcons} name='arrow-left' />
           </MyTouchableOpacity>
           <Text style={styles.titleText}>开户</Text>
@@ -123,6 +127,15 @@ export default () => {
           <Image source={{uri: RegisterPageAd.Image}} style={styles.banner} />
         </TouchableWithoutFeedback>
       }
+      <ExitPopup
+        display={showExitAd}
+        close={() => setShowExitAd(false)}
+        exit={() => navigation.goBack()}
+        cancelText="继续认证"
+        text={JSON.parse(exitInfo?.Content)?.Content}
+      >
+        <MyImage width={GS.mixin.rem(170)} source={{uri: ossDomain + exitInfo.BannerImg}} />
+      </ExitPopup>
     </View>
   )
 

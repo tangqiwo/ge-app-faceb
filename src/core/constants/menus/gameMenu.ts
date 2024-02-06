@@ -10,7 +10,7 @@ import _ from 'lodash';
 
 export const GAMES: any = {
   ['im']: {
-    name: '巨像金业',
+    name: '巨象金业',
     alias: 'IM',
     key: 'im',
     forward: {
@@ -20,7 +20,7 @@ export const GAMES: any = {
     }
   },
   ['fbxc']: {
-    name: '巨像金业',
+    name: '巨象金业',
     alias: 'FBXC',
     key: 'fbxc',
     forward: {

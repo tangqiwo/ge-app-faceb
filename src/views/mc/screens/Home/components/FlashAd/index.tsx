@@ -18,12 +18,15 @@ import useRouteWebCommon from '@core/hooks/useRouteWebCommon';
 import G from '@constants/global';
 import { GS, LS as styles } from './style';
 
-export default (() => {
+interface IProps {
+  showPopup: boolean;
+  setShowPopup: (show: boolean) => void;
+}
+export default (({showPopup, setShowPopup}: IProps) => {
 
   const { forward } = useRouteWebCommon();
   const { rs, ossDomain, infos, navigation, isFocused } = usePublicState();
   const [ content, setContent ] = React.useState<any>(null);
-  const [ showPopup, setShowPopup ] = React.useState<boolean>(false);
   const [ countdown, setCountdown ] = React.useState<any>({
     days: '00',
     hours: '00',
@@ -129,7 +132,10 @@ export default (() => {
       navigation.navigate('Register');
       return;
     }
-    console.log(content.Data);
+    if(content.Data.EnableNative){
+      navigation.navigate('Register');
+      return;
+    }
     forward({
       type: 'origin',
       uri: content.Data.RedirectUrl,
@@ -157,7 +163,9 @@ export default (() => {
               <Text style={styles.countdownViewText}>{countdown.seconds}</Text>
             </BackgroundView>
           </View>
-          <Image source={{uri: ossDomain + content.BannerImg}} style={styles.adPic} />
+          <MyTouchableOpacity onPress={handleClick}>
+            <Image source={{uri: ossDomain + content.BannerImg}} style={styles.adPic} />
+          </MyTouchableOpacity>
           <View style={styles.adDesc}>
             <Text style={styles.adDescText}>
               已有<Text style={{color: GS.var.colors.red[500]}}>{content.Data.Participant}</Text>位客户成功抢到

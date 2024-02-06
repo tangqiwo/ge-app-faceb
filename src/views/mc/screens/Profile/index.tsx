@@ -5,7 +5,7 @@
  * @FilePath: /app_face_b/src/views/mc/screens/Profile/index.tsx
  * @Description:
  */
-import _ from 'lodash';
+import _, { set } from 'lodash';
 import { UserInfo } from '@core/schemas/interface';
 import React from 'react';
 import { View, Text, ScrollView, Image } from 'react-native';
@@ -28,7 +28,14 @@ export default () => {
   const { forward } = useRouteWebCommon();
   const { navigation, customerService} = usePublicState();
   const { getMT4ValidateCode, countDown } = useValidateCode({});
-  const { updateAvatar } = useProfile();
+  const {
+    updateAvatar,
+    updateNickName,
+    updateEmail,
+    updateAddress,
+    updatePassword,
+    updateMt4Password
+  } = useProfile();
   const registerProgressCode = useSelector((state: any) => state.user.registerProgress.code);
   const info: UserInfo = useSelector((state: any) => state.user.info);
   const [showSelectAvatar, setShowSelectAvatar] = React.useState(false);
@@ -73,7 +80,34 @@ export default () => {
   }
 
   const handleSubmitEdit = () => {
-
+    const callback = () => {
+      setShowEdit(null);
+    }
+    if(showEdit === 'nickname'){
+      updateNickName(editPayload.nickname, callback);
+    }
+    if(showEdit === 'email'){
+      updateEmail(editPayload.email, callback);
+    }
+    if(showEdit === 'address'){
+      updateAddress(editPayload.address, callback);
+    }
+    if(showEdit === 'pass'){
+      updatePassword({
+        oldPassword: editPayload.oldPassword,
+        newPassword: editPayload.newPassword,
+        confirmPassword: editPayload.confirmPassword,
+        callback
+      });
+    };
+    if(showEdit === 'mt4-pass'){
+      updateMt4Password({
+        newPassword: editPayload.newPassword,
+        confirmPassword: editPayload.confirmPassword,
+        code: editPayload.authCode,
+        callback
+      });
+    }
   }
 
   if(registerProgressCode === Enum.user.ERegisterProgress.SUPPLEMENTARY_INFORMATION){
@@ -230,8 +264,8 @@ export default () => {
                       autoComplete="off"
                       placeholder="旧会员中心密码"
                       style={styles.inputText}
-                      value={editPayload.address}
-                      onChangeText={(value: string) => setEditPayload({...editPayload, address: value})}
+                      value={editPayload.oldPassword}
+                      onChangeText={(value: string) => setEditPayload({...editPayload, oldPassword: value})}
                       type={showOldPass ? 'text' : 'password'}
                     />
                     <MyTouchableOpacity style={{marginLeft: 'auto'}} onPress={() => setShowOldPass(!showOldPass)}>

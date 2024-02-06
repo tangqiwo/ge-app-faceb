@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>巨像金业</string>
+	<string>巨象金业</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -20,8 +20,6 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>我们需要您的同意来访问相册，以便您可以选择图片。</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -46,6 +44,8 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>我们需要您的同意来访问相册，以便您可以选择图片。</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

@@ -25,7 +25,13 @@ export const LS = StyleSheet.create({
     justifyContent: 'center',
   },
   textContent: {
-    marginTop: G.mixin.rem(10),
+    marginTop: G.mixin.rem(20),
+    marginBottom: G.mixin.rem(10),
+  },
+  contentText: {
+    fontSize: G.mixin.rem(15),
+    textAlign: 'center',
+    lineHeight: G.mixin.rem(20),
   },
   actions: {
     marginTop: G.mixin.rem(10),
@@ -33,8 +39,8 @@ export const LS = StyleSheet.create({
     justifyContent: 'space-around',
   },
   button: {
-    height: G.mixin.rem(30),
-    width: G.mixin.rem(140),
+    height: G.mixin.rem(40),
+    width: G.mixin.rem(130),
     backgroundColor: '#FFC600',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -42,8 +48,8 @@ export const LS = StyleSheet.create({
     borderRadius: G.mixin.rem(30),
   },
   cancelButton: {
-    height: G.mixin.rem(30),
-    width: G.mixin.rem(140),
+    height: G.mixin.rem(40),
+    width: G.mixin.rem(130),
     backgroundColor: '#ccc',
     flexDirection: 'row',
     justifyContent: 'center',

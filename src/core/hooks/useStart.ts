@@ -5,10 +5,9 @@
  * @FilePath: /app_face_b/src/core/hooks/useStart.ts
  * @Description: 初始化
  */
-
 import _ from 'lodash'
 import React from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import store from '@helpers/storage';
 import DeviceInfo from 'react-native-device-info'
@@ -20,9 +19,10 @@ const { width, height } = Dimensions.get('window');
 
 export default () => {
 
-  const { dispatch, ACTIONS, infos } = usePublicState();
+  const { dispatch, ACTIONS } = usePublicState();
   const [ cacheInit, SetCacheInit ] = React.useState(false);
   const insets = useSafeAreaInsets();
+
 
   // 框架进入时，初始化缓存，环境变量等
   const init = async () => {

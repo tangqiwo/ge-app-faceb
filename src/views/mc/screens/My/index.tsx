@@ -66,7 +66,7 @@ export default () => {
               !infos.RealName &&
               <View style={{flexDirection: 'row', alignItems: 'center', marginTop: GS.mixin.rem(10)}}>
                 <Text style={{fontSize: GS.mixin.rem(14)}}>
-                  开户立即领取88元红包
+                  {rs.base.appDisplayConfig.MemberPageInfo?.NewUserTip}
                 </Text>
                 <BackgroundView source={require('./i/icon-new.png')} style={styles.tips}>
                   <Text style={{color: 'white', marginLeft: GS.mixin.rem(4)}}>
@@ -143,7 +143,16 @@ export default () => {
       }
       <View style={styles.adView}>
         <Image source={require('./i/ad.png')} style={{width: GS.mixin.rem(24), height: GS.mixin.rem(24)}} />
-        <Text style={styles.adViewText}>最高$30/手点差优惠 全行至优成本</Text>
+        <Text
+          style={styles.adViewText}
+          onPress={() => forward({
+            title: rs.base.appDisplayConfig.MemberPageInfo?.SpreadConfig?.Title,
+            type: 'origin',
+            uri: rs.base.appDisplayConfig.MemberPageInfo?.SpreadConfig?.JumpLink
+          })}
+        >
+          {rs.base.appDisplayConfig.MemberPageInfo?.SpreadConfig?.Title}
+        </Text>
       </View>
       <View style={styles.menusView}>
         {

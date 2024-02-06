@@ -24,7 +24,7 @@ import { useSelector } from 'react-redux';
 
 export default () => {
 
-  const {rs, isFocused, navigation, dispatch, ACTIONS} = usePublicState();
+  const {rs, isFocused, navigation, dispatch, ACTIONS, ossDomain} = usePublicState();
   const insets = useSafeAreaInsets();
   const { LoginPageAd } = useAds();
   const {
@@ -118,7 +118,7 @@ export default () => {
         </TouchableWithoutFeedback>
       }
       <PopupAD visible={showAd} onClose={() => setShowAd(false)}>
-        <MyImage width={GS.mixin.rem(335)} source={{uri: rs.base.popupAd.CustomDomain + rs.base.popupAd.CreateUser?.Data[0]?.BannerImg}} />
+        <MyImage width={GS.mixin.rem(335)} source={{uri: ossDomain + rs.base.popupAd.CreateUser?.Data[0]?.BannerImg}} />
       </PopupAD>
       <ExitPopup
         display={showExitAd}
@@ -127,7 +127,7 @@ export default () => {
         cancelText="继续认证"
         text={JSON.parse(exitInfo?.Content)?.Content}
       >
-        <MyImage width={GS.mixin.rem(170)} source={{uri: rs.base.popupAd.CustomDomain + exitInfo.BannerImg}} />
+        <MyImage width={GS.mixin.rem(170)} source={{uri: ossDomain + exitInfo.BannerImg}} />
       </ExitPopup>
     </View>
   )

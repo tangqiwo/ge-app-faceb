@@ -12,8 +12,11 @@ import usePublicState from '@core/hooks/usePublicState';
 import usePromotion from '@core/hooks/usePromotion';
 import useAuth from '@hooks/useAuth';
 import useRouteWebCommon, { FORWARD_TYPES} from '@core/hooks/useRouteWebCommon';
+import Overlay from '@core/templates/components/Overlay';
+import Button from '@this/components/Button';
 import ENUM from '@core/constants/enum';
 import { LS as styles, GS } from './style';
+import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 
 export default () => {
 
@@ -26,6 +29,7 @@ export default () => {
   const [ isShow, setIsShow ] = React.useState(true);
   const [ progressData, setProgressData ] = React.useState<any>({});
   const [ mainId, setMainId ] = React.useState<any>();
+  const [ showGoTrade, setShowGoTrade ] = React.useState(false);
 
   React.useEffect(() => {
     if(!isLogined){
@@ -82,11 +86,11 @@ export default () => {
 
   // 去交易
   const goTrade = requestAuth(() => {
-    if(!progressData.stateOfFirstDeposit){
-      goDeposit();
-      return;
-    }
-    dispatch(ACTIONS.BASE.openToast({ text: '暂未开放'}))
+    // if(!progressData.stateOfFirstDeposit){
+    //   goDeposit();
+    //   return;
+    // }
+    setShowGoTrade(true);
   })
 
 
@@ -163,6 +167,27 @@ export default () => {
           </View>
         </View>
       </View>
+      {
+        showGoTrade &&
+        <Overlay close={() => setShowGoTrade(false)} display>
+          <View style={{alignItems: 'center'}}>
+            <View style={styles.tradeContent}>
+              <Text style={styles.tradeTitle}>您已完成了0.7手</Text>
+              <Image source={require('./i/trade.png')} style={styles.tradeImage} />
+              <Text style={styles.tradeText}>继续交易0.3手</Text>
+              <Text style={styles.tradeText}>即可获得30元红包</Text>
+              <Button
+                text="我知道了"
+                style={styles.tradeButton}
+                onPress={() => { setShowGoTrade(false); navigation.navigate('Trade')}}
+              />
+            </View>
+            <MyTouchableOpacity onPress={() => setShowGoTrade(false)}>
+              <Image source={require('./i/close.png')} style={styles.close} />
+            </MyTouchableOpacity>
+          </View>
+        </Overlay>
+      }
     </View>
   )
 

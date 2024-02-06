@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-25 14:26:17
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/constants/global.ts
  * @Description: 全局变量，所有的全局变量都应该在此！
  * 全局变量由 GLOBAL 关键字支持，但需要再次转换之后才可以使用，不可在工程中直接使用 GLOBAL 关键字
@@ -21,6 +21,10 @@ type TKeys =  'API'                         // API
             | 'TOP_HEIGHT'                  // 顶部高度
             | 'SHOW_INIT_ACCOUNT'           // 是否停止显示初始化账号
             | 'HIDDEN_POPIP_ADVERT'         // 是否显示弹窗广告
+            | 'INIT_BOOT_SCREEN'            // 是否初始化启动屏幕
+            | 'INIT_BOOT_BOTTOM_AD'         // 是否初始化启动底部广告
+            | 'INIT_HOME_AD_UNLOGIN'        // 是否初始化首页未登录广告
+            | 'INIT_HOME_AD_LOGIN'          // 是否初始化首页登录广告
 
 // 获取全局变量
 const GET = (key: string): any => {

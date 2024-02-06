@@ -14,7 +14,8 @@ export const LS = {
   main: StyleSheet.create({
     container: {
       backgroundColor: '#F0F0F0',
-      marginBottom: G.mixin.rem(70)
+      marginBottom: G.mixin.rem(70),
+      position: 'relative',
     },
     buttons: {
       marginTop: G.mixin.rem(15),
@@ -41,6 +42,26 @@ export const LS = {
       color: '#E7CC8F',
       marginLeft: G.mixin.rem(5),
       fontSize: G.mixin.rem(15),
+    },
+    bottomAd: {
+      position: 'absolute',
+      zIndex: 1,
+      width: '100%',
+      bottom: G.mixin.rem(70),
+      left: 0,
+    },
+    bottomAdClose: {
+      position: 'absolute',
+      backgroundColor: '#dedede',
+      top: G.mixin.rem(22),
+      right: G.mixin.rem(16),
+      width: G.mixin.rem(20),
+      height: G.mixin.rem(20),
+      borderTopRightRadius: G.mixin.rem(10),
+      borderBottomLeftRadius: G.mixin.rem(10),
+      zIndex: 2,
+      alignItems: 'center',
+      justifyContent: 'center',
     }
   }),
   contents: StyleSheet.create({

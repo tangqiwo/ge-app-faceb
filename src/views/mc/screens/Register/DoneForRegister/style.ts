@@ -1,8 +1,8 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
- * @LastEditors: ammo@xyzzdev.com
- * @FilePath: /app_face_b/src/views/mc/screens/DoneForRegister/style.ts
+ * @LastEditors: Galen.GE
+ * @FilePath: /app_face_b/src/views/mc/screens/Register/DoneForRegister/style.ts
  * @Description:
  */
 
@@ -125,7 +125,9 @@ export const LS = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#FFC600',
-    borderRadius: G.mixin.rem(50),
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   submitText: {
     fontSize: G.mixin.rem(15),
@@ -155,14 +157,14 @@ export const LS = StyleSheet.create({
     flexWrap: 'wrap',
   },
   tipImage: {
-    width: G.mixin.rem(30),
-    height: G.mixin.rem(30),
+    width: G.mixin.rem(20),
+    height: G.mixin.rem(20),
   },
   tipsText: {
     fontSize: G.mixin.rem(15),
-    width: '100%',
-    color: '#00A010',
+    marginLeft: G.mixin.rem(5),
     marginTop: G.mixin.rem(10),
+    fontWeight: '600',
     textAlign: 'center',
   },
   content: {
@@ -222,6 +224,47 @@ export const LS = StyleSheet.create({
   },
   adText2: {
     color: G.var.colors.red[500],
+  },
+  desc: {
+    marginTop: G.mixin.rem(10),
+    fontSize: G.mixin.rem(16),
+    color: '#666666',
+    lineHeight: G.mixin.rem(24),
+  },
+  arrge: {
+    marginTop: G.mixin.rem(10),
+  },
+  arrgeView: {
+    flexDirection: 'row',
+    marginBottom: G.mixin.rem(10),
+    alignItems: 'center',
+  },
+  arrgeText: {
+    color: '#979998',
+    fontSize: G.mixin.rem(12),
+  },
+  adArrge: {
+    width: '100%',
+    height: G.mixin.rem(70),
+    marginTop: G.mixin.rem(20),
+    marginBottom: G.mixin.rem(20),
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    color: '#FFC600'
+  },
+  actions: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    gap: G.mixin.rem(10),
+    marginTop: G.mixin.rem(20),
+  },
+  cs: {
+    backgroundColor: '#dedede',
+    borderWidth: 1,
+    borderColor: '#dedede',
+  },
+  actionButton: {
+    width: '45%',
   }
 })
 

@@ -134,11 +134,11 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.ge.mc"
+        applicationId "com.ge.mc.pre"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "XCJY-1.0.0-PRE"
+        versionName "BATA-1.2-PRE"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
         // ndk {
         //     abiFilters (*reactNativeArchitectures())

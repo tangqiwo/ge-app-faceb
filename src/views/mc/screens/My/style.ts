@@ -63,7 +63,7 @@ export const LS = StyleSheet.create({
     alignItems: 'center',
   },
   infosView: {
-    height: G.mixin.rem(159),
+    height: G.mixin.rem(170),
     marginTop: G.mixin.rem(-60),
     backgroundColor: '#FFFFFF',
     marginLeft: G.mixin.rem(14),

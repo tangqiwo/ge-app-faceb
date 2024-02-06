@@ -20,6 +20,8 @@ export const LS = StyleSheet.create({
   },
   noPadding: {
     ...G.mixin.padding(0,0,0,0),
+    marginTop: 0,
+    marginBottom: 0,
   },
   title: {
     marginBottom: G.mixin.rem(15),
@@ -127,7 +129,20 @@ export const LS = StyleSheet.create({
     fontSize: G.mixin.rem(14),
     lineHeight: G.mixin.rem(20),
     marginTop: G.mixin.rem(10),
-  }
+  },
+  endView: {
+    width: '100%',
+    height: G.mixin.rem(50),
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  endViewText: {
+    fontSize: G.mixin.rem(12),
+    color: G.var.colors.gray[400],
+    marginLeft: 5,
+    marginRight: 5,
+  },
 })
 
 // 固定导出

@@ -12,6 +12,7 @@ import { useBackHandler } from '@react-native-community/hooks'
 import SplashScreen from 'react-native-splash-screen';
 import { Image, ImageBackground, Platform } from 'react-native';
 import usePublicState from '@core/hooks/usePublicState';
+import BootScreen from '@this/screens/Home/components/BootScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home';
 import Quotes from '../screens/Quotes';
@@ -20,13 +21,14 @@ import Strategy from '@this/screens/Strategy';
 import { HeaderRight } from './AppNavigations';
 import My from '../screens/My';
 import { isActiveAnimation } from '@helpers/unit';
-import { GS, LS } from './style';
+ import { GS, LS } from './style';
 
 const Tab = createBottomTabNavigator();
 
 export default () => {
 
   const { navigation, infos } = usePublicState();
+  const [ showBoot, setShowBoot ] = React.useState(true);
   const isFocused = useIsFocused();
 
   React.useEffect(() => {
@@ -50,6 +52,12 @@ export default () => {
       }
       navigation.navigate('Trade');
     }
+  }
+
+  if(showBoot){
+    return (
+      <BootScreen close={() => setShowBoot(false)}/>
+    )
   }
 
   return (
