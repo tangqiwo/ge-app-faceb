@@ -19,9 +19,15 @@ export default () => {
 
   const { dispatch, ACTIONS, navigation } = usePublicState();
   const mt4Info = useSelector((state: any) => state.trade.mt4Info);
-  const { messages, socket } = useWebsocket({url: mt4Info?.Url, protocol: 'mt4', closeCallback: () => {
+  const [scoketUrl, setScoketUrl] = React.useState('');
+  const { messages, socket } = useWebsocket({url: scoketUrl, protocol: 'mt4', closeCallback: () => {
     const pass = store.get('MT4-PASS');
     if(pass){
+      setScoketUrl('');
+      if(isFocused){
+        dispatch(ACTIONS.BASE.openToast({text: 'MT4连接已断开，正在重新连接'}));
+        dispatch(ACTIONS.BASE.openLoading({text: 'MT4连接中'}));
+      }
       authToMt4({password: pass, callback: () => {}});
     }else{
       dispatch(ACTIONS.BASE.openToast({text: 'MT4密码已过期，请重新登录'}));
@@ -43,33 +49,31 @@ export default () => {
       return;
     }
     try{
-      requestAnimationFrame(() => {
-        const res = toUpperCaseObj(JSON.parse(messages))
-        if(res.Type === 'Quote') {
-          handleQuotes(res);
-          return;
-        }
-        if(res.Type === 'OrderProfit') {
-          if(!isFocused) return;
-          handleOrders(res, false);
-          return;
-        }
-        if(res.Type == 'OrderUpdate'){
-          handleOrders(res, true);
-          return;
-        }
-        if(res.Type == 'QuoteHistory'){
-          if(res.Data?.Bars?.length < 10) return;
-          const data = res.Data?.Bars.map((i: any) => ({
-            ...i,
-            Close: Number(i.Close.toFixed(2)),
-            High: Number(i.High.toFixed(2)),
-            Low: Number(i.Low.toFixed(2)),
-            Open: Number(i.Open.toFixed(2)),
-          }))
-          dispatch(ACTIONS.TRADE.setKlineData({data}));
-        }
-      })
+      const res = toUpperCaseObj(JSON.parse(messages))
+      if(res.Type === 'Quote') {
+        handleQuotes(res);
+        return;
+      }
+      if(res.Type === 'OrderProfit') {
+        if(!isFocused) return;
+        handleOrders(res, false);
+        return;
+      }
+      if(res.Type == 'OrderUpdate'){
+        handleOrders(res, true);
+        return;
+      }
+      if(res.Type == 'QuoteHistory'){
+        if(res.Data?.Bars?.length < 10) return;
+        const data = res.Data?.Bars.map((i: any) => ({
+          ...i,
+          Close: Number(i.Close.toFixed(2)),
+          High: Number(i.High.toFixed(2)),
+          Low: Number(i.Low.toFixed(2)),
+          Open: Number(i.Open.toFixed(2)),
+        }))
+        dispatch(ACTIONS.TRADE.setKlineData({data}));
+      }
     }
     catch(e){
       console.log(e);
@@ -130,11 +134,14 @@ export default () => {
       return;
     }
     dispatch(ACTIONS.TRADE.connetMt4({ data: { password }, cb: (res: any) => {
+      dispatch(ACTIONS.BASE.closeLoading());
       if(res.Code !== 0){
         store.remove('MT4-PASS');
         dispatch(ACTIONS.BASE.openToast({ text: res.Desc }));
         return;
       }
+      console.log(res);
+      setScoketUrl(res.Data.Url)
       callback(res);
     }}))
   }, [])

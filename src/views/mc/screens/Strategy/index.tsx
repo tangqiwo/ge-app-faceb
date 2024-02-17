@@ -30,8 +30,6 @@ export default () => {
   const newsCounseling = useSelector((state: any) => state.base.homeInfos.GeNewsCounseling?.Data);
   const [currentPlay, setCurrentPlay] = React.useState<{Video: string, Title: string}>();
 
-  console.log(ossDomain);
-
   return (
     <View style={{flex: 1}}>
       <View style={{...styles.header, height: GS.mixin.rem(44) + insets.top}} >

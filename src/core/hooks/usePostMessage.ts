@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-09-14 14:20:14
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/hooks/usePostMessage.ts
  * @Description: web 与 RN 的通讯
  */
@@ -24,7 +24,20 @@ export default () => {
     }
     const { type, params } = data;
     switch(type){
-
+      case TYPES.NAVIGATE: {
+        dispatch(ACTIONS.BASE.closeWebFrame());
+        navigation.navigate(params.name, params.params)
+      }
+      break;
+      case TYPES.ALERT: {
+        const { title, content } = params;
+        dispatch(ACTIONS.BASE.openAlert({title, content}))
+      }
+      break;
+      case TYPES.OPEN_WEBSITE: {
+        Linking.openURL(params.url);
+      }
+      break;
     }
   }, [])
 
@@ -36,4 +49,13 @@ export default () => {
 
 
 const TYPES = {
+  LOGOUT: 'LOGOUT',
+  NAVIGATE: 'NAVIGATE',
+  ALERT: 'ALERT',
+  OPEN_WEBSITE: 'OPEN_WEBSITE',
+  OPEN_DEPOSIT: 'OPEN_DEPOSIT',
+  OPEN_BINDCARD: 'OPEN_BINDCARD',
+  OPEN_BINDUSDT: 'OPEN_BINDUSDT',
+  OPEN_BINDPHONE: 'OPEN_BINDPHONE',
+  OPEN_BINDEBPAY: 'OPEN_BINDEBPAY'
 }

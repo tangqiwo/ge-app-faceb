@@ -12,7 +12,7 @@ import useRouteWebCommon from "./useRouteWebCommon";
 
 export default () => {
 
-  const { ossDomain } = usePublicState();
+  const { ossDomain, navigation } = usePublicState();
   const { forward } = useRouteWebCommon();
   const LoginPageAd = useSelector((state: any) => state.base.appDisplayConfig?.LoginPageAd?.Data?.[0]);
   const RegisterPageAd = useSelector((state: any) => state.base.appDisplayConfig?.RegisterPageAd?.Data?.[0]);
@@ -28,7 +28,13 @@ export default () => {
       Image: ossDomain + LoginPageAd.BannerImg,
       Content,
       Name: LoginPageAd.Name,
-      OnPress: () => forward({ type: 'origin', title: LoginPageAd.Name, uri: Content.RedirectUrl })
+      OnPress: () => {
+        if(Content.EnableNative){
+          navigation.navigate('Register');
+          return;
+        }
+        forward({ type: 'origin', title: LoginPageAd.Name, uri: Content.RedirectUrl })
+      }
     });
   }, [LoginPageAd])
 
@@ -40,7 +46,9 @@ export default () => {
       Image: ossDomain + RegisterPageAd.BannerImg,
       Content: RegisterPageAd.Content,
       Name: RegisterPageAd.Name,
-      OnPress: () => forward({ type: 'origin', title: RegisterPageAd.Name, uri: RegisterPageAd.Content })
+      OnPress: () => {
+        forward({ type: 'origin', title: RegisterPageAd.Name, uri: RegisterPageAd.Content })
+      }
     });
   }, [RegisterPageAd])
 

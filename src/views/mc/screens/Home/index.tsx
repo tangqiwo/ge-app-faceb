@@ -5,9 +5,9 @@
  * @FilePath: /app_face_b/src/views/mc/screens/Home/index.tsx
  * @Description: 首页
  */
-import _ from 'lodash';
+import _, { set } from 'lodash';
 import React from 'react';
-import { ScrollView, View, Text, Image } from 'react-native';
+import { ScrollView, View, Text, Image, TouchableWithoutFeedback } from 'react-native';
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 import FlashAd from './components/FlashAd';
 import Banner from './components/Banner';
@@ -35,11 +35,13 @@ export default () => {
 
   const isFocused = useIsFocused();
   const { isLogined, navigation, dispatch, ACTIONS, ossDomain } = usePublicState();
-  const BottomDialog = useSelector((state: any) => state.base.appDisplayConfig?.BottomDialog?.Data);
+  const BottomDialogNoAuth = useSelector((state: any) => state.base.appDisplayConfig?.BottomDialog?.Data);
+  const BottomDialogAuth = useSelector((state: any) => state.base.popupAdvert?.BottomDialog?.Data);
   const { forward } = useRouteWebCommon();;
   const [showBottonAd, setShowBottonAd] = React.useState(!G.GET('INIT_BOOT_BOTTOM_AD'));
   const [ showPopup, setShowPopup ] = React.useState<boolean>(false);
   const [ showHomeAd, setShowHomeAd ] = React.useState<boolean>(true);
+  const [bottomAd, setBottomAd] = React.useState<any>(null);
   const { promotionCenterList } = usePromotion();
 
   React.useEffect(() => {
@@ -48,8 +50,16 @@ export default () => {
     }
   }, [showBottonAd])
 
+  React.useEffect(() => {
+    if(isLogined){
+      setBottomAd(BottomDialogAuth);
+    }else{
+      setBottomAd(BottomDialogNoAuth);
+    }
+  }, [BottomDialogNoAuth, BottomDialogAuth, isLogined])
+
   // 推荐人活动 TYPE ID
-  const RECOMMEND_ID = 9;
+  const RECOMMEND_ID = 16;
 
   // 新人领金
   const handleNewUser = () => {
@@ -75,12 +85,12 @@ export default () => {
   }
 
   const handleBottomADClick = () => {
-    const content = JSON.parse(BottomDialog[0].Content);
+    const content = JSON.parse(bottomAd[0].Content);
     if(content.EnableNative){
       navigation.navigate('Register')
       return;
     }
-    forward({uri: content.RedirectUrl, title: content.RedirectTitle});
+    forward({type: 'origin', uri: content.RedirectUrl, title: content.RedirectTitle});
   }
 
   const handleBottomADClose = (e: any) => {
@@ -119,22 +129,24 @@ export default () => {
           }
         </View>
         <FlashAd showPopup={showPopup} setShowPopup={setShowPopup} />
-        <HomeAd showHomeAd={showHomeAd && !showPopup} setShowHomeAd={setShowHomeAd} />
+        <HomeAd showHomeAd={isFocused && showHomeAd && !showPopup} setShowHomeAd={setShowHomeAd} />
       </ScrollView>
       {
-        isFocused && showBottonAd && BottomDialog &&
-        <MyTouchableOpacity style={{...styles.bottomAd}} onPress={handleBottomADClick}>
-          <View style={{flex: 1, position: 'relative'}}>
-            <MyTouchableOpacity style={styles.bottomAdClose} onPress={handleBottomADClose}>
-              <Text>X</Text>
-            </MyTouchableOpacity>
-            <MyImage
-              width={GS.mixin.rem(375)}
-              source={{uri: `${ossDomain}${BottomDialog[0].BannerImg}`}}
-              resizeMode='cover'
-            />
-          </View>
-        </MyTouchableOpacity>
+        isFocused && showBottonAd && bottomAd &&
+        <View style={{...styles.bottomAd}}>
+          <TouchableWithoutFeedback onPress={handleBottomADClick}>
+            <View style={{flex: 1, position: 'relative'}}>
+              <MyTouchableOpacity style={styles.bottomAdClose} onPress={handleBottomADClose}>
+                <Text>X</Text>
+              </MyTouchableOpacity>
+              <MyImage
+                width={GS.mixin.rem(375)}
+                source={{uri: `${ossDomain}${bottomAd[0].BannerImg}`}}
+                resizeMode='cover'
+              />
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
       }
     </View>
   )

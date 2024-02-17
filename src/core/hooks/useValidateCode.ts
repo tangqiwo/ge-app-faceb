@@ -57,12 +57,13 @@ export default ({ type }: TValidateCode) => {
       dispatch(ACTIONS.BASE.openToast({text: '请输入正确的手机号'}));
       return;
     }
-    if(focus){
-      focus.focus();
-    }
     dispatch(ACTIONS.BASE.getVerifyCode({data: { CountryCode, PhoneNumber }, apiType, cb: () => {
       dispatch(ACTIONS.BASE.openToast({text: '验证码已发送', types: 'success'}));
       setCountDown(60);
+      if(focus){
+        console.log(focus)
+        focus.focus();
+      }
       timer.current = setInterval(() => {
         setCountDown(countDown => {
           if (countDown === 0) {

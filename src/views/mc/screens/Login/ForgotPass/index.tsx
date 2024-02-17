@@ -73,6 +73,7 @@ export default () => {
         <View style={styles.input} >
           <Image source={require('./i/icon-email.png')} style={{...styles.inputIcon, width: GS.mixin.rem(19), height: GS.mixin.rem(15)}} />
           <Input
+            myRef={textInputRef}
             autoComplete="off"
             value={payload.AuthCode}
             placeholder="请输入短信验证码"

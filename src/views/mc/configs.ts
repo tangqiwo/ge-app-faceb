@@ -17,7 +17,7 @@ export const MC_WEB_DOMAIN = 'http://mc.lonsdg.com'
 export const OFFICE_WEB_DOMAIN = 'http://www.lonsdg.com'
 
 // 渠道编号
-export const CHANNEL_CODE = 'BAIDU-00001'
+export const CHANNEL_CODE = 'gegoldhk.com'
 
 export default {
   ...CONFIGS,

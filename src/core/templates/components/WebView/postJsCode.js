@@ -1,10 +1,12 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-09-13 12:43:59
- * @LastEditors: ammo@xyzzdev.com
- * @FilePath: /NativeAS/src/core/templates/components/WebView/postJsCode.js
+ * @LastEditors: Galen.GE
+ * @FilePath: /app_face_b/src/core/templates/components/WebView/postJsCode.js
  * @Description: 注入到 web 中回调
  */
+import { getDeviceInfo } from '@/core/utils/device';
+import G from '@constants/global';
 
 function postJsCode(){
   const TYPES = {
@@ -16,7 +18,7 @@ function postJsCode(){
     OPEN_BINDCARD: 'OPEN_BINDCARD',
     OPEN_BINDUSDT: 'OPEN_BINDUSDT',
     OPEN_BINDPHONE: 'OPEN_BINDPHONE',
-    OPEN_BINDEBPAY: 'OPEN_BINDEBPAY'
+    OPEN_BINDEBPAY: 'OPEN_BINDEBPAY',
   }
   const postMessage = (type, params) => {
     window.ReactNativeWebView.postMessage(JSON.stringify({type, params: (params || {})}));
@@ -33,32 +35,13 @@ function postJsCode(){
   const openUrl = (url) => {
     postMessage(TYPES.OPEN_WEBSITE, {url});
   }
-  const openDeposit = () => {
-    postMessage(TYPES.OPEN_DEPOSIT, {});
-  }
-  const openBindCard = (checkcode) => {
-    postMessage(TYPES.OPEN_BINDCARD, { checkcode })
-  }
-  const openBindUSDT = (checkcode) => {
-    postMessage(TYPES.OPEN_BINDUSDT, { checkcode })
-  }
-  const openBindPhone = (checkcode) => {
-    postMessage(TYPES.OPEN_BINDPHONE, {});
-  }
-  const openBindEBPay = (checkcode) => {
-    postMessage(TYPES.OPEN_BINDEBPAY, { checkcode })
-  }
   window._RN_ = {
     postMessage,
     logout,
     navigate,
     alert,
     openUrl,
-    openDeposit,
-    openBindCard,
-    openBindUSDT,
-    openBindPhone,
-    openBindEBPay
+    uuid: G.GET('UUID')
   };
 }
 

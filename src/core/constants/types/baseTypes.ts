@@ -2,7 +2,7 @@
  * @Description: BASE 的一些 ACTIONS
  * @Author: Galen.GE
  * @Date: 2019-12-17 17:57:05
- * @LastEditTime: 2023-12-27 17:50:57
+ * @LastEditTime: 2024-02-16 11:13:00
  * @LastEditors: Galen.GE
  */
 
@@ -92,3 +92,6 @@ export const GET_HOME_INFOS = 'BASE/GET_HOME_INFOS';
 
 // 缓存准备就绪
 export const CACHE_READY = 'BASE/CACHE_READY';
+
+// 获取弹窗
+export const GET_DIALOG = 'BASE/GET_DIALOG';

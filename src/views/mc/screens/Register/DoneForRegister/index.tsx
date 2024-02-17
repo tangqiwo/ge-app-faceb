@@ -14,6 +14,7 @@ import usePublicState from '@core/hooks/usePublicState';
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 import Clipboard from '@react-native-clipboard/clipboard';
 import useRouteWebCommon, { FORWARD_TYPES } from '@core/hooks/useRouteWebCommon';
+import Agreement from './Agreement';
 import ICon from '@template/components/Icon';
 import { LS as styles, GS } from './style';
 
@@ -22,14 +23,26 @@ export default () => {
 
   const insets = useSafeAreaInsets();
   const { rs, dispatch, ACTIONS, ossDomain, navigation, customerService } = usePublicState();
+  const [ showArrow, setShowArrow ] = React.useState(true)
   const { forward } = useRouteWebCommon();
   const [ type, setType ] = React.useState(0);
 
   const ProInvestorConfig = rs.base.appDisplayConfig?.ProInvestorConfig;
+  const [showArrge, setShowArrge] = React.useState(false);
 
   const handleCopy = (copyText: any) => {
     Clipboard.setString(`${copyText}`);
     dispatch(ACTIONS.BASE.openToast({text: '已复制当前选项', types: 'success'}));
+  }
+
+  const openAgreement = (e: any) => {
+    e.stopPropagation();
+    setShowArrge(true);
+  }
+
+  const showNormal = () => {
+    setShowArrow(false);
+    setType(1);
   }
 
   return (
@@ -54,18 +67,27 @@ export default () => {
               {
                 type === 0 ?
                 <ICon.Font name="checkcircle" type={ICon.T.AntDesign} size={14} color="#FFC600" />:
-                <ICon.Font name="checkcircleo" type={ICon.T.AntDesign} size={14} color="#FFC600" />
+                <ICon.Font name="circle" type={ICon.T.Entypo} size={14} color="#FFC600" />
               }
-              {` `}我已同意<Text style={styles.arrgeText}>《专业投资者客户协议》</Text>并确认开户</Text>
+              {` `}我已同意<Text style={styles.arrgeText} onPress={openAgreement}>《专业投资者客户协议》</Text>并确认开户</Text>
           </MyTouchableOpacity>
-          <MyTouchableOpacity style={styles.arrgeView} onPress={() => setType(1)}>
-            {
-              type === 1 ?
-              <ICon.Font name="checkcircle" type={ICon.T.AntDesign} size={14} color="#FFC600" />:
-              <ICon.Font name="checkcircleo" type={ICon.T.AntDesign} size={14} color="#FFC600" />
-            }
-            <Text style={styles.arrgeText}>{` `}我想开通普通投资者账户</Text>
-          </MyTouchableOpacity>
+          {
+            !showArrow &&
+            <MyTouchableOpacity style={styles.arrgeView} onPress={() => setType(1)}>
+              {
+                type === 1 ?
+                <ICon.Font name="checkcircle" type={ICon.T.AntDesign} size={14} color="#FFC600" />:
+                <ICon.Font name="circle" type={ICon.T.Entypo} size={14} color="#FFC600" />
+              }
+              <Text style={styles.arrgeText}>{` `}我想开通普通投资者账户</Text>
+            </MyTouchableOpacity>
+          }
+          {
+            showArrow &&
+            <MyTouchableOpacity onPress={showNormal}>
+              <Image source={require('./i/double-arrow-down.png')} style={{marginLeft: 'auto', marginRight: 'auto', marginTop: 5, marginBottom: 5, width: GS.mixin.rem(15), height: GS.mixin.rem(11)}} />
+            </MyTouchableOpacity>
+          }
         </View>
         {
           type === 0 &&
@@ -128,6 +150,9 @@ export default () => {
           </>
         }
       </View>
+      {
+        showArrge && <Agreement onClose={() => setShowArrge(false)} />
+      }
     </View>
   )
 

@@ -17,13 +17,17 @@ interface IUseWebsocket {
 export default ({url, protocol, closeCallback}: IUseWebsocket) => {
 
   const [socket, setSocket] = useState(null);
-  const [messages, setMessages] = useState();
+  const [messages, setMessages] = useState<string>();
   const [error, setError] = useState(null);
   const heartbeatInterval = 30000;
   const heartbeatTimer = useRef(null);
   const ws = useRef(null);
   // 限流 OrderProfit
-  const throttleTimer = useRef(null);
+  const quotesThrottleTimer = useRef(null);
+  const orderProfitsThrottleTimer = useRef(null);
+  // 数据合并
+  const quotes = useRef<any>([]);
+  const orderProfits = useRef<any>([]);
 
   // 创建 WebSocket 连接
   useEffect((): any => {
@@ -49,25 +53,90 @@ export default ({url, protocol, closeCallback}: IUseWebsocket) => {
         if(event.data === 'pong') {
           return;
         }
-        requestAnimationFrame(() => {
-          setMessages(event.data)
-        })
-        return;
-        if(!_.includes(event.data, `"type":"OrderProfit"`)) {
-          requestAnimationFrame(() => {
-            setMessages(event.data)
-          })
+
+        if(protocol === 'quotes'){
+          if(_.includes(event.data, 'XAUUSD') || _.includes(event.data, 'XAGUSD')) {
+            setMessages(event.data);
+          }
           return;
         }
-        if(throttleTimer.current) {
+
+        if(_.includes(event.data, `"type":"OrderUpdate"`) || _.includes(event.data, `"type":"QuoteHistory"`)){
+          setMessages(event.data);
           return;
         }
-        requestAnimationFrame(() => {
-          setMessages(event.data)
-        })
-        throttleTimer.current = setTimeout(() => {
-          throttleTimer.current = null;
-        }, 2000)
+
+        // 以下处理 MT5 的行情和订单
+        const data = JSON.parse(event.data);
+
+        if(data.type === 'Quote') {
+          quotes.current = [data, ...quotes.current];
+          if(quotesThrottleTimer.current) {
+            return;
+          }
+          quotesThrottleTimer.current = setTimeout(() => {
+            const data = _.chain(quotes.current)
+                          .filter((item: any) => _.includes(['XAUUSDpro', 'XAGUSDpro'], item.data.symbol))
+                          .uniqBy('data.symbol')
+                          .value();
+            if(data.length > 0) {
+              _.each(data, (item: any) => {
+                requestAnimationFrame(() => {
+                  setMessages(JSON.stringify(item));
+                })
+              });
+            }
+            quotesThrottleTimer.current = null;
+            quotes.current = [];
+          }, 500)
+          return;
+        }
+
+        console.log(data)
+        if(data.Type === 'OrderProfit') {
+          orderProfits.current = [data, ...orderProfits.current];
+          if(orderProfitsThrottleTimer.current) {
+            return;
+          }
+          orderProfitsThrottleTimer.current = setTimeout(() => {
+            if(orderProfits.current.length > 0){
+              const allOrders = _.chain(orderProfits.current)
+                                 .map('Data')
+                                 .map('Orders')
+                                 .flatten()
+                                 .uniqBy('Ticket')
+                                 .value();
+              const data = {
+                ...orderProfits.current[0],
+                Data: {
+                  ...orderProfits.current[0].Data,
+                  Orders: allOrders
+                }
+              }
+              setMessages(JSON.stringify(data));
+            }
+            orderProfitsThrottleTimer.current = null;
+            orderProfits.current = [];
+          }, 500)
+        }
+
+
+        // 查询行情，只处理黄金和白银
+        if(protocol === 'mt4' && data.type === 'Quote') {
+         if(_.includes(event.data, 'XAUUSDpro') || _.includes(event.data, 'XAGUSDpro')) {
+           setMessages(event.data);
+           return;
+         }
+        }
+
+        // if(protocol === 'mt4' && !_.includes(event.data, `"type":"OrderProfit"`)){
+        //   setMessages(event.data);
+        //   return;
+        // }
+
+        // setMessages(event.data)
+        // return;
+
       }
       ws.current.onerror = (event: any) => {
         setError(event);
@@ -87,7 +156,7 @@ export default ({url, protocol, closeCallback}: IUseWebsocket) => {
     createSocket();
     // 清理函数
     return () => {
-      socket.close();
+      socket?.close();
     };
   }, [url, protocol]);
 

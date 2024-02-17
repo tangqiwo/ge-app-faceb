@@ -6,6 +6,7 @@
  * @Description:
  */
 import React from 'react';
+import { Image, View } from 'react-native';
 import MyImage from '@template/components/Base/Image';
 import usePublicState from "@core/hooks/usePublicState";
 import Overlay from "@core/templates/components/Overlay";
@@ -36,8 +37,9 @@ export default ({showHomeAd, setShowHomeAd}: IProps) => {
 
   // 关闭
   const handleClick = () => {
-    const loginData = JSON.parse(rs.base.appConfigs?.BottomRightConfig?.Login.Data[0]?.Content);
-    const noLoginData = JSON.parse(rs.base.appConfigs?.BottomRightConfig?.NoLogin.Data[0]?.Content);
+    const loginData = JSON.parse(rs.base.popupAdvert?.TopDialog?.Data[0]?.Content);
+    const noLoginData = JSON.parse(rs.base.appDisplayConfig?.TopDialog?.Data[0]?.Content);
+
     setShowHomeAd(false);
     if(isLogined && loginData.EnableNative){
       navigation.navigate('Register');
@@ -58,17 +60,22 @@ export default ({showHomeAd, setShowHomeAd}: IProps) => {
     return <></>
   }
 
-  const uri = isLogined ? rs.base.appConfigs?.BottomRightConfig?.Login.Data[0]?.BannerImg : rs.base.appConfigs?.BottomRightConfig?.NoLogin.Data[0]?.BannerImg;
+  const uri = isLogined ? rs.base.popupAdvert?.TopDialog?.Data[0]?.BannerImg : rs.base.appDisplayConfig?.TopDialog?.Data[0]?.BannerImg;
 
   return (
     <Overlay display close={() => setShowHomeAd(false)}>
-      <MyTouchableOpacity onPress={handleClick}>
-        <MyImage
-          source={{uri: ossDomain + uri}}
-          width={GS.mixin.rem(300)}
-          style={{width: '100%', height: '100%'}}
-        />
-      </MyTouchableOpacity>
+      <View>
+        <MyTouchableOpacity onPress={handleClick}>
+          <MyImage
+            source={{uri: ossDomain + uri}}
+            width={GS.mixin.rem(300)}
+            style={{width: '100%', height: '100%'}}
+          />
+        </MyTouchableOpacity>
+        <MyTouchableOpacity onPress={() => setShowHomeAd(false)}>
+          <Image source={require('./i/close.png')} style={{width: 35, height: 35, marginTop: 20, marginLeft: 'auto', marginRight: 'auto'}} />
+        </MyTouchableOpacity>
+      </View>
     </Overlay>
   )
 

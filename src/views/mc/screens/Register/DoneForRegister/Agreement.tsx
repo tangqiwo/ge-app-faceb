@@ -7,14 +7,24 @@
  */
 
 import React from 'react'
-import { View, Text, Image } from 'react-native'
-import Popup from '@core/templates/components/Popup'
+import Popup, {PopupContent} from '@core/templates/components/Popup';
+import { WebView } from 'react-native-webview';
+import Rule from './rule';
 
-export default () => {
+interface IProps {
+  onClose: () => void;
+}
+export default ({onClose}: IProps) => {
 
   return (
-    <Popup title="专业投资者协议" display>
-
+    <Popup display isFull close={onClose} title='专业投资者客户协议'>
+      <PopupContent isFull>
+        <WebView
+          style={{ flex: 1 }}
+          source={{html: Rule}}
+          allowFileAccess={true}
+        />
+      </PopupContent>
     </Popup>
   )
 

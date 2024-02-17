@@ -5,6 +5,7 @@
  * @FilePath: /app_face_b/src/views/mc/screens/Home/components/RegisterManual/index.tsx
  * @Description:
  */
+import _ from 'lodash';
 import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { useSelector } from 'react-redux';
@@ -22,7 +23,7 @@ export default () => {
 
   const promotionTypeId = ENUM.promotion.EPromotionTypes.RED_ENVELOPE88;
   const { forward } = useRouteWebCommon();
-  const { isMt4User, isLogined, navigation, rs, dispatch, ACTIONS, isFocused } = usePublicState();
+  const { isMt4User, isLogined, navigation, rs, isFocused } = usePublicState();
   const { promotionCenterList } = useSelector((state: any) => state.promotion);
   const { requestAuth } = useAuth();
   const { getPromotionDetail } = usePromotion();
@@ -30,6 +31,7 @@ export default () => {
   const [ progressData, setProgressData ] = React.useState<any>({});
   const [ mainId, setMainId ] = React.useState<any>();
   const [ showGoTrade, setShowGoTrade ] = React.useState(false);
+  const [ currentVolume, setCurrentVolume ] = React.useState(0);
 
   React.useEffect(() => {
     if(!isLogined){
@@ -44,6 +46,7 @@ export default () => {
       setIsShow(false);
       return;
     }
+    setCurrentVolume(Number(promotion.setCurrentVolume || 0));
     setMainId(promotion.mainId);
 
   }, [isLogined, promotionCenterList]);
@@ -86,10 +89,10 @@ export default () => {
 
   // 去交易
   const goTrade = requestAuth(() => {
-    // if(!progressData.stateOfFirstDeposit){
-    //   goDeposit();
-    //   return;
-    // }
+    if(!progressData.stateOfFirstDeposit){
+      goDeposit();
+      return;
+    }
     setShowGoTrade(true);
   })
 
@@ -172,9 +175,9 @@ export default () => {
         <Overlay close={() => setShowGoTrade(false)} display>
           <View style={{alignItems: 'center'}}>
             <View style={styles.tradeContent}>
-              <Text style={styles.tradeTitle}>您已完成了0.7手</Text>
+              <Text style={styles.tradeTitle}>您已完成了{currentVolume}手</Text>
               <Image source={require('./i/trade.png')} style={styles.tradeImage} />
-              <Text style={styles.tradeText}>继续交易0.3手</Text>
+              <Text style={styles.tradeText}>继续交易{_.round(0.3 - currentVolume, 2).toFixed(1)}手</Text>
               <Text style={styles.tradeText}>即可获得30元红包</Text>
               <Button
                 text="我知道了"

@@ -33,6 +33,7 @@ export default () => {
     G.SET('CURRENCY', 'CNY');
     G.SET('COUNTRY', 'China');
     G.SET('ENABLE_ANIMATION', isActiveAnimation());
+    G.SET('WEB_SCOKET_DATA', {});
     DeviceInfo.getUniqueId().then((uniqueId) => {
       G.SET('UUID', uniqueId)
     });

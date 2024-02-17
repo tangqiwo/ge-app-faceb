@@ -11,6 +11,7 @@ import Overlay from '@this/shadow/Overlay';
 import Button from '../Button';
 
 import { LS as styles } from './style';
+import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 
 interface IProps {
   display?: boolean;
@@ -41,7 +42,9 @@ export default ({ display, exit, close, text, children, okText="残忍退出", c
           <Button style={styles.button} text={cancelText} onPress={close} />
         </View>
       </View>
-      <Image source={require('./i/close.png')} style={{width: 35, height: 35, marginTop: 20}} />
+      <MyTouchableOpacity onPress={close}>
+        <Image source={require('./i/close.png')} style={{width: 35, height: 35, marginTop: 20}} />
+      </MyTouchableOpacity>
     </Overlay>
   )
 

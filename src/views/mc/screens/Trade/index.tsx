@@ -40,10 +40,10 @@ export default () => {
   const [ showPassword, setShowPassword ] = React.useState(false);
 
   React.useEffect(() => {
-    if(showPassword){
+    if(isShowLogin){
       setPassword('');
     }
-  }, [showPassword])
+  }, [isShowLogin])
 
   React.useEffect(() => {
     if(route.params?.tab){

@@ -25,6 +25,7 @@ type TKeys =  'API'                         // API
             | 'INIT_BOOT_BOTTOM_AD'         // 是否初始化启动底部广告
             | 'INIT_HOME_AD_UNLOGIN'        // 是否初始化首页未登录广告
             | 'INIT_HOME_AD_LOGIN'          // 是否初始化首页登录广告
+            | 'WEB_SCOKET_DATA'             // webSocket数据
 
 // 获取全局变量
 const GET = (key: string): any => {

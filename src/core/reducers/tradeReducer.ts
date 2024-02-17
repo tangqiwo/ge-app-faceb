@@ -40,18 +40,18 @@ export default function user(state = initialState.trade, action: any) {
       const instantOrders = orders.map((item: any) => ({
         Ticket: item.Ticket,
         Symbol: item.Symbol,
-        Cmd: item.Ex.Cmd,
-        Volume: item.Ex.Volume,
         OpenTime: item.OpenTime,
-        OpenPrice: item.Ex.Open_price,
-        Sl: item.Ex.Sl,
-        Tp: item.Ex.Tp,
         CloseTime: item.CloseTime,
         Swaps: item.Swap,
-        ClosePrice: item.Ex.Close_price,
-        Profit: item.Ex.Profit,
         Commission: item.Commission,
-        Expiration: item.Expiration
+        Expiration: item.Expiration,
+        Volume: !item.Ex ? item.Volume : item.Ex?.Volume,
+        Cmd: !item.Ex ? item.Cmd : item.Ex?.Cmd,
+        Sl: !item.Ex ? item.Sl : item.Ex?.Sl,
+        Tp: !item.Ex ? item.Tp : item.Ex?.Tp,
+        Profit: !item.Ex ? item.Profit : item.Ex?.Profit,
+        OpenPrice: !item.Ex ? item.OpenPrice : item.Ex?.Open_price,
+        ClosePrice: !item.Ex ? item.ClosePrice : item.Ex?.Close_price,
       }))
       // 更新已存在的订单，且顺序不变
       // const newOrders = _.chain((state as any).instantOrders).map((item: any) => {
@@ -69,6 +69,7 @@ export default function user(state = initialState.trade, action: any) {
         }
         return item
       });
+
       return {
         ...state,
         mt4Info: {
