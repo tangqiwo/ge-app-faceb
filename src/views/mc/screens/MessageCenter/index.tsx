@@ -22,7 +22,7 @@ import { LS as styles, GS } from './style';
 export default () => {
 
   const [ currentTab, setCurrentTab ] = React.useState(1);
-  const { data, doQuery, querys, recordsCount } = useMessage();
+  const { data, doQuery, querys } = useMessage();
   const { infos, navigation } = usePublicState();
   const [ details, setDetails ] = React.useState<any>(null);
 
@@ -34,7 +34,7 @@ export default () => {
       doQuery({...querys, type: 'member'});
     }
     if(currentTab === 2 && !_.isEmpty(infos)){
-      doQuery({...querys, type: 'system'});
+      doQuery({...querys, type: 'public'});
     }
 
   }, [currentTab, infos])

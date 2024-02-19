@@ -14,7 +14,8 @@ import payment from './api-payment';
 import quotes from './api-quotes';
 import trade from './api-trade';
 
-export const getURL = (key: string, params: Array<string | number>): string => {
+// 前缀
+export const getURL = (key: string, params: Array<string | number>, prefix='ge_app/v1/'): string => {
 
   const apis: any = _.merge(
     { ...base },
@@ -39,6 +40,6 @@ export const getURL = (key: string, params: Array<string | number>): string => {
     });
   }
 
-  return 'ge_app/v1/' + result;
+  return prefix + result;
 
 };

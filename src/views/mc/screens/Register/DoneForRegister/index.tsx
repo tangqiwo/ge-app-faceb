@@ -30,6 +30,10 @@ export default () => {
   const ProInvestorConfig = rs.base.appDisplayConfig?.ProInvestorConfig;
   const [showArrge, setShowArrge] = React.useState(false);
 
+  React.useEffect(() => {
+    dispatch(ACTIONS.BASE.getPopupAdvert());
+  }, [])
+
   const handleCopy = (copyText: any) => {
     Clipboard.setString(`${copyText}`);
     dispatch(ACTIONS.BASE.openToast({text: '已复制当前选项', types: 'success'}));

@@ -40,7 +40,9 @@ export default () => {
 
   React.useEffect(() => {
     return () => {
-      socket?.close();
+      if(typeof socket?.close === 'function'){
+        socket?.close();
+      }
     }
   }, [])
 

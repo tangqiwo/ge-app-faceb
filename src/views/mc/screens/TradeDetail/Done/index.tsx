@@ -6,19 +6,27 @@
  * @Description:
  */
 import _ from 'lodash';
+import dayjs from 'dayjs';
 import React from 'react';
+import { useRoute } from '@react-navigation/native';
 import { View, Text, Image } from 'react-native';
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
+import { CMD_MAPPING } from '@core/hooks/trade/useTradeConnect';
 import { LS as styles } from './style';
 import usePublicState from '@core/hooks/usePublicState';
 
 export default () => {
 
   const {navigation} = usePublicState();
+  const route = useRoute<any>();
+
+  const data = route.params?.data || {};
+
+  const date = React.useRef(dayjs(data.OpenTime || _.now()).format('YYYY-MM-DD HH:mm:ss'))
 
   React.useEffect(() => {
     navigation.setOptions({
-      headerTitle: '市价',
+      headerTitle: route.params?.data?.Type || '交易详情',
       headerShown: true
     });
   }, [])
@@ -28,47 +36,47 @@ export default () => {
       <Image source={require('./i/market.png')} style={styles.image}/>
       <View style={styles.main}>
         <View style={styles.date}>
-          <Text style={styles.dateText}>2023-10-30 23:22:38 GMT+0800</Text>
-          <Text style={styles.dateText}> (中国标准时间)</Text>
+          <Text style={styles.dateText}>{date.current}</Text>
+          <Text style={styles.dateText}> GMT+0800 (中国标准时间)</Text>
         </View>
         <View style={styles.content}>
           <View style={styles.left}>
             <View style={styles.item}>
               <Text style={styles.grey}>单号： </Text>
-              <Text>10015</Text>
+              <Text>{data.Ticket}</Text>
             </View>
             <View style={styles.item}>
               <Text style={styles.grey}>价格： </Text>
-              <Text>10015</Text>
+              <Text>{data.OpenPrice}</Text>
             </View>
             <View style={styles.item}>
               <Text style={styles.grey}>方向： </Text>
-              <Text>卖出</Text>
+              <Text>{CMD_MAPPING[data.Cmd]}</Text>
             </View>
             <View style={styles.item}>
               <Text style={styles.grey}>止盈： </Text>
-              <Text>10015</Text>
+              <Text>{data.Sl}</Text>
             </View>
           </View>
           <View style={styles.right}>
             <View style={styles.item}>
               <Text style={styles.grey}>类型： </Text>
-              <Text>平仓</Text>
+              <Text>{route.params?.data?.Type}</Text>
             </View>
             <View style={styles.item}>
               <Text style={styles.grey}>产品： </Text>
-              <Text>XAUUSDpro</Text>
+              <Text>{data.Symbol}</Text>
             </View>
             <View style={styles.item}>
               <Text style={styles.grey}>手数： </Text>
               <View style={styles.item}>
-                <Text>0.01</Text>
+                <Text>{data.Volume}</Text>
                 <Text>手</Text>
               </View>
             </View>
             <View style={styles.item}>
               <Text style={styles.grey}>止损： </Text>
-              <Text>10015</Text>
+              <Text>{data.Tp}</Text>
             </View>
           </View>
         </View>

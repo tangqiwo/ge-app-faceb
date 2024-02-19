@@ -27,7 +27,7 @@ export default () => {
     if(messages) {
       const res = toUpperCaseObj(JSON.parse(messages));
       if(_.includes(_.map(symbols, 'Key'), res?.Data?.Symbol)) {
-        const closePrice = _.find(symbols, {Key: res.Data.Symbol}).Close;
+        const closePrice = _.find(symbols, {Key: res.Data.Symbol})?.Close;
         const currentInstant = _.find(instant, {Symbol: res.Data.Symbol}) || { Ask: 0, Bid: 0 };
         // 上一口和下一口一样，不更新
         if(currentInstant.Ask === res.Data.Ask && currentInstant.Bid === res.Data.Bid) return;

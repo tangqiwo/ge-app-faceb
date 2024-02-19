@@ -35,8 +35,8 @@ export default ({url, protocol, closeCallback}: IUseWebsocket) => {
       return;
     }
     const createSocket = () => {
-      if(ws.current) {
-        ws.current.close();
+      if(ws.current && typeof ws.current.close === 'function') {
+        ws.current?.close();
       }
       ws.current = new WebSocket(url, protocol);
       setSocket(ws);
@@ -92,7 +92,6 @@ export default ({url, protocol, closeCallback}: IUseWebsocket) => {
           return;
         }
 
-        console.log(data)
         if(data.Type === 'OrderProfit') {
           orderProfits.current = [data, ...orderProfits.current];
           if(orderProfitsThrottleTimer.current) {
