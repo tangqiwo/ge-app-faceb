@@ -9,5 +9,7 @@ import { CommonPicker } from "@yz1311/react-native-wheel-picker";
 import React from 'react';
 
 export default React.memo((...propps: any) => {
+
   return <CommonPicker {...propps[0]} />
+
 })

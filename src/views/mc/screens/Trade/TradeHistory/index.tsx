@@ -5,26 +5,55 @@
  * @FilePath: /app_face_b/src/views/mc/screens/Trade/TradeHistory/index.tsx
  * @Description: 挂单
  */
+import _ from 'lodash';
 import React from 'react';
-import { ScrollView } from 'react-native';
+import { FlatList } from 'react-native';
+import ACTIONS from '@actions/index';
+import { useDispatch } from 'react-redux';
 import { View, Text } from "react-native-animatable"
 import { DatePicker } from "@yz1311/react-native-wheel-picker";
 import useTradeOperation from '@core/hooks/trade/useTradeOperation';
 import { NoData, SkeletonLoader } from '@template/components/Loader'
 import { CMD_MAPPING } from '@core/hooks/trade/useTradeConnect';
-import usePublicState from '@core/hooks/usePublicState';
+import { ListFooterComponent } from '@this/screens/Home/components/Strategy'
 import { LS as styles, GS } from '../Position/style';
 import { LS as localStyles } from './style';
 import dayjs from 'dayjs';
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 
-export default () => {
+export default React.memo(() => {
 
-  const { getHistoryOrders, data, date, setDate, startDate, endDate, setStartDate, setEndDate } = useTradeOperation();
+  const dispatch = useDispatch();
+  const { getHistoryOrders, data, date, setDate, startDate, endDate, setStartDate, setEndDate, count, } = useTradeOperation();
+  const [ pageNo, setPageNo ] = React.useState(1);
   const [ showDatePicker, setShowDatePicker ] = React.useState<'' | 'start' | 'end'>();
-  const { dispatch, ACTIONS } = usePublicState();
+  const [ displayData, setDisplayData ] = React.useState<any>([]);
+  const [isloading, setIsloading] = React.useState(false);
 
   React.useEffect(() => {
+    setIsloading(false);
+    if(data){
+      setDisplayData((state: any) => {
+        return [...state, ...data]
+      })
+    }
+  }, [data])
+
+  const nextPage = () => {
+    if(isloading || displayData.length === count){
+      return
+    }
+    requestNewData(date, pageNo + 1)
+  }
+
+  React.useEffect(() => {
+    setDisplayData([]);
+    requestNewData(date, 1)
+  }, [date])
+
+  const requestNewData = (date: any, pageNo: number) => {
+    setPageNo(pageNo);
+    setIsloading(true);
     if(date === 'others'){
       return;
     }
@@ -38,8 +67,10 @@ export default () => {
     if(date === '30days'){
       range = -30;
     }
-    getHistoryOrders([dayjs().startOf('days').add(range, 'day').format('YYYY-MM-DD HH:mm:ss'), dayjs().endOf('days').format('YYYY-MM-DD HH:mm:ss')]);
-  }, [date])
+    getHistoryOrders([dayjs().startOf('days').add(range, 'day').format('YYYY-MM-DD HH:mm:ss'), dayjs().endOf('days').format('YYYY-MM-DD HH:mm:ss')], pageNo, () => {
+      setIsloading(false);
+    });
+  }
 
   const handlePickDate = (date: any) => {
     if(showDatePicker === 'start'){
@@ -66,6 +97,8 @@ export default () => {
       getHistoryOrders([startDate, endDate]);
     }
   }, [startDate, endDate])
+
+  console.log(displayData)
 
   return (
     <View style={{flex: 1, paddingBottom: GS.mixin.rem(60)}}>
@@ -124,66 +157,79 @@ export default () => {
           </View>
         }
       </View>
-      <ScrollView showsVerticalScrollIndicator={false} >
         { !data && <SkeletonLoader /> }
-        { data && data.length === 0 && <NoData /> }
+        { data && displayData.length === 0 && <NoData /> }
         {
-          data && data.length > 0 &&
-          data.map((item: any, index: number) =>
-            <React.Fragment key={item.Ticket}>
-              {
-                item.Cmd == 6 ? <Balance item={item} /> :
-                <View style={styles.main} >
-                  <View style={styles.spaceBetween}>
-                    <Text style={styles.title}>{item.Symbol || '----'}</Text>
-                    <View style={styles.variety}>
-                      <Text style={styles.grey}>{CMD_MAPPING[item.Cmd]}</Text>
-                      <Text style={styles.grey}>{(item.Volume / 100).toFixed(2)}</Text>
-                      <Text style={styles.grey}>手</Text>
-                      <Text style={styles.order}>#{item.Ticket}</Text>
-                    </View>
-                  </View>
-                  <View style={styles.infoBox}>
-                    <Text style={styles.info}>{item.OpenPrice}</Text>
-                    <Text style={styles.arrow}>{'\u2192'}</Text>
-                    <Text style={styles.infoRed}>{item.ClosePrice}</Text>
-                    <View style={styles.money}>
-                      <Text style={styles.moneyText}>{item.Profit}</Text>
-                    </View>
-                  </View>
-                  <View style={styles.spaceBetween}>
-                    <View style={styles.positionLeft}>
-                      <View style={styles.spaceBetween}>
-                        <View style={[styles.half]}>
-                          <Text style={styles.grey}>利息:{item.Swaps}</Text>
-                        </View>
-                        <View style={[styles.half]}>
-                          <Text style={styles.grey}>手续费:{item.Commission}</Text>
-                        </View>
-                      </View>
-                      <View style={styles.spaceBetween}>
-                        <View style={[styles.half]}>
-                          <Text style={styles.grey}>止损:{item.Sl}</Text>
-                        </View>
-                        <View style={[styles.half]}>
-                          <Text style={styles.grey}>止盈:{item.Tp}</Text>
-                        </View>
+          displayData.length > 0 &&
+          <FlatList
+            data={displayData}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(item: any, index: number) => `${item.Ticket}-${index}`}
+            onEndReached={nextPage}
+            windowSize={40}
+            ListFooterComponent={
+              count == displayData.length ?
+                <ListFooterComponent type='end' /> :
+              isloading ?
+                <ListFooterComponent type='loading' /> :
+                <ListFooterComponent type='none' />
+            }
+            renderItem={({item, index}) => (
+              <React.Fragment>
+                {
+                  item.Cmd == 6 ?
+                  <Balance item={item} /> :
+                  <View style={styles.main} >
+                    <View style={styles.spaceBetween}>
+                      <Text style={styles.title}>{item.Symbol || '----'}</Text>
+                      <View style={styles.variety}>
+                        <Text style={styles.grey}>{CMD_MAPPING[item.Cmd]}</Text>
+                        <Text style={styles.grey}>{(item.Volume / 100).toFixed(2)}</Text>
+                        <Text style={styles.grey}>手</Text>
+                        <Text style={styles.order}>#{item.Ticket}</Text>
                       </View>
                     </View>
-                    <View style={styles.positionRight}>
-                      <Text style={styles.positionDate}>{dayjs(item.OpenTime).format('YYYY-MM-DD HH:mm:ss')}</Text>
-                      <Text style={styles.positionDate}>{dayjs(item.CloseTime).format('YYYY-MM-DD HH:mm:ss')}</Text>
+                    <View style={styles.infoBox}>
+                      <Text style={styles.info}>{item.OpenPrice}</Text>
+                      <Text style={styles.arrow}>{'\u2192'}</Text>
+                      <Text style={styles.infoRed}>{item.ClosePrice}</Text>
+                      <View style={styles.money}>
+                        <Text style={styles.moneyText}>{Number(item.Profit).toFixed(2)}</Text>
+                      </View>
+                    </View>
+                    <View style={styles.spaceBetween}>
+                      <View style={styles.positionLeft}>
+                        <View style={styles.spaceBetween}>
+                          <View style={[styles.half]}>
+                            <Text style={styles.grey}>利息:{item.Swaps}</Text>
+                          </View>
+                          <View style={[styles.half]}>
+                            <Text style={styles.grey}>手续费:{item.Commission}</Text>
+                          </View>
+                        </View>
+                        <View style={styles.spaceBetween}>
+                          <View style={[styles.half]}>
+                            <Text style={styles.grey}>止损:{item.Sl}</Text>
+                          </View>
+                          <View style={[styles.half]}>
+                            <Text style={styles.grey}>止盈:{item.Tp}</Text>
+                          </View>
+                        </View>
+                      </View>
+                      <View style={styles.positionRight}>
+                        <Text style={styles.positionDate}>{dayjs(item.OpenTime).format('YYYY-MM-DD HH:mm:ss')}</Text>
+                        <Text style={styles.positionDate}>{dayjs(item.CloseTime).format('YYYY-MM-DD HH:mm:ss')}</Text>
+                      </View>
+                    </View>
+                    <View>
+                      <Text style={styles.grey}>注释:{item.Comment || '--'}</Text>
                     </View>
                   </View>
-                  <View>
-                    <Text style={styles.grey}>注释:{item.Comment || '--'}</Text>
-                  </View>
-                </View>
-              }
-            </React.Fragment>
-          )
-        }
-      </ScrollView>
+                }
+              </React.Fragment>
+            )}
+          />
+      }
       <DatePicker
         pickerTitle={showDatePicker === 'start' ? '起始日期' : '截止日期'}
         mode={'date'}
@@ -196,7 +242,7 @@ export default () => {
     </View>
   )
 
-}
+})
 
 const Balance = ({item}: any) => {
   return (

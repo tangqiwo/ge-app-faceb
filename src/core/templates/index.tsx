@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-22 17:41:56
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/templates/index.tsx
  * @Description: 默认应用入口
  */
@@ -16,6 +16,7 @@ import ScreenRoute from '@views/mc/navigations/AppNavigations';
 import { MyToast } from './components/Toast';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { PortalProvider } from '@gorhom/portal';
+import G from '@constants/global';
 
 const store = configureStore();
 LogBox.ignoreLogs([""]);
@@ -35,12 +36,12 @@ export default () => {
       />
       <SafeAreaProvider>
         <Provider store={store}>
-          <NavigationContainer theme={{...DefaultTheme, dark: false}} >
+          <NavigationContainerWithRedux theme={{...DefaultTheme, dark: false}} >
             <PortalProvider>
               <ScreenRoute />
               <Framework />
             </PortalProvider>
-          </NavigationContainer>
+          </NavigationContainerWithRedux>
         </Provider>
       </SafeAreaProvider>
       <MyToast />
@@ -50,26 +51,29 @@ export default () => {
 }
 
 
-// const NavigationContainerWithRedux = ({ children }: any) => {
+const NavigationContainerWithRedux = ({ children }: any) => {
 
-//   const [ routeName, setRouteName ] = React.useState('Root');
-//   useListener({ routeName });
+  const [ routeName, setRouteName ] = React.useState('Root');
 
-//   const getActiveRouteName = (state: any): any => {
-//     const route = state.routes[state.index];
-//     if (route.state) {
-//       return getActiveRouteName(route.state);
-//     }
-//     setRouteName(route.name);
-//   }
+  React.useEffect(() => {
+    G.SET('CRRENT_ROUTE', routeName);
+  }, [routeName])
 
-//   return (
-//     <NavigationContainer
-//       theme={{...DefaultTheme, dark: false}}
-//       onStateChange={(state) => getActiveRouteName(state)}
-//     >
-//       {children}
-//     </NavigationContainer>
-//   )
+  const getActiveRouteName = (state: any): any => {
+    const route = state.routes[state.index];
+    if (route.state) {
+      return getActiveRouteName(route.state);
+    }
+    setRouteName(route.name);
+  }
 
-// };
+  return (
+    <NavigationContainer
+      theme={{...DefaultTheme, dark: false}}
+      onStateChange={(state) => getActiveRouteName(state)}
+    >
+      {children}
+    </NavigationContainer>
+  )
+
+};

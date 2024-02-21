@@ -7,14 +7,17 @@
  */
 import _ from 'lodash';
 import React from 'react';
+import { AppState } from 'react-native';
 import { useState, useEffect, useCallback, useRef } from 'react';
+import G from '@constants/global';
 
 interface IUseWebsocket {
   url: string;
   protocol: string;
   closeCallback?: Function;
+  routeName?: string;
 }
-export default ({url, protocol, closeCallback}: IUseWebsocket) => {
+export default ({url, protocol, closeCallback, routeName}: IUseWebsocket) => {
 
   const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState<string>();
@@ -39,7 +42,6 @@ export default ({url, protocol, closeCallback}: IUseWebsocket) => {
         ws.current?.close();
       }
       ws.current = new WebSocket(url, protocol);
-      setSocket(ws);
       ws.current.onopen = () => {
         if(heartbeatTimer.current) {
           clearInterval(heartbeatTimer.current);
@@ -50,9 +52,11 @@ export default ({url, protocol, closeCallback}: IUseWebsocket) => {
         }, heartbeatInterval)
       }
       ws.current.onmessage = (event: any) => {
-        if(event.data === 'pong') {
+        if(event.data === 'pong' || AppState.currentState !== 'active') {
           return;
         }
+
+        const currentRoute = G.GET('CRRENT_ROUTE');
 
         if(protocol === 'quotes'){
           if(_.includes(event.data, 'XAUUSD') || _.includes(event.data, 'XAGUSD')) {
@@ -66,10 +70,17 @@ export default ({url, protocol, closeCallback}: IUseWebsocket) => {
           return;
         }
 
+        // 高频限流
+        if(protocol === 'mt4'){
+          if(!_.includes(['Trade', 'TradeDetail'], currentRoute)){
+            return;
+          }
+        }
+
         // 以下处理 MT5 的行情和订单
         const data = JSON.parse(event.data);
 
-        if(data.type === 'Quote') {
+        if(_.includes(['Trade', 'TradeDetail'], currentRoute) && data.type === 'Quote') {
           quotes.current = [data, ...quotes.current];
           if(quotesThrottleTimer.current) {
             return;
@@ -92,7 +103,7 @@ export default ({url, protocol, closeCallback}: IUseWebsocket) => {
           return;
         }
 
-        if(data.Type === 'OrderProfit') {
+        if(data.Type === 'OrderProfit' && currentRoute === 'Trade') {
           orderProfits.current = [data, ...orderProfits.current];
           if(orderProfitsThrottleTimer.current) {
             return;
@@ -116,25 +127,8 @@ export default ({url, protocol, closeCallback}: IUseWebsocket) => {
             }
             orderProfitsThrottleTimer.current = null;
             orderProfits.current = [];
-          }, 500)
+          }, 250)
         }
-
-
-        // 查询行情，只处理黄金和白银
-        if(protocol === 'mt4' && data.type === 'Quote') {
-         if(_.includes(event.data, 'XAUUSDpro') || _.includes(event.data, 'XAGUSDpro')) {
-           setMessages(event.data);
-           return;
-         }
-        }
-
-        // if(protocol === 'mt4' && !_.includes(event.data, `"type":"OrderProfit"`)){
-        //   setMessages(event.data);
-        //   return;
-        // }
-
-        // setMessages(event.data)
-        // return;
 
       }
       ws.current.onerror = (event: any) => {

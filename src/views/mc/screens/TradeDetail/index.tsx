@@ -25,7 +25,8 @@ import Selector from '@core/templates/components/Base/Selector';
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 import CommonPicker from "@core/templates/components/CommonPicker";
 import Input from '@core/templates/components/Base/Input';
-import { CMD_MAPPING } from '@core/hooks/trade/useTradeConnect';
+import { CMD_MAPPING, CMD_CDOE_MAPPING } from '@core/hooks/trade/useTradeConnect';
+import ConfirmSubmit from './Confirm';
 import { LS as styles } from './style';
 
 export default () => {
@@ -52,6 +53,40 @@ export default () => {
   const [ currentTab, setCurrentTab ] = React.useState(0);
   const [ operation, setOperation ] = React.useState('');
   const [ showSelector, setShowSelector ] = React.useState<'' | 'Expiration' | 'OperationType'>('');
+  const [ pickTypeData, setPickTypeData ] = React.useState<string[]>([]);
+  const pickExpireData = React.useRef<string[]>(_.map(EXPIRATION, 'value'));
+  const [ showConfirmSubmit, setShowConfirmSubmit ] = React.useState(false);
+
+  React.useEffect(() => {
+    // 初始化修改值
+    if(params?.type === 'setStopLoss' && params?.ex){
+      setPayload({
+        ...payload,
+        Stoploss: params.ex.Sl,
+        Takeprofit: params.ex.Tp,
+      })
+      return;
+    }
+    if(params?.type === 'updateOrder'){
+      setPayload({
+        ...payload,
+        Stoploss: params.ex.Sl,
+        Takeprofit: params.ex.Tp,
+        Price: params.ex.Price,
+        Volume: (params.volume / 100).toFixed(2),
+        Operation: CMD_CDOE_MAPPING[params.ex.Cmd],
+      })
+      return;
+    }
+  }, [])
+
+  React.useEffect(() => {
+    if((currentTab === 1 || params?.type === 'updateOrder')){
+      setPickTypeData(_.map(LIMIT_TYPE_LIST, 'value'));
+      return;
+    }
+    setPickTypeData(_.map(TRADE_TYPE_LIST, 'value'));
+  }, [currentTab, params?.type])
 
   React.useEffect(() => {
     if(!params || params.type === 'updateOrder'){
@@ -93,6 +128,9 @@ export default () => {
   }, [_.find(instant, { Symbol: payload.Symbol })])
 
   React.useEffect(() => {
+    if(params?.type === 'updateOrder'){
+      return;
+    }
     if(currentTab === 0){
       setPayload((state) => ({...state, Operation: 'Buy'}));
     }else{
@@ -100,10 +138,10 @@ export default () => {
     }
   }, [currentTab])
 
-  const handleSelectOP = (data: any) => {
+  const handleSelectOP = React.useCallback((data: any) => {
     setPayload({...payload, Operation: _.find(ALL_TYPE_LIST, {value: data[0]}).key});
     setShowSelector('')
-  }
+  }, [])
 
   const handleSelectExpiration = React.useCallback((data: any) => {
     setPayload((state => ({...state, Expiration: _.find(EXPIRATION, {value: data[0]}).key})));
@@ -141,10 +179,11 @@ export default () => {
     }
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = React.useCallback(_.throttle(() => {
     if(!params){
       if (currentTab === 0) {
-        openMarketOrder();
+        setShowConfirmSubmit(true);
+        // openMarketOrder();
       }else{
         openPendingOrder();
       }
@@ -162,11 +201,17 @@ export default () => {
       setStoplossTakeprofit(params.id);
       return;
     }
-  };
+  }, 2000), [params, currentTab, payload]);
 
   const handleOnPickerCancel = React.useCallback(() => {
     setShowSelector('');
   }, [])
+
+
+  const goSubmitOpenMarketOrder = React.useCallback(() => {
+    setShowConfirmSubmit(false);
+    openMarketOrder();
+  }, [payload])
 
   return (
     <View style={styles.container}>
@@ -218,7 +263,7 @@ export default () => {
           {
             !_.includes(['closePosition', 'setStopLoss'], params?.type) &&
             <View style={styles.dropItem} >
-              <Text>{ currentTab === 0 ? '建仓类型' : '挂单类型' }</Text>
+              <Text>{ (currentTab === 1 || params?.type === 'updateOrder') ? '挂单类型' : '建仓类型' }</Text>
               <MyTouchableOpacity style={[styles.dropMenu, styles.dropWireframe]} onPress={() => setShowSelector('OperationType')}>
                 <Text style={styles.dropText}>{ {...TRADE_TYPE, ...LIMIT_TYPE}[payload.Operation] }</Text>
                 <Image source={require('./i/ic-drop.png')} style={styles.dropIcon} />
@@ -354,12 +399,12 @@ export default () => {
               </View>
             </>
           }
-          <MyTouchableOpacity style={styles.submit} onPress={handleSubmit}>
+          <MyTouchableOpacity style={styles.submit} onPress={_.throttle(handleSubmit, 1000)}>
             <Text style={styles.submitText}>提交</Text>
           </MyTouchableOpacity>
           <Text style={styles.submitTips}>*市价模式下是成交价格，可能会与请求价格有一定差异</Text>
           <CommonPicker
-            pickerData={_.map(EXPIRATION, 'value')}
+            pickerData={pickExpireData.current}
             selectedValue={_.find(EXPIRATION, { key: payload.Expiration })?.value}
             isModal={true}
             modalVisible={showSelector === 'Expiration'}
@@ -368,15 +413,19 @@ export default () => {
             pickerTitle={'请选择有效期'}
           />
           <CommonPicker
-            pickerData={_.map((currentTab === 0 ? TRADE_TYPE_LIST : LIMIT_TYPE_LIST), 'value')}
+            pickerData={pickTypeData}
             selectedValue={_.find(ALL_TYPE_LIST, { key: payload.Operation })?.value}
             isModal={true}
             modalVisible={showSelector === 'OperationType'}
             onPickerCancel={handleOnPickerCancel}
-            onPickerConfirm={(data: any) => handleSelectOP(data)}
+            onPickerConfirm={handleSelectOP}
             pickerTitle={'请选择交易类型'}
           />
         </ScrollView>
+        {
+          showConfirmSubmit &&
+          <ConfirmSubmit payload={payload} close={() => setShowConfirmSubmit(false)} submit={goSubmitOpenMarketOrder} />
+        }
       </KeyboardAvoidingView>
     </View>
   );

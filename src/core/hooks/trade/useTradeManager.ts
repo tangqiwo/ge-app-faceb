@@ -141,6 +141,7 @@ export default () => {
       Ticket,
       Mt4ClientApiToken: payload.Mt4ClientApiToken,
       Price: payload.Price,
+      Volume: payload.Volume,
       Expiration: payload.Expiration,
       Stoploss: payload.Stoploss === 0 ? '0' : `${payload.Stoploss}`,
       Takeprofit: payload.Takeprofit === 0 ? '0' : `${payload.Takeprofit}`,

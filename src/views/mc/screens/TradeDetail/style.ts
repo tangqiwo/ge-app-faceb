@@ -220,6 +220,36 @@ export const LS = StyleSheet.create({
     textAlign: 'center',
     marginBottom: G.mixin.rem(20),
   },
+  confirmView: {
+    width: G.mixin.rem(295),
+    height: G.mixin.rem(236),
+    backgroundColor: '#fff',
+    paddingLeft: G.mixin.rem(14),
+    paddingRight: G.mixin.rem(14),
+    borderRadius: G.mixin.rem(15),
+    paddingTop: G.mixin.rem(20),
+    paddingBottom: G.mixin.rem(30),
+  },
+  confirmRow: {
+    marginTop: G.mixin.rem(10),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  confirmTitle: {
+    color: '#949494',
+    fontSize: G.mixin.rem(15),
+    width: '48%',
+    textAlign: 'right',
+  },
+  confirmContent: {
+    color: '#2A2A2A',
+    fontSize: G.mixin.rem(15),
+    width: '48%',
+    textAlign: 'left',
+  },
+  confirmBtn: {
+    marginTop: G.mixin.rem(15),
+  }
 });
 
 // 固定导出

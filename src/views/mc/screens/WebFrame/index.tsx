@@ -7,7 +7,6 @@
  */
 import React from 'react';
 import WebView from '@core/templates/components/WebView';
-import { useSelector } from 'react-redux';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import usePublicState from '@core/hooks/usePublicState';
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';

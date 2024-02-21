@@ -102,7 +102,7 @@ export default ({ type }: StrategyItemProps) => {
   )
 }
 
-const ListFooterComponent = ({ type }: { type?: 'end' | 'loading' | 'none' }) => {
+export const ListFooterComponent = ({ type }: { type?: 'end' | 'loading' | 'none' }) => {
   if (type === 'loading') {
     return (
       <View style={styles.endView}>

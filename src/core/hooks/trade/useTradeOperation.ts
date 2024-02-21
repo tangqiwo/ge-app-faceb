@@ -15,19 +15,22 @@ export default () => {
   const [ data, setData ] = React.useState<any>();
   const [ date, setDate ] = React.useState<'today' | '7days' | '30days' | 'others'>('today');
   const Mt4ClientApiToken = useSelector((state: any) => state.trade.mt4Info?.Mt4ClientApiToken);
+  const [ count, setCount ] = React.useState<number>(0);
   const [startDate, setStartDate] = React.useState<string>();
   const [endDate, setEndDate] = React.useState<string>();
 
   // 历史订单
-  const getHistoryOrders = (Range: Array<any>) => {
+  const getHistoryOrders = (Range: Array<any>, PageNo = 1, cb?: Function) => {
     const data: any = {
       Symbol: "",
       Range,
-      Page: 1,
+      Page: PageNo,
       PageSize: 40,
     }
     dispatch(ACTIONS.TRADE.getHistoryOrders({ data, cb: (res: any) => {
       setData(res?.Data?.Data);
+      setCount(res?.Data?.Count);
+      cb();
     }}));
   }
 
@@ -51,6 +54,7 @@ export default () => {
 
   return {
     data,
+    count,
     date,
     startDate,
     endDate,

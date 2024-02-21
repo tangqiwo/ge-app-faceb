@@ -20,7 +20,7 @@ export default () => {
   const { dispatch, ACTIONS, navigation } = usePublicState();
   const mt4Info = useSelector((state: any) => state.trade.mt4Info);
   const [scoketUrl, setScoketUrl] = React.useState('');
-  const { messages, socket } = useWebsocket({url: scoketUrl, protocol: 'mt4', closeCallback: () => {
+  const { messages, socket } = useWebsocket({url: scoketUrl, protocol: 'mt4', routeName: 'xxxx', closeCallback: () => {
     const pass = store.get('MT4-PASS');
     if(pass){
       setScoketUrl('');
@@ -142,7 +142,6 @@ export default () => {
         dispatch(ACTIONS.BASE.openToast({ text: res.Desc }));
         return;
       }
-      console.log(res);
       setScoketUrl(res.Data.Url)
       callback(res);
     }}))
@@ -166,4 +165,14 @@ export const CMD_MAPPING: any = {
   5: '卖出止损',
   6: '余额',
   7: '信用'
+}
+
+
+export const CMD_CDOE_MAPPING: any = {
+  0: 'Buy',
+  1: 'Sell',
+  2: 'BuyLimit',
+  3: 'SellLimit',
+  4: 'BuyStop',
+  5: 'SellStop',
 }
