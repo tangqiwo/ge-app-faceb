@@ -271,3 +271,10 @@ export const getAppConfig = (): INTERFACE.IAPI => ({
 export const cacheReady = (): INTERFACE.IBase => ({
   type: TYPES.BASE.CACHE_READY
 })
+
+
+// FACE B 配置
+export const getFaceBConfig = (): INTERFACE.IAPI => ({
+  type: TYPES.BASE.GET_FACE_B_CONFIG,
+  payload: { key: 'base/get-face-b-config', cache: { expires: 5, forward: true } }
+})

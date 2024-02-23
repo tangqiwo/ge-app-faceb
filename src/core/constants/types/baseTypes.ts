@@ -2,7 +2,7 @@
  * @Description: BASE 的一些 ACTIONS
  * @Author: Galen.GE
  * @Date: 2019-12-17 17:57:05
- * @LastEditTime: 2024-02-16 11:13:00
+ * @LastEditTime: 2024-02-21 17:37:02
  * @LastEditors: Galen.GE
  */
 
@@ -95,3 +95,6 @@ export const CACHE_READY = 'BASE/CACHE_READY';
 
 // 获取弹窗
 export const GET_DIALOG = 'BASE/GET_DIALOG';
+
+// 获取FACE B配置
+export const GET_FACE_B_CONFIG = 'BASE/GET_FACE_B_CONFIG';

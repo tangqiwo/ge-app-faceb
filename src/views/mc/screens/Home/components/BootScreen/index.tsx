@@ -23,6 +23,7 @@ export default ({close}: IProps) => {
   const {ossDomain} = usePublicState();
   const ref = React.useRef<any>(null);
   const { width } = Dimensions.get('window');
+  const [ realPath, setRealPath ] = React.useState<string>('');
 
   React.useEffect(() => {
     if(G.GET('INIT_BOOT_SCREEN')){
@@ -37,6 +38,7 @@ export default ({close}: IProps) => {
     if(_.isEmpty(appDisplayConfig) || !ossDomain || G.GET('INIT_BOOT_SCREEN')){
       return;
     }
+    setRealPath(ossDomain + appDisplayConfig?.LaunchImages[0]?.Image)
     if(ref.current) clearTimeout(ref.current);
     ref.current = _.delay(() => {
       G.SET('INIT_BOOT_SCREEN', true);
@@ -44,13 +46,17 @@ export default ({close}: IProps) => {
     }, 3000)
   }, [appDisplayConfig, ossDomain])
 
+  if(!realPath){
+    return <></>
+  }
+
   return (
     <Overlay display zIndex={100}>
       {
         !_.isEmpty(appDisplayConfig) &&
         <MyImage
           width={width}
-          source={{uri: ossDomain + appDisplayConfig?.LaunchImages[0]?.Image}}
+          source={{uri: realPath}}
         />
       }
     </Overlay>

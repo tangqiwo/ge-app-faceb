@@ -22,12 +22,14 @@ import Position from "./Position";
 import TradeHistory from "./TradeHistory";
 import Button from '@this/components/Button'
 import useRouteWebCommon, { FORWARD_TYPES } from '@core/hooks/useRouteWebCommon';
+import useMt4ChartQuote from '@core/hooks/useMt4ChartQuote';
 import ENUM from '@core/constants/enum';
 import store from '@helpers/storage'
 import { LS as styles, GS } from './style';
 
 export default () => {
 
+  // useMt4ChartQuote();
   const { navigation, isMt4User, rs, isFocused, cacheReady } = usePublicState();
   const mt4Info = useSelector((state: any) => state.trade.mt4Info);
   const route = useRoute<any>();
@@ -35,7 +37,6 @@ export default () => {
   const { authToMt4, makeFirstInstant } = useTradeConnect();
   const [ currentTab, setCurrentTab ] = React.useState(0);
   const [ isShowLogin, setIsShowLogin ] = React.useState(false);
-  // const [ password, setPassword ] = React.useState('862343hJ');
   const [ password, setPassword ] = React.useState<any>('');
   const [ showPassword, setShowPassword ] = React.useState(false);
 
@@ -194,16 +195,6 @@ export default () => {
           </>
         </Overlay>
       }
-      {/* <DatePicker
-        mode={'date'}
-        date={new Date()}
-        isModal={true}
-        modalVisible={true}
-        onPickerConfirm={(value: any)=>{
-            //不管mode的值是哪一种, value均是一个Date对象, 需要转换为所需的值
-            //譬如: 如果mode=='year', 则可以通过`moment(value).year()`
-        }}
-      /> */}
     </View>
   )
 

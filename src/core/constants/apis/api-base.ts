@@ -52,4 +52,7 @@ export default {
   // 获取APP显示配置
   ['base/get-app-config']: 'portal/get_config_for_app',
 
+  // 获取face B
+  ['base/get-face-b-config']: 'portal/get_config_for_app_b',
+
 };

@@ -8,7 +8,7 @@
 import _ from 'lodash';
 import React from 'react';
 import dayjs from 'dayjs';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 import Header from '@this/components/Header';
 import { NoData, SkeletonLoader } from '@template/components/Loader'
@@ -54,7 +54,9 @@ export default () => {
             <Text style={[styles.tabsItemText, currentTab === 2 && styles.tabsItemTextActive]}>推广信息</Text>
           </MyTouchableOpacity>
         </View>
-        <View>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+        >
           {
             currentTab === 0 &&
             <NoData />
@@ -89,7 +91,7 @@ export default () => {
               </MyTouchableOpacity>
             )
           }
-        </View>
+        </ScrollView>
       </View>
       <Popup display={details} title={details?.Title} close={() => setDetails(null)}>
         <View style={{...GS.mixin.padding(20,14,20,14)}}>

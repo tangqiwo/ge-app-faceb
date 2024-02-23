@@ -53,6 +53,7 @@ export default () => {
     <View style={{flex: 1, paddingBottom: GS.mixin.rem(60)}}>
       { !mt4Info || (data && data.length === 0) && <NoData /> }
       {
+        data && data.length > 0 &&
         <FlatList
         data={_.take(data, max)}
         showsVerticalScrollIndicator={false}

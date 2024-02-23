@@ -64,6 +64,7 @@ export default () => {
         ...payload,
         Stoploss: params.ex.Sl,
         Takeprofit: params.ex.Tp,
+        Operation: CMD_CDOE_MAPPING[params.cmd],
       })
       return;
     }
@@ -128,7 +129,7 @@ export default () => {
   }, [_.find(instant, { Symbol: payload.Symbol })])
 
   React.useEffect(() => {
-    if(params?.type === 'updateOrder'){
+    if(params?.type === 'updateOrder' || params?.type === 'setStopLoss'){
       return;
     }
     if(currentTab === 0){

@@ -42,6 +42,7 @@ export default ({url, protocol, closeCallback, routeName}: IUseWebsocket) => {
         ws.current?.close();
       }
       ws.current = new WebSocket(url, protocol);
+      setSocket(ws.current);
       ws.current.onopen = () => {
         if(heartbeatTimer.current) {
           clearInterval(heartbeatTimer.current);
@@ -52,6 +53,10 @@ export default ({url, protocol, closeCallback, routeName}: IUseWebsocket) => {
         }, heartbeatInterval)
       }
       ws.current.onmessage = (event: any) => {
+        if(protocol === 'chart'){
+          console.log(event.data);
+          return;
+        }
         if(event.data === 'pong' || AppState.currentState !== 'active') {
           return;
         }
@@ -131,7 +136,8 @@ export default ({url, protocol, closeCallback, routeName}: IUseWebsocket) => {
         }
 
       }
-      ws.current.onerror = (event: any) => {
+      ws.current.onerror = (event: any, s: any) => {
+        console.log(s);
         setError(event);
       }
       ws.current.onclose = () => {
@@ -155,10 +161,11 @@ export default ({url, protocol, closeCallback, routeName}: IUseWebsocket) => {
 
   // 发送消息的函数
   const sendMessage = useCallback((message: string) => {
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      socket.send(message);
+    console.log(ws)
+    if (ws.current && ws.current.readyState === WebSocket.OPEN) {
+      ws.current.send(message);
     }
-  }, [socket]);
+  }, []);
 
   React.useEffect(() => {
     if(error) {

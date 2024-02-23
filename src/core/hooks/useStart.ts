@@ -60,6 +60,7 @@ export default () => {
       dispatch(ACTIONS.BASE.getAppVersion());
       dispatch(ACTIONS.BASE.getMemberInfo());
       dispatch(ACTIONS.BASE.getChannelKeys());
+      dispatch(ACTIONS.BASE.getFaceBConfig());
       dispatch(ACTIONS.BASE.initUI());
       if(store.get('AUTH')){
         dispatch(ACTIONS.USER.getUserInfo({passError: true, cb: (res: any) => {

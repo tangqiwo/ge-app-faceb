@@ -27,7 +27,9 @@ import TradeDetail from '@this/screens/TradeDetail';
 import TradeDone from '@this/screens/TradeDetail/Done';
 import ProfileScreen from '@this/screens/Profile'
 import ScreenHOC from '@views/mc/shadow/ScreenHOC';
+import KLine from '@this/screens/Trade/Kline';
 import WebView from '@this/screens/WebFrame';
+import CONFIG from '@this/configs';
 
 const MainStack = createNativeStackNavigator();
 
@@ -39,7 +41,7 @@ export default () => {
       // initialRouteName="DoneForRegister"
       screenOptions={{
         headerBackTitle: '返回',
-        animation: 'slide_from_right',
+        animation: CONFIG.ENABLE_ANIMATION ? 'slide_from_right' : 'none',
         animationDuration: 100,
         headerRight: () => (<HeaderRight marginRight={0} />),
         headerShown: false,
@@ -64,6 +66,7 @@ export default () => {
       <MainStack.Screen name='Videos' component={ScreenHOC(Videos)} />
       <MainStack.Screen name='TradeDetail' component={ScreenHOC(TradeDetail)} />
       <MainStack.Screen name='TradeDone' component={ScreenHOC(TradeDone)} />
+      <MainStack.Screen name='KLine' component={ScreenHOC(KLine)} />
       <MainStack.Screen name='WEB-COMMON' component={ScreenHOC(WebView)} />
     </MainStack.Navigator>
   )

@@ -16,7 +16,7 @@ export const LS = StyleSheet.create({
   },
   contentView: {
     marginTop: G.mixin.rem(20),
-    marginBottom: G.mixin.rem(75),
+    marginBottom: G.mixin.rem(20),
     marginLeft: G.mixin.rem(14),
     marginRight: G.mixin.rem(14),
     paddingTop: G.mixin.rem(14),
@@ -26,13 +26,13 @@ export const LS = StyleSheet.create({
     borderRadius: G.mixin.rem(5),
     backgroundColor: '#FFFFFF',
     minHeight: G.mixin.rem(350),
+    flex: 1,
   },
   tabsVeiw: {
     height: G.mixin.rem(40),
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'center',
-
   },
   tabsItem: {
     width: '50%',

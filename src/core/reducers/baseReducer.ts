@@ -220,6 +220,12 @@ export default function base(state = initialState.base, action: any) {
         cacheReady: true,
       };
     }
+    case TYPES.BASE.GET_FACE_B_CONFIG: {
+      return {
+        ...state,
+        faceBConfig: action.res,
+      };
+    }
     // 登出
     case TYPES.USER.LOGOUT: {
       store.remove('AUTH');

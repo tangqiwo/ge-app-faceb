@@ -69,9 +69,7 @@ export const isActiveAnimation = (): any => {
   }
 
   if(Platform.OS === 'android'){
-    if(_.includes([31, 32, '31', '32'], Platform.Version)){
-      return false;
-    }
+    return false;
   }
 
   return true
