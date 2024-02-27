@@ -42,7 +42,6 @@ export default ({url, protocol, closeCallback, routeName}: IUseWebsocket) => {
         ws.current?.close();
       }
       ws.current = new WebSocket(url, protocol);
-      setSocket(ws.current);
       ws.current.onopen = () => {
         if(heartbeatTimer.current) {
           clearInterval(heartbeatTimer.current);
@@ -53,6 +52,9 @@ export default ({url, protocol, closeCallback, routeName}: IUseWebsocket) => {
         }, heartbeatInterval)
       }
       ws.current.onmessage = (event: any) => {
+        if(event.data.includes('QuoteHistory')){
+          console.log(123123)
+        }
         if(protocol === 'chart'){
           console.log(event.data);
           return;
@@ -71,6 +73,7 @@ export default ({url, protocol, closeCallback, routeName}: IUseWebsocket) => {
         }
 
         if(_.includes(event.data, `"type":"OrderUpdate"`) || _.includes(event.data, `"type":"QuoteHistory"`)){
+          console.log(event.data)
           setMessages(event.data);
           return;
         }
@@ -153,6 +156,7 @@ export default ({url, protocol, closeCallback, routeName}: IUseWebsocket) => {
       };
     }
     createSocket();
+    setSocket(ws.current);
     // 清理函数
     return () => {
       socket?.close();
@@ -161,7 +165,6 @@ export default ({url, protocol, closeCallback, routeName}: IUseWebsocket) => {
 
   // 发送消息的函数
   const sendMessage = useCallback((message: string) => {
-    console.log(ws)
     if (ws.current && ws.current.readyState === WebSocket.OPEN) {
       ws.current.send(message);
     }

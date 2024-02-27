@@ -13,9 +13,9 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-MC_RN-MC_RNTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-MC_RN-MC_RNTests.a */; };
-		81A3983D2B6B5F1F0079208D /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 81A3983B2B6B5F1E0079208D /* main.jsbundle */; };
-		81A3983E2B6B5F1F0079208D /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 81A3983C2B6B5F1F0079208D /* assets */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		81E623F62B8DEF6000817843 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 81E623F42B8DEF6000817843 /* assets */; };
+		81E623F72B8DEF6000817843 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 81E623F52B8DEF6000817843 /* main.jsbundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,9 +43,9 @@
 		5709B34CF0A7D63546082F79 /* Pods-MC_RN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MC_RN.release.xcconfig"; path = "Target Support Files/Pods-MC_RN/Pods-MC_RN.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-MC_RN-MC_RNTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MC_RN-MC_RNTests.debug.xcconfig"; path = "Target Support Files/Pods-MC_RN-MC_RNTests/Pods-MC_RN-MC_RNTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-MC_RN.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MC_RN.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		81A3983B2B6B5F1E0079208D /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = ../dist/main.jsbundle; sourceTree = "<group>"; };
-		81A3983C2B6B5F1F0079208D /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../dist/assets; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = MC_RN/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		81E623F42B8DEF6000817843 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../dist/assets; sourceTree = "<group>"; };
+		81E623F52B8DEF6000817843 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = ../dist/main.jsbundle; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-MC_RN-MC_RNTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MC_RN-MC_RNTests.release.xcconfig"; path = "Target Support Files/Pods-MC_RN-MC_RNTests/Pods-MC_RN-MC_RNTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -120,8 +120,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				81A3983C2B6B5F1F0079208D /* assets */,
-				81A3983B2B6B5F1E0079208D /* main.jsbundle */,
+				81E623F42B8DEF6000817843 /* assets */,
+				81E623F52B8DEF6000817843 /* main.jsbundle */,
 				13B07FAE1A68108700A75B9A /* MC_RN */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* MC_RNTests */,
@@ -256,10 +256,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81A3983D2B6B5F1F0079208D /* main.jsbundle in Resources */,
-				81A3983E2B6B5F1F0079208D /* assets in Resources */,
+				81E623F62B8DEF6000817843 /* assets in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				81E623F72B8DEF6000817843 /* main.jsbundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,7 +511,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = "Bata-1.2";
+				MARKETING_VERSION = "Bata-1.5";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -539,7 +539,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = "Bata-1.2";
+				MARKETING_VERSION = "Bata-1.5";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

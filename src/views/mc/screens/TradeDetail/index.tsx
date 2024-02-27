@@ -140,7 +140,7 @@ export default () => {
   }, [currentTab])
 
   const handleSelectOP = React.useCallback((data: any) => {
-    setPayload({...payload, Operation: _.find(ALL_TYPE_LIST, {value: data[0]}).key});
+    setPayload((state => ({...state, Operation: _.find(ALL_TYPE_LIST, {value: data[0]}).key})));
     setShowSelector('')
   }, [])
 

@@ -63,7 +63,7 @@ export default () => {
 
   React.useEffect(() => {
     if(isFocused) {
-      setPayload(initData);
+      setPayload((state: any) => ({...initData, Operation: state.Operation}));
     }
   }, [isFocused])
 
@@ -104,16 +104,16 @@ export default () => {
     const data = {
       // 止盈止损
       Stoploss: {
-        Buy: Number((ask - step).toFixed(2)),
-        Sell: Number((bid + step).toFixed(2)),
+        Buy: Number((bid - step).toFixed(2)),
+        Sell: Number((ask + step).toFixed(2)),
         BuyLimit: Number((Number(payload.Price) - step).toFixed(2)),
         SellLimit: Number((Number(payload.Price) + step).toFixed(2)),
         BuyStop: Number((Number(payload.Price) + step).toFixed(2)),
         SellStop: Number((Number(payload.Price) - step).toFixed(2))
       },
       Takeprofit: {
-        Buy: Number((ask + step).toFixed(2)),
-        Sell: Number((bid - step).toFixed(2)),
+        Buy: Number((bid + step).toFixed(2)),
+        Sell: Number((ask - step).toFixed(2)),
         BuyLimit: Number((Number(payload.Price) + step).toFixed(2)),
         SellLimit: Number((Number(payload.Price) - step).toFixed(2)),
         BuyStop: Number((Number(payload.Price) - step).toFixed(2)),

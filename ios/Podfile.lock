@@ -300,6 +300,8 @@ PODS:
     - glog
   - react-native-image-picker (7.1.0):
     - React-Core
+  - react-native-kline (2.1.2):
+    - React
   - react-native-orientation-locker (1.5.0):
     - React-Core
   - react-native-quick-md5 (3.0.5):
@@ -519,6 +521,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
+  - react-native-kline (from `../node_modules/react-native-kline`)
   - react-native-orientation-locker (from `../node_modules/react-native-orientation-locker`)
   - react-native-quick-md5 (from `../node_modules/react-native-quick-md5`)
   - react-native-restart (from `../node_modules/react-native-restart`)
@@ -624,6 +627,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
+  react-native-kline:
+    :path: "../node_modules/react-native-kline"
   react-native-orientation-locker:
     :path: "../node_modules/react-native-orientation-locker"
   react-native-quick-md5:
@@ -735,6 +740,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 8134ee22182b8dd98dc0973db6266c398103ce6c
   React-logger: 1e7ac909607ee65fd5c4d8bea8c6e644f66b8843
   react-native-image-picker: a82b781c14f1f5c16953290bee2039db43822517
+  react-native-kline: 19fd842b4e346c394bc8249b16a8ccab46f2ca33
   react-native-orientation-locker: 851f6510d8046ea2f14aa169b1e01fcd309a94ba
   react-native-quick-md5: 5928fdcedcb1b2f0e1958a38769283968b8eb850
   react-native-restart: 45c8dca02491980f2958595333cbccd6877cb57e

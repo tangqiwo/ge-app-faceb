@@ -58,6 +58,7 @@
     "react-native-hsnz-marquee": "tangqiwo/react-native-hsnz-marquee",
     "react-native-image-picker": "^7.1.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-kline": "^2.1.2",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-marquee-ab": "^1.2.6",
     "react-native-modal": "^13.0.1",

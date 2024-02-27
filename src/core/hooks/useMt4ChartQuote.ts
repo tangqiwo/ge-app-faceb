@@ -24,6 +24,18 @@ export default () => {
   }, [socket]);
 
   React.useEffect(() => {
+    if (!messages) {
+      return;
+    }
+    try {
+      const res = JSON.parse(messages);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [messages])
+
+  React.useEffect(() => {
     setTimeout(() => {
       console.log('发送请求')
       const data = {

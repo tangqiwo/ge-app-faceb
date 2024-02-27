@@ -8,8 +8,9 @@
 import _ from 'lodash';
 import React from "react";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import usePublicState from '@core/hooks/usePublicState';
 import { INSTANT_QUOTES_STATUS_COLOR, INSTANT_QUOTES_STATUS_ICON } from '@core/hooks/useInstantQuotes';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { useSelector } from 'react-redux';
 import { IStore } from '@schemas/redux-store';
 import { LS as styles, GS } from './style';
@@ -18,6 +19,7 @@ export default () => {
 
   const insets = useSafeAreaInsets();
   const { instant, symbols } = useSelector((state: IStore) => state.quotes);
+  const { navigation } = usePublicState();
 
   return (
     <View style={styles.container}>
@@ -38,24 +40,26 @@ export default () => {
       <ScrollView showsVerticalScrollIndicator={false} >
         {
           instant && instant.map((item) =>
-            <View style={styles.contentView} key={item.Symbol}>
-              <View style={[styles.column1, styles.contentItemView]}>
-                <Text style={styles.contentItemViewText1}>{ _.find(symbols, {Key: item.Symbol}).Title }</Text>
-                <Text style={styles.contentItemViewText2}>{item.Symbol}</Text>
-              </View>
-              <View style={[styles.column2, styles.contentItemView]}>
-                <View style={{...styles.contentItemViewBack, backgroundColor: INSTANT_QUOTES_STATUS_COLOR[item.bidStatus]}}>
-                  <Text style={styles.contentItemViewText3}>{INSTANT_QUOTES_STATUS_ICON[item.bidStatus]} {item.Bid}</Text>
+            <TouchableWithoutFeedback style={styles.contentView} key={item.Symbol} onPress={() => navigation.navigate('KLine', { symbol: item.Symbol })}>
+              <View style={styles.contentView}>
+                <View style={[styles.column1, styles.contentItemView]}>
+                  <Text style={styles.contentItemViewText1}>{ _.find(symbols, {Key: item.Symbol}).Title }</Text>
+                  <Text style={styles.contentItemViewText2}>{item.Symbol}</Text>
                 </View>
-                <Text style={styles.contentItemViewText2}>最高{_.find(symbols, {Key: item.Symbol}).High}</Text>
-              </View>
-              <View style={[styles.column2, styles.contentItemView]}>
-                <View style={{...styles.contentItemViewBack, backgroundColor: INSTANT_QUOTES_STATUS_COLOR[item.askStatus]}}>
-                  <Text style={styles.contentItemViewText3}>{INSTANT_QUOTES_STATUS_ICON[item.askStatus]} {item.Ask}</Text>
+                <View style={[styles.column2, styles.contentItemView]}>
+                  <View style={{...styles.contentItemViewBack, backgroundColor: INSTANT_QUOTES_STATUS_COLOR[item.bidStatus]}}>
+                    <Text style={styles.contentItemViewText3}>{INSTANT_QUOTES_STATUS_ICON[item.bidStatus]} {item.Bid}</Text>
+                  </View>
+                  <Text style={styles.contentItemViewText2}>最高{_.find(symbols, {Key: item.Symbol}).High}</Text>
                 </View>
-                <Text style={styles.contentItemViewText2}>最低{_.find(symbols, {Key: item.Symbol}).Low}</Text>
+                <View style={[styles.column2, styles.contentItemView]}>
+                  <View style={{...styles.contentItemViewBack, backgroundColor: INSTANT_QUOTES_STATUS_COLOR[item.askStatus]}}>
+                    <Text style={styles.contentItemViewText3}>{INSTANT_QUOTES_STATUS_ICON[item.askStatus]} {item.Ask}</Text>
+                  </View>
+                  <Text style={styles.contentItemViewText2}>最低{_.find(symbols, {Key: item.Symbol}).Low}</Text>
+                </View>
               </View>
-            </View>
+            </TouchableWithoutFeedback>
           )
         }
       </ScrollView>
