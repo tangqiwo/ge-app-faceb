@@ -53,10 +53,8 @@ export default ({url, protocol, closeCallback, routeName}: IUseWebsocket) => {
       }
       ws.current.onmessage = (event: any) => {
         if(event.data.includes('QuoteHistory')){
-          console.log(123123)
         }
         if(protocol === 'chart'){
-          console.log(event.data);
           return;
         }
         if(event.data === 'pong' || AppState.currentState !== 'active') {
@@ -73,7 +71,6 @@ export default ({url, protocol, closeCallback, routeName}: IUseWebsocket) => {
         }
 
         if(_.includes(event.data, `"type":"OrderUpdate"`) || _.includes(event.data, `"type":"QuoteHistory"`)){
-          console.log(event.data)
           setMessages(event.data);
           return;
         }

@@ -27,6 +27,7 @@ export default () => {
 
   const route = useRoute<any>();
   const { navigation } = usePublicState();
+  const Mt4ClientApiToken = useSelector((state: any) => state.trade?.mt4Info?.Mt4ClientApiToken);
   const [list, setList] = React.useState([]);
   const [viewHeight, setViewHeight] = React.useState(0);
   const instant = useSelector((state: IStore) => state.quotes.instant);
@@ -34,9 +35,13 @@ export default () => {
   const [currentSymbol, setCurrentSymbol] = React.useState(SYMBOLS_MAPPING[route.params?.symbol]);
   const [currentTimeFrame, setCurrentTimeFrame] = React.useState('M1');
   const [currentChildIndicator, setCurrentChildIndicator] = React.useState(KLineIndicator.ChildKDJ);
+  const wsRef = React.useRef(null);
 
   React.useEffect(() => {
     initKlineChart();
+    return () => {
+      wsRef.current && wsRef.current.close();
+    }
   }, [])
 
   const onLayout = (event: any) => {
@@ -104,6 +109,23 @@ export default () => {
         ]);
       } catch (err) {}
     };
+    wsRef.current = ws;
+  }
+
+  const goBuy = () => {
+    if(Mt4ClientApiToken){
+      navigation.navigate('TradeDetail', { type: 'buy', symbol: SYMBOLS_MAPPING_REVERSE[route.params?.symbol] });
+      return;
+    }
+    navigation.navigate('Root', { screen: 'Trade' });
+  }
+
+  const goSell = () => {
+    if(Mt4ClientApiToken){
+      navigation.navigate('TradeDetail', { type: 'sell', symbol: SYMBOLS_MAPPING_REVERSE[route.params?.symbol] });
+      return;
+    }
+    navigation.navigate('Root', { screen: 'Trade' });
   }
 
   const symbolPrice = _.find(instant, {Symbol: currentSymbol});
@@ -114,9 +136,9 @@ export default () => {
       <SafeAreaView style={styles.safeView}>
         <View style={styles.header}>
           <Icon.Font name='arrow-left' type={Icon.T.FontAwesome5} onPress={() => navigation.goBack()} style={styles.arrowBack} size={GS.mixin.rem(16)} />
-          <View style={styles.headerTitleViwe}>
+          <MyTouchableOpacity style={styles.headerTitleViwe} onPress={() => navigation.goBack()}>
             <Text style={styles.headerTitleViewText}>{currentSymbol}</Text>
-          </View>
+          </MyTouchableOpacity>
         </View>
         <View style={styles.infos}>
           <View style={styles.priceNow}>
@@ -178,12 +200,12 @@ export default () => {
           }
         </View>
         <View style={styles.footer}>
-          <View style={styles.actionBtn}>
+          <MyTouchableOpacity style={styles.actionBtn} onPress={goBuy}>
             <Text style={styles.actionBtnText}>买入</Text>
-          </View>
-          <View style={{...styles.actionBtn, backgroundColor: '#d44b66'}}>
+          </MyTouchableOpacity>
+          <MyTouchableOpacity style={{...styles.actionBtn, backgroundColor: '#d44b66'}} onPress={goSell}>
             <Text style={styles.actionBtnText}>卖出</Text>
-          </View>
+          </MyTouchableOpacity>
         </View>
       </SafeAreaView>
     </View>
@@ -203,6 +225,13 @@ const SYMBOLS_MAPPING = {
   'XAGUSDpro': 'XAGUSD',
   'XAUUSD': 'XAUUSD',
   'XAGUSD': 'XAGUSD',
+}
+
+const SYMBOLS_MAPPING_REVERSE = {
+  'XAUUSD': 'XAUUSDpro',
+  'XAGUSD': 'XAGUSDpro',
+  'XAUUSDpro': 'XAUUSDpro',
+  'XAGUSDpro': 'XAGUSDpro',
 }
 
 // 时分选择

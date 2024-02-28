@@ -71,7 +71,7 @@ export default () => {
       }
       dispatch(ACTIONS.BASE.openToast({text: '暂无推荐人活动'}));
     } else {
-      navigation.navigate('Login')
+      navigation.navigate('Register')
     }
   }
 

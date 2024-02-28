@@ -98,8 +98,6 @@ export default React.memo(() => {
     }
   }, [startDate, endDate])
 
-  console.log(displayData)
-
   return (
     <View style={{flex: 1, paddingBottom: GS.mixin.rem(60)}}>
       <View style={localStyles.datePicker}>

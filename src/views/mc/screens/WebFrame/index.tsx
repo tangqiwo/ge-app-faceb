@@ -20,7 +20,7 @@ export default () => {
 
   const route = useRoute<any>();
   const navigation = useNavigation<any>();
-  const {dispatch, ACTIONS, ossDomain} = usePublicState();
+  const {dispatch, ACTIONS, ossDomain, isLogined} = usePublicState();
   const [ showExitAd, setShowExitAd ] = React.useState(false);
   const [extInfo, setExtInfo] = React.useState<any>({});
   // 官网
@@ -37,8 +37,11 @@ export default () => {
       dispatch(ACTIONS.USER.getUserInfo({}))
       return;
     }
-    if(route.params.title === '注资'){
+    if(route.params.title === '注资' && extInfo.content && extInfo.image){
       setShowExitAd(true);
+      if(isLogined){
+        dispatch(ACTIONS.USER.getUserInfo({}))
+      }
       return;
     }
     navigation.goBack();
@@ -54,30 +57,35 @@ export default () => {
           <Icon.Font style={styles.goBackIcon} type={Icon.T.SimpleLineIcons} name='arrow-left' />
         </MyTouchableOpacity>
     )});
-    dispatch(ACTIONS.BASE.commonRequest({
-      uri: 'GetDialogTypeByDeposit/Select',
-      cache: { expires: 1000 * 60 * 60, forward: true },
-      cb: (res: any) => {
-        console.log(JSON.parse(res.Data.Dialog.Data[0].Content).Content)
-        setExtInfo({
-          image: res.Data.Dialog.Data[0].BannerImg,
-          content: JSON.parse(res.Data.Dialog.Data[0].Content).Content
-        })
-      }
-    }))
+    if(route.params.title === '注资'){
+      dispatch(ACTIONS.BASE.commonRequest({
+        uri: 'GetDialogTypeByDeposit/Select',
+        cache: { expires: 1000 * 60 * 60, forward: true },
+        cb: (res: any) => {
+          setExtInfo({
+            image: res.Data?.Dialog?.Data[0]?.BannerImg,
+            content: JSON.parse(res.Data?.Dialog?.Data[0]?.Content)?.Content
+          })
+        }
+      }))
+    }
   }, [])
 
   return (
     <>
-      <ExitPopup
-        display={showExitAd}
-        close={() => setShowExitAd(false)}
-        exit={() => navigation.goBack()}
-        cancelText="继续注资"
-        text={extInfo.content}
-      >
-        <MyImage width={GS.mixin.rem(170)} source={{uri: ossDomain + extInfo.image}} />
-      </ExitPopup>
+      {
+        route.params.title === '注资' && extInfo.content && extInfo.image &&
+        <ExitPopup
+          display={showExitAd}
+          close={() => setShowExitAd(false)}
+          exit={() => navigation.goBack()}
+          cancelText="继续注资"
+          text={extInfo.content}
+        >
+          <MyImage width={GS.mixin.rem(170)} source={{uri: ossDomain + extInfo.image}} />
+        </ExitPopup>
+
+      }
       <WebView
         source={{ uri: `${domain}${route.params.uri}` }}
         style={{ flex: 1 }}

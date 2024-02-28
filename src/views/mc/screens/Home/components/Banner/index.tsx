@@ -29,7 +29,7 @@ export default () => {
           vertical={false}
           inactiveSlideScale={1}
           firstItem={0}
-          loop
+          loop={false}
           autoplay
           sliderWidth={width}
           itemWidth={width}

@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2023-06-07 14:20:59
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/hooks/useLogin.ts
  * @Description: 登录
  */
@@ -39,8 +39,12 @@ export default () => {
     }
     const { Password, PhoneNumber } = payload;
     if (key === 'Password') {
-      setErrors({...errors, Password: Password ? null : '请输入密码'});
-      dispatch(ACTIONS.BASE.openToast({text: '请输入密码', types: 'error'}));
+      if(!payload.Password){
+        setErrors({...errors, Password: Password ? null : '请输入密码'});
+        dispatch(ACTIONS.BASE.openToast({text: '请输入密码', types: 'error'}));
+        return;
+      }
+      setErrors({...errors, Password: null});
       return;
     }
     if(key === 'PhoneNumber') {

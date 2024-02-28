@@ -7,8 +7,7 @@
  */
 import _ from 'lodash';
 import React from 'react';
-import { Dimensions } from 'react-native';
-import MyImage from '@core/templates/components/Base/Image';
+import { Image } from 'react-native';
 import { useSelector } from 'react-redux';
 import usePublicState from '@core/hooks/usePublicState';
 import Overlay from '@core/templates/components/Overlay';
@@ -22,7 +21,6 @@ export default ({close}: IProps) => {
   const appDisplayConfig = useSelector((state: any) => state.base.appDisplayConfig);
   const {ossDomain} = usePublicState();
   const ref = React.useRef<any>(null);
-  const { width } = Dimensions.get('window');
   const [ realPath, setRealPath ] = React.useState<string>('');
 
   React.useEffect(() => {
@@ -54,8 +52,8 @@ export default ({close}: IProps) => {
     <Overlay display zIndex={100}>
       {
         !_.isEmpty(appDisplayConfig) &&
-        <MyImage
-          width={width}
+        <Image
+          style={{width: '100%', height: '100%'}}
           source={{uri: realPath}}
         />
       }

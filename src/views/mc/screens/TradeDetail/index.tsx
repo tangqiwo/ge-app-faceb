@@ -59,6 +59,28 @@ export default () => {
 
   React.useEffect(() => {
     // 初始化修改值
+    if(params?.type === 'buy'){
+      setPayload({
+        ...payload,
+        Operation: 'Buy',
+        Symbol: params.symbol,
+      })
+      return;
+    }
+    if(params?.type === 'sell'){
+      setPayload({
+        ...payload,
+        Operation: 'Sell',
+        Symbol: params.symbol,
+      })
+      return;
+    }
+    if(params?.type === 'closePosition'){
+      setPayload({
+        ...payload,
+        Volume: (params.volume / 100).toFixed(2)
+      })
+    }
     if(params?.type === 'setStopLoss' && params?.ex){
       setPayload({
         ...payload,
@@ -90,7 +112,7 @@ export default () => {
   }, [currentTab, params?.type])
 
   React.useEffect(() => {
-    if(!params || params.type === 'updateOrder'){
+    if(!params || params.type === 'updateOrder' || params.type === 'sell' || params.type === 'buy'){
       navigation.setOptions({
         headerTitle: () => (
           <Selector
@@ -129,7 +151,7 @@ export default () => {
   }, [_.find(instant, { Symbol: payload.Symbol })])
 
   React.useEffect(() => {
-    if(params?.type === 'updateOrder' || params?.type === 'setStopLoss'){
+    if(params && _.includes(['updateOrder', 'setStopLoss', 'buy', 'sell'], params?.type)){
       return;
     }
     if(currentTab === 0){
@@ -181,7 +203,7 @@ export default () => {
   }
 
   const handleSubmit = React.useCallback(_.throttle(() => {
-    if(!params){
+    if(!params || params.type === 'buy' || params.type === 'sell'){
       if (currentTab === 0) {
         setShowConfirmSubmit(true);
         // openMarketOrder();
@@ -219,7 +241,7 @@ export default () => {
       <KeyboardAvoidingView>
         <ScrollView showsVerticalScrollIndicator={false}>
           {
-            params &&
+            params && (params.type !== 'buy' && params.type !== 'sell') &&
             <View style={styles.orderInfo}>
               <Text style={styles.orderInfoText}>{operation} #{params.id}</Text>
               <Text style={styles.orderInfoText}>{params.symbol}</Text>
@@ -251,7 +273,7 @@ export default () => {
             </View>
           </View>
           {
-            !params &&
+            (!params || params.type === 'buy' || params.type === 'sell') &&
             <View style={styles.tabsVeiw}>
               <MyTouchableOpacity style={[styles.tabsItem, currentTab === 0 && styles.tabsItemActive]} onPress={() => setCurrentTab(0)}>
                 <Text style={[styles.tabsItemText, currentTab === 0 && styles.tabsItemTextActive]}>建仓</Text>
@@ -272,7 +294,7 @@ export default () => {
             </View>
           }
           {
-            (currentTab === 1 || (params?.type && !_.includes(['closePosition', 'setStopLoss'], params?.type))) &&
+            (currentTab === 1 || !_.includes(['closePosition', 'setStopLoss', 'buy', 'sell'], params?.type)) &&
             <>
               <MyTouchableOpacity style={styles.dropItem} onPress={() => setShowSelector('Expiration')}>
                 <Text>有效期</Text>
