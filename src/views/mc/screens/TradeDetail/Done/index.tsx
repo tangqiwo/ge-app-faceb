@@ -31,6 +31,8 @@ export default () => {
     });
   }, [])
 
+  const price = route.params?.data?.Type === '平仓' ? data.ClosePrice : data.OpenPrice
+
   return (
     <View style={styles.container}>
       <Image source={require('./i/market.png')} style={styles.image}/>
@@ -47,7 +49,13 @@ export default () => {
             </View>
             <View style={styles.item}>
               <Text style={styles.grey}>价格： </Text>
-              <Text>{data.OpenPrice}</Text>
+              <Text>
+                {
+                  data.Symbol.includes('XAU') ?
+                  Number(price)?.toFixed(2) :
+                  Number(price)?.toFixed(3)
+                }
+              </Text>
             </View>
             <View style={styles.item}>
               <Text style={styles.grey}>方向： </Text>

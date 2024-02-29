@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-27 12:20:08
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/views/mc/screens/Register/Guide/index.tsx
  * @Description:
  */
@@ -27,11 +27,11 @@ export default () => {
           vertical={false}
           sliderWidth={width}
           itemWidth={GS.mixin.rem(319)}
-          data={[1,2,3]}
+          data={Images}
           enableSnap={true}
           firstItem={1}
           renderItem={({ item }: any) =>
-            <Image style={{width: GS.mixin.rem(319), height: GS.mixin.rem(179)}} source={require('./i/banner.png')} />
+            <Image style={{width: GS.mixin.rem(319), height: GS.mixin.rem(179)}} source={item} />
           }
         />
       </View>
@@ -79,3 +79,9 @@ export default () => {
   )
 
 }
+
+const Images = [
+  require('./i/banner0.png'),
+  require('./i/banner.png'),
+  require('./i/banner2.png')
+]

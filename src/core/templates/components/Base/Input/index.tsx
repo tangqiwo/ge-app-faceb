@@ -138,7 +138,7 @@ export default React.memo(({
         autoCapitalize="none"
         style={{ ...baseStyle, color, flex: 1, borderWidth:0 }}
         placeholderTextColor={GS.var.colors.gray[500]}
-        secureTextEntry={type === 'password'}
+        secureTextEntry={true}
         onChange={handleOnChange}
         onFocus={handleOnFocus}
         onBlur={handleOnBlur}

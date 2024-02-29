@@ -57,7 +57,7 @@ export const LS = StyleSheet.create({
   money: {
     width: '40%',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     marginLeft: 'auto',
     alignItems: 'center'
   },

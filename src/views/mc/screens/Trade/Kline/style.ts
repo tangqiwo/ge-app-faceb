@@ -16,11 +16,8 @@ export const LS = StyleSheet.create({
     flex: 1,
     backgroundColor: '#121e33'
   },
-  safeView: {
-    flex: 1,
-  },
   header:{
-    height: G.mixin.rem(44),
+    height: G.mixin.rem(40),
     justifyContent: 'flex-start',
     alignItems: 'center',
     paddingLeft: G.mixin.rem(14),
@@ -138,7 +135,7 @@ export const LS = StyleSheet.create({
   },
   timeFrameItemTextActive: {
     color: '#2584ff',
-  }
+  },
 });
 
 // 固定导出

@@ -104,7 +104,7 @@ export default () => {
             style={{...styles.inputText, width: GS.mixin.rem(200)}} type={showPassword ? 'text' : 'password'}
           />
           <MyTouchableOpacity style={{marginLeft: 'auto'}} onPress={() => setShowPassword(!showPassword)}>
-            <Icon.Font type={Icon.T.Feather}  name={!showPassword ? 'eye' : 'eye-off'} size={GS.mixin.rem(20)} color="#94938F" />
+            <Icon.Font type={Icon.T.Feather}  name={!showPassword ? 'eye-off' : 'eye' } size={GS.mixin.rem(20)} color="#94938F" />
           </MyTouchableOpacity>
         </View>
         <MyTouchableOpacity style={styles.submitView} onPress={validateRealName}>

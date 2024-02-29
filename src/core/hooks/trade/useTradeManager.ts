@@ -217,6 +217,9 @@ export default () => {
         ...payload,
         Volume: type
       })
+      requestAnimationFrame(() => {
+        changeVolume('sub', 0)
+      })
       return;
     }
     if(type === 'reset') {
@@ -233,7 +236,7 @@ export default () => {
       })
       return;
     }
-    if(_volume <= 0.01) {
+    if(_volume < 0.01) {
       dispatch(ACTIONS.BASE.openToast({ text: '手数不能小于0.01' }));
       setPayload((state) => ({
         ...state,
@@ -254,6 +257,13 @@ export default () => {
       setPayload({
         ...payload,
         Stoploss: type
+      })
+      requestAnimationFrame(() => {
+        if(STOPLOSS_TAKEPROFIT[payload.Operation]?.Stoploss === '≥'){
+          changeStoploss('sub', 0);
+        }else{
+          changeStoploss('add', 0);
+        }
       })
       return;
     }
@@ -303,6 +313,13 @@ export default () => {
         ...payload,
         Takeprofit: type
       })
+      requestAnimationFrame(() => {
+        if(STOPLOSS_TAKEPROFIT[payload.Operation]?.Takeprofit === '≥'){
+          changeTakeprofit('sub', 0);
+        }else{
+          changeTakeprofit('add', 0);
+        }
+      })
       return;
     }
     if(type === 'reset') {
@@ -351,6 +368,13 @@ export default () => {
         ...state,
         Price: type
       }))
+      requestAnimationFrame(() => {
+        if(LIMIT_PRICE[payload.Operation] == '≥') {
+          changeLimitPrice('sub', 0);
+        }else{
+          changeLimitPrice('add', 0);
+        }
+      })
       return;
     }
     if(type === 'reset') {

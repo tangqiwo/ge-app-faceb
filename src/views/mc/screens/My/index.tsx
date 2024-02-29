@@ -18,7 +18,7 @@ import style, { LS as styles, GS } from './style';
 
 export default () => {
 
-  const { rs, navigation, infos, customerService } = usePublicState();
+  const { rs, navigation, infos, customerService, isLogined } = usePublicState();
   const [ showMoney, setShowMoney ] = React.useState(false);
   const { forward } = useRouteWebCommon();
 
@@ -96,9 +96,9 @@ export default () => {
         <View style={styles.infosView}>
           <Text style={styles.moneyTitle}>资产净值（USD）</Text>
           <View style={styles.moneyDetail}>
-            <Text style={styles.moneyDetailText}>{showMoney ? (infos.Balance || '0.00') : '****'}</Text>
+            <Text style={styles.moneyDetailText}>{showMoney ? (infos.Balance || '0.00') : isLogined ? '****' : '----'}</Text>
             <MyTouchableOpacity onPress={() => setShowMoney(!showMoney)}>
-              <Icon.Font type={Icon.T.Feather} name={!showMoney ? 'eye' : 'eye-off'} size={GS.mixin.rem(20)} style={{marginTop: 5}} color="#94938F" />
+              <Icon.Font type={Icon.T.Feather} name={!showMoney ? 'eye-off' : 'eye' } size={GS.mixin.rem(20)} style={{marginTop: 5}} color="#94938F" />
             </MyTouchableOpacity>
           </View>
           {

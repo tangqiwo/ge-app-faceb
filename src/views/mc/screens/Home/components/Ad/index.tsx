@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-09 15:51:39
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/views/mc/screens/Home/components/Ad/index.tsx
  * @Description:
  */
@@ -28,10 +28,10 @@ export default (() => {
         <Image source={require('./i/G.png')} style={styles.itemImage} />
         <View style={styles.itemText}>
           <Text style={styles.itemTextTitle}>现货黄金</Text>
-          <Text style={{...styles.itemTextPrice, color: INSTANT_QUOTES_STATUS_COLOR[gold?.askStatus]}}>{gold?.Ask || '0000.00'}</Text>
+          <Text style={{...styles.itemTextPrice, color: INSTANT_QUOTES_STATUS_COLOR[gold?.askStatus]}}>{gold?.Ask?.toFixed(2) || '0000.00'}</Text>
           <View style={styles.itemTextPriceUnit}>
             <Text style={{...styles.itemTextPriceUnitText, color: INSTANT_QUOTES_STATUS_COLOR[gold?.askStatus]}}>
-              {gold?.changeValue || '0.00'}
+              {gold?.changeValue?.toFixed(2) || '0.00'}
             </Text>
             <Text style={{...styles.itemTextPriceUnitText, color: INSTANT_QUOTES_STATUS_COLOR[gold?.askStatus]}}>
               {gold?.changePercent ? `${gold.changePercent}%` : '0.00%'}
@@ -43,10 +43,10 @@ export default (() => {
         <Image source={require('./i/Y.png')} style={styles.itemImage} />
         <View style={styles.itemText}>
           <Text style={styles.itemTextTitle}>现货白银</Text>
-          <Text style={{...styles.itemTextPrice, color: INSTANT_QUOTES_STATUS_COLOR[silver?.askStatus]}}>{silver?.Ask || '0000.00'}</Text>
+          <Text style={{...styles.itemTextPrice, color: INSTANT_QUOTES_STATUS_COLOR[silver?.askStatus]}}>{silver?.Ask?.toFixed(3) || '0000.00'}</Text>
           <View style={styles.itemTextPriceUnit}>
             <Text style={{...styles.itemTextPriceUnitText, color: INSTANT_QUOTES_STATUS_COLOR[silver?.askStatus]}}>
-            {silver?.changeValue || '0.00'}
+            {silver?.changeValue?.toFixed(3) || '0.00'}
             </Text>
             <Text style={{...styles.itemTextPriceUnitText, color: INSTANT_QUOTES_STATUS_COLOR[silver?.askStatus]}}>
               {silver?.changePercent ? `${silver.changePercent}%` : '0.00%'}

@@ -11,21 +11,25 @@
 
 import _ from 'lodash';
 import React from 'react';
-import { View, Text, SafeAreaView} from 'react-native';
+import { View, Text, SafeAreaView, StatusBar, Appearance} from 'react-native';
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 import {useSelector} from 'react-redux';
 import { useRoute } from '@react-navigation/native';
 import ByronKlineChart from 'react-native-kline';
 import {dispatchByronKline, KLineIndicator} from 'react-native-kline';
 import usePublicState from '@core/hooks/usePublicState';
+import useKlineData from '@core/hooks/trade/useKlineData';
+import useAuth from '@core/hooks/useAuth';
 import Icon from '@icon/index';
 import {IStore} from '@schemas/redux-store';
 import axios from 'axios';
 import { LS as styles, GS } from './style';
+import dayjs from 'dayjs';
 
 export default () => {
 
   const route = useRoute<any>();
+  const { getKlineData, data } = useKlineData({Symbol: SYMBOLS_MAPPING_REVERSE[route.params?.symbol]});
   const { navigation } = usePublicState();
   const Mt4ClientApiToken = useSelector((state: any) => state.trade?.mt4Info?.Mt4ClientApiToken);
   const [list, setList] = React.useState([]);
@@ -35,14 +39,20 @@ export default () => {
   const [currentSymbol, setCurrentSymbol] = React.useState(SYMBOLS_MAPPING[route.params?.symbol]);
   const [currentTimeFrame, setCurrentTimeFrame] = React.useState('M1');
   const [currentChildIndicator, setCurrentChildIndicator] = React.useState(KLineIndicator.ChildKDJ);
+  const { requestAuth } = useAuth();
   const wsRef = React.useRef(null);
 
   React.useEffect(() => {
-    initKlineChart();
+    StatusBar.setBarStyle('light-content');
     return () => {
+      StatusBar.setBarStyle(Appearance.getColorScheme() === 'dark' ? 'light-content' : 'dark-content');
       wsRef.current && wsRef.current.close();
     }
   }, [])
+
+  React.useEffect(() => {
+    initKlineChart(currentTimeFrame);
+  }, [currentTimeFrame])
 
   const onLayout = (event: any) => {
     const { height } = event.nativeEvent.layout;
@@ -51,90 +61,106 @@ export default () => {
 
   const onMoreKLineData = async () => {}
 
-  const initKlineChart = async () => {
-    const res = await axios
-      .get(
-        'https://www.okex.com/priapi/v5/market/candles?instId=BTC-USDT&bar=1m&limit=1000',
-      )
-      .catch((err) => {
-        console.log(err);
-        return;
-      });
-    if (!res || !res.data || !res.data.data || !res.data.data.length) {
-      return;
-    }
-    const list = [];
-    for (let i = 0; i < res.data.data.length; i++) {
-      const item = res.data.data[i];
-      // 返回值分别为[timestamp,open,high,low,close,volume]
-      list.push({
-        amount: 0,
-        open: Number(item[1]),
-        close: Number(item[4]),
-        high: Number(item[2]),
-        id: parseInt(Number(item[0]) / 1000),
-        low: Number(item[3]),
-        vol: Number(item[5]),
-      });
-    }
-    list.sort((l, r) => (l.id > r.id ? 1 : -1));
-    setList(list);
-    subscribeKLine();
+  const initKlineChart = (timeFrame = 'M1') => {
+    getKlineData(timeFrame, (res) => {
+      const data = _.chain(res.Data)
+                    .map((item: any) => ({
+                      amount: 0,
+                      open: _.round(Number(item.Open), 3),
+                      close: _.round(Number(item.Close), 3),
+                      high: _.round(Number(item.High), 3),
+                      id: parseInt(dayjs(item.Time, 'YYYY-MM-DDTHH:mm:ss').valueOf() / 1000),
+                      low: _.round(Number(item.Low), 3),
+                      vol: '--',
+                    }))
+                    .reverse()
+                    .value()
+      setList(data);
+    })
+    return;
+    // const res = await axios
+    //   .get(
+    //     'https://www.okex.com/priapi/v5/market/candles?instId=BTC-USDT&bar=1m&limit=1000',
+    //   )
+    //   .catch((err) => {
+    //     console.log(err);
+    //     return;
+    //   });
+    // if (!res || !res.data || !res.data.data || !res.data.data.length) {
+    //   return;
+    // }
+    // const list = [];
+    // for (let i = 0; i < res.data.data.length; i++) {
+    //   const item = res.data.data[i];
+    //   // 返回值分别为[timestamp,open,high,low,close,volume]
+    //   list.push({
+    //     amount: 0,
+    //     open: Number(item[1]),
+    //     close: Number(item[4]),
+    //     high: Number(item[2]),
+    //     id: parseInt(Number(item[0]) / 1000),
+    //     low: Number(item[3]),
+    //     vol: Number(item[5]),
+    //   });
+    // }
+    // list.sort((l, r) => (l.id > r.id ? 1 : -1));
+    // setList(list);
+    // subscribeKLine();
   }
 
-  const subscribeKLine = () => {
-    const ws = new WebSocket('wss://wspri.okex.com:8443/ws/v5/public');
-    ws.onopen = () => {
-      ws.send(
-        JSON.stringify({
-          op: 'subscribe',
-          args: [{channel: 'candle1m', instId: 'BTC-USDT'}],
-        }),
-      );
-    };
-    ws.onmessage = (ev) => {
-      try {
-        const data = JSON.parse(ev.data);
-        const item = data.data[0];
-        dispatchByronKline('update', [
-          {
-            amount: 0,
-            open: Number(item[1]),
-            close: Number(item[4]),
-            high: Number(item[2]),
-            id: parseInt(Number(item[0]) / 1000),
-            low: Number(item[3]),
-            vol: Number(item[5]),
-          },
-        ]);
-      } catch (err) {}
-    };
-    wsRef.current = ws;
-  }
+  // const subscribeKLine = () => {
+  //   const ws = new WebSocket('wss://wspri.okex.com:8443/ws/v5/public');
+  //   ws.onopen = () => {
+  //     ws.send(
+  //       JSON.stringify({
+  //         op: 'subscribe',
+  //         args: [{channel: 'candle1m', instId: 'BTC-USDT'}],
+  //       }),
+  //     );
+  //   };
+  //   ws.onmessage = (ev) => {
+  //     try {
+  //       const data = JSON.parse(ev.data);
+  //       const item = data.data[0];
+  //       dispatchByronKline('update', [
+  //         {
+  //           amount: 0,
+  //           open: Number(item[1]),
+  //           close: Number(item[4]),
+  //           high: Number(item[2]),
+  //           id: parseInt(Number(item[0]) / 1000),
+  //           low: Number(item[3]),
+  //           vol: Number(item[5]),
+  //         },
+  //       ]);
+  //     } catch (err) {}
+  //   };
+  //   wsRef.current = ws;
+  // }
 
-  const goBuy = () => {
+  const goBuy = requestAuth(() => {
     if(Mt4ClientApiToken){
       navigation.navigate('TradeDetail', { type: 'buy', symbol: SYMBOLS_MAPPING_REVERSE[route.params?.symbol] });
       return;
     }
     navigation.navigate('Root', { screen: 'Trade' });
-  }
+  })
 
-  const goSell = () => {
+  const goSell = requestAuth(() => {
     if(Mt4ClientApiToken){
       navigation.navigate('TradeDetail', { type: 'sell', symbol: SYMBOLS_MAPPING_REVERSE[route.params?.symbol] });
       return;
     }
     navigation.navigate('Root', { screen: 'Trade' });
-  }
+  })
 
   const symbolPrice = _.find(instant, {Symbol: currentSymbol});
   const symbolSummary = _.find(symbols, {Key: currentSymbol});
 
   return (
     <View style={styles.container}>
-      <SafeAreaView style={styles.safeView}>
-        <View style={styles.header}>
+      <SafeAreaView style={[styles.container]}>
+        <View style={{...styles.header}}>
           <Icon.Font name='arrow-left' type={Icon.T.FontAwesome5} onPress={() => navigation.goBack()} style={styles.arrowBack} size={GS.mixin.rem(16)} />
           <MyTouchableOpacity style={styles.headerTitleViwe} onPress={() => navigation.goBack()}>
             <Text style={styles.headerTitleViewText}>{currentSymbol}</Text>
@@ -191,7 +217,7 @@ export default () => {
             KLineIndicatorList.map((item, index) => (
               <MyTouchableOpacity
                 key={index}
-                style={[styles.timeFrameItem, currentChildIndicator === item.value && styles.timeFrameActive]}
+                style={[styles.timeFrameItem]}
                 onPress={() => setCurrentChildIndicator(item.value)}
               >
                 <Text style={[styles.timeFrameItemText, currentChildIndicator === item.value && styles.timeFrameItemTextActive]}>{item.label}</Text>
@@ -214,9 +240,9 @@ export default () => {
 
 
 const INSTANT_QUOTES_STATUS_COLOR = {
-  UP: '#da485e',
-  DOWN: '#05ad90',
-  FLAT: '#da485e',
+  UP: '#05ad90',
+  DOWN: '#da485e',
+  FLAT: '#05ad90',
 }
 
 // symbols 映射关系
@@ -240,9 +266,9 @@ const TIMEFRAME_LIST = [
   {value: 'M5', label: '5分'},
   {value: 'M30', label: '30分'},
   {value: 'H1', label: '1小时'},
-  {value: 'H4', label: '4小时'},
   {value: 'D1', label: '日K'},
   {value: 'W1', label: '周K'},
+  {value: 'MN1', label: '月K'},
 ]
 
 // 子图指标
@@ -253,5 +279,3 @@ const KLineIndicatorList = [
   {value: KLineIndicator.ChildWR, label: 'WR'},
   {value: KLineIndicator.ChildNONE, label: 'NONE'},
 ]
-
-

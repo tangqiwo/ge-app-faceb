@@ -78,12 +78,14 @@ export default () => {
     if(params?.type === 'closePosition'){
       setPayload({
         ...payload,
-        Volume: (params.volume / 100).toFixed(2)
+        Volume: (params.volume / 100).toFixed(2),
+        Symbol: params.symbol,
       })
     }
     if(params?.type === 'setStopLoss' && params?.ex){
       setPayload({
         ...payload,
+        Symbol: params.symbol,
         Stoploss: params.ex.Sl,
         Takeprofit: params.ex.Tp,
         Operation: CMD_CDOE_MAPPING[params.cmd],
@@ -93,6 +95,7 @@ export default () => {
     if(params?.type === 'updateOrder'){
       setPayload({
         ...payload,
+        Symbol: params.symbol,
         Stoploss: params.ex.Sl,
         Takeprofit: params.ex.Tp,
         Price: params.ex.Price,
@@ -120,7 +123,7 @@ export default () => {
             title='交易品种'
             value={payload.Symbol}
             options={_.map(mt4Info?.Symbols, (item: any) => ({key: item, value: item}))}
-            cb={(value: string) => setPayload({...payload, Symbol: value})}
+            cb={(value: string) => setPayload((state: any) => ({...state, Symbol: value}))}
           />
         ),
         headerShown: true
@@ -258,7 +261,7 @@ export default () => {
                 }
                 <Text style={{color: '#fff'}}>卖出</Text>
               </View>
-              <Text style={styles.pendingAmount}>{_.find(instant, { Symbol: payload.Symbol })?.Bid || 0.00}</Text>
+              <Text style={styles.pendingAmount}>{_.find(instant, { Symbol: payload.Symbol })?.Bid.toFixed(2) || 0.00}</Text>
             </View>
             <View style={{...styles.pendingItem, backgroundColor: _.find(instant, { Symbol: payload.Symbol })?.askStatus === 'UP' ? '#00A010' : '#FF0000'}} >
               <View style={styles.pendingText}>
@@ -269,7 +272,7 @@ export default () => {
                 }
                 <Text style={{color: '#fff'}}>买入</Text>
               </View>
-              <Text style={styles.pendingAmount}>{_.find(instant, { Symbol: payload.Symbol })?.Ask || 0.00}</Text>
+              <Text style={styles.pendingAmount}>{_.find(instant, { Symbol: payload.Symbol })?.Ask?.toFixed(2) || 0.00}</Text>
             </View>
           </View>
           {
@@ -294,7 +297,7 @@ export default () => {
             </View>
           }
           {
-            (currentTab === 1 || !_.includes(['closePosition', 'setStopLoss', 'buy', 'sell'], params?.type)) &&
+            (currentTab === 1 || (params && !_.includes(['closePosition', 'setStopLoss', 'buy', 'sell'], params?.type))) &&
             <>
               <MyTouchableOpacity style={styles.dropItem} onPress={() => setShowSelector('Expiration')}>
                 <Text>有效期</Text>
@@ -326,10 +329,10 @@ export default () => {
             </>
           }
           {
-            !_.includes(['setStopLoss'], params?.type) &&
+            !_.includes(['setStopLoss', 'updateOrder'], params?.type) &&
             <>
               <View style={styles.optionsItem}>
-                <Text>交易手数</Text>
+                <Text>{params?.type === 'closePosition' ? '平仓' : '交易'}手数</Text>
                 <View style={styles.optionsMenu}>
                   <MyTouchableOpacity style={styles.optionsIcon} onPress={() => changeVolume('sub')}>
                     <Image source={require('./i/ic-reduce.png')} style={styles.optionsIcon} />

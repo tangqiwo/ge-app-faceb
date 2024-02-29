@@ -84,7 +84,9 @@ export default () => {
                   <Text style={styles.arrow}>{'\u2192'}</Text>
                   <Text style={styles.infoRed}>{_.find(instant, { Symbol: item.Symbol })?.Bid}</Text>
                   <View style={styles.money}>
-                    <Text style={styles.moneyText}>{Number(item.Profit).toFixed(2)}</Text>
+                    <Text style={{...styles.moneyText, color: item.Profit >= 0 ? '#00A010' : '#FF0000'}}>
+                      {Number(item.Profit).toFixed(2)}
+                    </Text>
                   </View>
                 </View>
                 <View style={styles.spaceBetween}>

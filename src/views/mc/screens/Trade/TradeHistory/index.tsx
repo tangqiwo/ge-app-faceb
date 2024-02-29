@@ -5,7 +5,7 @@
  * @FilePath: /app_face_b/src/views/mc/screens/Trade/TradeHistory/index.tsx
  * @Description: 挂单
  */
-import _ from 'lodash';
+import _, { set } from 'lodash';
 import React from 'react';
 import { FlatList } from 'react-native';
 import ACTIONS from '@actions/index';
@@ -29,6 +29,7 @@ export default React.memo(() => {
   const [ showDatePicker, setShowDatePicker ] = React.useState<'' | 'start' | 'end'>();
   const [ displayData, setDisplayData ] = React.useState<any>([]);
   const [isloading, setIsloading] = React.useState(false);
+  const [openInput, setOpenInput] = React.useState(false);
 
   React.useEffect(() => {
     setIsloading(false);
@@ -94,6 +95,7 @@ export default React.memo(() => {
 
   React.useEffect(() => {
     if(startDate && endDate){
+      setOpenInput(false);
       getHistoryOrders([startDate, endDate]);
     }
   }, [startDate, endDate])
@@ -102,7 +104,7 @@ export default React.memo(() => {
     <View style={{flex: 1, paddingBottom: GS.mixin.rem(60)}}>
       <View style={localStyles.datePicker}>
         {
-          date === 'others' && (!startDate || !endDate) &&
+          date === 'others' && openInput &&
           <View style={localStyles.datePickerWrapper}>
             <MyTouchableOpacity style={[localStyles.datePickerButton, localStyles.dateInput]} onPress={() => setShowDatePicker('start')}>
               {
@@ -126,7 +128,7 @@ export default React.memo(() => {
           </View>
         }
         {
-          (date !== 'others' || (date === 'others' && startDate && endDate)) &&
+          date !== 'others' && !openInput &&
           <View style={localStyles.datePickerWrapper}>
             <MyTouchableOpacity
               style={[localStyles.datePickerButton, date === 'today' && localStyles.dateActive]}
@@ -147,8 +149,8 @@ export default React.memo(() => {
               <Text>当月</Text>
             </MyTouchableOpacity>
             <MyTouchableOpacity
-              style={[localStyles.datePickerButton, date === 'others' && localStyles.dateActive]}
-              onPress={() => setDate('others')}
+              style={[localStyles.datePickerButton, (date as any) === 'others' && localStyles.dateActive]}
+              onPress={() => {setDate('others'), setOpenInput(true)}}
             >
               <Text>自定义</Text>
             </MyTouchableOpacity>
@@ -192,7 +194,7 @@ export default React.memo(() => {
                       <Text style={styles.arrow}>{'\u2192'}</Text>
                       <Text style={styles.infoRed}>{item.ClosePrice}</Text>
                       <View style={styles.money}>
-                        <Text style={styles.moneyText}>{Number(item.Profit).toFixed(2)}</Text>
+                        <Text style={{...styles.moneyText, color: item.Profit >= 0 ? '#00A010' : '#FF0000'}}>{Number(item.Profit).toFixed(2)}</Text>
                       </View>
                     </View>
                     <View style={styles.spaceBetween}>
@@ -246,7 +248,7 @@ const Balance = ({item}: any) => {
   return (
     <View style={styles.main} key={item.Ticket}>
       <View style={styles.spaceBetween}>
-        <Text style={styles.grey}>{item.OpenTime}</Text>
+        <Text style={styles.grey}>{dayjs(item.OpenTime).format('YYYY-MM-DD HH:mm:ss')}</Text>
         <View style={styles.variety}>
           <Text style={styles.grey}>{Number(item.Profit) > 0 ? '注资' : '取款'}</Text>
           <Text style={styles.order}>#{item.Ticket}</Text>
@@ -255,7 +257,7 @@ const Balance = ({item}: any) => {
       <View style={styles.spaceBetween}>
         <Text style={styles.grey}>注释:{item.Comment || '--'}</Text>
         <View style={styles.money}>
-           <Text style={styles.moneyText}>{item.Profit}</Text>
+           <Text style={{...styles.moneyText, color: item.Profit >= 0 ? '#00A010' : '#FF0000'}}>{item.Profit}</Text>
          </View>
       </View>
     </View>

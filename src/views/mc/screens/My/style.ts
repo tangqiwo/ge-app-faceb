@@ -55,7 +55,7 @@ export const LS = StyleSheet.create({
     fontWeight: '600'
   },
   tips: {
-    width: G.mixin.rem(60),
+    width: G.mixin.rem(80),
     height: G.mixin.rem(18),
     marginLeft: G.mixin.rem(5),
     flexDirection: 'row',

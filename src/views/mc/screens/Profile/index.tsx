@@ -269,7 +269,7 @@ export default () => {
                       type={showOldPass ? 'text' : 'password'}
                     />
                     <MyTouchableOpacity style={{marginLeft: 'auto'}} onPress={() => setShowOldPass(!showOldPass)}>
-                      <Icon.Font type={Icon.T.Feather}  name={!showOldPass ? 'eye' : 'eye-off'} size={GS.mixin.rem(20)} color="#94938F" />
+                      <Icon.Font type={Icon.T.Feather}  name={!showOldPass ? 'eye-off' : 'eye' } size={GS.mixin.rem(20)} color="#94938F" />
                     </MyTouchableOpacity>
                   </View>
                   <Text style={styles.title}>新密码：</Text>
@@ -283,7 +283,7 @@ export default () => {
                       type={showPassword ? 'text' : 'password'}
                     />
                     <MyTouchableOpacity style={{marginLeft: 'auto'}} onPress={() => setShowPassword(!showPassword)}>
-                      <Icon.Font type={Icon.T.Feather}  name={!showPassword ? 'eye' : 'eye-off'} size={GS.mixin.rem(20)} color="#94938F" />
+                      <Icon.Font type={Icon.T.Feather}  name={!showPassword ? 'eye-off' : 'eye' } size={GS.mixin.rem(20)} color="#94938F" />
                     </MyTouchableOpacity>
                   </View>
                   <Text style={styles.title}>确认新密码：</Text>
@@ -297,7 +297,7 @@ export default () => {
                       type={showConfirmPass ? 'text' : 'password'}
                     />
                     <MyTouchableOpacity style={{marginLeft: 'auto'}} onPress={() => setShowConfirmPass(!showConfirmPass)}>
-                      <Icon.Font type={Icon.T.Feather}  name={!showConfirmPass ? 'eye' : 'eye-off'} size={GS.mixin.rem(20)} color="#94938F" />
+                      <Icon.Font type={Icon.T.Feather}  name={!showConfirmPass ? 'eye-off' : 'eye' } size={GS.mixin.rem(20)} color="#94938F" />
                     </MyTouchableOpacity>
                   </View>
                 </View>
@@ -316,7 +316,7 @@ export default () => {
                       type={showPassword ? 'text' : 'password'}
                     />
                     <MyTouchableOpacity style={{marginLeft: 'auto'}} onPress={() => setShowPassword(!showPassword)}>
-                      <Icon.Font type={Icon.T.Feather}  name={!showPassword ? 'eye' : 'eye-off'} size={GS.mixin.rem(20)} color="#94938F" />
+                      <Icon.Font type={Icon.T.Feather}  name={!showPassword ? 'eye-off' : 'eye' } size={GS.mixin.rem(20)} color="#94938F" />
                     </MyTouchableOpacity>
                   </View>
                   <Text style={styles.title}>确认新密码：</Text>
@@ -330,7 +330,7 @@ export default () => {
                       type={showConfirmPass ? 'text' : 'password'}
                     />
                     <MyTouchableOpacity style={{marginLeft: 'auto'}} onPress={() => setShowConfirmPass(!showConfirmPass)}>
-                      <Icon.Font type={Icon.T.Feather}  name={!showConfirmPass ? 'eye' : 'eye-off'} size={GS.mixin.rem(20)} color="#94938F" />
+                      <Icon.Font type={Icon.T.Feather}  name={!showConfirmPass ? 'eye-off' : 'eye' } size={GS.mixin.rem(20)} color="#94938F" />
                     </MyTouchableOpacity>
                   </View>
                   <Text style={styles.title}>短信验证码：</Text>

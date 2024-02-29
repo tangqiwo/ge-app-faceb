@@ -17,7 +17,7 @@ export default {
 
   ['trade/cancel-pending-order']: 'Mt4Trading/OrderCancelPendingOrder',
 
-  ['trade/get-kline-data']: 'Mt4Trading/QuoteHistory',
+  ['trade/get-kline-data']: 'portal/QuoteHistory',
 
   ['trade/close-order']: 'Mt4Trading/OrderCloseMarket',
 

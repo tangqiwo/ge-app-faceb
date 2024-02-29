@@ -89,7 +89,9 @@ export default () => {
                       <View style={styles.money}>
                         {
                           item.Profit != 0 &&
-                          <Text style={styles.moneyText}>{Number(item.Profit).toFixed(2)}</Text>
+                          <Text style={{...styles.moneyText, color: item.Profit >= 0 ? '#00A010' : '#FF0000'}}>
+                            {Number(item.Profit).toFixed(2)}
+                          </Text>
                         }
                       </View>
                     </View>

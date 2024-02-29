@@ -156,9 +156,9 @@ export const LS = StyleSheet.create({
     textAlign: 'center',
     borderBottomColor: '#94938F',
     borderBottomWidth: 1,
-    width: G.mixin.rem(60),
-    marginLeft: G.mixin.rem(20),
-    marginRight: G.mixin.rem(20),
+    width: G.mixin.rem(90),
+    marginLeft: G.mixin.rem(5),
+    marginRight: G.mixin.rem(5),
   },
   optionsText: {
     color: '#94938F',

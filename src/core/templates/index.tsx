@@ -6,7 +6,7 @@
  * @Description: 默认应用入口
  */
 import React from 'react';
-import { LogBox, StatusBar } from 'react-native';
+import { LogBox, StatusBar, Appearance } from 'react-native';
 import Orientation from 'react-native-orientation-locker';
 import { Provider } from 'react-redux'
 import { configureStore } from '@core/store';
@@ -23,20 +23,25 @@ LogBox.ignoreLogs([""]);
 
 export default () => {
 
+  const [colorScheme, setColorScheme] = React.useState(Appearance.getColorScheme());
+
   React.useEffect(() => {
     Orientation.lockToPortrait();
+    const subscription = Appearance.addChangeListener(({ colorScheme }) => {
+      setColorScheme(colorScheme);
+    });
+    return () => subscription.remove();
   }, [])
 
   return (
     <>
       <StatusBar
-        barStyle={'dark-content'}
-        translucent={true}
+        barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
         backgroundColor={'transparent'}
       />
       <SafeAreaProvider>
         <Provider store={store}>
-          <NavigationContainerWithRedux theme={{...DefaultTheme, dark: false}} >
+          <NavigationContainerWithRedux theme={{...DefaultTheme, dark: colorScheme === 'dark'}} >
             <PortalProvider>
               <ScreenRoute />
               <Framework />

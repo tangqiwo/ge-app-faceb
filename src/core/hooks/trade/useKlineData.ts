@@ -20,13 +20,12 @@ export default ({Symbol}: IProps) => {
   const Mt4ChartQuoteGateway = useSelector((state: any) => state.base.faceBConfig?.Mt4ChartQuoteGateway);
   const { socket, messages, sendMessage } = useWebsocket({ url: Mt4ChartQuoteGateway?.Path, protocol: 'chart' });
   const initTarget = React.useRef(false);
+  const [data, setData] = React.useState([] as any);
 
   const { dispatch, ACTIONS } = usePublicState();
-  const data = useSelector((state: any) => state.trade.klineData);
 
   // 注销 socket
   React.useEffect(() => {
-    getKlineData();
     return () => {
       if (typeof socket?.close === 'function') {
         socket?.close();
@@ -46,17 +45,15 @@ export default ({Symbol}: IProps) => {
     }
   }, [socket?.readyState]);
 
-  const getKlineData = (Timeframe = 'W1') => {
+  const getKlineData = (Timeframe = 'M1', callback: Function) => {
     dispatch(ACTIONS.TRADE.getKlineData({
       data: {
         "Symbol": Symbol,
         "Timeframe": Timeframe,
         "From": dayjs().format('YYYY-MM-DDTHH:mm:ss'),
-        "Count":30,
+        "Count":1000,
       },
-      cb: (res: any) => {
-        dispatch(ACTIONS.TRADE.setKlineData({data: res.Data}));
-      }
+      cb: callback
     }))
   }
 
