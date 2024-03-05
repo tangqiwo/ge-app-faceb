@@ -168,6 +168,11 @@ android {
                 }
             }
         }
+        manifestPlaceholders = [
+            JPUSH_PKGNAME : applicationId,
+            JPUSH_APPKEY : "8723a40ef17cfdacafda5e78",
+            JPUSH_CHANNEL : "developer-default",
+        ]
     }
 
     if (isNewArchitectureEnabled()) {
@@ -276,6 +281,9 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
     implementation "androidx.work:work-runtime-ktx:2.7.0"
+
+    implementation project(':jpush-react-native')  // 添加 jpush 依赖
+    implementation project(':jcore-react-native')  // 添加 jcore 依赖
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'
