@@ -16,6 +16,7 @@ import ScreenRoute from '@views/mc/navigations/AppNavigations';
 import { MyToast } from './components/Toast';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { PortalProvider } from '@gorhom/portal';
+import JPush from 'jpush-react-native';
 import G from '@constants/global';
 
 const store = configureStore();
@@ -26,12 +27,42 @@ export default () => {
   const [colorScheme, setColorScheme] = React.useState(Appearance.getColorScheme());
 
   React.useEffect(() => {
+    JPushInit();
     Orientation.lockToPortrait();
     const subscription = Appearance.addChangeListener(({ colorScheme }) => {
       setColorScheme(colorScheme);
     });
     return () => subscription.remove();
   }, [])
+
+  const JPushInit = () => {
+    JPush.init({ "appKey":"8723a40ef17cfdacafda5e78", "channel":"developer-default", "production": true });
+    //连接状态
+    const connectListener = (result: any) => {
+      console.log("connectListener:" + JSON.stringify(result))
+    };
+    JPush.addConnectEventListener(connectListener);
+    //通知回调
+    const notificationListener = (result: any) => {
+      console.log("notificationListener:" + JSON.stringify(result))
+    };
+    JPush.addNotificationListener(notificationListener);
+    //本地通知回调
+    const localNotificationListener = (result: any) => {
+      console.log("localNotificationListener:" + JSON.stringify(result))
+    };
+    JPush.addLocalNotificationListener(localNotificationListener);
+    //自定义消息回调
+    const tagAliasListener = (result: any) => {
+      console.log("tagAliasListener:" + JSON.stringify(result))
+    };
+    JPush.addTagAliasListener(tagAliasListener);
+    //手机号码事件回调
+    const mobileNumberListener = (result: any) => {
+      console.log("mobileNumberListener:" + JSON.stringify(result))
+    };
+    JPush.addMobileNumberListener(mobileNumberListener);
+  }
 
   return (
     <>

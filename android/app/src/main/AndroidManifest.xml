@@ -18,7 +18,7 @@
         android:name="JPUSH_APPKEY"
         android:value="${JPUSH_APPKEY}" />
       <service
-          android:name="PUSH_SERVICE_NAME"
+          android:name="ge.mc.JService"
           android:enabled="true"
           android:exported="false" >
           <intent-filter>
