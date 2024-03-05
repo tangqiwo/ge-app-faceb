@@ -17,12 +17,24 @@ interface IProps{
 }
 export default ({Symbol}: IProps) => {
 
-  const Mt4ChartQuoteGateway = useSelector((state: any) => state.base.faceBConfig?.Mt4ChartQuoteGateway);
-  const { socket, messages, sendMessage } = useWebsocket({ url: Mt4ChartQuoteGateway?.Path, protocol: 'chart' });
-  const initTarget = React.useRef(false);
-  const [data, setData] = React.useState([] as any);
-
   const { dispatch, ACTIONS } = usePublicState();
+  const Mt4ChartQuoteGateway = useSelector((state: any) => state.base.faceBConfig?.Mt4ChartQuoteGateway);
+  const [newKlineData, setNewKlineData] = React.useState<any>(null);
+  const dataInsertTarget = React.useRef<any>(false);
+  const queryDoneTarget = React.useRef<any>(true);
+  const [data, setData] = React.useState<any>([]); // [open, close, high, low, vol, time, amount
+  const currentTimeframe = React.useRef<any>('M1');
+  const { socket, messages, sendMessage } = useWebsocket({
+    url: Mt4ChartQuoteGateway?.Path,
+    protocol: 'chart',
+    onOpen: (ws: any) => {
+      const data = {
+        Symbol: Symbol,
+        Timeframe: 'M1',
+      }
+      ws.send(JSON.stringify(data));
+    }
+  });
 
   // 注销 socket
   React.useEffect(() => {
@@ -33,32 +45,72 @@ export default ({Symbol}: IProps) => {
     }
   }, [socket]);
 
-  // 监听 socket 状态
   React.useEffect(() => {
-    return;
-    if(socket?.readyState !== 0){
-      const data = {
-        Symbol: 'XAUUSDpro',
-        Timeframe: 'M1',
-      }
-      sendMessage(JSON.stringify(data));
+    if(!messages) {
+      return;
     }
-  }, [socket?.readyState]);
+    const data = JSON.parse(messages);
+    if(data.Timeframe !== currentTimeframe.current) {
+      return;
+    }
+    const formatData = {
+      amount: 0,
+      open: _.round(Number(data.Open), 3),
+      close: _.round(Number(data.Close), 3),
+      high: _.round(Number(data.High), 3),
+      //@ts-ignore
+      id: parseInt(dayjs(data.Time, 'YYYY-MM-DDTHH:mm:ss').valueOf() / 1000),
+      low: _.round(Number(data.Low), 3),
+      vol: data.Volume,
+      Timeframe: data.Timeframe
+    }
+    if(dataInsertTarget.current) {
+      setNewKlineData(formatData);
+    }else{
+      getKlineData(data.Timeframe, data.Time)
+    }
+  }, [messages])
 
-  const getKlineData = (Timeframe = 'M1', callback: Function) => {
+  const getKlineData = (Timeframe = 'M1', fromData = dayjs().format('YYYY-MM-DDTHH:mm:ss'), callback?: Function) => {
+    if(!queryDoneTarget.current) {
+      return;
+    }
+    queryDoneTarget.current = false;
     dispatch(ACTIONS.TRADE.getKlineData({
       data: {
         "Symbol": Symbol,
         "Timeframe": Timeframe,
-        "From": dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+        "From": fromData,
         "Count":1000,
       },
-      cb: callback
+      cb: (res: any) => {
+        const data = _.chain(res.Data)
+                      .map((item: any) => ({
+                        amount: 0,
+                        open: _.round(Number(item.Open), 3),
+                        close: _.round(Number(item.Close), 3),
+                        high: _.round(Number(item.High), 3),
+                        // @ts-ignore
+                        id: parseInt(dayjs(item.Time, 'YYYY-MM-DDTHH:mm:ss').valueOf() / 1000),
+                        low: _.round(Number(item.Low), 3),
+                        vol: _.round(Number(item.Volume), 3)
+                      }))
+                      .reverse()
+                      .value()
+        setData(data);
+        dataInsertTarget.current = true;
+        queryDoneTarget.current = true;
+      }
     }))
   }
 
   return {
+    data,
     getKlineData,
-    data
+    sendMessage,
+    setNewKlineData,
+    dataInsertTarget,
+    newKlineData,
+    currentTimeframe
   }
 }

@@ -60,8 +60,10 @@ export default () => {
     if(route.params.title === '注资'){
       dispatch(ACTIONS.BASE.commonRequest({
         uri: 'GetDialogTypeByDeposit/Select',
-        cache: { expires: 1000 * 60 * 60, forward: true },
         cb: (res: any) => {
+          if(res.Data.Status === 3 || res.Data.Dialog?.Count === 0){
+            return;
+          }
           setExtInfo({
             image: res.Data?.Dialog?.Data[0]?.BannerImg,
             content: JSON.parse(res.Data?.Dialog?.Data[0]?.Content)?.Content

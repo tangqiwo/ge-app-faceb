@@ -16,13 +16,14 @@ interface IUseWebsocket {
   protocol: string;
   closeCallback?: Function;
   routeName?: string;
+  onOpen?: Function;
 }
-export default ({url, protocol, closeCallback, routeName}: IUseWebsocket) => {
+export default ({url, protocol, closeCallback, onOpen}: IUseWebsocket) => {
 
   const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState<string>();
   const [error, setError] = useState(null);
-  const heartbeatInterval = 30000;
+  const heartbeatInterval = 5000;
   const heartbeatTimer = useRef(null);
   const ws = useRef(null);
   // 限流 OrderProfit
@@ -50,14 +51,17 @@ export default ({url, protocol, closeCallback, routeName}: IUseWebsocket) => {
         heartbeatTimer.current = setInterval(() => {
           ws.current.send('ping');
         }, heartbeatInterval)
+        if(typeof onOpen === 'function') {
+          onOpen(ws.current);
+        }
       }
       ws.current.onmessage = (event: any) => {
-        if(event.data.includes('QuoteHistory')){
-        }
-        if(protocol === 'chart'){
+
+        if(event.data === 'pong' || AppState.currentState !== 'active') {
           return;
         }
-        if(event.data === 'pong' || AppState.currentState !== 'active') {
+        if(protocol === 'chart'){
+          setMessages(event.data);
           return;
         }
 
@@ -149,7 +153,7 @@ export default ({url, protocol, closeCallback, routeName}: IUseWebsocket) => {
           return;
         }
         // 自动使用原来的链接进行链接
-        _.delay(createSocket, 30000)
+        _.delay(createSocket, 2000)
       };
     }
     createSocket();

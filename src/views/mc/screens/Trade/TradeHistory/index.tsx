@@ -11,7 +11,7 @@ import { FlatList } from 'react-native';
 import ACTIONS from '@actions/index';
 import { useDispatch } from 'react-redux';
 import { View, Text } from "react-native-animatable"
-import { DatePicker } from "@yz1311/react-native-wheel-picker";
+import CommonDatePicker from "@template/components/CommonDatePicker";
 import useTradeOperation from '@core/hooks/trade/useTradeOperation';
 import { NoData, SkeletonLoader } from '@template/components/Loader'
 import { CMD_MAPPING } from '@core/hooks/trade/useTradeConnect';
@@ -60,12 +60,18 @@ export default React.memo(() => {
     }
     var range = 0;
     if(date === 'today'){
+      setStartDate('');
+      setEndDate('');
       range = 0;
     }
     if(date === '7days'){
+      setStartDate('');
+      setEndDate('');
       range = -7;
     }
     if(date === '30days'){
+      setStartDate('');
+      setEndDate('');
       range = -30;
     }
     getHistoryOrders([dayjs().startOf('days').add(range, 'day').format('YYYY-MM-DD HH:mm:ss'), dayjs().endOf('days').format('YYYY-MM-DD HH:mm:ss')], pageNo, () => {
@@ -120,7 +126,7 @@ export default React.memo(() => {
               }
             </MyTouchableOpacity>
             <MyTouchableOpacity
-              onPress={() => setDate('today')}
+              onPress={() => setOpenInput(false)}
               style={[localStyles.datePickerButton, localStyles.dateActive]}
             >
               <Text>确定</Text>
@@ -128,7 +134,7 @@ export default React.memo(() => {
           </View>
         }
         {
-          date !== 'others' && !openInput &&
+          (date !== 'others' || !openInput) &&
           <View style={localStyles.datePickerWrapper}>
             <MyTouchableOpacity
               style={[localStyles.datePickerButton, date === 'today' && localStyles.dateActive]}
@@ -230,10 +236,10 @@ export default React.memo(() => {
             )}
           />
       }
-      <DatePicker
+      <CommonDatePicker
         pickerTitle={showDatePicker === 'start' ? '起始日期' : '截止日期'}
         mode={'date'}
-        date={new Date(showDatePicker === 'start' ? startDate : endDate)}
+        date={showDatePicker === 'start' ? startDate : endDate}
         isModal={true}
         modalVisible={!!showDatePicker}
         onPickerCancel={() => setShowDatePicker('')}

@@ -10,7 +10,7 @@ import React from "react";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import usePublicState from '@core/hooks/usePublicState';
 import { INSTANT_QUOTES_STATUS_COLOR, INSTANT_QUOTES_STATUS_ICON } from '@core/hooks/useInstantQuotes';
-import { View, Text, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, ScrollView, TouchableWithoutFeedback, StatusBar, Appearance } from 'react-native';
 import { useSelector } from 'react-redux';
 import { IStore } from '@schemas/redux-store';
 import { LS as styles, GS } from './style';
@@ -20,6 +20,13 @@ export default () => {
   const insets = useSafeAreaInsets();
   const { instant, symbols } = useSelector((state: IStore) => state.quotes);
   const { navigation } = usePublicState();
+
+  React.useEffect(() => {
+    StatusBar.setBarStyle('light-content');
+    return () => {
+      StatusBar.setBarStyle(Appearance.getColorScheme() === 'dark' ? 'light-content' : 'dark-content');
+    }
+  }, [])
 
   return (
     <View style={styles.container}>

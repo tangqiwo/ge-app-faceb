@@ -29,7 +29,15 @@ import dayjs from 'dayjs';
 export default () => {
 
   const route = useRoute<any>();
-  const { getKlineData, data } = useKlineData({Symbol: SYMBOLS_MAPPING_REVERSE[route.params?.symbol]});
+  const {
+    getKlineData,
+    sendMessage,
+    setNewKlineData,
+    dataInsertTarget,
+    newKlineData,
+    currentTimeframe,
+    data
+  } = useKlineData({Symbol: SYMBOLS_MAPPING_REVERSE[route.params?.symbol]});
   const { navigation } = usePublicState();
   const Mt4ClientApiToken = useSelector((state: any) => state.trade?.mt4Info?.Mt4ClientApiToken);
   const [list, setList] = React.useState([]);
@@ -51,7 +59,12 @@ export default () => {
   }, [])
 
   React.useEffect(() => {
-    initKlineChart(currentTimeFrame);
+    dataInsertTarget.current = false;
+    currentTimeframe.current = currentTimeFrame;
+    sendMessage(JSON.stringify({
+      Symbol: SYMBOLS_MAPPING_REVERSE[route.params?.symbol],
+      Timeframe: currentTimeFrame
+    }))
   }, [currentTimeFrame])
 
   const onLayout = (event: any) => {
@@ -59,84 +72,14 @@ export default () => {
     setViewHeight(height)
   };
 
-  const onMoreKLineData = async () => {}
-
-  const initKlineChart = (timeFrame = 'M1') => {
-    getKlineData(timeFrame, (res) => {
-      const data = _.chain(res.Data)
-                    .map((item: any) => ({
-                      amount: 0,
-                      open: _.round(Number(item.Open), 3),
-                      close: _.round(Number(item.Close), 3),
-                      high: _.round(Number(item.High), 3),
-                      id: parseInt(dayjs(item.Time, 'YYYY-MM-DDTHH:mm:ss').valueOf() / 1000),
-                      low: _.round(Number(item.Low), 3),
-                      vol: '--',
-                    }))
-                    .reverse()
-                    .value()
-      setList(data);
-    })
-    return;
-    // const res = await axios
-    //   .get(
-    //     'https://www.okex.com/priapi/v5/market/candles?instId=BTC-USDT&bar=1m&limit=1000',
-    //   )
-    //   .catch((err) => {
-    //     console.log(err);
-    //     return;
-    //   });
-    // if (!res || !res.data || !res.data.data || !res.data.data.length) {
-    //   return;
-    // }
-    // const list = [];
-    // for (let i = 0; i < res.data.data.length; i++) {
-    //   const item = res.data.data[i];
-    //   // 返回值分别为[timestamp,open,high,low,close,volume]
-    //   list.push({
-    //     amount: 0,
-    //     open: Number(item[1]),
-    //     close: Number(item[4]),
-    //     high: Number(item[2]),
-    //     id: parseInt(Number(item[0]) / 1000),
-    //     low: Number(item[3]),
-    //     vol: Number(item[5]),
-    //   });
-    // }
-    // list.sort((l, r) => (l.id > r.id ? 1 : -1));
-    // setList(list);
-    // subscribeKLine();
-  }
-
-  // const subscribeKLine = () => {
-  //   const ws = new WebSocket('wss://wspri.okex.com:8443/ws/v5/public');
-  //   ws.onopen = () => {
-  //     ws.send(
-  //       JSON.stringify({
-  //         op: 'subscribe',
-  //         args: [{channel: 'candle1m', instId: 'BTC-USDT'}],
-  //       }),
-  //     );
-  //   };
-  //   ws.onmessage = (ev) => {
-  //     try {
-  //       const data = JSON.parse(ev.data);
-  //       const item = data.data[0];
-  //       dispatchByronKline('update', [
-  //         {
-  //           amount: 0,
-  //           open: Number(item[1]),
-  //           close: Number(item[4]),
-  //           high: Number(item[2]),
-  //           id: parseInt(Number(item[0]) / 1000),
-  //           low: Number(item[3]),
-  //           vol: Number(item[5]),
-  //         },
-  //       ]);
-  //     } catch (err) {}
-  //   };
-  //   wsRef.current = ws;
-  // }
+  React.useEffect(() => {
+    if(newKlineData) {
+      if(newKlineData.Timeframe !== currentTimeFrame) {
+        return;
+      }
+      dispatchByronKline('update',[_.omit(newKlineData, ['Timeframe'])]);
+    }
+  }, [newKlineData, currentSymbol])
 
   const goBuy = requestAuth(() => {
     if(Mt4ClientApiToken){
@@ -157,6 +100,8 @@ export default () => {
   const symbolPrice = _.find(instant, {Symbol: currentSymbol});
   const symbolSummary = _.find(symbols, {Key: currentSymbol});
 
+  const toFixedBit = SYMBOLS_MAPPING_REVERSE[route.params?.symbol] === 'XAUUSDpro' ? 2 : 3;
+
   return (
     <View style={styles.container}>
       <SafeAreaView style={[styles.container]}>
@@ -168,10 +113,10 @@ export default () => {
         </View>
         <View style={styles.infos}>
           <View style={styles.priceNow}>
-            <Text style={{...styles.itemTextPrice, color: INSTANT_QUOTES_STATUS_COLOR[symbolPrice?.askStatus]}}>{Number(symbolPrice?.Ask)?.toFixed(2) || '0000.00'}</Text>
+            <Text style={{...styles.itemTextPrice, color: INSTANT_QUOTES_STATUS_COLOR[symbolPrice?.askStatus]}}>{Number(symbolPrice?.Ask)?.toFixed(toFixedBit) || '0000.00'}</Text>
             <View style={styles.itemTextPriceUnit}>
               <Text style={{...styles.itemTextPriceUnitText, color: INSTANT_QUOTES_STATUS_COLOR[symbolPrice?.askStatus]}}>
-                {Number(symbolPrice?.changeValue)?.toFixed(3) || '0.000'}
+                {Number(symbolPrice?.changeValue)?.toFixed(toFixedBit) || '0.000'}
               </Text>
               <Text style={{...styles.itemTextPriceUnitText, color: INSTANT_QUOTES_STATUS_COLOR[symbolPrice?.askStatus]}}>
                 {symbolPrice?.changePercent ? `${Number(symbolPrice?.changePercent)?.toFixed(2)}%` : '0.00%'}
@@ -180,12 +125,12 @@ export default () => {
           </View>
           <View style={styles.priceYestoday}>
             <View style={styles.priceYestodayItem}>
-              <Text style={styles.priceYestodayItemText}>开盘 {symbolSummary.Open.toFixed(2)}</Text>
-              <Text style={styles.priceYestodayItemText}>最高 {symbolSummary.High.toFixed(2)}</Text>
+              <Text style={styles.priceYestodayItemText}>开盘 {symbolSummary.Open.toFixed(toFixedBit)}</Text>
+              <Text style={styles.priceYestodayItemText}>最高 {symbolSummary.High.toFixed(toFixedBit)}</Text>
             </View>
             <View style={styles.priceYestodayItem}>
-              <Text style={styles.priceYestodayItemText}>昨收 {symbolSummary.Close.toFixed(2)}</Text>
-              <Text style={styles.priceYestodayItemText}>最低 {symbolSummary.Low.toFixed(2)}</Text>
+              <Text style={styles.priceYestodayItemText}>昨收 {symbolSummary.Close.toFixed(toFixedBit)}</Text>
+              <Text style={styles.priceYestodayItemText}>最低 {symbolSummary.Low.toFixed(toFixedBit)}</Text>
             </View>
           </View>
         </View>
@@ -203,14 +148,16 @@ export default () => {
           }
         </View>
         <View onLayout={onLayout} style={{flex: 1}}>
-          <ByronKlineChart
-            key={viewHeight}
-            style={{height: viewHeight}}
-            datas={list}
-            onMoreKLineData={onMoreKLineData}
-            indicators={[KLineIndicator.MainMA, currentChildIndicator]}
-            mainBackgroundColor={'#0f1826'}
-          />
+          {
+            data.length > 0 &&
+            <ByronKlineChart
+              key={viewHeight}
+              style={{height: viewHeight}}
+              datas={data}
+              indicators={[KLineIndicator.MainMA, currentChildIndicator]}
+              mainBackgroundColor={'#0f1826'}
+            />
+          }
         </View>
         <View style={styles.timeFrame}>
           {
@@ -273,7 +220,7 @@ const TIMEFRAME_LIST = [
 
 // 子图指标
 const KLineIndicatorList = [
-  {value: KLineIndicator.ChildKDJ, label: 'MA'},
+  {value: KLineIndicator.ChildKDJ, label: 'KDJ'},
   {value: KLineIndicator.ChildMACD, label: 'MACD'},
   {value: KLineIndicator.ChildRSI, label: 'RSI'},
   {value: KLineIndicator.ChildWR, label: 'WR'},

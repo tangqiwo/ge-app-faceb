@@ -115,7 +115,7 @@ export default () => {
   }, [currentTab, params?.type])
 
   React.useEffect(() => {
-    if(!params || params.type === 'updateOrder' || params.type === 'sell' || params.type === 'buy'){
+    if(!params ||  params.type === 'sell' || params.type === 'buy'){
       navigation.setOptions({
         headerTitle: () => (
           <Selector
@@ -132,6 +132,9 @@ export default () => {
       return;
     }
     let headerTitle = '';
+    if(params.type === 'updateOrder'){
+      headerTitle = '修改订单';
+    }
     if(params.type === 'closePosition'){
       headerTitle = '平仓';
     }
@@ -239,6 +242,8 @@ export default () => {
     openMarketOrder();
   }, [payload])
 
+  const toFixedBit = payload.Symbol === 'XAUUSDpro' ? 2 : 3;
+
   return (
     <View style={styles.container}>
       <KeyboardAvoidingView>
@@ -261,7 +266,7 @@ export default () => {
                 }
                 <Text style={{color: '#fff'}}>卖出</Text>
               </View>
-              <Text style={styles.pendingAmount}>{_.find(instant, { Symbol: payload.Symbol })?.Bid.toFixed(2) || 0.00}</Text>
+              <Text style={styles.pendingAmount}>{_.find(instant, { Symbol: payload.Symbol })?.Bid?.toFixed(toFixedBit) || 0.00}</Text>
             </View>
             <View style={{...styles.pendingItem, backgroundColor: _.find(instant, { Symbol: payload.Symbol })?.askStatus === 'UP' ? '#00A010' : '#FF0000'}} >
               <View style={styles.pendingText}>
@@ -272,7 +277,7 @@ export default () => {
                 }
                 <Text style={{color: '#fff'}}>买入</Text>
               </View>
-              <Text style={styles.pendingAmount}>{_.find(instant, { Symbol: payload.Symbol })?.Ask?.toFixed(2) || 0.00}</Text>
+              <Text style={styles.pendingAmount}>{_.find(instant, { Symbol: payload.Symbol })?.Ask?.toFixed(toFixedBit) || 0.00}</Text>
             </View>
           </View>
           {
@@ -354,7 +359,7 @@ export default () => {
             </>
           }
           {
-            !_.includes(['closePosition', 'setStopLoss'], params?.type) &&
+            !_.includes(['closePosition', 'setStopLoss', 'updateOrder'], params?.type) &&
             <>
               <View style={styles.optionsItem}>
               {

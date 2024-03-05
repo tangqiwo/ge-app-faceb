@@ -37,6 +37,7 @@ export default () => {
     <>
       <StatusBar
         barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
+        translucent={true}
         backgroundColor={'transparent'}
       />
       <SafeAreaProvider>

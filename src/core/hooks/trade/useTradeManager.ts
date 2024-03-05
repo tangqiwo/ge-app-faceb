@@ -8,12 +8,15 @@
 import _ from 'lodash';
 import dayjs from 'dayjs';
 import React from 'react';
+import { useLatest } from 'react-use';
+import { useRoute } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import usePublicState from "../usePublicState"
 
 export default () => {
 
   const { dispatch, ACTIONS, infos, navigation, isFocused } = usePublicState();
+  const params = useRoute<any>().params;
   const mt4Info = useSelector((state: any) => state.trade.mt4Info);
   const instant = useSelector((state: any) => state.trade.instant);
   const Mt4ClientApiToken = useSelector((state: any) => state.trade.mt4Info.Mt4ClientApiToken);
@@ -60,6 +63,7 @@ export default () => {
   }
 
   const [ payload, setPayload ] = React.useState<TPayload>(initData);
+  const latestPayload = useLatest(payload);
 
   React.useEffect(() => {
     if(isFocused) {
@@ -101,23 +105,25 @@ export default () => {
     const bid = symbol.Bid;
     // 金银步长
     const step = payload.Symbol === 'XAUUSDpro' ? 2 : 0.2;
+    const toFixedBit = payload.Symbol === 'XAUUSDpro' ? 2 : 3;
+
     const data = {
       // 止盈止损
       Stoploss: {
-        Buy: Number((bid - step).toFixed(2)),
-        Sell: Number((ask + step).toFixed(2)),
-        BuyLimit: Number((Number(payload.Price) - step).toFixed(2)),
-        SellLimit: Number((Number(payload.Price) + step).toFixed(2)),
-        BuyStop: Number((Number(payload.Price) + step).toFixed(2)),
-        SellStop: Number((Number(payload.Price) - step).toFixed(2))
+        Buy: Number((bid - step).toFixed(toFixedBit)),
+        Sell: Number((ask + step).toFixed(toFixedBit)),
+        BuyLimit: Number((Number(payload.Price) - step).toFixed(toFixedBit)),
+        SellLimit: Number((Number(payload.Price) + step).toFixed(toFixedBit)),
+        BuyStop: Number((Number(payload.Price) + step).toFixed(toFixedBit)),
+        SellStop: Number((Number(payload.Price) - step).toFixed(toFixedBit))
       },
       Takeprofit: {
-        Buy: Number((bid + step).toFixed(2)),
-        Sell: Number((ask - step).toFixed(2)),
-        BuyLimit: Number((Number(payload.Price) + step).toFixed(2)),
-        SellLimit: Number((Number(payload.Price) - step).toFixed(2)),
-        BuyStop: Number((Number(payload.Price) - step).toFixed(2)),
-        SellStop: Number((Number(payload.Price) + step).toFixed(2))
+        Buy: Number((bid + step).toFixed(toFixedBit)),
+        Sell: Number((ask - step).toFixed(toFixedBit)),
+        BuyLimit: Number((Number(payload.Price) + step).toFixed(toFixedBit)),
+        SellLimit: Number((Number(payload.Price) - step).toFixed(toFixedBit)),
+        BuyStop: Number((Number(payload.Price) - step).toFixed(toFixedBit)),
+        SellStop: Number((Number(payload.Price) + step).toFixed(toFixedBit))
       },
       Price: {
         BuyLimit: Number((ask - step).toFixed(2)),
@@ -130,10 +136,23 @@ export default () => {
   }, [payload.Symbol, instant, payload.Price])
 
   React.useEffect(() => {
-    changeLimitPrice('reset')
-    changeStoploss('reset');
-    changeTakeprofit('reset');
+    if(!params?.type || _.includes(['buy', 'sell'], params?.type)){
+      setPayload((state: any) => ({
+        ...state,
+        Price: '',
+        Stoploss: '',
+        Takeprofit: ''
+      }))
+    }
   }, [payload.Symbol, payload.Operation])
+
+  React.useEffect(() => {
+    if(!params?.type || _.includes(['buy', 'sell'], params?.type)){
+      if(!latestPayload.current.Price){
+        changeLimitPrice('reset')
+      }
+    }
+  }, [limitInput, payload.Operation])
 
   // 修改挂单
   const modifyPendingOrder = (Ticket: number) => {
@@ -166,9 +185,192 @@ export default () => {
     }}))
   }
 
+  // 加减手数
+  const changeVolume = (type: 'add' | 'sub' | 'reset' | any, step=0.01) => {
+    const _volume = Number(Number(payload.Volume).toFixed(2));
+    if(type !== 'add' && type !== 'sub' && type !== 'reset') {
+      setPayload((state: any) => ({
+        ...state,
+        Volume: type
+      }))
+      return;
+    }
+    if(type === 'reset') {
+      setPayload((state) => ({
+        ...state,
+        Volume: 0.01
+      }))
+      return;
+    }
+    if(type === 'add') {
+      setPayload((state: any) => ({
+        ...state,
+        Volume: (_volume + step).toFixed(2)
+      }))
+      return;
+    }
+    if(_volume < 0.01) {
+      dispatch(ACTIONS.BASE.openToast({ text: '手数不能小于0.01' }));
+      setPayload((state) => ({
+        ...state,
+        Volume: 0.01
+      }))
+      return;
+    }
+    setPayload((state: any) => ({
+      ...state,
+      Volume: (_volume - step).toFixed(2)
+    }))
+  }
 
-  // 平仓
-  const closeOrder = (Ticket: number) => {
+  // 加减止损
+  const changeStoploss = (type: 'add' | 'sub' | 'reset' | any, step?: number) => {
+    if(!step) {
+      step = payload.Symbol === 'XAUUSDpro' ? 0.01 : 0.001;
+    }
+    const toFixedBit = payload.Symbol === 'XAUUSDpro' ? 2 : 3;
+    const _stoploss = Number(Number(payload.Stoploss).toFixed(toFixedBit));
+    if(type !== 'add' && type !== 'sub' && type !== 'reset') {
+      setPayload((state: any) => ({
+        ...state,
+        Stoploss: type
+      }))
+      return;
+    }
+    if(type === 'reset') {
+      setPayload((state) =>({
+        ...state,
+        Stoploss: 0
+      }))
+      return;
+    }
+    if(_stoploss === 0){
+      setPayload((state: any) => ({...payload, Stoploss: limitInput.Stoploss[payload.Operation].toFixed(toFixedBit)}))
+      return;
+    }
+    if(type === 'add') {
+      if(STOPLOSS_TAKEPROFIT[payload.Operation]?.Stoploss == '≤') {
+        if(_stoploss + step > limitInput.Stoploss[payload.Operation]) {
+          dispatch(ACTIONS.BASE.openToast({ text: '止损不能大于限价' }));
+          setPayload((state: any) => ({...state, Stoploss: limitInput.Stoploss[payload.Operation].toFixed(toFixedBit)}))
+          return;
+        }
+      }
+      setPayload((state: any) => ({
+        ...state,
+        Stoploss: (_stoploss + step).toFixed(toFixedBit)
+      }))
+      return;
+    }
+    if(STOPLOSS_TAKEPROFIT[payload.Operation]?.Stoploss == '≥') {
+      if(_stoploss - step < limitInput.Stoploss[payload.Operation]) {
+        dispatch(ACTIONS.BASE.openToast({ text: '止损不能小于限价' }));
+        setPayload((state: any) => ({...payload, Stoploss: limitInput.Stoploss[payload.Operation].toFixed(toFixedBit)}))
+        return;
+      }
+    }
+    setPayload((state: any) => ({
+      ...state,
+      Stoploss: (_stoploss - step).toFixed(toFixedBit)
+    }))
+  }
+
+  // 加减止盈
+  const changeTakeprofit = (type: 'add' | 'sub' | 'reset' | any, step?: number) => {
+    if(!step) {
+      step = payload.Symbol === 'XAUUSDpro' ? 0.01 : 0.001;
+    }
+    const toFixedBit = payload.Symbol === 'XAUUSDpro' ? 2 : 3;
+    const _takeprofit = Number(Number(payload.Takeprofit).toFixed(toFixedBit));
+    if(type !== 'add' && type !== 'sub' && type !== 'reset') {
+      setPayload((state) =>({
+        ...state,
+        Takeprofit: type
+      }))
+      return;
+    }
+    if(type === 'reset') {
+      setPayload((state) =>({
+        ...state,
+        Takeprofit: 0
+      }))
+      return;
+    }
+    if(_takeprofit === 0){
+      setPayload({...payload, Takeprofit: limitInput.Takeprofit[payload.Operation].toFixed(toFixedBit)})
+      return;
+    }
+    if(type === 'add') {
+      if(STOPLOSS_TAKEPROFIT[payload.Operation]?.Takeprofit == '≤') {
+        if(_takeprofit + step > limitInput.Takeprofit[payload.Operation]) {
+          dispatch(ACTIONS.BASE.openToast({ text: '止赢不能大于限价' }));
+          setPayload((state: any) => ({...state, Takeprofit: limitInput.Takeprofit[payload.Operation].toFixed(toFixedBit)}))
+          return;
+        }
+      }
+      setPayload((state: any) => ({
+        ...state,
+        Takeprofit: Number((_takeprofit + step).toFixed(toFixedBit))
+      }))
+      return;
+    }
+    if(STOPLOSS_TAKEPROFIT[payload.Operation]?.Takeprofit == '≥') {
+      if(_takeprofit - step < limitInput.Takeprofit[payload.Operation]) {
+        dispatch(ACTIONS.BASE.openToast({ text: '止赢不能小于限价' }));
+        setPayload((state: any) => ({...payload, Takeprofit: limitInput.Takeprofit[payload.Operation].toFixed(toFixedBit)}))
+        return;
+      }
+    }
+    setPayload((state: any) => ({
+      ...payload,
+      Takeprofit: (_takeprofit - step).toFixed(toFixedBit)
+    }))
+  }
+
+  // 限价停损
+  const changeLimitPrice = (type: 'add' | 'sub' | 'reset' | any, step = 0.01) => {
+    const _price = Number(Number(payload.Price).toFixed(2));
+    if(type !== 'add' && type !== 'sub' && type !== 'reset') {
+      setPayload((state) => ({
+        ...state,
+        Price: type
+      }))
+      return;
+    }
+    if(type === 'reset') {
+      setPayload((state) =>({...state, Price: limitInput?.Price[payload.Operation]?.toFixed(2) || 0}))
+      return;
+    }
+    if(type === 'add') {
+      if(LIMIT_PRICE[payload.Operation] == '≤') {
+        if(_price + step > limitInput.Price[payload.Operation]) {
+          dispatch(ACTIONS.BASE.openToast({ text: '止赢不能大于限价' }));
+          setPayload((state) =>({...state, Price: limitInput?.Price[payload.Operation]?.toFixed(2)}))
+          return;
+        }
+      }
+      setPayload((state: any) => ({
+        ...state,
+        Price: (_price + step).toFixed(2)
+      }))
+      return;
+    }
+    if(LIMIT_PRICE[payload.Operation] == '≥') {
+      if(_price - step < limitInput.Price[payload.Operation]) {
+        dispatch(ACTIONS.BASE.openToast({ text: '止赢不能小于限价' }));
+        setPayload((state) =>({...state, Price: limitInput?.Price[payload.Operation]?.toFixed(2)}))
+        return;
+      }
+    }
+    setPayload((state: any) => ({
+      ...state,
+      Price: (_price - step).toFixed(2)
+    }))
+  }
+
+
+   // 平仓
+   const closeOrder = (Ticket: number) => {
     const data = {
       Ticket,
       ..._.pick(payload, ['Mt4ClientApiToken', 'Volume']),
@@ -209,204 +411,6 @@ export default () => {
     }}))
   }
 
-  // 加减手数
-  const changeVolume = (type: 'add' | 'sub' | 'reset' | any, step=0.01) => {
-    const _volume = Number(Number(payload.Volume).toFixed(2));
-    if(type !== 'add' && type !== 'sub' && type !== 'reset') {
-      setPayload({
-        ...payload,
-        Volume: type
-      })
-      requestAnimationFrame(() => {
-        changeVolume('sub', 0)
-      })
-      return;
-    }
-    if(type === 'reset') {
-      setPayload((state) => ({
-        ...state,
-        Volume: 0.01
-      }))
-      return;
-    }
-    if(type === 'add') {
-      setPayload({
-        ...payload,
-        Volume: (_volume + step).toFixed(2)
-      })
-      return;
-    }
-    if(_volume < 0.01) {
-      dispatch(ACTIONS.BASE.openToast({ text: '手数不能小于0.01' }));
-      setPayload((state) => ({
-        ...state,
-        Volume: 0.01
-      }))
-      return;
-    }
-    setPayload({
-      ...payload,
-      Volume: (_volume - step).toFixed(2)
-    })
-  }
-
-  // 加减止损
-  const changeStoploss = (type: 'add' | 'sub' | 'reset' | any, step = 0.01) => {
-    const _stoploss = Number(Number(payload.Stoploss).toFixed(2));
-    if(type !== 'add' && type !== 'sub' && type !== 'reset') {
-      setPayload({
-        ...payload,
-        Stoploss: type
-      })
-      requestAnimationFrame(() => {
-        if(STOPLOSS_TAKEPROFIT[payload.Operation]?.Stoploss === '≥'){
-          changeStoploss('sub', 0);
-        }else{
-          changeStoploss('add', 0);
-        }
-      })
-      return;
-    }
-    if(type === 'reset') {
-      setPayload((state) =>({
-        ...state,
-        Stoploss: 0
-      }))
-      return;
-    }
-    if(_stoploss === 0){
-      setPayload({...payload, Stoploss: limitInput.Stoploss[payload.Operation].toFixed(2)})
-      return;
-    }
-    if(type === 'add') {
-      if(STOPLOSS_TAKEPROFIT[payload.Operation]?.Stoploss == '≤') {
-        if(_stoploss + step > limitInput.Stoploss[payload.Operation]) {
-          dispatch(ACTIONS.BASE.openToast({ text: '止损不能大于限价' }));
-          setPayload({...payload, Stoploss: limitInput.Stoploss[payload.Operation].toFixed(2)})
-          return;
-        }
-      }
-      setPayload({
-        ...payload,
-        Stoploss: (_stoploss + step).toFixed(2)
-      })
-      return;
-    }
-    if(STOPLOSS_TAKEPROFIT[payload.Operation]?.Stoploss == '≥') {
-      if(_stoploss - step < limitInput.Stoploss[payload.Operation]) {
-        dispatch(ACTIONS.BASE.openToast({ text: '止损不能小于限价' }));
-        setPayload({...payload, Stoploss: limitInput.Stoploss[payload.Operation].toFixed(2)})
-        return;
-      }
-    }
-    setPayload({
-      ...payload,
-      Stoploss: (_stoploss - step).toFixed(2)
-    })
-  }
-
-  // 加减止盈
-  const changeTakeprofit = (type: 'add' | 'sub' | 'reset' | any, step = 0.01) => {
-    const _takeprofit = Number(Number(payload.Takeprofit).toFixed(2));
-    if(type !== 'add' && type !== 'sub' && type !== 'reset') {
-      setPayload({
-        ...payload,
-        Takeprofit: type
-      })
-      requestAnimationFrame(() => {
-        if(STOPLOSS_TAKEPROFIT[payload.Operation]?.Takeprofit === '≥'){
-          changeTakeprofit('sub', 0);
-        }else{
-          changeTakeprofit('add', 0);
-        }
-      })
-      return;
-    }
-    if(type === 'reset') {
-      setPayload((state) =>({
-        ...state,
-        Takeprofit: 0
-      }))
-      return;
-    }
-    if(_takeprofit === 0){
-      setPayload({...payload, Takeprofit: limitInput.Takeprofit[payload.Operation].toFixed(2)})
-      return;
-    }
-    if(type === 'add') {
-      if(STOPLOSS_TAKEPROFIT[payload.Operation]?.Takeprofit == '≤') {
-        if(_takeprofit + step > limitInput.Takeprofit[payload.Operation]) {
-          dispatch(ACTIONS.BASE.openToast({ text: '止赢不能大于限价' }));
-          setPayload({...payload, Takeprofit: limitInput.Takeprofit[payload.Operation].toFixed(2)})
-          return;
-        }
-      }
-      setPayload({
-        ...payload,
-        Takeprofit: Number((_takeprofit + step).toFixed(2))
-      })
-      return;
-    }
-    if(STOPLOSS_TAKEPROFIT[payload.Operation]?.Takeprofit == '≥') {
-      if(_takeprofit - step < limitInput.Takeprofit[payload.Operation]) {
-        dispatch(ACTIONS.BASE.openToast({ text: '止赢不能小于限价' }));
-        setPayload({...payload, Takeprofit: limitInput.Takeprofit[payload.Operation].toFixed(2)})
-        return;
-      }
-    }
-    setPayload({
-      ...payload,
-      Takeprofit: (_takeprofit - step).toFixed(2)
-    })
-  }
-
-  // 限价停损
-  const changeLimitPrice = (type: 'add' | 'sub' | 'reset' | any, step = 0.01) => {
-    const _price = Number(Number(payload.Price).toFixed(2));
-    if(type !== 'add' && type !== 'sub' && type !== 'reset') {
-      setPayload((state) => ({
-        ...state,
-        Price: type
-      }))
-      requestAnimationFrame(() => {
-        if(LIMIT_PRICE[payload.Operation] == '≥') {
-          changeLimitPrice('sub', 0);
-        }else{
-          changeLimitPrice('add', 0);
-        }
-      })
-      return;
-    }
-    if(type === 'reset') {
-      setPayload((state) =>({...state, Price: limitInput?.Price[payload.Operation]?.toFixed(2) || 0}))
-      return;
-    }
-    if(type === 'add') {
-      if(LIMIT_PRICE[payload.Operation] == '≤') {
-        if(_price + step > limitInput.Price[payload.Operation]) {
-          dispatch(ACTIONS.BASE.openToast({ text: '止赢不能大于限价' }));
-          setPayload((state) =>({...state, Price: limitInput?.Price[payload.Operation]?.toFixed(2)}))
-          return;
-        }
-      }
-      setPayload({
-        ...payload,
-        Price: (_price + step).toFixed(2)
-      })
-      return;
-    }
-    if(LIMIT_PRICE[payload.Operation] == '≥') {
-      if(_price - step < limitInput.Price[payload.Operation]) {
-        dispatch(ACTIONS.BASE.openToast({ text: '止赢不能小于限价' }));
-        setPayload((state) =>({...state, Price: limitInput?.Price[payload.Operation]?.toFixed(2)}))
-        return;
-      }
-    }
-    setPayload({
-      ...payload,
-      Price: (_price - step).toFixed(2)
-    })
-  }
 
 
   return {
