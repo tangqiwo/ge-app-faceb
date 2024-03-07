@@ -54,12 +54,9 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 
-    // APNS
-  // APNS
+  //【注册通知】通知回调代理（可选）
   JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
-  if (@available(iOS 12.0, *)) {
-    entity.types = JPAuthorizationOptionNone; //JPAuthorizationOptionAlert|JPAuthorizationOptionBadge|JPAuthorizationOptionSou//nd|JPAuthorizationOptionProvidesAppNotificationSettings;
-  }
+  entity.types = JPAuthorizationOptionAlert|JPAuthorizationOptionBadge|JPAuthorizationOptionSound|JPAuthorizationOptionProvidesAppNotificationSettings;
   [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
 
   RCTAppSetupPrepareApp(application);

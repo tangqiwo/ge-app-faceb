@@ -36,7 +36,7 @@ export default () => {
   }, [])
 
   const JPushInit = () => {
-    JPush.init({ "appKey":"8723a40ef17cfdacafda5e78", "channel":"developer-default", "production": true });
+    JPush.init({ "appKey":"8723a40ef17cfdacafda5e78", "channel":"developer-default", "production": false });
     //连接状态
     const connectListener = (result: any) => {
       console.log("connectListener:" + JSON.stringify(result))
