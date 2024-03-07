@@ -11,6 +11,21 @@
       android:allowBackup="false"
       android:usesCleartextTraffic="true"
       android:theme="@style/AppTheme">
+      <meta-data
+        android:name="JPUSH_CHANNEL"
+        android:value="${JPUSH_CHANNEL}" />
+      <meta-data
+        android:name="JPUSH_APPKEY"
+        android:value="${JPUSH_APPKEY}" />
+      <service
+          android:name="ge.mc.JService"
+          android:enabled="true"
+          android:exported="false" >
+          <intent-filter>
+              <action android:name="cn.jpush.android.intent.SERVICE_MESSAGE" />
+              <category android:name="com.ge.mc.pre" />
+          </intent-filter>
+      </service>
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"

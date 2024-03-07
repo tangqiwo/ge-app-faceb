@@ -13,9 +13,19 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-MC_RN-MC_RNTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-MC_RN-MC_RNTests.a */; };
+		815CE8D12B972BA2009C4FA1 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 815CE8D02B972BA2009C4FA1 /* libz.tbd */; };
+		815CE8D32B972BB7009C4FA1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815CE8D22B972BB7009C4FA1 /* CoreTelephony.framework */; };
+		815CE8D52B972BC1009C4FA1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815CE8D42B972BC1009C4FA1 /* Security.framework */; };
+		815CE8D72B972BC7009C4FA1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815CE8D62B972BC7009C4FA1 /* CFNetwork.framework */; };
+		815CE8D92B972BCE009C4FA1 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815CE8D82B972BCE009C4FA1 /* CoreFoundation.framework */; };
+		815CE8DB2B972BD4009C4FA1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815CE8DA2B972BD4009C4FA1 /* SystemConfiguration.framework */; };
+		815CE8DD2B972BDF009C4FA1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815CE8DC2B972BDE009C4FA1 /* Foundation.framework */; };
+		815CE8DF2B972BE5009C4FA1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815CE8DE2B972BE5009C4FA1 /* UIKit.framework */; };
+		815CE8E12B972BED009C4FA1 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815CE8E02B972BED009C4FA1 /* UserNotifications.framework */; };
+		815CE8E32B972BF5009C4FA1 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 815CE8E22B972BF5009C4FA1 /* libresolv.tbd */; };
+		815CE8E62B972EC9009C4FA1 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 815CE8E42B972EC9009C4FA1 /* main.jsbundle */; };
+		815CE8E72B972EC9009C4FA1 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 815CE8E52B972EC9009C4FA1 /* assets */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		81E623F62B8DEF6000817843 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 81E623F42B8DEF6000817843 /* assets */; };
-		81E623F72B8DEF6000817843 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 81E623F52B8DEF6000817843 /* main.jsbundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,9 +53,20 @@
 		5709B34CF0A7D63546082F79 /* Pods-MC_RN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MC_RN.release.xcconfig"; path = "Target Support Files/Pods-MC_RN/Pods-MC_RN.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-MC_RN-MC_RNTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MC_RN-MC_RNTests.debug.xcconfig"; path = "Target Support Files/Pods-MC_RN-MC_RNTests/Pods-MC_RN-MC_RNTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-MC_RN.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MC_RN.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		815CE8CF2B972B76009C4FA1 /* MC_RN.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = MC_RN.entitlements; path = MC_RN/MC_RN.entitlements; sourceTree = "<group>"; };
+		815CE8D02B972BA2009C4FA1 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		815CE8D22B972BB7009C4FA1 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		815CE8D42B972BC1009C4FA1 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		815CE8D62B972BC7009C4FA1 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		815CE8D82B972BCE009C4FA1 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		815CE8DA2B972BD4009C4FA1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		815CE8DC2B972BDE009C4FA1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		815CE8DE2B972BE5009C4FA1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		815CE8E02B972BED009C4FA1 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		815CE8E22B972BF5009C4FA1 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		815CE8E42B972EC9009C4FA1 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = ../dist/main.jsbundle; sourceTree = "<group>"; };
+		815CE8E52B972EC9009C4FA1 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../dist/assets; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = MC_RN/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		81E623F42B8DEF6000817843 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../dist/assets; sourceTree = "<group>"; };
-		81E623F52B8DEF6000817843 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = ../dist/main.jsbundle; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-MC_RN-MC_RNTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MC_RN-MC_RNTests.release.xcconfig"; path = "Target Support Files/Pods-MC_RN-MC_RNTests/Pods-MC_RN-MC_RNTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -63,6 +84,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				815CE8E32B972BF5009C4FA1 /* libresolv.tbd in Frameworks */,
+				815CE8E12B972BED009C4FA1 /* UserNotifications.framework in Frameworks */,
+				815CE8DF2B972BE5009C4FA1 /* UIKit.framework in Frameworks */,
+				815CE8DD2B972BDF009C4FA1 /* Foundation.framework in Frameworks */,
+				815CE8DB2B972BD4009C4FA1 /* SystemConfiguration.framework in Frameworks */,
+				815CE8D92B972BCE009C4FA1 /* CoreFoundation.framework in Frameworks */,
+				815CE8D72B972BC7009C4FA1 /* CFNetwork.framework in Frameworks */,
+				815CE8D52B972BC1009C4FA1 /* Security.framework in Frameworks */,
+				815CE8D32B972BB7009C4FA1 /* CoreTelephony.framework in Frameworks */,
+				815CE8D12B972BA2009C4FA1 /* libz.tbd in Frameworks */,
 				0C80B921A6F3F58F76C31292 /* libPods-MC_RN.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -90,6 +121,7 @@
 		13B07FAE1A68108700A75B9A /* MC_RN */ = {
 			isa = PBXGroup;
 			children = (
+				815CE8CF2B972B76009C4FA1 /* MC_RN.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -103,6 +135,16 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				815CE8E22B972BF5009C4FA1 /* libresolv.tbd */,
+				815CE8E02B972BED009C4FA1 /* UserNotifications.framework */,
+				815CE8DE2B972BE5009C4FA1 /* UIKit.framework */,
+				815CE8DC2B972BDE009C4FA1 /* Foundation.framework */,
+				815CE8DA2B972BD4009C4FA1 /* SystemConfiguration.framework */,
+				815CE8D82B972BCE009C4FA1 /* CoreFoundation.framework */,
+				815CE8D62B972BC7009C4FA1 /* CFNetwork.framework */,
+				815CE8D42B972BC1009C4FA1 /* Security.framework */,
+				815CE8D22B972BB7009C4FA1 /* CoreTelephony.framework */,
+				815CE8D02B972BA2009C4FA1 /* libz.tbd */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				5DCACB8F33CDC322A6C60F78 /* libPods-MC_RN.a */,
 				19F6CBCC0A4E27FBF8BF4A61 /* libPods-MC_RN-MC_RNTests.a */,
@@ -120,8 +162,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				81E623F42B8DEF6000817843 /* assets */,
-				81E623F52B8DEF6000817843 /* main.jsbundle */,
+				815CE8E52B972EC9009C4FA1 /* assets */,
+				815CE8E42B972EC9009C4FA1 /* main.jsbundle */,
 				13B07FAE1A68108700A75B9A /* MC_RN */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* MC_RNTests */,
@@ -256,10 +298,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81E623F62B8DEF6000817843 /* assets in Resources */,
+				815CE8E62B972EC9009C4FA1 /* main.jsbundle in Resources */,
+				815CE8E72B972EC9009C4FA1 /* assets in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				81E623F72B8DEF6000817843 /* main.jsbundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -502,6 +544,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MC_RN/MC_RN.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9UY7278A9Z;
 				ENABLE_BITCODE = NO;
@@ -511,7 +554,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = "Bata-1.5";
+				MARKETING_VERSION = "Bata-1.6";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -531,6 +574,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MC_RN/MC_RN.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9UY7278A9Z;
 				INFOPLIST_FILE = MC_RN/Info.plist;
@@ -539,7 +583,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = "Bata-1.5";
+				MARKETING_VERSION = "Bata-1.6";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

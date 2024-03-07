@@ -11,6 +11,7 @@
 
 import _ from 'lodash';
 import React from 'react';
+import { useLatest } from 'react-use';
 import { View, Text, SafeAreaView, StatusBar, Appearance} from 'react-native';
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 import {useSelector} from 'react-redux';
@@ -38,6 +39,8 @@ export default () => {
     currentTimeframe,
     data
   } = useKlineData({Symbol: SYMBOLS_MAPPING_REVERSE[route.params?.symbol]});
+  const dataLatest = useLatest(data);
+
   const { navigation } = usePublicState();
   const Mt4ClientApiToken = useSelector((state: any) => state.trade?.mt4Info?.Mt4ClientApiToken);
   const [list, setList] = React.useState([]);

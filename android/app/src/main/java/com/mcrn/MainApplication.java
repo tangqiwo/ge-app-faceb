@@ -15,6 +15,7 @@ import java.util.List;
 import cn.reactnative.modules.update.UpdateContext;
 import org.wonday.orientation.OrientationPackage;
 import org.wonday.orientation.OrientationActivityLifecycle;
+import cn.jiguang.plugins.push.JPushModule;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -68,6 +69,7 @@ public class MainApplication extends Application implements ReactApplication {
     ReactFeatureFlags.enableSynchronizationForAnimated = true;
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+    JPushModule.registerActivityLifecycle(this);
   }
 
   /**

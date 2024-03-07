@@ -4302,6 +4302,11 @@ javascript-natural-sort@^0.7.1:
   resolved "https://registry.yarnpkg.com/javascript-natural-sort/-/javascript-natural-sort-0.7.1.tgz#f9e2303d4507f6d74355a73664d1440fb5a0ef59"
   integrity sha512-nO6jcEfZWQXDhOiBtG2KvKyEptz7RVbpGP4vTD2hLBdmNQSsCiicO2Ioinv6UI4y9ukqnBpy+XZ9H6uLNgJTlw==
 
+jcore-react-native@^2.1.6:
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/jcore-react-native/-/jcore-react-native-2.1.6.tgz#c5a400bc60132686860741270a4c5e0398db0f51"
+  integrity sha512-vp8ZypCKkWnaC2eqWPpYUKR4YxSUUDMW6rqfwKmDFzzsUVaz2DNujhIUdvICWRAD5l+I5Sycvc67zxRyxMFYGg==
+
 jest-get-type@^26.3.0:
   version "26.3.0"
   resolved "https://registry.yarnpkg.com/jest-get-type/-/jest-get-type-26.3.0.tgz#e97dc3c3f53c2b406ca7afaed4493b1d099199e0"
@@ -4388,6 +4393,11 @@ joi@^17.2.1:
     "@sideway/address" "^4.1.3"
     "@sideway/formula" "^3.0.1"
     "@sideway/pinpoint" "^2.0.0"
+
+jpush-react-native@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/jpush-react-native/-/jpush-react-native-3.0.6.tgz#9322725a2c50d9d51b3d433df360b6b57a59bd65"
+  integrity sha512-ajOzIDaX67H/Aplmh42QhC6EtmZRaTgumEdncBQJG0LScRHEHrw1Rill+f705AZ8oGJ8Vjb6dLR4a37MzYkAnQ==
 
 js-cookie@^2.2.1:
   version "2.2.1"

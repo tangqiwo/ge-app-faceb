@@ -8,6 +8,7 @@
 import _ from 'lodash';
 import React from 'react';
 import dayjs from 'dayjs';
+import { useLatest } from 'react-use';
 import { useSelector } from 'react-redux';
 import usePublicState from '@hooks/usePublicState';
 import useWebsocket from '../useWebsocket';
@@ -20,9 +21,11 @@ export default ({Symbol}: IProps) => {
   const { dispatch, ACTIONS } = usePublicState();
   const Mt4ChartQuoteGateway = useSelector((state: any) => state.base.faceBConfig?.Mt4ChartQuoteGateway);
   const [newKlineData, setNewKlineData] = React.useState<any>(null);
+  const latestNewKlineData = useLatest(newKlineData);
   const dataInsertTarget = React.useRef<any>(false);
   const queryDoneTarget = React.useRef<any>(true);
   const [data, setData] = React.useState<any>([]); // [open, close, high, low, vol, time, amount
+  const latestData = useLatest(data);
   const currentTimeframe = React.useRef<any>('M1');
   const { socket, messages, sendMessage } = useWebsocket({
     url: Mt4ChartQuoteGateway?.Path,
@@ -61,8 +64,19 @@ export default ({Symbol}: IProps) => {
       //@ts-ignore
       id: parseInt(dayjs(data.Time, 'YYYY-MM-DDTHH:mm:ss').valueOf() / 1000),
       low: _.round(Number(data.Low), 3),
-      vol: data.Volume,
-      Timeframe: data.Timeframe
+      vol: Number(data.Volume),
+      Timeframe: data.Timeframe,
+    }
+    if(!_.find(latestData.current, {id: formatData.id}) && latestData.current?.length > 0) {
+      // 删除最后一个，添加到最前面
+      setData((prev: any) => {
+        if(latestNewKlineData.current?.id > 0){
+          return [ ...prev.slice(2), _.omit(latestNewKlineData.current, ['Timeframe']), _.omit(formatData, ['Timeframe'])]
+        }else{
+          return [ ...prev.slice(2), _.omit(formatData, ['Timeframe'])]
+        }
+      })
+      return;
     }
     if(dataInsertTarget.current) {
       setNewKlineData(formatData);
@@ -93,7 +107,7 @@ export default ({Symbol}: IProps) => {
                         // @ts-ignore
                         id: parseInt(dayjs(item.Time, 'YYYY-MM-DDTHH:mm:ss').valueOf() / 1000),
                         low: _.round(Number(item.Low), 3),
-                        vol: _.round(Number(item.Volume), 3)
+                        vol: _.round(Number(item.Volume), 3),
                       }))
                       .reverse()
                       .value()
@@ -106,6 +120,7 @@ export default ({Symbol}: IProps) => {
 
   return {
     data,
+    setData,
     getKlineData,
     sendMessage,
     setNewKlineData,
