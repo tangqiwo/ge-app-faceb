@@ -33,7 +33,7 @@ export default () => {
   });
 
   // 字段校验
-  const validate = (key: 'Password' | 'PhoneNumber' | 'Token') => {
+  const validate = (key: 'Password' | 'PhoneNumber' | 'Token'): any => {
     if(!isFocused){
       return;
     }
@@ -42,35 +42,43 @@ export default () => {
       if(!payload.Password){
         setErrors({...errors, Password: Password ? null : '请输入密码'});
         dispatch(ACTIONS.BASE.openToast({text: '请输入密码', types: 'error'}));
-        return;
+        return false;
       }
       setErrors({...errors, Password: null});
-      return;
+      return true;
     }
     if(key === 'PhoneNumber') {
       // 8到20位数字
       if (!/^[0-9]{8,20}$/.test(PhoneNumber)) {
         setErrors({...errors, PhoneNumber: '请输入正确的手机号'});
         dispatch(ACTIONS.BASE.openToast({text: '请输入正确的手机号', types: 'error'}));
-        return;
+        return false;
       }
       setErrors({...errors, PhoneNumber: null});
-      return;
+      return true;
     }
     if(key === 'Token'){
       // 6位数字
       if (!/^[0-9]{6}$/.test(payload.AuthCode)) {
         setErrors({...errors, AuthCode: '请输入正确的验证码'});
         dispatch(ACTIONS.BASE.openToast({text: '请输入正确的验证码', types: 'error'}));
-        return;
+        return false;
       }
       setErrors({...errors, AuthCode: null});
+      return true
     }
   }
 
   // 登录
   const login = (type: 'Password' | 'Token') => {
     // 如果还有错误提示，不允许提交
+    if(!validate('PhoneNumber')){
+      return;
+    }
+    if(!validate(type)){
+      return;
+    }
+    validate(type);
     if (Object.values(errors).some((item) => item)) {
       return;
     }

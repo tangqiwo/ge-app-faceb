@@ -450,3 +450,14 @@ export const getDepositActivityConfig = ({ cb }: INTERFACE.IProps): INTERFACE.IA
   },
   cb,
 });
+
+
+// 注销账号
+export const delAccount = ({ cb }: INTERFACE.IProps): INTERFACE.IAPI => ({
+  type: TYPES.BASE.HTTP_ONLY,
+  payload: {
+    key: 'user/del-account',
+    method: HTTP.METHODS.POST,
+  },
+  cb,
+});

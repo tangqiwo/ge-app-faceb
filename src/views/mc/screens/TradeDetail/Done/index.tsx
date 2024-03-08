@@ -63,7 +63,7 @@ export default () => {
             </View>
             <View style={styles.item}>
               <Text style={styles.grey}>止盈： </Text>
-              <Text>{data.Sl}</Text>
+              <Text>{data.Tp}</Text>
             </View>
           </View>
           <View style={styles.right}>
@@ -84,7 +84,7 @@ export default () => {
             </View>
             <View style={styles.item}>
               <Text style={styles.grey}>止损： </Text>
-              <Text>{data.Tp}</Text>
+              <Text>{data.Sl}</Text>
             </View>
           </View>
         </View>

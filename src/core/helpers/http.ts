@@ -2,7 +2,7 @@
  * @Description: 请求中间件
  * @Author: Galen.GE
  * @Date: 2019-12-19 18:03:47
- * @LastEditTime: 2024-02-05 16:03:50
+ * @LastEditTime: 2024-03-07 16:36:34
  * @LastEditors: Galen.GE
  */
 import _ from 'lodash';
@@ -57,9 +57,10 @@ export class HTTP {
       timeoutCb,
       maxRetry = 1000,
       isFormatReq = false,
+      prefix = 'ge_app/v1/'
     }: IPayload, dispatch: Dispatch) {
     this.request = {
-      url: $API.getURL(key, urlParams),
+      url: $API.getURL(key, urlParams, prefix),
       data: data,
       method: method,
       nonce: this.nonceKey(key),
@@ -269,6 +270,7 @@ export interface IRequest {
  */
 export interface IPayload {
   key?          : string;
+  prefix?       : string;
   urlParams?    : Array<string | number>;
   data?         : Object | null;
   isFormatReq?  : boolean;        //  是否格式化请求参数(大写开头)

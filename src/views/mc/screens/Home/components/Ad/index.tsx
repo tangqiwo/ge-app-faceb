@@ -11,20 +11,23 @@ import { useSelector } from 'react-redux';
 import { INSTANT_QUOTES_STATUS_COLOR } from '@core/hooks/useInstantQuotes';
 import {IStore} from '@schemas/redux-store';
 import { View, Text, Image } from 'react-native'
+import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 import { GS, LS } from './style';
+import usePublicState from '@core/hooks/usePublicState';
 
 const styles = LS.ad;
 
 export default (() => {
 
   const instant = useSelector((state: IStore) => state.quotes.instant);
+  const { navigation } = usePublicState();
 
   const gold = _.find(instant, {Symbol: 'XAUUSD'});
   const silver = _.find(instant, {Symbol: 'XAGUSD'});
 
   return (
     <View style={styles.container}>
-      <View style={styles.item}>
+      <MyTouchableOpacity style={styles.item} onPress={() => navigation.navigate('KLine', { symbol: 'XAUUSDpro' })} >
         <Image source={require('./i/G.png')} style={styles.itemImage} />
         <View style={styles.itemText}>
           <Text style={styles.itemTextTitle}>现货黄金</Text>
@@ -38,8 +41,8 @@ export default (() => {
             </Text>
           </View>
         </View>
-      </View>
-      <View style={styles.item}>
+      </MyTouchableOpacity>
+      <MyTouchableOpacity style={styles.item} onPress={() => navigation.navigate('KLine', { symbol: 'XAGUSDpro' })}>
         <Image source={require('./i/Y.png')} style={styles.itemImage} />
         <View style={styles.itemText}>
           <Text style={styles.itemTextTitle}>现货白银</Text>
@@ -53,7 +56,7 @@ export default (() => {
             </Text>
           </View>
         </View>
-      </View>
+      </MyTouchableOpacity>
     </View>
   )
 

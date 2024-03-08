@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2023-06-11 16:39:15
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/templates/components/__Popups/index.tsx
  * @Description: 弹出的各种提示
 */
@@ -16,7 +16,7 @@ export default () => {
   if(!display) return <></>
 
   return (
-    <Popup title={title} top={10} close={closePopups} display >
+    <Popup zIndex={200} title={title} top={10} close={closePopups} display >
       { content() }
     </Popup>
   )

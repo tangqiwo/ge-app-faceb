@@ -7,7 +7,7 @@
  */
 import _ from 'lodash';
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, Linking } from 'react-native';
 import Header from '@this/components/Header';
 import Icon from '@icon/index';
 import usePublicState from '@core/hooks/usePublicState';
@@ -109,6 +109,24 @@ export default () => {
     }
   }, [state])
 
+  // 注销账号
+  const handleDelAccount = () => {
+    dispatch(ACTIONS.BASE.openConfirm({
+      title: '您是否确认注销账号？',
+      content: '',
+      actions: [{
+        text: '确认',
+        type: 'destructive',
+        cb: () => {
+          dispatch(ACTIONS.USER.delAccount({ cb: () => {
+            dispatch(ACTIONS.BASE.openToast({text: '注销成功', types: 'success'}))
+            logout();
+          }}))
+        }
+      }]
+    }))
+  }
+
   return (
     <View style={styles.container}>
       <Header title='系统设置' />
@@ -141,12 +159,25 @@ export default () => {
           </View>
           <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
         </MyTouchableOpacity>
+        <MyTouchableOpacity style={{...styles.menuItem, borderBottomWidth: 0}} onPress={() => Linking.openURL('https://beian.miit.gov.cn/#/home')} >
+          <View style={styles.menuItemContent}>
+            <Image source={require('./i/icon-5.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(16)}} />
+            <Text style={{...styles.buttonText, color: '#2A2A2A'}}>APP备案号</Text>
+          </View>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Text style={{ color: '#8f8f8f'}}>闽ICP备2023019404号</Text>
+            <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
+          </View>
+        </MyTouchableOpacity>
       </View>
       {
        !_.isEmpty(infos) &&
-        <MyTouchableOpacity style={styles.submitView} onPress={handleLogout} >
-          <Text style={styles.submitText}>退出登录</Text>
-        </MyTouchableOpacity>
+        <>
+          <MyTouchableOpacity style={styles.submitView} onPress={handleLogout} >
+            <Text style={styles.submitText}>退出登录</Text>
+          </MyTouchableOpacity>
+          <Text style={styles.logoutView} onPress={handleDelAccount}>注销账号</Text>
+        </>
       }
      </View>
   )

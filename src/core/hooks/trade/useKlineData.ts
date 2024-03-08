@@ -21,7 +21,6 @@ export default ({Symbol}: IProps) => {
   const { dispatch, ACTIONS } = usePublicState();
   const Mt4ChartQuoteGateway = useSelector((state: any) => state.base.faceBConfig?.Mt4ChartQuoteGateway);
   const [newKlineData, setNewKlineData] = React.useState<any>(null);
-  const latestNewKlineData = useLatest(newKlineData);
   const dataInsertTarget = React.useRef<any>(false);
   const queryDoneTarget = React.useRef<any>(true);
   const [data, setData] = React.useState<any>([]); // [open, close, high, low, vol, time, amount
@@ -33,10 +32,10 @@ export default ({Symbol}: IProps) => {
     onOpen: (ws: any) => {
       const data = {
         Symbol: Symbol,
-        Timeframe: 'M1',
+        Timeframe: currentTimeframe.current,
       }
       ws.send(JSON.stringify(data));
-    }
+    },
   });
 
   // 注销 socket
@@ -64,25 +63,16 @@ export default ({Symbol}: IProps) => {
       //@ts-ignore
       id: parseInt(dayjs(data.Time, 'YYYY-MM-DDTHH:mm:ss').valueOf() / 1000),
       low: _.round(Number(data.Low), 3),
-      vol: Number(data.Volume),
+      vol: data.Volume,
       Timeframe: data.Timeframe,
     }
-    if(!_.find(latestData.current, {id: formatData.id}) && latestData.current?.length > 0) {
-      // 删除最后一个，添加到最前面
-      setData((prev: any) => {
-        if(latestNewKlineData.current?.id > 0){
-          return [ ...prev.slice(2), _.omit(latestNewKlineData.current, ['Timeframe']), _.omit(formatData, ['Timeframe'])]
-        }else{
-          return [ ...prev.slice(2), _.omit(formatData, ['Timeframe'])]
-        }
+    if(!_.find(latestData.current, {id: formatData.id})) {
+      getKlineData(data.Timeframe, data.Time, (res: any) => {
+        setData([...res, _.omit(formatData, ['Timeframe'])]);
       })
       return;
     }
-    if(dataInsertTarget.current) {
-      setNewKlineData(formatData);
-    }else{
-      getKlineData(data.Timeframe, data.Time)
-    }
+    setNewKlineData(formatData);
   }, [messages])
 
   const getKlineData = (Timeframe = 'M1', fromData = dayjs().format('YYYY-MM-DDTHH:mm:ss'), callback?: Function) => {
@@ -107,11 +97,12 @@ export default ({Symbol}: IProps) => {
                         // @ts-ignore
                         id: parseInt(dayjs(item.Time, 'YYYY-MM-DDTHH:mm:ss').valueOf() / 1000),
                         low: _.round(Number(item.Low), 3),
-                        vol: _.round(Number(item.Volume), 3),
+                        vol: item.Volume,
                       }))
                       .reverse()
                       .value()
-        setData(data);
+        callback(data);
+        // setData(data);
         dataInsertTarget.current = true;
         queryDoneTarget.current = true;
       }

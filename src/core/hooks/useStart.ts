@@ -51,6 +51,7 @@ export default () => {
 
   React.useEffect(() => {
     if(cacheInit){
+      dispatch(ACTIONS.BASE.initUI());
       // 网站设置
       dispatch(ACTIONS.BASE.cacheReady());
       dispatch(ACTIONS.BASE.getAppConfig());
@@ -61,7 +62,6 @@ export default () => {
       dispatch(ACTIONS.BASE.getMemberInfo());
       dispatch(ACTIONS.BASE.getChannelKeys());
       dispatch(ACTIONS.BASE.getFaceBConfig());
-      dispatch(ACTIONS.BASE.initUI());
       if(store.get('AUTH')){
         dispatch(ACTIONS.USER.getUserInfo({passError: true, cb: (res: any) => {
           if(res.Code !== 0){

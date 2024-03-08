@@ -31,6 +31,7 @@ type TKeys =  'AUTH'                          // 登录 TOKEN
             | 'LANG'                          // 语言
             | 'MT4-PASS'                      // MT4 密码
             | 'INIT_BOOT_SCREEN'              // 是否初始化启动屏幕
+            | 'IS_AGREE_PRIVACY'              // 是否同意隐私协议
 
 
 /**

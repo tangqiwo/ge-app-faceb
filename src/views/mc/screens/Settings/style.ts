@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/views/mc/screens/Settings/style.ts
  * @Description:
  */
@@ -58,6 +58,13 @@ export const LS = StyleSheet.create({
     fontSize: G.mixin.rem(15),
     color: '#2A2A2A',
   },
+  // 注销账号
+  logoutView: {
+    color: '#2A2A2A',
+    width: '100%',
+    textAlign: 'center',
+    textDecorationLine: 'underline'
+  }
 })
 
 // 固定导出

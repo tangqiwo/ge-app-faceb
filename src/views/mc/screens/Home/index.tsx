@@ -5,7 +5,7 @@
  * @FilePath: /app_face_b/src/views/mc/screens/Home/index.tsx
  * @Description: 首页
  */
-import _, { set } from 'lodash';
+import _ from 'lodash';
 import React from 'react';
 import { ScrollView, View, Text, Image, TouchableWithoutFeedback } from 'react-native';
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
@@ -24,10 +24,12 @@ import usePromotion from '@core/hooks/usePromotion';
 import usePublicState from '@core/hooks/usePublicState';
 import MyImage from '@core/templates/components/Base/Image';
 import HomeAd from './components/HomeAd';
+import Privacy from './components/Privacy';
 import { useIsFocused } from "@react-navigation/native";
 import { LS, GS } from './style';
 import G from '@constants/global';
 import { useSelector } from 'react-redux';
+import store from '@helpers/storage';
 
 const styles = LS.main;
 
@@ -43,6 +45,18 @@ export default () => {
   const [ showHomeAd, setShowHomeAd ] = React.useState<boolean>(true);
   const [bottomAd, setBottomAd] = React.useState<any>(null);
   const { promotionCenterList } = usePromotion();
+
+  const { cacheReady } = usePublicState();
+  const [ showPrivacy, setShowPrivacy ] = React.useState(false);
+
+  React.useEffect(() => {
+    if(cacheReady){
+      const isAgreePrivacy = store.get('IS_AGREE_PRIVACY');
+      if(!isAgreePrivacy){
+        setShowPrivacy(true)
+      }
+    }
+  }, [cacheReady])
 
   React.useEffect(() => {
     if(!showBottonAd){
@@ -128,8 +142,8 @@ export default () => {
             <CustomerService />
           }
         </View>
-        <FlashAd showPopup={showPopup} setShowPopup={setShowPopup} />
-        <HomeAd showHomeAd={isFocused && showHomeAd && !showPopup} setShowHomeAd={setShowHomeAd} />
+        <FlashAd showPopup={!showPrivacy && showPopup} setShowPopup={setShowPopup} />
+        <HomeAd showHomeAd={!showPrivacy && isFocused && showHomeAd && !showPopup} setShowHomeAd={setShowHomeAd} />
       </ScrollView>
       {
         isFocused && showBottonAd && bottomAd &&
@@ -147,6 +161,10 @@ export default () => {
             </View>
           </TouchableWithoutFeedback>
         </View>
+      }
+      {
+        showPrivacy &&
+        <Privacy setShowPrivacy={setShowPrivacy} />
       }
     </View>
   )

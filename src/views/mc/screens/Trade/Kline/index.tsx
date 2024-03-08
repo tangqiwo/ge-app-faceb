@@ -12,7 +12,7 @@
 import _ from 'lodash';
 import React from 'react';
 import { useLatest } from 'react-use';
-import { View, Text, SafeAreaView, StatusBar, Appearance} from 'react-native';
+import { View, Text, SafeAreaView, StatusBar, Appearance, Platform} from 'react-native';
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 import {useSelector} from 'react-redux';
 import { useRoute } from '@react-navigation/native';
@@ -106,7 +106,7 @@ export default () => {
   const toFixedBit = SYMBOLS_MAPPING_REVERSE[route.params?.symbol] === 'XAUUSDpro' ? 2 : 3;
 
   return (
-    <View style={styles.container}>
+    <View style={{...styles.container, paddingTop: Platform.OS === 'android' ? 20 : 0}}>
       <SafeAreaView style={[styles.container]}>
         <View style={{...styles.header}}>
           <Icon.Font name='arrow-left' type={Icon.T.FontAwesome5} onPress={() => navigation.goBack()} style={styles.arrowBack} size={GS.mixin.rem(16)} />
@@ -116,7 +116,7 @@ export default () => {
         </View>
         <View style={styles.infos}>
           <View style={styles.priceNow}>
-            <Text style={{...styles.itemTextPrice, color: INSTANT_QUOTES_STATUS_COLOR[symbolPrice?.askStatus]}}>{Number(symbolPrice?.Ask)?.toFixed(toFixedBit) || '0000.00'}</Text>
+            <Text style={{...styles.itemTextPrice, color: INSTANT_QUOTES_STATUS_COLOR[symbolPrice?.askStatus]}}>{Number(newKlineData?.close || symbolPrice?.Bid)?.toFixed(toFixedBit) || '0000.00'}</Text>
             <View style={styles.itemTextPriceUnit}>
               <Text style={{...styles.itemTextPriceUnitText, color: INSTANT_QUOTES_STATUS_COLOR[symbolPrice?.askStatus]}}>
                 {Number(symbolPrice?.changeValue)?.toFixed(toFixedBit) || '0.000'}
@@ -212,7 +212,7 @@ const SYMBOLS_MAPPING_REVERSE = {
 
 // 时分选择
 const TIMEFRAME_LIST = [
-  {value: 'M1', label: '分时'},
+  {value: 'M1', label: '1分'},
   {value: 'M5', label: '5分'},
   {value: 'M30', label: '30分'},
   {value: 'H1', label: '1小时'},

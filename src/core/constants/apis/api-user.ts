@@ -1,8 +1,8 @@
 /*
  * @Author: Galen.GE
  * @Date: 2022-07-25 10:58:18
- * @LastEditors: Shawn.GE
- * @FilePath: /react_project/src/core/apis/api-user.ts
+ * @LastEditors: Galen.GE
+ * @FilePath: /app_face_b/src/core/constants/apis/api-user.ts
  * @Description: 用户 & 权限相关接口
  */
 export default {
@@ -95,4 +95,7 @@ export default {
 
   // 获取kyc限时充值信息
   'user/deposit_activity_config': 'deposit_activity/get_config',
+
+  // 注销账号
+  'user/del-account': 'operator/DestroyUser'
 }

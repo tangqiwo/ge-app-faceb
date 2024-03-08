@@ -15,7 +15,7 @@ import quotes from './api-quotes';
 import trade from './api-trade';
 
 // 前缀
-export const getURL = (key: string, params: Array<string | number>, prefix='ge_app/v1/'): string => {
+export const getURL = (key: string, params: Array<string | number>, prefix: string): string => {
 
   const apis: any = _.merge(
     { ...base },

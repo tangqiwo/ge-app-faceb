@@ -387,8 +387,8 @@ export default () => {
   const openMarketOrder = () => {
     const data = {
       ..._.omit(payload, ['Price', 'Expiration']),
-      Stoploss: payload.Stoploss === 0 ? '0' : `${payload.Stoploss}`,
-      Takeprofit: payload.Takeprofit === 0 ? '0' : `${payload.Takeprofit}`,
+      Stoploss: !payload.Stoploss ? '0' : `${payload.Stoploss}`,
+      Takeprofit: !payload.Takeprofit ? '0' : `${payload.Takeprofit}`,
       Volume: Number(payload.Volume).toFixed(2),
     }
     dispatch(ACTIONS.TRADE.openMarketOrder({ data, cb: (res: any) => {
@@ -401,8 +401,8 @@ export default () => {
   const openPendingOrder = () => {
     const data = {
       ...payload,
-      Stoploss: payload.Stoploss === 0 ? '0' : `${payload.Stoploss}`,
-      Takeprofit: payload.Takeprofit === 0 ? '0' : `${payload.Takeprofit}`,
+      Stoploss: !payload.Stoploss ? '0' : `${payload.Stoploss}`,
+      Takeprofit: !payload.Takeprofit ? '0' : `${payload.Takeprofit}`,
       Volume: Number(payload.Volume).toFixed(2),
     }
     dispatch(ACTIONS.TRADE.openPendingOrder({ data, cb: (res: any) => {
