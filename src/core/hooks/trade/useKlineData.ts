@@ -51,10 +51,11 @@ export default ({Symbol}: IProps) => {
     if(!messages) {
       return;
     }
-    const data = JSON.parse(messages);
+    const data = JSON.parse(messages)?.ChartQuote;
     if(data.Timeframe !== currentTimeframe.current) {
       return;
     }
+    console.log(data);
     const formatData = {
       amount: 0,
       open: _.round(Number(data.Open), 3),

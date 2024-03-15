@@ -2,7 +2,7 @@
  * @Description: REDUX 初始化状态
  * @Author: Galen.GE
  * @Date: 2019-12-19 16:20:56
- * @LastEditTime: 2024-02-07 10:30:08
+ * @LastEditTime: 2024-03-11 11:25:43
  * @LastEditors: Galen.GE
  */
 import { UserInfo, RegisterGuide } from '@core/schemas/interface';
@@ -49,7 +49,7 @@ const promotion: INTERFACE.IPromotion = {
 };
 
 const quotes: INTERFACE.IQuotes = {
-
+  symbol: 'M1'
 }
 
 const trade: INTERFACE.ITrade = {

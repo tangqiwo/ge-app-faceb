@@ -18,9 +18,15 @@ import style, { LS as styles, GS } from './style';
 
 export default () => {
 
-  const { rs, navigation, infos, customerService, isLogined } = usePublicState();
+  const { rs, navigation, infos, customerService, isLogined, isFocused, dispatch, ACTIONS } = usePublicState();
   const [ showMoney, setShowMoney ] = React.useState(false);
   const { forward } = useRouteWebCommon();
+
+  React.useEffect(() => {
+    if(isFocused && isLogined){
+      dispatch(ACTIONS.USER.getUserInfo({loading: false}))
+    }
+  }, [isFocused, isLogined])
 
   const handleGoToRegister = () => {
     if(_.isUndefined(rs.user.registerProgress.code)) {
@@ -45,6 +51,19 @@ export default () => {
           <View style={styles.textBox}>
             <View style={styles.settingsView}>
               <Text style={styles.unlogin} >{infos.RealName || '未开户'}</Text>
+              {
+                infos.RealName &&
+                <View style={{flexDirection: 'row', alignItems: 'center', marginRight: 'auto'}}>
+                  <Text style={{fontSize: GS.mixin.rem(14)}}>
+                    {rs.base.appDisplayConfig.MemberPageInfo?.NewUserTip}
+                  </Text>
+                  <BackgroundView source={require('./i/icon-new.png')} style={styles.tips}>
+                    <Text style={{color: 'white', marginLeft: GS.mixin.rem(4)}}>
+                      {infos.KycScore >= 33 ? '专业投资者' : '一般投资者'}
+                    </Text>
+                  </BackgroundView>
+                </View>
+              }
               <View style={{flexDirection: 'row'}}>
                 <MyTouchableOpacity onPress={() => navigation.navigate('MessageCenter')}>
                   <Icon.Font style={styles.settingIcon} type={Icon.T.FontAwesome} name='envelope-o' />
@@ -58,7 +77,7 @@ export default () => {
               infos.RealName &&
               <View style={{flexDirection: 'row', alignItems: 'center', marginTop: GS.mixin.rem(10), width: '100%'}}>
                 <Text style={{fontSize: GS.mixin.rem(14)}}>
-                  {infos.KycScore >= 33 ? '专业投资者' : '一般投资者'}
+                  交易账号：{infos.Mt4Id}
                 </Text>
               </View>
             }
@@ -94,7 +113,7 @@ export default () => {
           Enum.user.ERegisterProgress.SUPPLEMENTARY_INFORMATION
         ], rs.user.registerProgress.code)) &&
         <View style={styles.infosView}>
-          <Text style={styles.moneyTitle}>资产净值（USD）</Text>
+          <Text style={styles.moneyTitle}>资金余额（USD）</Text>
           <View style={styles.moneyDetail}>
             <Text style={styles.moneyDetailText}>{showMoney ? (infos.Balance || '0.00') : isLogined ? '****' : '----'}</Text>
             <MyTouchableOpacity onPress={() => setShowMoney(!showMoney)}>
@@ -205,17 +224,17 @@ export default () => {
               </View>
               <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
             </MyTouchableOpacity>
-            <MyTouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Root', {screen: 'Trade', params: {tab: 0}})}>
-              <View style={styles.menuItemContent}>
-                <Image source={require('./i/icon/icon-8.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
-                <Text style={{...styles.buttonText, color: '#2A2A2A'}}>持仓详情</Text>
-              </View>
-              <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
-            </MyTouchableOpacity>
             <MyTouchableOpacity style={styles.menuItem} onPress={() => forward(FORWARD_TYPES['ATM_DETAIL'])}>
               <View style={styles.menuItemContent}>
                 <Image source={require('./i/icon/icon-9.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
                 <Text style={{...styles.buttonText, color: '#2A2A2A'}}>资金明细</Text>
+              </View>
+              <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
+            </MyTouchableOpacity>
+            <MyTouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Root', {screen: 'Trade', params: {tab: 0}})}>
+              <View style={styles.menuItemContent}>
+                <Image source={require('./i/icon/icon-8.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
+                <Text style={{...styles.buttonText, color: '#2A2A2A'}}>持仓详情</Text>
               </View>
               <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
             </MyTouchableOpacity>

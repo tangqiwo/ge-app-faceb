@@ -2,7 +2,7 @@
  * @Description: 请求中间件
  * @Author: Galen.GE
  * @Date: 2019-12-19 18:03:47
- * @LastEditTime: 2024-03-07 16:36:34
+ * @LastEditTime: 2024-03-13 17:18:26
  * @LastEditors: Galen.GE
  */
 import _ from 'lodash';
@@ -16,6 +16,7 @@ import storage from '@helpers/storage';
 import { networkHandler } from '@hooks/useLogs';
 import { toUpperCaseObj } from '@helpers/unit'
 import CONFIGS from '@this/configs'
+import G from '@constants/global';
 
 // 请求方法枚举
 export enum RequestMethods { GET = 'GET', PUT = 'PUT', POST = 'POST', DELETE = 'DELETE' }
@@ -110,7 +111,10 @@ export class HTTP {
       'X-Country'       : 'China',
       'X-Lang'          : 'zh-CN',
       'X-Origin'        : '',
-      'X-Channel-Code'  : CONFIGS.CHANNEL_CODE
+      'X-Channel-Code'  : CONFIGS.CHANNEL_CODE,
+      'X-Sem-Device-Id' : storage.get('UNIQUE_ID') || '',
+      'X-Idfa'          : G.GET('UUID'),
+      'X-Phone-Model'   : G.GET('PHONE_MODEL'),
     }
     const dataBody = this.request.method === 'GET' ? {} : {data: requestData};
     axios(_.merge(

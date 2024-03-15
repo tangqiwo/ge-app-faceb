@@ -22,7 +22,6 @@ import Position from "./Position";
 import TradeHistory from "./TradeHistory";
 import Button from '@this/components/Button'
 import useRouteWebCommon, { FORWARD_TYPES } from '@core/hooks/useRouteWebCommon';
-import useMt4ChartQuote from '@core/hooks/useMt4ChartQuote';
 import ENUM from '@core/constants/enum';
 import store from '@helpers/storage'
 import { LS as styles, GS } from './style';
@@ -30,7 +29,7 @@ import { LS as styles, GS } from './style';
 export default () => {
 
   // useMt4ChartQuote();
-  const { navigation, isMt4User, rs, isFocused, cacheReady } = usePublicState();
+  const { navigation, isMt4User, rs, isFocused, cacheReady, dispatch, ACTIONS } = usePublicState();
   const mt4Info = useSelector((state: any) => state.trade.mt4Info);
   const route = useRoute<any>();
   const { forward } = useRouteWebCommon();
@@ -62,6 +61,12 @@ export default () => {
       }
     }
   }, [isFocused, mt4Info, cacheReady])
+
+  React.useEffect(() => {
+    if(isFocused){
+      dispatch(ACTIONS.USER.getUserInfo({loading: false}))
+    }
+  }, [isFocused])
 
   React.useEffect(() => {
     navigation.setOptions({
@@ -173,7 +178,7 @@ export default () => {
                 <Image source={require('./i/icon-pass.png')} style={styles.inputIcon} />
                 <Input
                   value={password}
-                  placeholder="请输入登录密码"
+                  placeholder="请输入交易密码"
                   onChangeText={(value: string) => setPassword(value)}
                   style={{...styles.inputText, width: GS.mixin.rem(200)}} type={showPassword ? 'text' : 'password'}
                 />

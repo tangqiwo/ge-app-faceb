@@ -92,7 +92,8 @@ export default () => {
     if(payload.Symbol === 'XAGUSDpro') {
       rate = isPro ? 0.01 : 0.02;
     }
-    setReferPayment((Number(payload.Volume) * price * unit * rate).toFixed(2));
+    const toFixedBit = payload.Symbol === 'XAUUSDpro' ? 2 : 3;
+    setReferPayment((Number(payload.Volume) * price * unit * rate).toFixed(toFixedBit));
   }, [payload, mt4Info.SymbolParamsMany, instant])
 
   React.useEffect(() => {
@@ -126,10 +127,10 @@ export default () => {
         SellStop: Number((Number(payload.Price) + step).toFixed(toFixedBit))
       },
       Price: {
-        BuyLimit: Number((ask - step).toFixed(2)),
-        SellLimit: Number((bid + step).toFixed(2)),
-        BuyStop: Number((ask + step).toFixed(2)),
-        SellStop: Number((bid - step).toFixed(2))
+        BuyLimit: Number((ask - step).toFixed(toFixedBit)),
+        SellLimit: Number((bid + step).toFixed(toFixedBit)),
+        BuyStop: Number((ask + step).toFixed(toFixedBit)),
+        SellStop: Number((bid - step).toFixed(toFixedBit))
       }
     }
     setLimitInput(data)

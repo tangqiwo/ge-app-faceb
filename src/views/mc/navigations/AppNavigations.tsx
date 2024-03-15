@@ -66,7 +66,7 @@ export default () => {
       <MainStack.Screen name='Videos' component={ScreenHOC(Videos)} />
       <MainStack.Screen name='TradeDetail' component={ScreenHOC(TradeDetail)} />
       <MainStack.Screen name='TradeDone' component={ScreenHOC(TradeDone)}  />
-      <MainStack.Screen name='KLine' component={ScreenHOC(KLine)} />
+      <MainStack.Screen name='KLine' component={KLine} />
       <MainStack.Screen name='WEB-COMMON' component={ScreenHOC(WebView)} />
     </MainStack.Navigator>
   )

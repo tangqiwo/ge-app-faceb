@@ -119,6 +119,7 @@ export type IQuotes = {
     askStatus: 'UP' | 'DOWN' | 'FLAT',
     bidStatus: 'UP' | 'DOWN' | 'FLAT'
   }>;
+  symbol: string
 }
 
 export type ITrade = {

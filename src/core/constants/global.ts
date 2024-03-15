@@ -10,7 +10,7 @@
 
 type TKeys =  'API'                         // API
             | 'CURRENCY'                    // 全站货币
-            | 'LANG'                        // 语言
+            | 'LANGUAGE'                    // 语言
             | 'STORE_KEY'                   // 缓存同步化KEY
             | 'MIN_RES_TIME'                // 请求持续最短时间
             | 'SCREEN_WIDTH'                // 屏幕宽度
@@ -27,6 +27,8 @@ type TKeys =  'API'                         // API
             | 'INIT_HOME_AD_LOGIN'          // 是否初始化首页登录广告
             | 'WEB_SCOKET_DATA'             // webSocket数据
             | 'CRRENT_ROUTE'                // 当前路由
+            | 'PHONE_MODEL'                 // 手机型号
+            | '__TRANS_OUTPUT__'            // 翻译组件输出
 
 // 获取全局变量
 const GET = (key: string): any => {

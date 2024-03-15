@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-30 10:40:02
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/reducers/quotesReducer.ts
  * @Description:
  */
@@ -16,7 +16,7 @@ export default function user(state = initialState.quotes, action: any) {
       const data = {
         wsLink: action.res.OnQuoteLink,
         symbols: action.res.Symbols.map((item: any) => ({
-          Key: item.Key,
+          Key: item.Key + 'pro',
           Title: item.Title,
           ...item.QuoteHistory,
           Open: _.floor(item.QuoteHistory.Open, 3),
@@ -30,6 +30,10 @@ export default function user(state = initialState.quotes, action: any) {
     // 设置来自ws的实时行情数据
     case TYPES.QUOTES.SET_INSTANT_QUOTES: {
       return { ...state, instant: action.data };
+    }
+    // 设置当前的symbol
+    case TYPES.QUOTES.CHANGE_SYMBOL: {
+      return { ...state, symbol: action.symbol };
     }
     default:
       return state;

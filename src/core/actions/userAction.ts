@@ -53,12 +53,13 @@ export const setToken = ({ data }: INTERFACE.IProps): INTERFACE.IBase => ({
 interface IGetUserInfo extends INTERFACE.IProps {
   cb?: Function;
   passError?: boolean;
+  loading?: boolean;
 }
-export const getUserInfo = ({ cb, passError=false }: IGetUserInfo): INTERFACE.IAPI => ({
+export const getUserInfo = ({ cb, loading=true, passError=false }: IGetUserInfo): INTERFACE.IAPI => ({
   type: TYPES.USER.GET_USER_INFO,
   payload: {
     key: 'user/get-user-info',
-    loading: true,
+    loading,
   },
   continue: ({ dispatch, res }: any) => {
     dispatch(getRegisterProgress({}));

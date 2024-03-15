@@ -29,7 +29,6 @@ export default () => {
     G.SET('SCREEN_WIDTH', width > height ? height : width);
     G.SET('SCREEN_HEIGHT', height > width ? height : width);
     G.SET('TOP_HEIGHT', insets.top);
-    G.SET('LANG', 'zh-CN');
     G.SET('CURRENCY', 'CNY');
     G.SET('COUNTRY', 'China');
     G.SET('ENABLE_ANIMATION', isActiveAnimation());
@@ -37,6 +36,7 @@ export default () => {
     DeviceInfo.getUniqueId().then((uniqueId) => {
       G.SET('UUID', uniqueId)
     });
+    G.SET('PHONE_MODEL', `${DeviceInfo.getBrand()}-${DeviceInfo.getModel()}`)
     store.init(async () => {
       // store.clearAll();
       if(store.get('USER-PROFILE')){
@@ -51,6 +51,7 @@ export default () => {
 
   React.useEffect(() => {
     if(cacheInit){
+      makeUniqueId();
       dispatch(ACTIONS.BASE.initUI());
       // 网站设置
       dispatch(ACTIONS.BASE.cacheReady());
@@ -63,7 +64,7 @@ export default () => {
       dispatch(ACTIONS.BASE.getChannelKeys());
       dispatch(ACTIONS.BASE.getFaceBConfig());
       if(store.get('AUTH')){
-        dispatch(ACTIONS.USER.getUserInfo({passError: true, cb: (res: any) => {
+        dispatch(ACTIONS.USER.getUserInfo({passError: true, loading: false, cb: (res: any) => {
           if(res.Code !== 0){
             dispatch(ACTIONS.BASE.openToast({text: res.Desc, types: 'error'}));
           }
@@ -71,6 +72,15 @@ export default () => {
       }
     }
   }, [cacheInit]);
+
+  const makeUniqueId = () => {
+    if(store.get('UNIQUE_ID')){
+      return;
+    }
+    // 随机生成一个大写字母和数字的组合 32 位ID
+    const uniqueId = _.chain('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789').split('').shuffle().take(32).join('').value();
+    store.set('UNIQUE_ID', uniqueId, 3600 * 24 * 365);
+  }
 
   return {
     init

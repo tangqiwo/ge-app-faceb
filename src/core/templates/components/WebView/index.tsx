@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-09-09 13:21:10
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/templates/components/WebView/index.tsx
  * @Description: 自定义的一些 属性的webview
  */

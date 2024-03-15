@@ -40,9 +40,8 @@ function postJsCode(){
     logout,
     navigate,
     alert,
-    openUrl,
-    uuid: G.GET('UUID')
+    openUrl
   };
 }
 
-export default `(${postJsCode})();`
+export default `(${postJsCode})();window._RN_.uuid = '${G.GET('UUID')}';`

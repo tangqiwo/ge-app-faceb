@@ -44,7 +44,7 @@ export const LS = StyleSheet.create({
     alignItems: 'center',
   },
   priceNow: {
-    width: '50%',
+    width: '40%',
     height: '100%'
   },
   itemTextTitle: {
@@ -72,7 +72,7 @@ export const LS = StyleSheet.create({
     fontWeight: '600',
   },
   priceYestoday: {
-    width: '50%',
+    width: '60%',
     height: '100%',
     flexWrap: 'wrap',
     flexDirection: 'row',

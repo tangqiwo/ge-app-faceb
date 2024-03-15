@@ -22,8 +22,8 @@ export default (() => {
   const instant = useSelector((state: IStore) => state.quotes.instant);
   const { navigation } = usePublicState();
 
-  const gold = _.find(instant, {Symbol: 'XAUUSD'});
-  const silver = _.find(instant, {Symbol: 'XAGUSD'});
+  const gold = _.find(instant, {Symbol: 'XAUUSDpro'});
+  const silver = _.find(instant, {Symbol: 'XAGUSDpro'});
 
   return (
     <View style={styles.container}>

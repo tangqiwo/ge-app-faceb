@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-30 10:57:46
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/core/actions/quotesAction.ts
  * @Description:
  */
@@ -23,4 +23,10 @@ export const getInstantQuotes = (props: INTERFACE.IProps): INTERFACE.IAPI => ({
 export const setInstantQuotes = ({data}: INTERFACE.IProps): INTERFACE.IBase => ({
   type: TYPES.QUOTES.SET_INSTANT_QUOTES,
   data
+})
+
+// 修改当前查询的symbol
+export const changeSymbol = (symbol: string): INTERFACE.IBase => ({
+  type: TYPES.QUOTES.CHANGE_SYMBOL,
+  symbol
 })

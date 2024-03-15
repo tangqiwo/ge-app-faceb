@@ -73,6 +73,8 @@ export default () => {
     }
   }, [])
 
+  console.log(`${domain}${route.params.uri}`)
+
   return (
     <>
       {
@@ -109,6 +111,7 @@ const styleCover = [
   '.customer-mobile{display: none !important}',
   '.p-top-nav{display: none !important}',
   '.bottom-0{display: none !important}',
+  '.profile-detail-box{display: none}'
 ];
 
 
@@ -120,7 +123,6 @@ const pageStyleCover: any = {
   ],
   ['payment-setting']: [
     '.card-box{margin-top: 0 !important; box-shadow: none !important}',
-    '.profile-detail-box{display: none}'
   ],
 }
 

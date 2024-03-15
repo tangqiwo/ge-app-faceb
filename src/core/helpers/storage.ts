@@ -32,6 +32,8 @@ type TKeys =  'AUTH'                          // 登录 TOKEN
             | 'MT4-PASS'                      // MT4 密码
             | 'INIT_BOOT_SCREEN'              // 是否初始化启动屏幕
             | 'IS_AGREE_PRIVACY'              // 是否同意隐私协议
+            | 'LANGUAGE'                      // 语言
+            | 'UNIQUE_ID'                     // 设备唯一 ID
 
 
 /**
@@ -194,6 +196,9 @@ export const CACHE_WHITE_LIST = [
   'LOGIN-INFO',
   'LOGIN-REMEMBER',
   'IMAGE-AUTO-SIZE-CACHE',
+  'IS_AGREE_PRIVACY',
+  'MT4-PASS',
+  'UNIQUE_ID'
 ]
 
 export default {

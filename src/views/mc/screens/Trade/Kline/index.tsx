@@ -38,7 +38,7 @@ export default () => {
     newKlineData,
     currentTimeframe,
     data
-  } = useKlineData({Symbol: SYMBOLS_MAPPING_REVERSE[route.params?.symbol]});
+  } = useKlineData({Symbol: route.params?.symbol});
   const dataLatest = useLatest(data);
 
   const { navigation } = usePublicState();
@@ -47,7 +47,7 @@ export default () => {
   const [viewHeight, setViewHeight] = React.useState(0);
   const instant = useSelector((state: IStore) => state.quotes.instant);
   const symbols = useSelector((state: IStore) => state.quotes.symbols);
-  const [currentSymbol, setCurrentSymbol] = React.useState(SYMBOLS_MAPPING[route.params?.symbol]);
+  const [currentSymbol, setCurrentSymbol] = React.useState(route.params?.symbol);
   const [currentTimeFrame, setCurrentTimeFrame] = React.useState('M1');
   const [currentChildIndicator, setCurrentChildIndicator] = React.useState(KLineIndicator.ChildKDJ);
   const { requestAuth } = useAuth();
@@ -65,7 +65,7 @@ export default () => {
     dataInsertTarget.current = false;
     currentTimeframe.current = currentTimeFrame;
     sendMessage(JSON.stringify({
-      Symbol: SYMBOLS_MAPPING_REVERSE[route.params?.symbol],
+      Symbol: route.params?.symbol,
       Timeframe: currentTimeFrame
     }))
   }, [currentTimeFrame])
@@ -86,7 +86,7 @@ export default () => {
 
   const goBuy = requestAuth(() => {
     if(Mt4ClientApiToken){
-      navigation.navigate('TradeDetail', { type: 'buy', symbol: SYMBOLS_MAPPING_REVERSE[route.params?.symbol] });
+      navigation.navigate('TradeDetail', { type: 'buy', symbol: route.params?.symbol });
       return;
     }
     navigation.navigate('Root', { screen: 'Trade' });
@@ -94,7 +94,7 @@ export default () => {
 
   const goSell = requestAuth(() => {
     if(Mt4ClientApiToken){
-      navigation.navigate('TradeDetail', { type: 'sell', symbol: SYMBOLS_MAPPING_REVERSE[route.params?.symbol] });
+      navigation.navigate('TradeDetail', { type: 'sell', symbol: route.params?.symbol });
       return;
     }
     navigation.navigate('Root', { screen: 'Trade' });
@@ -103,7 +103,7 @@ export default () => {
   const symbolPrice = _.find(instant, {Symbol: currentSymbol});
   const symbolSummary = _.find(symbols, {Key: currentSymbol});
 
-  const toFixedBit = SYMBOLS_MAPPING_REVERSE[route.params?.symbol] === 'XAUUSDpro' ? 2 : 3;
+  const toFixedBit = route.params?.symbol === 'XAUUSDpro' ? 2 : 3;
 
   return (
     <View style={{...styles.container, paddingTop: Platform.OS === 'android' ? 20 : 0}}>
@@ -195,20 +195,6 @@ const INSTANT_QUOTES_STATUS_COLOR = {
   FLAT: '#05ad90',
 }
 
-// symbols 映射关系
-const SYMBOLS_MAPPING = {
-  'XAUUSDpro': 'XAUUSD',
-  'XAGUSDpro': 'XAGUSD',
-  'XAUUSD': 'XAUUSD',
-  'XAGUSD': 'XAGUSD',
-}
-
-const SYMBOLS_MAPPING_REVERSE = {
-  'XAUUSD': 'XAUUSDpro',
-  'XAGUSD': 'XAGUSDpro',
-  'XAUUSDpro': 'XAUUSDpro',
-  'XAGUSDpro': 'XAGUSDpro',
-}
 
 // 时分选择
 const TIMEFRAME_LIST = [

@@ -8,6 +8,7 @@
 import _ from 'lodash';
 import React from 'react';
 import { IStore } from '@schemas/redux-store';
+import { useLatest } from 'react-use';
 import { useSelector } from 'react-redux';
 import useWebsocket from './useWebsocket';
 import usePublicState from './usePublicState';
@@ -16,8 +17,21 @@ import { toUpperCaseObj } from '@helpers/unit';
 export default () => {
 
   const { dispatch, ACTIONS } = usePublicState();
-  const { wsLink, symbols, instant } = useSelector((state: IStore) => state.quotes);
-  const { messages } = useWebsocket({url: wsLink, protocol: 'quotes'});
+  const { symbols, instant } = useSelector((state: IStore) => state.quotes);
+  const Mt4ChartQuoteGateway = useSelector((state: any) => state.base.faceBConfig?.Mt4ChartQuoteGateway);
+  const latestInstant = useLatest(instant);
+
+  const { messages } = useWebsocket({
+    url: Mt4ChartQuoteGateway?.Path,
+    protocol: 'quotes',
+    onOpen: (ws: any) => {
+      const data = {
+        Symbol: 'SymbolList',
+        Timeframe: 'Realtime',
+      }
+      ws.send(JSON.stringify(data));
+    },
+  });
 
   React.useEffect(() => {
     getInstantQuotes();
@@ -26,30 +40,32 @@ export default () => {
   React.useEffect(() => {
     if(messages) {
       const res = toUpperCaseObj(JSON.parse(messages));
-      if(_.includes(_.map(symbols, 'Key'), res?.Data?.Symbol)) {
-        const closePrice = _.find(symbols, {Key: res.Data.Symbol})?.Close;
-        const currentInstant = _.find(instant, {Symbol: res.Data.Symbol}) || { Ask: 0, Bid: 0 };
-        // 上一口和下一口一样，不更新
-        if(currentInstant.Ask === res.Data.Ask && currentInstant.Bid === res.Data.Bid) return;
-        var newInstant = _.chain(instant || [])
-                          .cloneDeep()
-                          .filter(i => i.Symbol !== res.Data.Symbol)
-                          .concat({
-                            ...res.Data,
-                            changeValue: _.floor(closePrice - res.Data.Ask, 3),
-                            changePercent: _.floor((closePrice - res.Data.Ask) / closePrice * 100, 2),
-                            spread: SPREAD[res.Data.Symbol],
-                            askStatus: currentInstant.Ask > res.Data.Ask ? INSTANT_QUOTES_STATUS.DOWN :
-                                       currentInstant.Ask === res.Data.Ask ? INSTANT_QUOTES_STATUS.FLAT :
-                                        INSTANT_QUOTES_STATUS.UP,
-                            bidStatus: currentInstant.Bid > res.Data.Bid ? INSTANT_QUOTES_STATUS.DOWN :
-                                        currentInstant.Bid === res.Data.Bid ? INSTANT_QUOTES_STATUS.FLAT :
-                                        INSTANT_QUOTES_STATUS.UP,
-                          })
+      let newInstant: any = [];
+      _.each(res.SymbolList, (symbolData: any) => {
+        if(_.find(symbols, {Key: symbolData.Symbol})){
+          const closePrice = _.find(symbols, {Key: symbolData.Symbol})?.Close;
+          const currentInstant = _.find(latestInstant.current, {Symbol: symbolData.Symbol}) || { Ask: 0, Bid: 0 };
+          newInstant.push({
+            ...symbolData,
+            Ask: Number(symbolData.Ask),
+            Bid: Number(symbolData.Bid),
+            changeValue: _.floor(closePrice - symbolData.Ask, 3),
+            changePercent: _.floor((closePrice - symbolData.Ask) / closePrice * 100, 2),
+            spread: SPREAD[symbolData.Symbol],
+            askStatus: currentInstant.Ask > symbolData.Ask ? INSTANT_QUOTES_STATUS.DOWN :
+                       currentInstant.Ask === symbolData.Ask ? INSTANT_QUOTES_STATUS.FLAT :
+                        INSTANT_QUOTES_STATUS.UP,
+            bidStatus: currentInstant.Bid > symbolData.Bid ? INSTANT_QUOTES_STATUS.DOWN :
+                        currentInstant.Bid === symbolData.Bid ? INSTANT_QUOTES_STATUS.FLAT :
+                        INSTANT_QUOTES_STATUS.UP,
+          })
+        }
+      })
+      const oldInstant = _.chain(latestInstant.current || [])
+                          .filter(i => !_.map(newInstant, 'Symbol').includes(i.Symbol))
                           .orderBy('Symbol')
                           .value();
-        dispatch(ACTIONS.QUOTES.setInstantQuotes({data: newInstant}));
-      }
+      dispatch(ACTIONS.QUOTES.setInstantQuotes({data: _.orderBy([...oldInstant, ...newInstant], 'Symbol')}));
     }
   }, [messages])
 
