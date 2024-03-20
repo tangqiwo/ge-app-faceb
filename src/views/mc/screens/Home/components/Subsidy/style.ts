@@ -129,6 +129,7 @@ export const LS = StyleSheet.create({
   bannerItem: {
     width: G.mixin.rem(153),
     height: G.mixin.rem(75),
+    borderRadius: G.mixin.rem(5),
     justifyContent: 'center',
   },
   bannerItemTextBox: {

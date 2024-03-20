@@ -8,7 +8,7 @@
 import _ from 'lodash';
 import dayjs from 'dayjs';
 import React from 'react'
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
 import usePublicState from '@core/hooks/usePublicState';
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
@@ -21,9 +21,60 @@ interface NewsItemProps {
 export default ({ style=StyleSheet.create({}) }: NewsItemProps) => {
 
   const videos = useSelector((state: any) => state.base.homeInfos.GeVideoCounseling);
-  const { ossDomain, navigation } = usePublicState();
-
+  const { ossDomain, dispatch, ACTIONS, navigation } = usePublicState();
+  const [ currentTab, setCurrentTab ] = React.useState(0);
   const [currentPlay, setCurrentPlay] = React.useState<{Video: string, Title: string}>();
+
+  const [currentVideos, setCurrentVideos] = React.useState<any[]>([]);
+
+  const getVideos = React.useCallback((type: 'video' | 'ks' | 'ds' | 'new') => {
+    let uri = '';
+    if(type === 'video'){
+      uri = 'transaction_lesson/get_jinshi_videos?Page=1&PageSize=10';
+    }
+    if(type === 'ks'){
+      uri = 'transaction_lesson/get_jinshi_news?Page=1&PageSize=10';
+    }
+    if(type === 'ds'){
+      uri = 'portal/get_gold_guru?Page=1&PageSize=10&Type=1';
+    }
+    if(type === 'new'){
+      uri = 'portal/get_new_user_guid?Page=1&PageSize=10';
+    }
+    dispatch(ACTIONS.BASE.commonRequest({
+      uri,
+      cache: {
+        forward: true,
+        expires: 10
+      },
+      cb: (res: any) => {
+        setCurrentVideos(res.Data.Data);
+      }
+    }))
+  }, [])
+
+  React.useEffect(() => {
+    if(currentTab === 2){
+      getVideos('video');
+      return;
+    }
+    if(currentTab === 3){
+      getVideos('ks');
+      return;
+    }
+    if(currentTab === 0){
+      getVideos('ds');
+      return;
+    }
+    if(currentTab === 1){
+      getVideos('new');
+      return;
+    }
+  }, [currentTab])
+
+  const handleClickMore = () => {
+    navigation.navigate('Root', { screen: 'Strategy', params: {type: currentTab + 1} })
+  }
 
   if(_.isEmpty(videos)){
     return <></>
@@ -31,55 +82,45 @@ export default ({ style=StyleSheet.create({}) }: NewsItemProps) => {
 
   return (
     <View style={[styles.container, style]}>
-      <View style={styles.title}>
-        <Text style={styles.titleText}>巨象头条</Text>
-        <Text style={styles.titleMore} onPress={() => navigation.navigate('Videos', { type: 'news' })}>{`更多 >`}</Text>
-      </View>
-      <MyTouchableOpacity style={styles.banner01} onPress={() => setCurrentPlay(videos.Data[0])}>
-        <Image source={{ uri: `${ossDomain}${videos.Data[0].Image}` }} style={{...styles.banner01, marginTop: 0}} resizeMode='contain' />
-      </MyTouchableOpacity>
-      <View style={styles.banner01Text}>
-        <Image style={styles.playImage} source={require('./i/title-play.png')} /><Text numberOfLines={1}>{videos.Data[0].Title}</Text>
-      </View>
-      <View style={styles.updateTime}>
-        <Text style={styles.updateTimeText}>更新时间：{dayjs(videos.Data[0].UpdatedAt).format('YYYY-MM-DD')}</Text>
-        <View style={styles.playNumberView}>
-          <Image style={styles.playNumberImage} source={require('./i/icon-play.png')} />
-          <Text style={styles.updateTimeText}>{videos.Data[0].Views}</Text>
-        </View>
-      </View>
-      <View style={styles.liveView}>
-        <MyTouchableOpacity style={styles.liveViewImage} onPress={() => setCurrentPlay(videos.Data[1])}>
-          <Image source={{ uri: `${ossDomain}${videos.Data[1].Image}` }} style={styles.liveViewImage} resizeMode='contain' />
+      <View style={styles.tabsVeiw}>
+        <MyTouchableOpacity style={[styles.tabsItem, currentTab === 0 && styles.tabsItemActive]} onPress={() => setCurrentTab(0)}>
+          <Text style={[styles.tabsItemText, currentTab === 0 && styles.tabsItemTextActive]}>黄金大师课</Text>
         </MyTouchableOpacity>
-        <MyTouchableOpacity style={styles.liveViewImage} onPress={() => setCurrentPlay(videos.Data[2])}>
-          <Image source={{ uri: `${ossDomain}${videos.Data[2].Image}` }} style={styles.liveViewImage} resizeMode='contain' />
+        <MyTouchableOpacity style={[styles.tabsItem, currentTab === 1 && styles.tabsItemActive]} onPress={() => setCurrentTab(1)}>
+          <Text style={[styles.tabsItemText, currentTab === 1 && styles.tabsItemTextActive]}>新手教学</Text>
         </MyTouchableOpacity>
+        <MyTouchableOpacity style={[styles.tabsItem, currentTab === 2 && styles.tabsItemActive]} onPress={() => setCurrentTab(2)}>
+          <Text style={[styles.tabsItemText, currentTab === 2 && styles.tabsItemTextActive]}>巨象头条</Text>
+        </MyTouchableOpacity>
+        <MyTouchableOpacity style={[styles.tabsItem, currentTab === 3 && styles.tabsItemActive]} onPress={() => setCurrentTab(3)}>
+          <Text style={[styles.tabsItemText, currentTab === 3 && styles.tabsItemTextActive]}>金十访谈间</Text>
+        </MyTouchableOpacity>
+        <Text style={styles.titleMore} onPress={handleClickMore}>{`更多 >`}</Text>
       </View>
-      <View style={styles.pointView}>
-        <View style={styles.pointViewItem}>
-          <Text style={styles.pointViewItemText} numberOfLines={2} ellipsizeMode={'tail'}>{videos.Data[1].Title}</Text>
-        </View>
-        <View style={styles.pointViewItem}>
-          <Text style={styles.pointViewItemText} numberOfLines={2} ellipsizeMode={'tail'}>{videos.Data[2].Title}</Text>
-        </View>
-      </View>
-      <View style={{...styles.pointView}} >
-        <View style={{...styles.updateTime, width: '48%', marginTop: 0}}>
-          <Text style={styles.updateTimeText}>{dayjs(videos.Data[1].UpdatedAt).format('YYYY-MM-DD')}</Text>
-          <View style={styles.playNumberView}>
-            <Image style={styles.playNumberImage} source={require('./i/icon-play.png')} />
-            <Text style={styles.updateTimeText}>{videos.Data[1].Views}</Text>
-          </View>
-        </View>
-        <View style={{...styles.updateTime, width: '48%',  marginTop: 0}}>
-          <Text style={styles.updateTimeText}>{dayjs(videos.Data[2].UpdatedAt).format('YYYY-MM-DD')}</Text>
-          <View style={styles.playNumberView}>
-            <Image style={styles.playNumberImage} source={require('./i/icon-play.png')} />
-            <Text style={styles.updateTimeText}>{videos.Data[2].Views}</Text>
-          </View>
-        </View>
-      </View>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        {
+          currentVideos && _.take(currentVideos, 10).map((item: any, index: number) =>
+            <View style={styles.videoItem} key={index}>
+              <MyTouchableOpacity style={styles.banner01} onPress={() => setCurrentPlay(item)}>
+                <Image source={{ uri: `${ossDomain}${item.Image}` }} style={{...styles.banner01, marginTop: 0}} resizeMode='contain' />
+              </MyTouchableOpacity>
+              <View style={{marginTop: 10}}>
+                <Text style={{...GS.style.font12, color: '#2a2a2a'}} numberOfLines={1}>{item.Title}</Text>
+              </View>
+              <View style={styles.updateTime}>
+                <Text style={styles.updateTimeText}>{dayjs(item.UpdatedAt).format('YYYY-MM-DD')}</Text>
+                <View style={styles.playNumberView}>
+                  <Image style={styles.playNumberImage} source={require('./i/icon-play.png')} />
+                  <Text style={styles.updateTimeText}>{item.Views}</Text>
+                </View>
+                <MyTouchableOpacity style={styles.goButton} onPress={() => setCurrentPlay(item)}>
+                  <Text style={GS.style.font10}>去学习</Text>
+                </MyTouchableOpacity>
+              </View>
+            </View>
+          )
+        }
+      </ScrollView>
       {
         currentPlay &&
         <MyVideo

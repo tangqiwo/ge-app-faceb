@@ -39,7 +39,11 @@ export default ({ type }: StrategyItemProps) => {
         uri: 'transaction_lesson/get_teacher_point?PageSize=100&Page=1',
         cb: (res: any) => {
           setMax(3);
-          setList(res.Data.Data);
+          setList(_.map(res.Data.Data, i => ({
+            ...i,
+            Category: i.Category.includes("gold") ? '现货黄金' : '现货白银',
+            Direction: i.Direction == 0 ? '空' : '多'
+          })));
         }
       }))
     }
@@ -63,7 +67,7 @@ export default ({ type }: StrategyItemProps) => {
         <>
           <View style={styles.title}>
             <Text style={styles.titleText}>全时段交易策略</Text>
-          <Text style={styles.titleMore} onPress={() => navigation.navigate('Root', { screen: 'Strategy', params: {type: 1} }) }>{`更多 >`}</Text>
+            <Text style={styles.titleMore} onPress={() => navigation.navigate('Root', { screen: 'Strategy', params: {type: 0} }) }>{`更多 >`}</Text>
           </View>
           <Carousel
             style={{width: '100%', height: GS.mixin.rem(211), backgroundColor: 'red'}}

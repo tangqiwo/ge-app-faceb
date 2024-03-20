@@ -84,7 +84,7 @@ export default () => {
             data.map((item: any) =>
               <MyTouchableOpacity style={styles.messageItem} key={item.Id} onPress={() => setDetails(item)}>
                 <View style={styles.messageItemTitle}>
-                  <Text style={styles.messageItemTitleText}>{item.Title}</Text>
+                  <Text style={styles.messageItemTitleText} numberOfLines={1}>{item.Title}</Text>
                   <Text style={styles.messageItemContentText}>{dayjs(item.CreatedAt).format('YYYY-MM-DD')}</Text>
                 </View>
                 <Text style={{...styles.messageItemContentText, marginTop: GS.mixin.rem(10)}} numberOfLines={3}>{item.Content}</Text>
@@ -95,6 +95,9 @@ export default () => {
       </View>
       <Popup display={details} title={details?.Title} close={() => setDetails(null)}>
         <View style={{...GS.mixin.padding(20,14,20,14)}}>
+          <Text style={{marginBottom: 10}}>
+            {details?.Title}
+          </Text>
           <Text>
             创建时间：{ dayjs(details?.CreatedAt).format('YYYY-MM-DD') }
           </Text>

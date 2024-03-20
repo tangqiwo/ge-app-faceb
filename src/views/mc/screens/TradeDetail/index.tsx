@@ -56,6 +56,7 @@ export default () => {
   const [ pickTypeData, setPickTypeData ] = React.useState<string[]>([]);
   const pickExpireData = React.useRef<string[]>(_.map(EXPIRATION, 'value'));
   const [ showConfirmSubmit, setShowConfirmSubmit ] = React.useState(false);
+  const initTarget = React.useRef<any>(true);
 
   React.useEffect(() => {
     // 初始化修改值
@@ -157,7 +158,11 @@ export default () => {
   }, [_.find(instant, { Symbol: payload.Symbol })])
 
   React.useEffect(() => {
-    if(params && _.includes(['updateOrder', 'setStopLoss', 'buy', 'sell'], params?.type)){
+    if(params && _.includes(['updateOrder', 'setStopLoss'], params?.type)){
+      return;
+    }
+    if(params && _.includes(['buy', 'sell'], params?.type) && initTarget.current === true){
+      initTarget.current = false;
       return;
     }
     if(currentTab === 0){
@@ -391,7 +396,12 @@ export default () => {
             !_.includes(['closePosition'], params?.type) &&
             <>
               <View style={{...styles.optionsItem, borderBottomWidth: 1,borderBottomColor: '#EBEBEB',}}>
-                <Text>止损{STOPLOSS_TAKEPROFIT[payload.Operation]?.Stoploss} {limitInput?.Stoploss[payload.Operation]}</Text>
+                <Text>止损{STOPLOSS_TAKEPROFIT[payload.Operation]?.Stoploss}
+                  {
+                    limitInput?.Stoploss[payload.Operation] &&
+                    limitInput?.Stoploss[payload.Operation].toFixed(toFixedBit)
+                  }
+                </Text>
                 <View style={styles.optionsMenu}>
                   <MyTouchableOpacity style={styles.optionsIcon} onPress={() => changeStoploss('sub')}>
                     <Image source={require('./i/ic-reduce.png')} style={styles.optionsIcon} />
@@ -410,7 +420,12 @@ export default () => {
                 </View>
               </View>
               <View style={{...styles.optionsItem, borderBottomWidth: 1,borderBottomColor: '#EBEBEB',}}>
-                <Text>止盈 {STOPLOSS_TAKEPROFIT[payload.Operation]?.Takeprofit} {limitInput?.Takeprofit[payload.Operation]}</Text>
+                <Text>止盈 {STOPLOSS_TAKEPROFIT[payload.Operation]?.Takeprofit}
+                  {
+                    limitInput?.Takeprofit[payload.Operation] &&
+                    limitInput?.Takeprofit[payload.Operation].toFixed(toFixedBit)
+                  }
+                </Text>
                 <View style={styles.optionsMenu}>
                   <MyTouchableOpacity style={styles.optionsIcon} onPress={() => changeTakeprofit('sub')}>
                     <Image source={require('./i/ic-reduce.png')} style={styles.optionsIcon} />

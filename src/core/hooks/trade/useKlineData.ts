@@ -55,7 +55,6 @@ export default ({Symbol}: IProps) => {
     if(data.Timeframe !== currentTimeframe.current) {
       return;
     }
-    console.log(data);
     const formatData = {
       amount: 0,
       open: _.round(Number(data.Open), 3),
@@ -67,7 +66,7 @@ export default ({Symbol}: IProps) => {
       vol: data.Volume,
       Timeframe: data.Timeframe,
     }
-    if(!_.find(latestData.current, {id: formatData.id})) {
+    if(!_.find(latestData.current, {id: formatData.id}) || dataInsertTarget.current === false) {
       getKlineData(data.Timeframe, data.Time, (res: any) => {
         setData([...res, _.omit(formatData, ['Timeframe'])]);
       })

@@ -118,54 +118,50 @@ export default () => {
     <View style={styles.container}>
       <View style={styles.title}>
         <Image source={require('./i/icon-HOT.png')} style={styles.titleIcon} />
-        <Text style={styles.titleText}>炒金开户，四步轻松领取＄88元红包</Text>
+        <Text style={styles.titleText}>炒金开户，四步轻松领取￥88元红包</Text>
       </View>
       <View style={styles.content}>
         <View style={styles.contentItem} >
           <Image source={require('./i/icon-3.png')} style={{...styles.contentItemIcon, width: GS.mixin.rem(26), height: GS.mixin.rem(25)}} />
-          <Text style={styles.contentItemText}>免费注册</Text>
           <Text style={styles.contentItemText}>￥8元</Text>
           <View style={{...styles.button, backgroundColor: isRegister ? '#EDEDED' : '#FFC600' }} >
             {
               isRegister ?
               <Text style={styles.buttonText}>已领取</Text> :
-              <Text style={styles.buttonText} onPress={() => navigation.navigate('Register')}>去注册</Text>
+              <Text style={styles.buttonText} onPress={() => navigation.navigate('Register')}>免费注册</Text>
             }
           </View>
         </View>
         <View style={styles.contentItem} >
           <Image source={require('./i/icon-2.png')} style={{...styles.contentItemIcon, width: GS.mixin.rem(30), height: GS.mixin.rem(25)}} />
-          <Text style={styles.contentItemText}>实名认证</Text>
           <Text style={styles.contentItemText}>￥20元</Text>
           <View style={{...styles.button, backgroundColor: isRealName ? '#EDEDED' : '#FFC600' }} >
             {
               isRealName ?
               <Text style={styles.buttonText}>已领取</Text> :
-              <Text style={styles.buttonText} onPress={() => goRealName()}>交认证</Text>
+              <Text style={styles.buttonText} onPress={() => goRealName()}>实名认证</Text>
             }
           </View>
         </View>
         <View style={styles.contentItem} >
           <Image source={require('./i/icon-4.png')} style={{...styles.contentItemIcon, width: GS.mixin.rem(23), height: GS.mixin.rem(25)}} />
-          <Text style={styles.contentItemText}>首次注资</Text>
           <Text style={styles.contentItemText}>￥30元</Text>
           <View style={{...styles.button, backgroundColor: isFirstDeposit ? '#EDEDED' : '#FFC600' }} >
             {
               isFirstDeposit ?
               <Text style={styles.buttonText}>已领取</Text> :
-              <Text style={styles.buttonText} onPress={() => goDeposit()}>去注资</Text>
+              <Text style={styles.buttonText} onPress={() => goDeposit()}>首次注资</Text>
             }
           </View>
         </View>
         <View style={styles.contentItem} >
           <Image source={require('./i/icon-1.png')} style={{...styles.contentItemIcon, width: GS.mixin.rem(24), height: GS.mixin.rem(25)}} />
-          <Text style={styles.contentItemText}>交易满0.3手</Text>
           <Text style={styles.contentItemText}>￥30元</Text>
           <View style={{...styles.button, backgroundColor: isTrade ? '#EDEDED' : '#FFC600' }} >
             {
               isTrade ?
               <Text style={styles.buttonText}>已领取</Text> :
-              <Text style={styles.buttonText} onPress={() => goTrade()}>做交易</Text>
+              <Text style={styles.buttonText} onPress={() => goTrade()}>交易0.3手</Text>
             }
           </View>
         </View>
@@ -186,7 +182,7 @@ export default () => {
               />
             </View>
             <MyTouchableOpacity onPress={() => setShowGoTrade(false)}>
-              <Image source={require('./i/close.png')} style={styles.close} />
+              <Image source={require('./i/close.png')} style={styles.close} resizeMode='contain' />
             </MyTouchableOpacity>
           </View>
         </Overlay>

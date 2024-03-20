@@ -156,7 +156,18 @@ export const LS = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
+  },
+  disTitle: {
+    marginTop: G.mixin.rem(10),
+    fontSize: G.mixin.rem(14),
+    color: '#2A2A2A',
+  },
+  disContent: {
+    marginTop: G.mixin.rem(10),
+    fontSize: G.mixin.rem(12),
+    color: '#646464',
   }
+
 })
 
 // 固定导出

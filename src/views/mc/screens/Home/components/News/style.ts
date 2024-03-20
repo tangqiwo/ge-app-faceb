@@ -12,7 +12,6 @@ import { StyleSheet } from 'react-native';
 // 本组件样式写到这里
 export const LS = StyleSheet.create({
   container: {
-    height: G.mixin.rem(497),
     marginTop: G.mixin.rem(15),
     backgroundColor: '#FFFFFF',
     borderRadius: G.mixin.rem(5),
@@ -35,12 +34,52 @@ export const LS = StyleSheet.create({
   titleMore: {
     color: '#94938F',
     fontSize: G.mixin.rem(12),
+    marginLeft: 'auto'
+  },
+  tabsVeiw: {
+    height: G.mixin.rem(40),
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  tabsItem: {
+    height: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: G.mixin.rem(10),
+  },
+  tabsItemActive: {
+    borderBottomColor: '#FFC600',
+    borderBottomWidth: 2,
+  },
+  tabsItemText:{
+    fontSize: G.mixin.rem(12),
+    color: '#646464',
+  },
+  tabsItemTextActive:{
+    color: '#2A2A2A',
+    fontWeight: '600',
+    fontSize: G.mixin.rem(14),
+  },
+  videoItem: {
+    width: G.mixin.rem(200),
+    marginRight: G.mixin.rem(18),
   },
   banner01: {
     marginTop: G.mixin.rem(15),
-    width: G.mixin.rem(319),
-    height: G.mixin.rem(179),
+    width: '100%',
+    height: G.mixin.rem(113),
     borderRadius: G.mixin.rem(5),
+  },
+  goButton: {
+    backgroundColor: '#FFC600',
+    width: G.mixin.rem(50),
+    height: G.mixin.rem(18),
+    borderRadius: G.mixin.rem(9),
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   playImage: {
     width: G.mixin.rem(9),
@@ -55,14 +94,16 @@ export const LS = StyleSheet.create({
   playNumberView: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginRight: 'auto',
+    marginLeft: G.mixin.rem(5),
   },
   playNumberImage: {
     width: G.mixin.rem(10),
     height: G.mixin.rem(10),
-    marginRight : G.mixin.rem(5),
+    marginRight : G.mixin.rem(2),
   },
   updateTime: {
-    marginTop: G.mixin.rem(15),
+    marginTop: G.mixin.rem(10),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

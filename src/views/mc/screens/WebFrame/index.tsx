@@ -73,8 +73,6 @@ export default () => {
     }
   }, [])
 
-  console.log(`${domain}${route.params.uri}`)
-
   return (
     <>
       {
@@ -110,7 +108,6 @@ const styleCover = [
   '#m-header{display: none !important}',
   '.customer-mobile{display: none !important}',
   '.p-top-nav{display: none !important}',
-  '.bottom-0{display: none !important}',
   '.profile-detail-box{display: none}'
 ];
 

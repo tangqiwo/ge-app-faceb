@@ -31,6 +31,14 @@ export default () => {
     });
   }, [])
 
+  const backToHistory = () => {
+    if(route.params?.data?.Type === '查看挂单') {
+      navigation.navigate('Root', {screen: 'Trade', params: {tab: 1}})
+      return;
+    }
+    navigation.navigate('Root', {screen: 'Trade', params: {tab: 0}})
+  }
+
   const price = route.params?.data?.Type === '平仓' ? data.ClosePrice : data.OpenPrice
 
   return (
@@ -41,57 +49,145 @@ export default () => {
           <Text style={styles.dateText}>{date.current}</Text>
           <Text style={styles.dateText}> GMT+0800 (中国标准时间)</Text>
         </View>
-        <View style={styles.content}>
-          <View style={styles.left}>
-            <View style={styles.item}>
-              <Text style={styles.grey}>单号： </Text>
-              <Text>{data.Ticket}</Text>
-            </View>
-            <View style={styles.item}>
-              <Text style={styles.grey}>价格： </Text>
-              <Text>
-                {
-                  data.Symbol.includes('XAU') ?
-                  Number(price)?.toFixed(2) :
-                  Number(price)?.toFixed(3)
-                }
-              </Text>
-            </View>
-            <View style={styles.item}>
-              <Text style={styles.grey}>方向： </Text>
-              <Text>{CMD_MAPPING[data.Cmd]}</Text>
-            </View>
-            <View style={styles.item}>
-              <Text style={styles.grey}>止盈： </Text>
-              <Text>{data.Tp}</Text>
-            </View>
-          </View>
-          <View style={styles.right}>
-            <View style={styles.item}>
-              <Text style={styles.grey}>类型： </Text>
-              <Text>{route.params?.data?.Type}</Text>
-            </View>
-            <View style={styles.item}>
-              <Text style={styles.grey}>产品： </Text>
-              <Text>{data.Symbol}</Text>
-            </View>
-            <View style={styles.item}>
-              <Text style={styles.grey}>手数： </Text>
+        {
+          route.params?.data?.Type === '平仓' &&
+          <View style={styles.content}>
+            <View style={styles.left}>
               <View style={styles.item}>
-                <Text>{data.Volume}</Text>
-                <Text>手</Text>
+                <Text style={styles.grey}>单号： </Text>
+                <Text>{data.Ticket}</Text>
+              </View>
+              <View style={styles.item}>
+                <Text style={styles.grey}>方向： </Text>
+                <Text>{CMD_MAPPING[data.Cmd]}</Text>
+              </View>
+              <View style={styles.item}>
+                <Text style={styles.grey}>开仓： </Text>
+                <Text>{data.OpenPrice}</Text>
+              </View>
+              <View style={styles.item}>
+                <Text style={styles.grey}>手数： </Text>
+                <View style={styles.item}>
+                  <Text>{data.Volume}</Text>
+                  <Text>手</Text>
+                </View>
+              </View>
+              <View style={styles.item}>
+                <Text style={styles.grey}>止盈： </Text>
+                <Text>
+                  {
+                    data.Symbol.includes('XAU') ?
+                    Number(data.Tp)?.toFixed(2) :
+                    Number(data.Tp)?.toFixed(3)
+                  }
+                </Text>
               </View>
             </View>
-            <View style={styles.item}>
-              <Text style={styles.grey}>止损： </Text>
-              <Text>{data.Sl}</Text>
+            <View style={styles.right}>
+              <View style={styles.item}>
+                <Text style={styles.grey}>类型： </Text>
+                <Text>{route.params?.data?.Type === '查看挂单' ? '创建挂单' : route.params?.data?.Type}</Text>
+              </View>
+              <View style={styles.item}>
+                <Text style={styles.grey}>产品： </Text>
+                <Text>{data.Symbol}</Text>
+              </View>
+              <View style={styles.item}>
+                <Text style={styles.grey}>平仓： </Text>
+                <Text>{data.ClosePrice}</Text>
+              </View>
+              <View style={styles.item}>
+                <Text style={styles.grey}>盈亏： </Text>
+                <Text>
+                  {
+                    Number(data.Profit)?.toFixed(2)
+                  }
+                </Text>
+              </View>
+              <View style={styles.item}>
+                <Text style={styles.grey}>止损： </Text>
+                <Text>
+                  {
+                    data.Symbol.includes('XAU') ?
+                    Number(data.Sl)?.toFixed(2) :
+                    Number(data.Sl)?.toFixed(3)
+                  }
+                </Text>
+              </View>
             </View>
           </View>
-        </View>
+        }
+        {
+          route.params?.data?.Type !== '平仓' &&
+          <View style={styles.content}>
+            <View style={styles.left}>
+              <View style={styles.item}>
+                <Text style={styles.grey}>单号： </Text>
+                <Text>{data.Ticket}</Text>
+              </View>
+              <View style={styles.item}>
+                <Text style={styles.grey}>价格： </Text>
+                <Text>
+                  {
+                    data.Symbol.includes('XAU') ?
+                    Number(price)?.toFixed(2) :
+                    Number(price)?.toFixed(3)
+                  }
+                </Text>
+              </View>
+              <View style={styles.item}>
+                <Text style={styles.grey}>方向： </Text>
+                <Text>{CMD_MAPPING[data.Cmd]}</Text>
+              </View>
+              <View style={styles.item}>
+                <Text style={styles.grey}>止盈： </Text>
+                <Text>
+                  {
+                    data.Symbol.includes('XAU') ?
+                    Number(data.Tp)?.toFixed(2) :
+                    Number(data.Tp)?.toFixed(3)
+                  }
+                </Text>
+              </View>
+            </View>
+            <View style={styles.right}>
+              <View style={styles.item}>
+                <Text style={styles.grey}>类型： </Text>
+                <Text>{route.params?.data?.Type === '查看挂单' ? '创建挂单' : route.params?.data?.Type}</Text>
+              </View>
+              <View style={styles.item}>
+                <Text style={styles.grey}>产品： </Text>
+                <Text>{data.Symbol}</Text>
+              </View>
+              <View style={styles.item}>
+                <Text style={styles.grey}>手数： </Text>
+                <View style={styles.item}>
+                  <Text>{data.Volume}</Text>
+                  <Text>手</Text>
+                </View>
+              </View>
+              <View style={styles.item}>
+                <Text style={styles.grey}>止损： </Text>
+                <Text>
+                  {
+                    data.Symbol.includes('XAU') ?
+                    Number(data.Sl)?.toFixed(2) :
+                    Number(data.Sl)?.toFixed(3)
+                  }
+                </Text>
+              </View>
+            </View>
+          </View>
+        }
+
       </View>
       <View style={styles.button}>
-        <MyTouchableOpacity style={styles.buttonBlack} onPress={() => navigation.navigate('Root')}>
-          <Text style={styles.buttonTextYellow}>查看持仓</Text>
+        <MyTouchableOpacity style={styles.buttonBlack} onPress={backToHistory}>
+          <Text style={styles.buttonTextYellow}>
+            {
+              route.params?.data?.Type === '查看挂单' ? '查看挂单' : '查看持仓'
+            }
+          </Text>
         </MyTouchableOpacity>
         <MyTouchableOpacity style={styles.buttonYellow} onPress={() => navigation.navigate('TradeDetail')}>
           <Text style={styles.buttonText}>继续交易</Text>

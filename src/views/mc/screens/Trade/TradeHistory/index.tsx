@@ -106,6 +106,10 @@ export default React.memo(() => {
     }
   }, [startDate, endDate])
 
+  const toFixNumber = (symbol: string) => {
+    return symbol === 'XAUUSDpro' ? 2 : 3;
+  }
+
   return (
     <View style={{flex: 1, paddingBottom: GS.mixin.rem(60)}}>
       <View style={localStyles.datePicker}>
@@ -200,7 +204,7 @@ export default React.memo(() => {
                       <Text style={styles.arrow}>{'\u2192'}</Text>
                       <Text style={styles.infoRed}>{item.ClosePrice}</Text>
                       <View style={styles.money}>
-                        <Text style={{...styles.moneyText, color: item.Profit >= 0 ? '#00A010' : '#FF0000'}}>{Number(item.Profit).toFixed(2)}</Text>
+                        <Text style={{...styles.moneyText, color: item.Profit >= 0 ? '#00A010' : '#FF0000'}}>{Number(item.Profit).toFixed(toFixNumber(item.Symbol))}</Text>
                       </View>
                     </View>
                     <View style={styles.spaceBetween}>
@@ -256,7 +260,11 @@ const Balance = ({item}: any) => {
       <View style={styles.spaceBetween}>
         <Text style={styles.grey}>{dayjs(item.OpenTime).format('YYYY-MM-DD HH:mm:ss')}</Text>
         <View style={styles.variety}>
-          <Text style={styles.grey}>{Number(item.Profit) > 0 ? '注资' : '取款'}</Text>
+          {
+            item.Comment.includes('R-') ?
+            <Text style={styles.grey}>{_.chain(item.Comment).split(';').last().value()}</Text> :
+            <Text style={styles.grey}>{Number(item.Profit) > 0 ? '注资' : '取款'}</Text>
+          }
           <Text style={styles.order}>#{item.Ticket}</Text>
         </View>
       </View>

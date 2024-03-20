@@ -10,7 +10,7 @@ import { Image, View } from 'react-native';
 import MyImage from '@template/components/Base/Image';
 import usePublicState from "@core/hooks/usePublicState";
 import Overlay from "@core/templates/components/Overlay";
-import useRouteWebCommon, { FORWARD_TYPES } from '@core/hooks/useRouteWebCommon';
+import useRouteWebCommon from '@core/hooks/useRouteWebCommon';
 import G from '@constants/global';
 import { LS as styles, GS } from './style';
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
@@ -37,8 +37,9 @@ export default ({showHomeAd, setShowHomeAd}: IProps) => {
 
   // 关闭
   const handleClick = () => {
-    const loginData = JSON.parse(rs.base.popupAdvert?.TopDialog?.Data[0]?.Content);
-    const noLoginData = JSON.parse(rs.base.appDisplayConfig?.TopDialog?.Data[0]?.Content);
+
+    const loginData = rs.base.popupAdvert?.TopDialog?.Data[0]?.Content ? JSON.parse(rs.base.popupAdvert?.TopDialog?.Data[0]?.Content) : null;
+    const noLoginData = rs.base.appDisplayConfig?.TopDialog?.Data[0]?.Content ? JSON.parse(rs.base.appDisplayConfig?.TopDialog?.Data[0]?.Content) : null;
 
     setShowHomeAd(false);
     if(isLogined && loginData.EnableNative){
@@ -56,11 +57,11 @@ export default ({showHomeAd, setShowHomeAd}: IProps) => {
     })
   }
 
-  if(!showHomeAd){
+  const uri = isLogined ? rs.base.popupAdvert?.TopDialog?.Data[0]?.BannerImg : rs.base.appDisplayConfig?.TopDialog?.Data[0]?.BannerImg;
+
+  if(!showHomeAd || !uri){
     return <></>
   }
-
-  const uri = isLogined ? rs.base.popupAdvert?.TopDialog?.Data[0]?.BannerImg : rs.base.appDisplayConfig?.TopDialog?.Data[0]?.BannerImg;
 
   return (
     <Overlay display close={() => setShowHomeAd(false)}>

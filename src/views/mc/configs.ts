@@ -15,11 +15,13 @@ export const API = 'http://16.163.191.94:16002';
 // 测试
 // export const API = 'http://18.166.96.17:16002';
 
-// export const API = 'https://app-api.eydwi.com'
+// 测试环境
+// export const MC_WEB_DOMAIN = 'http://mc.lonsdg.com'
+// export const OFFICE_WEB_DOMAIN = 'http://www.lonsdg.com'
 
-export const MC_WEB_DOMAIN = 'http://mc.lonsdg.com'
-
-export const OFFICE_WEB_DOMAIN = 'http://www.lonsdg.com'
+// 生产环境
+export const MC_WEB_DOMAIN = 'https://vip.gijvnqh.com'
+export const OFFICE_WEB_DOMAIN = 'https://gegoldhk.com'
 
 // 渠道编号
 export const CHANNEL_CODE = Platform.OS === 'android' ? 'gegoldhk.com-android' : 'gegoldhk.com-ios';

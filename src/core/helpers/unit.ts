@@ -68,6 +68,8 @@ export const isActiveAnimation = (): any => {
     return true;
   }
 
+  return false
+
   if(Platform.OS === 'android'){
     return false;
   }

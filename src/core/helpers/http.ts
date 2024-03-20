@@ -2,7 +2,7 @@
  * @Description: 请求中间件
  * @Author: Galen.GE
  * @Date: 2019-12-19 18:03:47
- * @LastEditTime: 2024-03-13 17:18:26
+ * @LastEditTime: 2024-03-20 17:05:23
  * @LastEditors: Galen.GE
  */
 import _ from 'lodash';
@@ -17,6 +17,7 @@ import { networkHandler } from '@hooks/useLogs';
 import { toUpperCaseObj } from '@helpers/unit'
 import CONFIGS from '@this/configs'
 import G from '@constants/global';
+import { Platform } from 'react-native';
 
 // 请求方法枚举
 export enum RequestMethods { GET = 'GET', PUT = 'PUT', POST = 'POST', DELETE = 'DELETE' }
@@ -111,6 +112,7 @@ export class HTTP {
       'X-Country'       : 'China',
       'X-Lang'          : 'zh-CN',
       'X-Origin'        : '',
+      'X-Channel'       : Platform.OS,
       'X-Channel-Code'  : CONFIGS.CHANNEL_CODE,
       'X-Sem-Device-Id' : storage.get('UNIQUE_ID') || '',
       'X-Idfa'          : G.GET('UUID'),

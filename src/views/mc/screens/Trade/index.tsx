@@ -140,13 +140,13 @@ export default () => {
             <View style={styles.buttonBox}>
               <MyTouchableOpacity style={styles.buttonItem} onPress={() => forward(FORWARD_TYPES['DEPOSIT'])}>
                 <View style={styles.buttonItem}>
-                  <Image source={require('./i/icon-1.png')} style={styles.buttonIcon} />
+                  <Image source={require('./i/icon-1.png')} style={styles.buttonIcon} resizeMode='contain' />
                   <Text style={styles.buttonText}>注资</Text>
                 </View>
               </MyTouchableOpacity>
               <MyTouchableOpacity style={styles.buttonItem} onPress={() => navigation.navigate('TradeDetail')}>
                 <View style={{...styles.buttonItem, backgroundColor: '#FFFFFF'}}>
-                  <Image source={require('./i/icon-2.png')} style={{...styles.buttonIcon, width: GS.mixin.rem(20), height: GS.mixin.rem(18)}} />
+                  <Image source={require('./i/icon-2.png')} style={{...styles.buttonIcon, width: GS.mixin.rem(20), height: GS.mixin.rem(18)}} resizeMode='contain'/>
                   <Text style={{...styles.buttonText, color: 'black'}}>开仓</Text>
                 </View>
               </MyTouchableOpacity>

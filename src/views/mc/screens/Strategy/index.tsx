@@ -6,94 +6,147 @@
  * @Description:
  */
 import React from "react";
-import { ScrollView, View, Text, Image } from 'react-native';
-import { useSelector } from "react-redux";
+import dayjs from 'dayjs';
+import { View, Text, Image, FlatList } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRoute } from "@react-navigation/native";
-import WebView from "@core/templates/components/WebView";
 import usePublicState from '@core/hooks/usePublicState';
 import MyTouchableOpacity from "@core/templates/components/MyTouchableOpacity";
-import News from "../Home/components/News";
 import Strategy from "../Home/components/Strategy";
 import MyVideo from '@core/templates/components/MyVideo';
 import G from '@constants/global';
 import { LS as styles, GS } from './style';
+import BackgroundView from "@core/templates/components/BackgroundView";
 
 export default () => {
 
   const insets = useSafeAreaInsets();
   const route = useRoute<any>();
-  const { ossDomain, navigation } = usePublicState();
-  const [ currentTab, setCurrentTab ] = React.useState(route.params?.type || 0);
+  const { ossDomain, dispatch, ACTIONS } = usePublicState();
+  const [ currentTab, setCurrentTab ] = React.useState(0);
   const webViewHeight = G.GET('SCREEN_HEIGHT') - GS.mixin.rem(175) - insets.top - insets.bottom;
-  // 金十访谈
-  const newsCounseling = useSelector((state: any) => state.base.homeInfos.GeNewsCounseling?.Data);
   const [currentPlay, setCurrentPlay] = React.useState<{Video: string, Title: string}>();
+
+  const [currentVideos, setCurrentVideos] = React.useState<any[]>([]);
+
+  React.useEffect(() => {
+    if(route.params?.type !== undefined){
+      setCurrentTab(route.params.type);
+    }
+  }, [route.params?.type])
+
+  const getVideos = React.useCallback((type: 'video' | 'ks' | 'ds' | 'new') => {
+    let uri = '';
+    if(type === 'video'){
+      uri = 'transaction_lesson/get_jinshi_videos?Page=1&PageSize=100';
+    }
+    if(type === 'ks'){
+      uri = 'transaction_lesson/get_jinshi_news?Page=1&PageSize=10';
+    }
+    if(type === 'ds'){
+      uri = 'portal/get_gold_guru?Page=1&PageSize=100&Type=1';
+    }
+    if(type === 'new'){
+      uri = 'portal/get_new_user_guid?Page=1&PageSize=100';
+    }
+    dispatch(ACTIONS.BASE.commonRequest({
+      uri,
+      cache: {
+        forward: true,
+        expires: 10
+      },
+      cb: (res: any) => {
+        setCurrentVideos(res.Data.Data);
+      }
+    }))
+  }, [])
+
+  React.useEffect(() => {
+    if(currentTab === 1){
+      getVideos('ds');
+      return;
+    }
+    if(currentTab === 2){
+      getVideos('new');
+      return;
+    }
+    if(currentTab === 3){
+      getVideos('video');
+      return;
+    }
+    if(currentTab === 4){
+      getVideos('ks');
+      return;
+    }
+  }, [currentTab])
 
   return (
     <View style={{flex: 1}}>
-      <View style={{...styles.header, height: GS.mixin.rem(44) + insets.top}} >
-        <Text style={{...styles.headerText, marginTop: insets.top}}>策略</Text>
-      </View>
-      <View style={styles.contentView}>
+      <View style={{...styles.header, height: GS.mixin.rem(40) + insets.top}} >
         <View style={styles.tabsVeiw}>
           <MyTouchableOpacity style={[styles.tabsItem, currentTab === 0 && styles.tabsItemActive]} onPress={() => setCurrentTab(0)}>
-            <Text style={[styles.tabsItemText, currentTab === 0 && styles.tabsItemTextActive]}>巨象财经</Text>
+            <Text style={[styles.tabsItemText, currentTab === 0 && styles.tabsItemTextActive]}>大咖观点</Text>
           </MyTouchableOpacity>
           <MyTouchableOpacity style={[styles.tabsItem, currentTab === 1 && styles.tabsItemActive]} onPress={() => setCurrentTab(1)}>
-            <Text style={[styles.tabsItemText, currentTab === 1 && styles.tabsItemTextActive]}>大咖观点</Text>
+            <Text style={[styles.tabsItemText, currentTab === 1 && styles.tabsItemTextActive]}>黄金大师课</Text>
           </MyTouchableOpacity>
           <MyTouchableOpacity style={[styles.tabsItem, currentTab === 2 && styles.tabsItemActive]} onPress={() => setCurrentTab(2)}>
-            <Text style={[styles.tabsItemText, currentTab === 2 && styles.tabsItemTextActive]}>新闻快讯</Text>
+            <Text style={[styles.tabsItemText, currentTab === 2 && styles.tabsItemTextActive]}>新手教学</Text>
           </MyTouchableOpacity>
           <MyTouchableOpacity style={[styles.tabsItem, currentTab === 3 && styles.tabsItemActive]} onPress={() => setCurrentTab(3)}>
-            <Text style={[styles.tabsItemText, currentTab === 3 && styles.tabsItemTextActive]}>财经日历</Text>
+            <Text style={[styles.tabsItemText, currentTab === 3 && styles.tabsItemTextActive]}>巨象头条</Text>
+          </MyTouchableOpacity>
+          <MyTouchableOpacity style={[styles.tabsItem, currentTab === 4 && styles.tabsItemActive]} onPress={() => setCurrentTab(4)}>
+            <Text style={[styles.tabsItemText, currentTab === 4 && styles.tabsItemTextActive]}>金十访谈间</Text>
           </MyTouchableOpacity>
         </View>
+      </View>
+      {
+        currentTab !== 0 &&
+        <>
+          <BackgroundView style={styles.tips} source={require('./i/bg.png')} resizeMode="contain">
+            <Text style={styles.tipsTitle}>{Tips[currentTab].title}</Text>
+            <Text style={styles.tipsContent}>{Tips[currentTab].content}</Text>
+          </BackgroundView>
+          <View style={styles.title}>
+            <Text style={styles.titleText}>全部课程</Text>
+          </View>
+        </>
+      }
+      <View style={styles.contentView}>
         {
           currentTab === 0 &&
-          <View style={{height: webViewHeight, width: '100%'}}>
-            <ScrollView showsVerticalScrollIndicator={false} >
-              <News style={{...GS.mixin.padding(0,0,0,0)}} />
-              {
-                newsCounseling?.length > 0 &&
-                <>
-                  <View style={styles.title}>
-                    <Text style={styles.titleText}>金十访谈</Text>
-                    <Text style={styles.titleMore} onPress={() => navigation.navigate('Videos', { type: 'k10' })}>{`更多 >`}</Text>
-                  </View>
-                  <MyTouchableOpacity style={styles.banner} onPress={() => setCurrentPlay(newsCounseling[0])}>
-                    <Image
-                      style={{...styles.banner, marginTop: 0, marginBottom: 0}}
-                      source={{ uri: `${ossDomain}${newsCounseling[0].Image}` }}
-                    />
-                  </MyTouchableOpacity>
-                </>
-              }
-            </ScrollView>
-          </View>
-        }
-        {
-          currentTab === 1 &&
           <View style={{height: webViewHeight, width: '100%', flex: 1}}>
             <Strategy type="list" />
           </View>
         }
         {
-          currentTab === 2 &&
-          <View style={{height: webViewHeight, width: '100%'}}>
-            <WebView
-              source={{uri: 'https://www.jin10.com/example/jin10.com.html?fontSize=14px&theme=white'}}
-            />
-          </View>
-        }
-        {
-          currentTab === 3 &&
-          <View style={{height: webViewHeight, width: '100%'}}>
-            <WebView
-              source={{uri: 'https://rili-d.jin10.com/open.php?fontSize=14px&theme=primary'}}
-            />
-          </View>
+          currentTab !== 0 && currentVideos?.length > 0 &&
+          <FlatList
+            data={currentVideos}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({item, index}) =>
+              <View style={styles.videoItem}>
+                <MyTouchableOpacity style={styles.videoCover} onPress={() => setCurrentPlay(item)}>
+                  <Image style={styles.videoCover} source={{uri: `${ossDomain}${item.Image}`}} />
+                </MyTouchableOpacity>
+                <View style={styles.videoInfo}>
+                  <Text style={styles.videoInfoTitle} numberOfLines={2}>{item.Title}</Text>
+                  <View style={styles.updateTime}>
+                    <Text style={styles.updateTimeText}>{dayjs(item.UpdatedAt).format('YYYY-MM-DD')}</Text>
+                    <View style={styles.playNumberView}>
+                      <Image style={styles.playNumberImage} source={require('./i/icon-play.png')} />
+                      <Text style={styles.updateTimeText}>{item.Views}</Text>
+                    </View>
+                    <MyTouchableOpacity style={styles.goButton} onPress={() => setCurrentPlay(item)}>
+                      <Text style={GS.style.font10}>去学习</Text>
+                    </MyTouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            }
+          />
         }
       </View>
       {
@@ -107,4 +160,24 @@ export default () => {
     </View>
   )
 
+}
+
+
+const Tips: any = {
+  [1]: {
+    title: '黄金大师课',
+    content: '业界大师领路，精讲主流交易手法、交易指标，共享实战技巧。'
+  },
+  [2]: {
+    title: '新手教学',
+    content: '黄金投资入门知识，MT4交易基础操作，简单易懂，小白必看。'
+  },
+  [3]: {
+    title: '巨象头条',
+    content: '每日全球第一手财经资讯全掌握，金融热点实时播报。'
+  },
+  [4]: {
+    title: '金十访谈间',
+    content: '巨象&金十强强联袂，金十访谈间同步热播，独家解析市场焦点！'
+  }
 }

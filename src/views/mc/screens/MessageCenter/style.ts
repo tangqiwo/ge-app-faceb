@@ -15,10 +15,6 @@ export const LS = StyleSheet.create({
     flex: 1,
   },
   contentView: {
-    marginTop: G.mixin.rem(20),
-    marginBottom: G.mixin.rem(20),
-    marginLeft: G.mixin.rem(14),
-    marginRight: G.mixin.rem(14),
     paddingTop: G.mixin.rem(14),
     paddingBottom: G.mixin.rem(14),
     paddingLeft: G.mixin.rem(14),
@@ -78,6 +74,7 @@ export const LS = StyleSheet.create({
   },
   messageItemTitleText: {
     fontSize: G.mixin.rem(12),
+    width: G.mixin.rem(260),
     color: '#2A2A2A',
     fontWeight: '600',
   },

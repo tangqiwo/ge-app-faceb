@@ -134,11 +134,11 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        applicationId "org.GE.MC.PROD"
+        applicationId "com.jxjy.com"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "v1.0.0"
+        versionName "2.0.0"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
         // ndk {
         //     abiFilters (*reactNativeArchitectures())
@@ -170,7 +170,7 @@ android {
         }
         manifestPlaceholders = [
             JPUSH_PKGNAME : applicationId,
-            JPUSH_APPKEY : "8723a40ef17cfdacafda5e78",
+            JPUSH_APPKEY : "83e961dc0c0d3b3e8da53006",
             JPUSH_CHANNEL : "developer-default",
         ]
     }

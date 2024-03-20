@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
- * @LastEditors: ammo@xyzzdev.com
+ * @LastEditors: Galen.GE
  * @FilePath: /app_face_b/src/views/mc/screens/Quotes/style.ts
  * @Description:
  */
@@ -19,16 +19,20 @@ export const LS = StyleSheet.create({
   },
   header: {
     height: G.mixin.rem(50),
-    backgroundColor: '#2A2A2A',
+    backgroundColor: '#FFC600',
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
   headerText: {
-    color: '#E7CC8F',
+    color: '#999999',
     fontWeight: '600',
-    fontSize: G.mixin.rem(18),
+    fontSize: G.mixin.rem(16),
+    marginLeft: G.mixin.rem(14),
+  },
+  headerTextActive: {
+    color: '#2A2A2A',
   },
   titleView: {
     paddingLeft: G.mixin.rem(14),

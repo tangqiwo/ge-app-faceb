@@ -96,7 +96,7 @@ export const FORWARD_TYPES: IForwardTypes ={
   },
   PRD_RULES: {
     title   : '产品细则',
-    uri     : '/prd-rules',
+    uri     : '/trade/prd-rules',
     type    : 'official',
     page    : 'prd-rules',
   },

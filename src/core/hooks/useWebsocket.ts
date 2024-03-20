@@ -141,7 +141,6 @@ export default ({url, protocol, closeCallback, onOpen}: IUseWebsocket) => {
 
       }
       ws.current.onerror = (event: any, s: any) => {
-        console.log(s);
         setError(event);
       }
       ws.current.onclose = () => {

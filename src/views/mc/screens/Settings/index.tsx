@@ -152,7 +152,7 @@ export default () => {
           </View>
           <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
         </MyTouchableOpacity>
-        <MyTouchableOpacity style={{...styles.menuItem, borderBottomWidth: 0}} onPress={() => openPopups('USER_PRIVACY')} >
+        <MyTouchableOpacity style={{...styles.menuItem}} onPress={() => openPopups('USER_PRIVACY')} >
           <View style={styles.menuItemContent}>
             <Image source={require('./i/icon-4.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(16)}} />
             <Text style={{...styles.buttonText, color: '#2A2A2A'}}>隐私政策</Text>
@@ -176,7 +176,7 @@ export default () => {
           <MyTouchableOpacity style={styles.submitView} onPress={handleLogout} >
             <Text style={styles.submitText}>退出登录</Text>
           </MyTouchableOpacity>
-          <Text style={styles.logoutView} onPress={handleDelAccount}>注销账号</Text>
+          {/* <Text style={styles.logoutView} onPress={handleDelAccount}>注销账号</Text> */}
         </>
       }
      </View>

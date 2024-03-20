@@ -31,12 +31,12 @@ export default (() => {
         <Image source={require('./i/G.png')} style={styles.itemImage} />
         <View style={styles.itemText}>
           <Text style={styles.itemTextTitle}>现货黄金</Text>
-          <Text style={{...styles.itemTextPrice, color: INSTANT_QUOTES_STATUS_COLOR[gold?.askStatus]}}>{gold?.Ask?.toFixed(2) || '0000.00'}</Text>
+          <Text style={{...styles.itemTextPrice, color: INSTANT_QUOTES_STATUS_COLOR[gold?.bidStatus]}}>{gold?.Bid?.toFixed(2) || '0000.00'}</Text>
           <View style={styles.itemTextPriceUnit}>
-            <Text style={{...styles.itemTextPriceUnitText, color: INSTANT_QUOTES_STATUS_COLOR[gold?.askStatus]}}>
+            <Text style={{...styles.itemTextPriceUnitText, color: INSTANT_QUOTES_STATUS_COLOR[gold?.bidStatus]}}>
               {gold?.changeValue?.toFixed(2) || '0.00'}
             </Text>
-            <Text style={{...styles.itemTextPriceUnitText, color: INSTANT_QUOTES_STATUS_COLOR[gold?.askStatus]}}>
+            <Text style={{...styles.itemTextPriceUnitText, color: INSTANT_QUOTES_STATUS_COLOR[gold?.bidStatus]}}>
               {gold?.changePercent ? `${gold.changePercent}%` : '0.00%'}
             </Text>
           </View>
@@ -46,12 +46,12 @@ export default (() => {
         <Image source={require('./i/Y.png')} style={styles.itemImage} />
         <View style={styles.itemText}>
           <Text style={styles.itemTextTitle}>现货白银</Text>
-          <Text style={{...styles.itemTextPrice, color: INSTANT_QUOTES_STATUS_COLOR[silver?.askStatus]}}>{silver?.Ask?.toFixed(3) || '0000.00'}</Text>
+          <Text style={{...styles.itemTextPrice, color: INSTANT_QUOTES_STATUS_COLOR[silver?.bidStatus]}}>{silver?.Bid?.toFixed(3) || '0000.00'}</Text>
           <View style={styles.itemTextPriceUnit}>
-            <Text style={{...styles.itemTextPriceUnitText, color: INSTANT_QUOTES_STATUS_COLOR[silver?.askStatus]}}>
+            <Text style={{...styles.itemTextPriceUnitText, color: INSTANT_QUOTES_STATUS_COLOR[silver?.bidStatus]}}>
             {silver?.changeValue?.toFixed(3) || '0.00'}
             </Text>
-            <Text style={{...styles.itemTextPriceUnitText, color: INSTANT_QUOTES_STATUS_COLOR[silver?.askStatus]}}>
+            <Text style={{...styles.itemTextPriceUnitText, color: INSTANT_QUOTES_STATUS_COLOR[silver?.bidStatus]}}>
               {silver?.changePercent ? `${silver.changePercent}%` : '0.00%'}
             </Text>
           </View>

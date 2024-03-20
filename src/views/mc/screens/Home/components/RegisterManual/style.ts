@@ -13,7 +13,6 @@ import { StyleSheet } from 'react-native';
 export const LS = StyleSheet.create({
   container: {
     width: '100%',
-    height: G.mixin.rem(175),
     paddingLeft: G.mixin.rem(14),
     paddingRight: G.mixin.rem(14),
     backgroundColor: '#FFFFFF',
@@ -37,14 +36,14 @@ export const LS = StyleSheet.create({
     marginLeft: G.mixin.rem(8),
   },
   content: {
-    height: G.mixin.rem(132),
+    height: G.mixin.rem(100),
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
   contentItem: {
     width: "25%",
-    height: G.mixin.rem(132),
+    height: G.mixin.rem(100),
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -59,7 +58,7 @@ export const LS = StyleSheet.create({
   },
   button: {
     marginTop: G.mixin.rem(6),
-    width: G.mixin.rem(50),
+    width: G.mixin.rem(60),
     height: G.mixin.rem(18),
     // 灰色
     borderRadius: G.mixin.rem(10),

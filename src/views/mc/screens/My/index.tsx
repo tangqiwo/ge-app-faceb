@@ -7,19 +7,21 @@
  */
 import _ from 'lodash';
 import React from "react";
-import { View, Image, Text } from 'react-native';
+import { View, Image, Text, ScrollView } from 'react-native';
 import Enum from '@constants/enum';
 import BackgroundView from "@core/templates/components/BackgroundView";
 import MyTouchableOpacity from "@core/templates/components/MyTouchableOpacity";
 import Icon from '@icon/index';
 import usePublicState from "@core/hooks/usePublicState";
 import useRouteWebCommon, { FORWARD_TYPES } from '@core/hooks/useRouteWebCommon';
+import Disclaimer from './Disclaimer';
 import style, { LS as styles, GS } from './style';
 
 export default () => {
 
   const { rs, navigation, infos, customerService, isLogined, isFocused, dispatch, ACTIONS } = usePublicState();
   const [ showMoney, setShowMoney ] = React.useState(false);
+  const [ isShowDisclaimer, setIsShowDisclaimer ] = React.useState(false);
   const { forward } = useRouteWebCommon();
 
   React.useEffect(() => {
@@ -54,9 +56,6 @@ export default () => {
               {
                 infos.RealName &&
                 <View style={{flexDirection: 'row', alignItems: 'center', marginRight: 'auto'}}>
-                  <Text style={{fontSize: GS.mixin.rem(14)}}>
-                    {rs.base.appDisplayConfig.MemberPageInfo?.NewUserTip}
-                  </Text>
                   <BackgroundView source={require('./i/icon-new.png')} style={styles.tips}>
                     <Text style={{color: 'white', marginLeft: GS.mixin.rem(4)}}>
                       {infos.KycScore >= 33 ? '专业投资者' : '一般投资者'}
@@ -126,13 +125,13 @@ export default () => {
             <View style={styles.buttons}>
               <MyTouchableOpacity style={styles.buttonItem} onPress={() => navigation.navigate('Login')}>
                 <View style={styles.buttonItem}>
-                  <Image source={require('./i/login.png')} style={styles.buttonIcon} />
+                  <Image source={require('./i/login.png')} style={styles.buttonIcon} resizeMode='contain' />
                   <Text style={styles.buttonText}>登录</Text>
                 </View>
               </MyTouchableOpacity>
               <MyTouchableOpacity style={styles.buttonItem} onPress={handleGoToRegister}>
                 <View style={{...styles.buttonItem, backgroundColor: '#FFC600'}}>
-                  <Image source={require('./i/register.png')} style={{...styles.buttonIcon, width: GS.mixin.rem(20), height: GS.mixin.rem(18)}} />
+                  <Image source={require('./i/register.png')} style={{...styles.buttonIcon, width: GS.mixin.rem(20), height: GS.mixin.rem(18)}} resizeMode='contain'/>
                   <Text style={{...styles.buttonText, color: 'black'}}>开户</Text>
                 </View>
               </MyTouchableOpacity>
@@ -173,7 +172,7 @@ export default () => {
           {rs.base.appDisplayConfig.MemberPageInfo?.SpreadConfig?.Title}
         </Text>
       </View>
-      <View style={styles.menusView}>
+      <ScrollView style={styles.menusView} showsVerticalScrollIndicator={false}>
         {
           _.isEmpty(infos) &&
           <>
@@ -231,13 +230,13 @@ export default () => {
               </View>
               <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
             </MyTouchableOpacity>
-            <MyTouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Root', {screen: 'Trade', params: {tab: 0}})}>
+            {/* <MyTouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Root', {screen: 'Trade', params: {tab: 0}})}>
               <View style={styles.menuItemContent}>
                 <Image source={require('./i/icon/icon-8.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
                 <Text style={{...styles.buttonText, color: '#2A2A2A'}}>持仓详情</Text>
               </View>
               <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
-            </MyTouchableOpacity>
+            </MyTouchableOpacity> */}
             <MyTouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Root', {screen: 'Trade', params: {tab: 2}})}>
               <View style={styles.menuItemContent}>
                 <Image source={require('./i/icon/icon-10.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
@@ -247,14 +246,25 @@ export default () => {
             </MyTouchableOpacity>
           </>
         }
-        <MyTouchableOpacity style={{...styles.menuItem, borderBottomWidth: 0}} onPress={() => forward({...FORWARD_TYPES['CUSTOMER_SERVICE'], uri: customerService})}>
+        <MyTouchableOpacity style={{...styles.menuItem}} onPress={() => forward({...FORWARD_TYPES['CUSTOMER_SERVICE'], uri: customerService})}>
           <View style={styles.menuItemContent}>
             <Image source={require('./i/icon/icon-5.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
             <Text style={{...styles.buttonText, color: '#2A2A2A'}}>在线客服</Text>
           </View>
           <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
         </MyTouchableOpacity>
-      </View>
+        <MyTouchableOpacity style={{...styles.menuItem, borderBottomWidth: 0}} onPress={() => setIsShowDisclaimer(true)}>
+          <View style={styles.menuItemContent}>
+            <Image source={require('./i/icon/icon-8.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
+            <Text style={{...styles.buttonText, color: '#2A2A2A'}}>免责声明</Text>
+          </View>
+          <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
+        </MyTouchableOpacity>
+      </ScrollView>
+      {
+        isShowDisclaimer &&
+        <Disclaimer onClose={() => setIsShowDisclaimer(false)} />
+      }
     </View>
   )
 

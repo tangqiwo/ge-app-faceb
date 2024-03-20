@@ -23,7 +23,7 @@
           android:exported="false" >
           <intent-filter>
               <action android:name="cn.jpush.android.intent.SERVICE_MESSAGE" />
-              <category android:name="com.ge.mc.pre" />
+              <category android:name="com.jxjy.com" />
           </intent-filter>
       </service>
       <activity
