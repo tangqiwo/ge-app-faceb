@@ -15,6 +15,10 @@ export const getInstantQuotes = (props: INTERFACE.IProps): INTERFACE.IAPI => ({
   payload: {
     key: 'quotes/get-instant-quotes',
     method: HTTP.METHODS.GET,
+    cache: {
+      expires: 60,
+      forward: true
+    }
   },
   cb: props.cb,
 });

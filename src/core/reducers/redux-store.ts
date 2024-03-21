@@ -2,9 +2,10 @@
  * @Description: REDUX 初始化状态
  * @Author: Galen.GE
  * @Date: 2019-12-19 16:20:56
- * @LastEditTime: 2024-03-11 11:25:43
+ * @LastEditTime: 2024-03-21 10:30:04
  * @LastEditors: Galen.GE
  */
+import _ from 'lodash'
 import { UserInfo, RegisterGuide } from '@core/schemas/interface';
 import * as INTERFACE from '../schemas/redux-store.d';
 import CONFIGS from '@this/configs';

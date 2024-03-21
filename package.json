@@ -14,7 +14,8 @@
     "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=8081'",
     "debug-release-android": "npx react-native run-android --variant=release",
     "publish-base-android": "pushy uploadApk android/app/build/outputs/apk/release/app-arm64-v8a-release.apk",
-    "publish-base-ios": "pushy uploadIpa dist/ios.ipa"
+    "publish-base-ios": "pushy uploadIpa dist/ios.ipa",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@gorhom/portal": "^1.0.14",
@@ -43,6 +44,7 @@
     "lodash": "^4.17.21",
     "mathjs": "^12.2.1",
     "md5": "^2.3.0",
+    "mitt": "^3.0.1",
     "moment": "^2.29.4",
     "react": "18.0.0",
     "react-native": "0.69.7",
@@ -104,6 +106,8 @@
     "babel-plugin-root-import": "^6.6.0",
     "eslint": "^7.32.0",
     "metro-react-native-babel-preset": "^0.70.3",
+    "patch-package": "^8.0.0",
+    "postinstall-postinstall": "^2.1.0",
     "react-devtools-core": "4.23.0",
     "react-test-renderer": "18.0.0",
     "types": "^0.1.1",

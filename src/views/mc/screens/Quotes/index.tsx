@@ -13,13 +13,15 @@ import { INSTANT_QUOTES_STATUS_COLOR, INSTANT_QUOTES_STATUS_ICON } from '@core/h
 import { View, Text, ScrollView, TouchableWithoutFeedback, StatusBar, Appearance } from 'react-native';
 import { useSelector } from 'react-redux';
 import WebView from "@core/templates/components/WebView";
+import useInstantQuotes from '@core/hooks/useInstantQuotes';
 import { IStore } from '@schemas/redux-store';
 import { LS as styles, GS } from './style';
 
 export default () => {
 
   const insets = useSafeAreaInsets();
-  const { instant, symbols } = useSelector((state: IStore) => state.quotes);
+  const { instantQuotes } = useInstantQuotes();
+  const { symbols } = useSelector((state: IStore) => state.quotes);
   const { navigation } = usePublicState();
   const [tab, setTab] = React.useState(0);
 
@@ -38,7 +40,7 @@ export default () => {
         <Text style={{...styles.headerText, marginTop: insets.top, color: tab === 2 ? '#2a2a2a' : '#999999'}} onPress={() => setTab(2)}>日历</Text>
       </View>
       {
-        tab === 0 &&
+        tab === 0 && symbols &&
         <>
           <View style={styles.titleView}>
             <View style={styles.column1}>
@@ -53,7 +55,7 @@ export default () => {
           </View>
           <ScrollView showsVerticalScrollIndicator={false} >
             {
-              instant && instant.map((item) =>
+              instantQuotes && instantQuotes.map((item: any) =>
                 <TouchableWithoutFeedback style={styles.contentView} key={item.Symbol} onPress={() => navigation.navigate('KLine', { symbol: item.Symbol })}>
                   <View style={styles.contentView}>
                     <View style={[styles.column1, styles.contentItemView]}>

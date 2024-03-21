@@ -16,7 +16,7 @@ export default function user(state = initialState.quotes, action: any) {
       const data = {
         wsLink: action.res.OnQuoteLink,
         symbols: action.res.Symbols.map((item: any) => ({
-          Key: item.Key + 'pro',
+          Key: item.Key,
           Title: item.Title,
           ...item.QuoteHistory,
           Open: _.floor(item.QuoteHistory.Open, 3),

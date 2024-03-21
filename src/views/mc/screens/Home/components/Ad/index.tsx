@@ -7,23 +7,22 @@
  */
 import _ from 'lodash';
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { INSTANT_QUOTES_STATUS_COLOR } from '@core/hooks/useInstantQuotes';
-import {IStore} from '@schemas/redux-store';
 import { View, Text, Image } from 'react-native'
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
-import { GS, LS } from './style';
+import useInstantQuotes from '@core/hooks/useInstantQuotes';
+import { LS } from './style';
 import usePublicState from '@core/hooks/usePublicState';
 
 const styles = LS.ad;
 
 export default (() => {
 
-  const instant = useSelector((state: IStore) => state.quotes.instant);
+  const { instantQuotes } = useInstantQuotes();
   const { navigation } = usePublicState();
 
-  const gold = _.find(instant, {Symbol: 'XAUUSDpro'});
-  const silver = _.find(instant, {Symbol: 'XAGUSDpro'});
+  const gold = _.find(instantQuotes, {Symbol: 'XAUUSDpro'});
+  const silver = _.find(instantQuotes, {Symbol: 'XAGUSDpro'});
 
   return (
     <View style={styles.container}>

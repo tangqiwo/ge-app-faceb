@@ -112,10 +112,10 @@ export type IQuotes = {
     Ask: number,
     Bid: number,
     Symbol: string,
-    Time: string,
+    Time?: string,
     changeValue: number,
     changePercent: number,
-    spread: number,
+    spread?: number,
     askStatus: 'UP' | 'DOWN' | 'FLAT',
     bidStatus: 'UP' | 'DOWN' | 'FLAT'
   }>;

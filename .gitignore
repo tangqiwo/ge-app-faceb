@@ -69,3 +69,4 @@ package-lock.json
 .history
 .update
 .pushy
+nvm

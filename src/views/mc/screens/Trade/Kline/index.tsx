@@ -20,6 +20,7 @@ import ByronKlineChart from 'react-native-kline';
 import {dispatchByronKline, KLineIndicator} from 'react-native-kline';
 import usePublicState from '@core/hooks/usePublicState';
 import useKlineData from '@core/hooks/trade/useKlineData';
+import useInstantQuotes from '@core/hooks/useInstantQuotes';
 import useAuth from '@core/hooks/useAuth';
 import Icon from '@icon/index';
 import {IStore} from '@schemas/redux-store';
@@ -45,8 +46,8 @@ export default () => {
   const Mt4ClientApiToken = useSelector((state: any) => state.trade?.mt4Info?.Mt4ClientApiToken);
   const [list, setList] = React.useState([]);
   const [viewHeight, setViewHeight] = React.useState(0);
-  const instant = useSelector((state: IStore) => state.quotes.instant);
   const symbols = useSelector((state: IStore) => state.quotes.symbols);
+  const { instantQuotes } = useInstantQuotes();
   const [currentSymbol, setCurrentSymbol] = React.useState(route.params?.symbol);
   const [currentTimeFrame, setCurrentTimeFrame] = React.useState('M1');
   const [currentChildIndicator, setCurrentChildIndicator] = React.useState(KLineIndicator.ChildKDJ);
@@ -100,7 +101,7 @@ export default () => {
     navigation.navigate('Root', { screen: 'Trade' });
   })
 
-  const symbolPrice = _.find(instant, {Symbol: currentSymbol});
+  const symbolPrice = _.find(instantQuotes, {Symbol: currentSymbol});
   const symbolSummary = _.find(symbols, {Key: currentSymbol});
 
   const toFixedBit = route.params?.symbol === 'XAUUSDpro' ? 2 : 3;

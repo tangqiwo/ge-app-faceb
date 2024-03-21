@@ -17,11 +17,20 @@ import { toUpperCaseObj } from '@helpers/unit';
 export default () => {
 
   const { dispatch, ACTIONS } = usePublicState();
-  const { symbols, instant } = useSelector((state: IStore) => state.quotes);
+  const { symbols } = useSelector((state: IStore) => state.quotes);
   const Mt4ChartQuoteGateway = useSelector((state: any) => state.base.faceBConfig?.Mt4ChartQuoteGateway);
-  const latestInstant = useLatest(instant);
+  const [instantQuotes, setInstantQuotes] = React.useState<any>(['XAGUSDpro', 'XAUUSDpro'].map(i => ({
+    Symbol: i,
+    Ask: 0,
+    Bid: 0,
+    changeValue: 0,
+    changePercent: 0,
+    askStatus: 'FLAT',
+    bidStatus: 'FLAT'
+  })));
+  const latestInstant = useLatest(instantQuotes);
 
-  const { messages } = useWebsocket({
+  const { messages, socket } = useWebsocket({
     url: Mt4ChartQuoteGateway?.Path,
     protocol: 'quotes',
     onOpen: (ws: any) => {
@@ -35,6 +44,11 @@ export default () => {
 
   React.useEffect(() => {
     getInstantQuotes();
+    return () => {
+      if (typeof socket?.close === 'function') {
+        socket?.close();
+      }
+    }
   }, [])
 
   React.useEffect(() => {
@@ -65,7 +79,7 @@ export default () => {
                           .filter(i => !_.map(newInstant, 'Symbol').includes(i.Symbol))
                           .orderBy('Symbol')
                           .value();
-      dispatch(ACTIONS.QUOTES.setInstantQuotes({data: _.orderBy([...oldInstant, ...newInstant], 'Symbol')}));
+      setInstantQuotes(_.orderBy([...oldInstant, ...newInstant], 'Symbol'));
     }
   }, [messages])
 
@@ -74,6 +88,7 @@ export default () => {
   }
 
   return {
+    instantQuotes,
     getInstantQuotes
   }
 

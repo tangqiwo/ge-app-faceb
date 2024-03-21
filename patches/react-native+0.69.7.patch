@@ -1,0 +1,108 @@
+diff --git a/node_modules/react-native/.DS_Store b/node_modules/react-native/.DS_Store
+new file mode 100644
+index 0000000..df5f075
+Binary files /dev/null and b/node_modules/react-native/.DS_Store differ
+diff --git a/node_modules/react-native/ReactAndroid/.DS_Store b/node_modules/react-native/ReactAndroid/.DS_Store
+new file mode 100644
+index 0000000..9a874b5
+Binary files /dev/null and b/node_modules/react-native/ReactAndroid/.DS_Store differ
+diff --git a/node_modules/react-native/ReactAndroid/src/.DS_Store b/node_modules/react-native/ReactAndroid/src/.DS_Store
+new file mode 100644
+index 0000000..7b0d367
+Binary files /dev/null and b/node_modules/react-native/ReactAndroid/src/.DS_Store differ
+diff --git a/node_modules/react-native/ReactAndroid/src/main/.DS_Store b/node_modules/react-native/ReactAndroid/src/main/.DS_Store
+new file mode 100644
+index 0000000..55c1fcb
+Binary files /dev/null and b/node_modules/react-native/ReactAndroid/src/main/.DS_Store differ
+diff --git a/node_modules/react-native/ReactAndroid/src/main/java/.DS_Store b/node_modules/react-native/ReactAndroid/src/main/java/.DS_Store
+new file mode 100644
+index 0000000..35a54bf
+Binary files /dev/null and b/node_modules/react-native/ReactAndroid/src/main/java/.DS_Store differ
+diff --git a/node_modules/react-native/ReactAndroid/src/main/java/com/.DS_Store b/node_modules/react-native/ReactAndroid/src/main/java/com/.DS_Store
+new file mode 100644
+index 0000000..8040b15
+Binary files /dev/null and b/node_modules/react-native/ReactAndroid/src/main/java/com/.DS_Store differ
+diff --git a/node_modules/react-native/ReactAndroid/src/main/java/com/facebook/.DS_Store b/node_modules/react-native/ReactAndroid/src/main/java/com/facebook/.DS_Store
+new file mode 100644
+index 0000000..94654ef
+Binary files /dev/null and b/node_modules/react-native/ReactAndroid/src/main/java/com/facebook/.DS_Store differ
+diff --git a/node_modules/react-native/ReactAndroid/src/main/java/com/facebook/react/animated/NativeAnimatedNodesManager.java b/node_modules/react-native/ReactAndroid/src/main/java/com/facebook/react/animated/NativeAnimatedNodesManager.java
+index 28d611f..32890f1 100644
+--- a/node_modules/react-native/ReactAndroid/src/main/java/com/facebook/react/animated/NativeAnimatedNodesManager.java
++++ b/node_modules/react-native/ReactAndroid/src/main/java/com/facebook/react/animated/NativeAnimatedNodesManager.java
+@@ -347,17 +347,19 @@ import java.util.Queue;
+   public void connectAnimatedNodes(int parentNodeTag, int childNodeTag) {
+     AnimatedNode parentNode = mAnimatedNodes.get(parentNodeTag);
+     if (parentNode == null) {
+-      throw new JSApplicationIllegalArgumentException(
+-          "connectAnimatedNodes: Animated node with tag (parent) ["
+-              + parentNodeTag
+-              + "] does not exist");
++      // throw new JSApplicationIllegalArgumentException(
++      //     "connectAnimatedNodes: Animated node with tag (parent) ["
++      //         + parentNodeTag
++      //         + "] does not exist");
++      return;
+     }
+     AnimatedNode childNode = mAnimatedNodes.get(childNodeTag);
+     if (childNode == null) {
+-      throw new JSApplicationIllegalArgumentException(
+-          "connectAnimatedNodes: Animated node with tag (child) ["
+-              + childNodeTag
+-              + "] does not exist");
++      // throw new JSApplicationIllegalArgumentException(
++      //     "connectAnimatedNodes: Animated node with tag (child) ["
++      //         + childNodeTag
++      //         + "] does not exist");
++      return;
+     }
+     parentNode.addChild(childNode);
+     mUpdatedNodes.put(childNodeTag, childNode);
+@@ -366,17 +368,19 @@ import java.util.Queue;
+   public void disconnectAnimatedNodes(int parentNodeTag, int childNodeTag) {
+     AnimatedNode parentNode = mAnimatedNodes.get(parentNodeTag);
+     if (parentNode == null) {
+-      throw new JSApplicationIllegalArgumentException(
+-          "disconnectAnimatedNodes: Animated node with tag (parent) ["
+-              + parentNodeTag
+-              + "] does not exist");
++      // throw new JSApplicationIllegalArgumentException(
++      //     "disconnectAnimatedNodes: Animated node with tag (parent) ["
++      //         + parentNodeTag
++      //         + "] does not exist");
++      return;
+     }
+     AnimatedNode childNode = mAnimatedNodes.get(childNodeTag);
+     if (childNode == null) {
+-      throw new JSApplicationIllegalArgumentException(
+-          "disconnectAnimatedNodes: Animated node with tag (child) ["
+-              + childNodeTag
+-              + "] does not exist");
++      // throw new JSApplicationIllegalArgumentException(
++      //     "disconnectAnimatedNodes: Animated node with tag (child) ["
++      //         + childNodeTag
++      //         + "] does not exist");
++      return;
+     }
+     parentNode.removeChild(childNode);
+     mUpdatedNodes.put(childNodeTag, childNode);
+diff --git a/node_modules/react-native/android/.DS_Store b/node_modules/react-native/android/.DS_Store
+new file mode 100644
+index 0000000..2b615a7
+Binary files /dev/null and b/node_modules/react-native/android/.DS_Store differ
+diff --git a/node_modules/react-native/android/com/.DS_Store b/node_modules/react-native/android/com/.DS_Store
+new file mode 100644
+index 0000000..8040b15
+Binary files /dev/null and b/node_modules/react-native/android/com/.DS_Store differ
+diff --git a/node_modules/react-native/android/com/facebook/.DS_Store b/node_modules/react-native/android/com/facebook/.DS_Store
+new file mode 100644
+index 0000000..94654ef
+Binary files /dev/null and b/node_modules/react-native/android/com/facebook/.DS_Store differ
+diff --git a/node_modules/react-native/android/com/facebook/react/.DS_Store b/node_modules/react-native/android/com/facebook/react/.DS_Store
+new file mode 100644
+index 0000000..c7ea8d0
+Binary files /dev/null and b/node_modules/react-native/android/com/facebook/react/.DS_Store differ
+diff --git a/node_modules/react-native/android/com/facebook/react/react-native/.DS_Store b/node_modules/react-native/android/com/facebook/react/react-native/.DS_Store
+new file mode 100644
+index 0000000..963bc2a
+Binary files /dev/null and b/node_modules/react-native/android/com/facebook/react/react-native/.DS_Store differ
