@@ -8,7 +8,7 @@
 import _ from 'lodash';
 import dayjs from 'dayjs';
 import React from 'react';
-import { useLatest } from 'react-use';
+import { useLatest, usePrevious } from 'react-use';
 import { useRoute } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import usePublicState from "../usePublicState"
@@ -22,6 +22,7 @@ export default () => {
   const Mt4ClientApiToken = useSelector((state: any) => state.trade.mt4Info.Mt4ClientApiToken);
   // const SymbolList = useSelector((state: any) => state.trade.mt4Info.Symbols);
   const [referPayment, setReferPayment] = React.useState('0');
+
   const [limitInput, setLimitInput] = React.useState<any>({
     // 止盈止损
     Stoploss: {
@@ -39,6 +40,8 @@ export default () => {
       SellStop: ''
     }
   })
+
+
 
   type TPayload = {
     Mt4ClientApiToken: string;
@@ -63,7 +66,9 @@ export default () => {
   }
 
   const [ payload, setPayload ] = React.useState<TPayload>(initData);
+  const prevPayload = usePrevious(payload);
   const latestPayload = useLatest(payload);
+  const latestLimitInput: any = useLatest(limitInput);
 
   React.useEffect(() => {
     if(isFocused) {
@@ -113,18 +118,18 @@ export default () => {
       Stoploss: {
         Buy: Number((bid - step).toFixed(toFixedBit)),
         Sell: Number((ask + step).toFixed(toFixedBit)),
-        BuyLimit: Number((Number(payload.Price) - step).toFixed(toFixedBit)),
+        BuyLimit: Number(payload.Price) - step <=0 ? 0 : Number((Number(payload.Price) - step).toFixed(toFixedBit)),
         SellLimit: Number((Number(payload.Price) + step).toFixed(toFixedBit)),
-        BuyStop: Number((Number(payload.Price) - step).toFixed(toFixedBit)),
+        BuyStop: Number(payload.Price) - step <=0 ? 0 : Number((Number(payload.Price) - step).toFixed(toFixedBit)),
         SellStop: Number((Number(payload.Price) + step).toFixed(toFixedBit))
       },
       Takeprofit: {
         Buy: Number((bid + step).toFixed(toFixedBit)),
         Sell: Number((ask - step).toFixed(toFixedBit)),
         BuyLimit: Number((Number(payload.Price) + step).toFixed(toFixedBit)),
-        SellLimit: Number((Number(payload.Price) - step).toFixed(toFixedBit)),
+        SellLimit: Number(payload.Price) - step <=0 ? 0 : Number((Number(payload.Price) - step).toFixed(toFixedBit)),
         BuyStop: Number((Number(payload.Price) + step).toFixed(toFixedBit)),
-        SellStop: Number((Number(payload.Price) - step).toFixed(toFixedBit))
+        SellStop: Number(payload.Price) - step <=0 ? 0 : Number((Number(payload.Price) - step).toFixed(toFixedBit))
       },
       Price: {
         BuyLimit: Number((ask - step).toFixed(toFixedBit)),
@@ -133,7 +138,11 @@ export default () => {
         SellStop: Number((bid - step).toFixed(toFixedBit))
       }
     }
+    latestLimitInput.current = data;
     setLimitInput(data)
+    if(prevPayload?.Symbol !== payload.Symbol){
+      changeLimitPrice('reset')
+    }
   }, [payload.Symbol, instant, payload.Price])
 
   React.useEffect(() => {
@@ -352,14 +361,14 @@ export default () => {
       return;
     }
     if(type === 'reset') {
-      setPayload((state) =>({...state, Price: limitInput?.Price[payload.Operation]?.toFixed(toFixedBit) || 0}))
+      setPayload((state) =>({...state, Price: latestLimitInput.current?.Price[payload.Operation]?.toFixed(toFixedBit) || 0}))
       return;
     }
     if(type === 'add') {
       if(LIMIT_PRICE[payload.Operation] == '≤') {
-        if(_price + step > limitInput.Price[payload.Operation]) {
+        if(_price + step > latestLimitInput.current.Price[payload.Operation]) {
           dispatch(ACTIONS.BASE.openToast({ text: '无效的挂单价格' }));
-          setPayload((state) =>({...state, Price: limitInput?.Price[payload.Operation]?.toFixed(toFixedBit)}))
+          setPayload((state) =>({...state, Price: latestLimitInput.current?.Price[payload.Operation]?.toFixed(toFixedBit)}))
           return;
         }
         if(_price + step < 0.01) {
@@ -382,9 +391,9 @@ export default () => {
       return;
     }
     if(LIMIT_PRICE[payload.Operation] == '≥') {
-      if(_price - step < limitInput.Price[payload.Operation]) {
+      if(_price - step < latestLimitInput.current.Price[payload.Operation]) {
         dispatch(ACTIONS.BASE.openToast({ text: '无效的挂单价格' }));
-        setPayload((state) =>({...state, Price: limitInput?.Price[payload.Operation]?.toFixed(toFixedBit)}))
+        setPayload((state) =>({...state, Price: latestLimitInput.current?.Price[payload.Operation]?.toFixed(toFixedBit)}))
         return;
       }
     }

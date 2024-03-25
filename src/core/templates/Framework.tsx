@@ -17,6 +17,7 @@ import useRouteHelper from '@core/hooks/useRouteHelper';
 import useListener from '@core/hooks/useListener';
 import useStart from '@hooks/useStart';
 import usePopupAdvert from '@core/hooks/usePopupAdvert';
+// import useQuotesQuery from '@core/hooks/useQuotesQuery';
 
 
 export default () => {
@@ -25,6 +26,7 @@ export default () => {
   useStateKeeper();
   usePopupAdvert();
   useListener();
+  // useQuotesQuery();
 
   const { startUpdateCheck } = useHotUpdate();
   const { init } = useStart();

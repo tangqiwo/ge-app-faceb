@@ -1,25 +1,26 @@
 /*
- * @Author: ammo@xyzzdev.com
- * @Date: 2023-11-30 10:29:55
+ * @Author: Galen.GE
+ * @Date: 2024-03-25 15:39:51
  * @LastEditors: Galen.GE
- * @FilePath: /app_face_b/src/core/hooks/useInstantQuotes.ts
+ * @FilePath: /app_face_b/src/core/hooks/useQuotesQueryOn.ts
  * @Description:
  */
-import _ from 'lodash';
-import React from 'react';
-import { IStore } from '@schemas/redux-store';
+import _ from 'lodash'
+import React from "react";
+import ACTIONS from '@actions/index';
 import { useLatest } from 'react-use';
-import { useSelector } from 'react-redux';
-import useWebsocket from './useWebsocket';
-import usePublicState from './usePublicState';
+import { useSelector, useDispatch } from 'react-redux';
+import { IStore } from '@schemas/redux-store';
+import useEventEmitter from "./useEventEmitter";
+import {TMitt} from '@core/constants/enum/mitt';
 import { toUpperCaseObj } from '@helpers/unit';
+import G from '@constants/global';
 
 export default () => {
 
-  const { dispatch, ACTIONS } = usePublicState();
+  const dispatch = useDispatch();
   const { symbols } = useSelector((state: IStore) => state.quotes);
-  const Mt4ChartQuoteGateway = useSelector((state: any) => state.base.faceBConfig?.Mt4ChartQuoteGateway);
-  const [instantQuotes, setInstantQuotes] = React.useState<any>(['XAGUSDpro', 'XAUUSDpro'].map(i => ({
+  const [instantQuotes, setInstantQuotes] = React.useState<any>(G.GET('INSTANT_QUOTES') || ['XAGUSDpro', 'XAUUSDpro'].map(i => ({
     Symbol: i,
     Ask: 0,
     Bid: 0,
@@ -29,40 +30,26 @@ export default () => {
     bidStatus: 'FLAT'
   })));
   const latestInstant = useLatest(instantQuotes);
+  const latestSymbols = useLatest(symbols);
   const intervalTimer = React.useRef<any>(null);
 
-  const { messages, socket } = useWebsocket({
-    url: Mt4ChartQuoteGateway?.Path,
-    protocol: 'quotes-query',
-    onOpen: (ws: any) => {
-      const data = {
-        Symbol: 'SymbolList',
-        Timeframe: 'Realtime',
-      }
-      ws.send(JSON.stringify(data));
-    },
-  });
-
   React.useEffect(() => {
-    getInstantQuotes();
     intervalTimer.current = setInterval(() => {
-      getInstantQuotes();
+      dispatch(ACTIONS.QUOTES.getInstantQuotes({}));
     }, 15000);
+    dispatch(ACTIONS.QUOTES.getInstantQuotes({}));
     return () => {
-      if (typeof socket?.close === 'function') {
-        socket?.close();
-      }
       clearInterval(intervalTimer.current);
     }
   }, [])
 
-  React.useEffect(() => {
-    if(messages) {
-      const res = toUpperCaseObj(JSON.parse(messages));
+  useEventEmitter<TMitt['syncWebServiceData']>({mittName: 'syncWebServiceData', on: (data) => {
+    if(data.message){
+      const res = toUpperCaseObj(JSON.parse(data.message));
       let newInstant: any = [];
       _.each(res.SymbolList, (symbolData: any) => {
-        if(_.find(symbols, {Key: symbolData.Symbol})){
-          const closePrice = _.find(symbols, {Key: symbolData.Symbol})?.Close;
+        if(_.find(latestSymbols.current, {Key: symbolData.Symbol})){
+          const closePrice = _.find(latestSymbols.current, {Key: symbolData.Symbol})?.Close;
           const currentInstant = _.find(latestInstant.current, {Symbol: symbolData.Symbol}) || { Ask: 0, Bid: 0 };
           newInstant.push({
             ...symbolData,
@@ -84,20 +71,19 @@ export default () => {
                           .filter(i => !_.map(newInstant, 'Symbol').includes(i.Symbol))
                           .orderBy('Symbol')
                           .value();
-      setInstantQuotes(_.orderBy([...oldInstant, ...newInstant], 'Symbol'));
+      const result = _.orderBy([...oldInstant, ...newInstant], 'Symbol');
+      G.SET('INSTANT_QUOTES', result);
+      setInstantQuotes(result);
     }
-  }, [messages])
-
-  const getInstantQuotes = () => {
-    dispatch(ACTIONS.QUOTES.getInstantQuotes({}));
-  }
+  }});
 
   return {
-    instantQuotes,
-    getInstantQuotes
+    instantQuotes
   }
 
 }
+
+
 
 // 涨跌平状态
 export const INSTANT_QUOTES_STATUS = {

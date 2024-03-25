@@ -29,6 +29,7 @@ type TKeys =  'API'                         // API
             | 'CRRENT_ROUTE'                // 当前路由
             | 'PHONE_MODEL'                 // 手机型号
             | '__TRANS_OUTPUT__'            // 翻译组件输出
+            | 'INSTANT_QUOTES'
 
 // 获取全局变量
 const GET = (key: string): any => {

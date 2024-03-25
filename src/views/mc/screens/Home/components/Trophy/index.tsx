@@ -23,7 +23,6 @@ export default () => {
     dispatch(ACTIONS.BASE.commonRequest({
       uri: 'authority/index',
       cb: (res: any) => {
-        console.log(res.Data)
         setGeBrand(_.take(res.Data, 4))
       }
     }))

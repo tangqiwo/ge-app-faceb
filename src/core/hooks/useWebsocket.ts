@@ -9,6 +9,8 @@ import _ from 'lodash';
 import React from 'react';
 import { AppState } from 'react-native';
 import { useState, useEffect, useCallback, useRef } from 'react';
+// import useEventEmitter from '@core/hooks/useEventEmitter';
+import {TMitt} from '@core/constants/enum/mitt';
 import G from '@constants/global';
 
 interface IUseWebsocket {
@@ -32,6 +34,7 @@ export default ({url, protocol, closeCallback, onOpen}: IUseWebsocket) => {
   // 数据合并
   const quotes = useRef<any>([]);
   const orderProfits = useRef<any>([]);
+  // const {emit} = useEventEmitter<TMitt['syncWebServiceData']>({mittName: 'syncWebServiceData'});
 
   // 创建 WebSocket 连接
   useEffect((): any => {
@@ -67,7 +70,8 @@ export default ({url, protocol, closeCallback, onOpen}: IUseWebsocket) => {
 
         const currentRoute = G.GET('CRRENT_ROUTE');
 
-        if(protocol === 'quotes'){
+        if(protocol === 'quotes-query'){
+          // emit({protocol, message: event.data})
           if(_.includes(event.data, 'XAUUSD') || _.includes(event.data, 'XAGUSD')) {
             setMessages(event.data);
           }

@@ -12,7 +12,6 @@ import { StyleSheet } from 'react-native';
 // 本组件样式写到这里
 export const LS = StyleSheet.create({
   container: {
-    height: G.mixin.rem(320),
     backgroundColor: '#FFFFFF',
     borderRadius: G.mixin.rem(5),
     marginBottom: G.mixin.rem(15),

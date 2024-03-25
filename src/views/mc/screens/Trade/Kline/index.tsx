@@ -120,9 +120,11 @@ export default () => {
             <Text style={{...styles.itemTextPrice, color: INSTANT_QUOTES_STATUS_COLOR[symbolPrice?.askStatus]}}>{Number(newKlineData?.close || symbolPrice?.Bid)?.toFixed(toFixedBit) || '0000.00'}</Text>
             <View style={styles.itemTextPriceUnit}>
               <Text style={{...styles.itemTextPriceUnitText, color: INSTANT_QUOTES_STATUS_COLOR[symbolPrice?.askStatus]}}>
+                {symbolPrice?.changeValue > 0 && '+'}
                 {Number(symbolPrice?.changeValue)?.toFixed(toFixedBit) || '0.000'}
               </Text>
               <Text style={{...styles.itemTextPriceUnitText, color: INSTANT_QUOTES_STATUS_COLOR[symbolPrice?.askStatus]}}>
+                {symbolPrice?.changeValue > 0 && '+'}
                 {symbolPrice?.changePercent ? `${Number(symbolPrice?.changePercent)?.toFixed(2)}%` : '0.00%'}
               </Text>
             </View>
