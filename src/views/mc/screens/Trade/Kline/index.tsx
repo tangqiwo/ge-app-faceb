@@ -160,6 +160,7 @@ export default () => {
               datas={data}
               indicators={[KLineIndicator.MainMA, currentChildIndicator]}
               mainBackgroundColor={'#0f1826'}
+              pricePrecision={toFixedBit}
             />
           }
         </View>

@@ -63,7 +63,6 @@ export default () => {
       }
       if(res.Type == 'OrderUpdate'){
         handleOrders(res, true);
-        console.log('OrderUpdate')
         return;
       }
       if(res.Type == 'QuoteHistory'){

@@ -7,7 +7,7 @@
  */
 import React from "react";
 import dayjs from 'dayjs';
-import { View, Text, Image, FlatList } from 'react-native';
+import { View, Text, Image, FlatList, Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRoute } from "@react-navigation/native";
 import usePublicState from '@core/hooks/usePublicState';
@@ -82,7 +82,7 @@ export default () => {
 
   return (
     <View style={{flex: 1}}>
-      <View style={{...styles.header, height: GS.mixin.rem(40) + insets.top}} >
+      <View style={{...styles.header, height: GS.mixin.rem(40) + insets.top, marginTop: Platform.OS === 'android' ? GS.mixin.rem(15) : 0}} >
         <View style={styles.tabsVeiw}>
           <MyTouchableOpacity style={[styles.tabsItem, currentTab === 0 && styles.tabsItemActive]} onPress={() => setCurrentTab(0)}>
             <Text style={[styles.tabsItemText, currentTab === 0 && styles.tabsItemTextActive]}>大咖观点</Text>

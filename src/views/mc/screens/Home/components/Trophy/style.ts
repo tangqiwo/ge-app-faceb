@@ -15,6 +15,7 @@ export const LS = StyleSheet.create({
     height: G.mixin.rem(320),
     backgroundColor: '#FFFFFF',
     borderRadius: G.mixin.rem(5),
+    marginBottom: G.mixin.rem(15),
     ...G.mixin.padding(14,14,14,14)
   },
   title: {

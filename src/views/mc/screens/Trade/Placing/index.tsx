@@ -49,6 +49,10 @@ export default () => {
     navigation.navigate('TradeDetail', { type: 'updateOrder', id, volume, symbol, cmd, ex })
   }
 
+  const toFixNumber = (symbol: string) => {
+    return symbol === 'XAUUSDpro' ? 2 : 3;
+  }
+
   return (
     <View style={{flex: 1, paddingBottom: GS.mixin.rem(60)}}>
       { !mt4Info || (data && data.length === 0) && <NoData /> }
@@ -80,9 +84,9 @@ export default () => {
                   </View>
                 </View>
                 <View style={styles.infoBox}>
-                  <Text style={styles.info}>{item.OpenPrice}</Text>
+                  <Text style={styles.info}>{Number(item.OpenPrice)?.toFixed(toFixNumber(item.Symbol))}</Text>
                   <Text style={styles.arrow}>{'\u2192'}</Text>
-                  <Text style={styles.infoRed}>{_.find(instant, { Symbol: item.Symbol })?.Bid}</Text>
+                  <Text style={styles.infoRed}>{_.find(instant, { Symbol: item.Symbol })?.Bid?.toFixed(toFixNumber(item.Symbol))}</Text>
                   <View style={styles.money}>
                     <Text style={{...styles.moneyText, color: item.Profit >= 0 ? '#00A010' : '#FF0000'}}>
                       {Number(item.Profit).toFixed(2)}

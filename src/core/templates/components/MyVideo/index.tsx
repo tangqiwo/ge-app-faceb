@@ -34,6 +34,7 @@ export default ({ source, close, title }: IProps) => {
         repeat={false}
         fullscreen={true}
         fullscreenAutorotate={true}
+        ignoreSilentSwitch="ignore"
         resizeMode="contain"
       />
     </Popup>

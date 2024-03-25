@@ -9,17 +9,21 @@ import _ from 'lodash';
 import React from 'react'
 import { View, Text, Image } from 'react-native'
 import usePublicState from '@core/hooks/usePublicState';
+import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
+import useRouteWebCommon from '@core/hooks/useRouteWebCommon';
 import { LS as styles, GS } from './style';
 
 export default () => {
 
   const { ossDomain, dispatch, ACTIONS } = usePublicState();
   const [ GeBrand, setGeBrand ] = React.useState<any>(null);
+  const { forward } = useRouteWebCommon();
 
   React.useEffect(() => {
     dispatch(ACTIONS.BASE.commonRequest({
       uri: 'authority/index',
       cb: (res: any) => {
+        console.log(res.Data)
         setGeBrand(_.take(res.Data, 4))
       }
     }))
@@ -38,10 +42,10 @@ export default () => {
       <View style={styles.imageViews}>
         {
           GeBrand.map((item: any, index: number) =>
-            <View style={styles.imageItemView}>
+            <MyTouchableOpacity style={styles.imageItemView} onPress={() => forward({type: 'origin', uri: item.Link, title: item.Title})}>
               <Image source={{ uri: `${ossDomain}${item.Image}` }} style={styles.imageItem} resizeMode='contain' />
               <Text style={styles.imageItemText}>{item.Title}</Text>
-            </View>
+            </MyTouchableOpacity>
           )
         }
       </View>

@@ -29,6 +29,7 @@ export default () => {
     bidStatus: 'FLAT'
   })));
   const latestInstant = useLatest(instantQuotes);
+  const intervalTimer = React.useRef<any>(null);
 
   const { messages, socket } = useWebsocket({
     url: Mt4ChartQuoteGateway?.Path,
@@ -43,11 +44,14 @@ export default () => {
   });
 
   React.useEffect(() => {
-    getInstantQuotes();
+    intervalTimer.current = setInterval(() => {
+      getInstantQuotes();
+    }, 15000);
     return () => {
       if (typeof socket?.close === 'function') {
         socket?.close();
       }
+      clearInterval(intervalTimer.current);
     }
   }, [])
 

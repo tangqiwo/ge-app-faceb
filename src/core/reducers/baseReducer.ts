@@ -241,6 +241,7 @@ export default function base(state = initialState.base, action: any) {
         memberInfo: state.memberInfo,
         configs: state.configs,
         appDisplayConfig: state.appDisplayConfig,
+        faceBConfig: state.faceBConfig,
         homeInfos: state.homeInfos,
         router
       };

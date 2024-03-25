@@ -144,6 +144,7 @@ export default () => {
         Stoploss: '',
         Takeprofit: ''
       }))
+      changeLimitPrice('reset')
     }
   }, [payload.Symbol, payload.Operation])
 
@@ -153,7 +154,7 @@ export default () => {
         changeLimitPrice('reset')
       }
     }
-  }, [limitInput, payload.Operation])
+  }, [limitInput])
 
   // 修改挂单
   const modifyPendingOrder = (Ticket: number) => {
@@ -260,7 +261,7 @@ export default () => {
     if(type === 'add') {
       if(STOPLOSS_TAKEPROFIT[payload.Operation]?.Stoploss == '≤') {
         if(_stoploss + step > limitInput.Stoploss[payload.Operation]) {
-          dispatch(ACTIONS.BASE.openToast({ text: '止损不能大于现价' }));
+          dispatch(ACTIONS.BASE.openToast({ text: '止损不能大于限价' }));
           setPayload((state: any) => ({...state, Stoploss: limitInput.Stoploss[payload.Operation].toFixed(toFixedBit)}))
           return;
         }
@@ -273,7 +274,7 @@ export default () => {
     }
     if(STOPLOSS_TAKEPROFIT[payload.Operation]?.Stoploss == '≥') {
       if(_stoploss - step < limitInput.Stoploss[payload.Operation]) {
-        dispatch(ACTIONS.BASE.openToast({ text: '止损不能小于现价' }));
+        dispatch(ACTIONS.BASE.openToast({ text: '止损不能小于限价' }));
         setPayload((state: any) => ({...payload, Stoploss: limitInput.Stoploss[payload.Operation].toFixed(toFixedBit)}))
         return;
       }
@@ -312,7 +313,7 @@ export default () => {
     if(type === 'add') {
       if(STOPLOSS_TAKEPROFIT[payload.Operation]?.Takeprofit == '≤') {
         if(_takeprofit + step > limitInput.Takeprofit[payload.Operation]) {
-          dispatch(ACTIONS.BASE.openToast({ text: '止盈不能大于现价' }));
+          dispatch(ACTIONS.BASE.openToast({ text: '止盈不能大于限价' }));
           setPayload((state: any) => ({...state, Takeprofit: limitInput.Takeprofit[payload.Operation].toFixed(toFixedBit)}))
           return;
         }
@@ -325,7 +326,7 @@ export default () => {
     }
     if(STOPLOSS_TAKEPROFIT[payload.Operation]?.Takeprofit == '≥') {
       if(_takeprofit - step < limitInput.Takeprofit[payload.Operation]) {
-        dispatch(ACTIONS.BASE.openToast({ text: '止盈不能小于现价' }));
+        dispatch(ACTIONS.BASE.openToast({ text: '止盈不能小于限价' }));
         setPayload((state: any) => ({...payload, Takeprofit: limitInput.Takeprofit[payload.Operation].toFixed(toFixedBit)}))
         return;
       }
@@ -336,7 +337,7 @@ export default () => {
     }))
   }
 
-  // 现价停损
+  // 限价停损
   const changeLimitPrice = (type: 'add' | 'sub' | 'reset' | any, step?: number) => {
     if(!step && step !== 0) {
       step = payload.Symbol === 'XAUUSDpro' ? 0.01 : 0.001;
@@ -423,6 +424,10 @@ export default () => {
 
   // 挂单
   const openPendingOrder = () => {
+    if(!payload.Price || payload.Price < 0.01){
+      dispatch(ACTIONS.BASE.openToast({ text: '无效的挂单价格' }));
+      return;
+    }
     const data = {
       ...payload,
       Stoploss: !payload.Stoploss ? '0' : `${payload.Stoploss}`,
@@ -431,7 +436,7 @@ export default () => {
     }
     dispatch(ACTIONS.TRADE.openPendingOrder({ data, cb: (res: any) => {
       dispatch(ACTIONS.BASE.openToast({ text: '创建挂单成功' }));
-      navigation.navigate('TradeDone', { data: {...res.Data, Type: '查看挂单'} });
+      navigation.navigate('TradeDone', { data: {...res.Data, Type: '创建挂单'} });
     }}))
   }
 
@@ -470,8 +475,8 @@ export const TRADE_TYPE_LIST = _.map(TRADE_TYPE, (value, key) => ({ key, value }
 
 // 限额类型
 export const LIMIT_TYPE = {
-  BuyLimit: 'Buy Limit(买入现价)',
-  SellLimit: 'Sell Limit(卖出现价)',
+  BuyLimit: 'Buy Limit(买入限价)',
+  SellLimit: 'Sell Limit(卖出限价)',
   BuyStop: 'Buy Stop(买入停损)',
   SellStop: 'Sell Stop(卖出停损)'
 }
@@ -518,7 +523,7 @@ export const STOPLOSS_TAKEPROFIT: any = {
   }
 }
 
-// 现价停损
+// 限价停损
 export const LIMIT_PRICE: any = {
   BuyLimit: "≤",
   SellLimit: "≥",

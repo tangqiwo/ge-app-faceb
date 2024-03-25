@@ -32,7 +32,7 @@ export default () => {
   }, [])
 
   const backToHistory = () => {
-    if(route.params?.data?.Type === '查看挂单') {
+    if(route.params?.data?.Type === '创建挂单') {
       navigation.navigate('Root', {screen: 'Trade', params: {tab: 1}})
       return;
     }
@@ -86,7 +86,7 @@ export default () => {
             <View style={styles.right}>
               <View style={styles.item}>
                 <Text style={styles.grey}>类型： </Text>
-                <Text>{route.params?.data?.Type === '查看挂单' ? '创建挂单' : route.params?.data?.Type}</Text>
+                <Text>{route.params?.data?.Type === '创建挂单' ? '创建挂单' : route.params?.data?.Type}</Text>
               </View>
               <View style={styles.item}>
                 <Text style={styles.grey}>产品： </Text>
@@ -153,7 +153,7 @@ export default () => {
             <View style={styles.right}>
               <View style={styles.item}>
                 <Text style={styles.grey}>类型： </Text>
-                <Text>{route.params?.data?.Type === '查看挂单' ? '创建挂单' : route.params?.data?.Type}</Text>
+                <Text>{route.params?.data?.Type === '创建挂单' ? '创建挂单' : route.params?.data?.Type}</Text>
               </View>
               <View style={styles.item}>
                 <Text style={styles.grey}>产品： </Text>
@@ -185,7 +185,7 @@ export default () => {
         <MyTouchableOpacity style={styles.buttonBlack} onPress={backToHistory}>
           <Text style={styles.buttonTextYellow}>
             {
-              route.params?.data?.Type === '查看挂单' ? '查看挂单' : '查看持仓'
+              route.params?.data?.Type === '创建挂单' ? '查看挂单' : '查看持仓'
             }
           </Text>
         </MyTouchableOpacity>

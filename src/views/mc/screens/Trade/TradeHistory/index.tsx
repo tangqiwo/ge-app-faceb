@@ -271,7 +271,7 @@ const Balance = ({item}: any) => {
       <View style={styles.spaceBetween}>
         <Text style={styles.grey}>注释:{item.Comment || '--'}</Text>
         <View style={styles.money}>
-           <Text style={{...styles.moneyText, color: item.Profit >= 0 ? '#00A010' : '#FF0000'}}>{item.Profit}</Text>
+           <Text style={{...styles.moneyText, color: item.Profit >= 0 ? '#00A010' : '#FF0000'}}>{Number(item.Profit).toFixed(2)}</Text>
          </View>
       </View>
     </View>

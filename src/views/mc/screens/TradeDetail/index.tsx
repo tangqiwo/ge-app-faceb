@@ -317,7 +317,7 @@ export default () => {
                 </View>
               </MyTouchableOpacity>
               <View style={styles.optionsItem}>
-                <Text>价格 {LIMIT_PRICE[payload.Operation]} {limitInput?.Price[payload.Operation]}</Text>
+                <Text>价格 {LIMIT_PRICE[payload.Operation]} {limitInput?.Price[payload.Operation]?.toFixed(toFixedBit)}</Text>
                 <View style={styles.optionsMenu}>
                   <MyTouchableOpacity style={styles.optionsIcon} onPress={() => changeLimitPrice('sub')}>
                     <Image source={require('./i/ic-reduce.png')} style={styles.optionsIcon} />

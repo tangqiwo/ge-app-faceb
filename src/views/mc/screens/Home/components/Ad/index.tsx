@@ -33,9 +33,11 @@ export default (() => {
           <Text style={{...styles.itemTextPrice, color: INSTANT_QUOTES_STATUS_COLOR[gold?.bidStatus]}}>{gold?.Bid?.toFixed(2) || '0000.00'}</Text>
           <View style={styles.itemTextPriceUnit}>
             <Text style={{...styles.itemTextPriceUnitText, color: INSTANT_QUOTES_STATUS_COLOR[gold?.bidStatus]}}>
+              {gold?.changeValue > 0 && '+'}
               {gold?.changeValue?.toFixed(2) || '0.00'}
             </Text>
             <Text style={{...styles.itemTextPriceUnitText, color: INSTANT_QUOTES_STATUS_COLOR[gold?.bidStatus]}}>
+              {gold?.changeValue > 0 && '+'}
               {gold?.changePercent ? `${gold.changePercent}%` : '0.00%'}
             </Text>
           </View>
@@ -48,9 +50,11 @@ export default (() => {
           <Text style={{...styles.itemTextPrice, color: INSTANT_QUOTES_STATUS_COLOR[silver?.bidStatus]}}>{silver?.Bid?.toFixed(3) || '0000.00'}</Text>
           <View style={styles.itemTextPriceUnit}>
             <Text style={{...styles.itemTextPriceUnitText, color: INSTANT_QUOTES_STATUS_COLOR[silver?.bidStatus]}}>
-            {silver?.changeValue?.toFixed(3) || '0.00'}
+              {silver?.changeValue > 0 && '+'}
+              {silver?.changeValue?.toFixed(3) || '0.00'}
             </Text>
             <Text style={{...styles.itemTextPriceUnitText, color: INSTANT_QUOTES_STATUS_COLOR[silver?.bidStatus]}}>
+              {silver?.changeValue > 0 && '+'}
               {silver?.changePercent ? `${silver.changePercent}%` : '0.00%'}
             </Text>
           </View>

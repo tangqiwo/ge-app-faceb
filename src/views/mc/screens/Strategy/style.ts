@@ -34,7 +34,7 @@ export const LS = StyleSheet.create({
     marginRight: 'auto',
   },
   tipsTitle: {
-    marginLeft: G.mixin.rem(14),
+    marginLeft: G.mixin.rem(15),
     marginTop: G.mixin.rem(14),
     marginRight: G.mixin.rem(14),
     color: '#2A2A2A',
@@ -44,8 +44,8 @@ export const LS = StyleSheet.create({
     color: '#646464',
     marginLeft: G.mixin.rem(14),
     marginRight: G.mixin.rem(14),
-    fontSize: G.mixin.rem(12),
-    marginTop: G.mixin.rem(10),
+    fontSize: G.mixin.rem(14),
+    marginTop: G.mixin.rem(15),
   },
   contentView: {
     marginTop: G.mixin.rem(20),
