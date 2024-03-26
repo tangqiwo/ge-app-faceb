@@ -9,6 +9,11 @@ project(':jpush-react-native').projectDir = new File(rootProject.projectDir, '..
 include ':jcore-react-native'
 project(':jcore-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jcore-react-native/android')
 
+include(":ReactAndroid")
+project(":ReactAndroid").projectDir = file('../node_modules/react-native/ReactAndroid')
+include(":ReactAndroid:hermes-engine")
+project(":ReactAndroid:hermes-engine").projectDir = file('../node_modules/react-native/ReactAndroid/hermes-engine')
+
 if (settings.hasProperty("newArchEnabled") && settings.newArchEnabled == "true") {
     include(":ReactAndroid")
     project(":ReactAndroid").projectDir = file('../node_modules/react-native/ReactAndroid')

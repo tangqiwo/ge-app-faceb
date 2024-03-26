@@ -1,0 +1,47 @@
+diff --git a/node_modules/react-native-reanimated/.DS_Store b/node_modules/react-native-reanimated/.DS_Store
+new file mode 100644
+index 0000000..ca3b3f4
+Binary files /dev/null and b/node_modules/react-native-reanimated/.DS_Store differ
+diff --git a/node_modules/react-native-reanimated/android/.DS_Store b/node_modules/react-native-reanimated/android/.DS_Store
+new file mode 100644
+index 0000000..bb72b30
+Binary files /dev/null and b/node_modules/react-native-reanimated/android/.DS_Store differ
+diff --git a/node_modules/react-native-reanimated/android/src/main/java/com/swmansion/reanimated/NodesManager.java b/node_modules/react-native-reanimated/android/src/main/java/com/swmansion/reanimated/NodesManager.java
+index d535669..9b65703 100644
+--- a/node_modules/react-native-reanimated/android/src/main/java/com/swmansion/reanimated/NodesManager.java
++++ b/node_modules/react-native-reanimated/android/src/main/java/com/swmansion/reanimated/NodesManager.java
+@@ -64,6 +64,9 @@ import java.util.concurrent.Semaphore;
+ import java.util.concurrent.TimeUnit;
+ import java.util.concurrent.atomic.AtomicBoolean;
+ import javax.annotation.Nullable;
++import java.util.concurrent.LinkedBlockingQueue;
++import android.util.Log;
++import android.os.Build;
+ 
+ public class NodesManager implements EventDispatcherListener {
+ 
+@@ -110,7 +113,8 @@ public class NodesManager implements EventDispatcherListener {
+ 
+   private RCTEventEmitter mCustomEventHandler;
+   private List<OnAnimationFrame> mFrameCallbacks = new ArrayList<>();
+-  private ConcurrentLinkedQueue<CopiedEvent> mEventQueue = new ConcurrentLinkedQueue<>();
++  // private ConcurrentLinkedQueue<CopiedEvent> mEventQueue = new ConcurrentLinkedQueue<>();
++  private Queue<CopiedEvent> mEventQueue;
+   private boolean mWantRunUpdates;
+ 
+   public double currentFrameTimeMs;
+@@ -187,6 +191,14 @@ public class NodesManager implements EventDispatcherListener {
+     mUIManager.getEventDispatcher().addListener(this);
+ 
+     mAnimationManager = new AnimationsManager(mContext, mUIImplementation, mUIManager);
++
++    String versionAndroid = Build.VERSION.RELEASE;
++    Log.i("VERSION21", "NodesManager RNANIMATED" + versionAndroid);
++    if (versionAndroid.equals("12")) {
++      mEventQueue = new LinkedBlockingQueue<>();
++    } else {
++      mEventQueue = new ConcurrentLinkedQueue<>();
++    }
+   }
+ 
+   public void onHostPause() {

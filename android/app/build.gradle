@@ -129,6 +129,11 @@ def reactNativeArchitectures() {
 }
 
 android {
+
+    configurations.all {
+        exclude group: 'com.facebook.react', module: 'react-native'
+    }
+
     ndkVersion rootProject.ext.ndkVersion
 
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -138,7 +143,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "2.0.0"
+        versionName "2.3.0"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
         // ndk {
         //     abiFilters (*reactNativeArchitectures())
@@ -276,7 +281,8 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     //noinspection GradleDynamicVersion
-    implementation "com.facebook.react:react-native:+"  // From node_modules
+    // implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation project(':ReactAndroid')
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
