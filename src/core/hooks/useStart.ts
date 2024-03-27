@@ -7,13 +7,14 @@
  */
 import _ from 'lodash'
 import React from 'react';
-import { Dimensions} from 'react-native';
+import { Alert, Dimensions} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import store from '@helpers/storage';
 import DeviceInfo from 'react-native-device-info'
 import usePublicState from './usePublicState';
 import { isActiveAnimation } from '@helpers/unit';
 import G from '@constants/global';
+import { NativeModules } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
@@ -22,10 +23,23 @@ export default () => {
   const { dispatch, ACTIONS } = usePublicState();
   const [ cacheInit, SetCacheInit ] = React.useState(false);
   const insets = useSafeAreaInsets();
-
+  const { MyChannelModule } = NativeModules;
 
   // 框架进入时，初始化缓存，环境变量等
   const init = async () => {
+    // try{
+    //   MyChannelModule.getChannels((nativeVariable: any) => {
+    //     Alert.alert(
+    //       '渠道编码：',
+    //       nativeVariable
+    //     )
+    //   })
+    // }catch(e){
+    //   Alert.alert(
+    //     '错误',
+    //     '渠道获取失败'
+    //   )
+    // }
     G.SET('SCREEN_WIDTH', width > height ? height : width);
     G.SET('SCREEN_HEIGHT', height > width ? height : width);
     G.SET('TOP_HEIGHT', insets.top);
