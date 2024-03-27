@@ -11,10 +11,12 @@ import { View, Image, Text,  } from 'react-native';
 import BackgroundView from "@core/templates/components/BackgroundView";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import usePublicState from '@core/hooks/usePublicState';
+import MyImage from '@core/templates/components/Base/Image';
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 import Clipboard from '@react-native-clipboard/clipboard';
 import useRouteWebCommon, { FORWARD_TYPES } from '@core/hooks/useRouteWebCommon';
 import Agreement from './Agreement';
+import PopupAD from '@template/components/PopupAD';
 import ICon from '@template/components/Icon';
 import { LS as styles, GS } from './style';
 
@@ -22,7 +24,8 @@ import { LS as styles, GS } from './style';
 export default () => {
 
   const insets = useSafeAreaInsets();
-  const { rs, dispatch, ACTIONS, ossDomain, navigation, customerService } = usePublicState();
+  const { rs, dispatch, ACTIONS, isFocused, ossDomain, navigation, customerService } = usePublicState();
+  const [ showAd, setShowAd ] = React.useState(false);
   const [ showArrow, setShowArrow ] = React.useState(true)
   const { forward } = useRouteWebCommon();
   const [ type, setType ] = React.useState(0);
@@ -33,6 +36,16 @@ export default () => {
   React.useEffect(() => {
     dispatch(ACTIONS.BASE.getPopupAdvert());
   }, [])
+
+  React.useEffect(() => {
+    if(!isFocused){
+      return;
+    }
+    if(!rs.base.popupAd.KYC?.Data || !rs.base.popupAd.KYC.Data.length){
+      return;
+    }
+    setShowAd(true);
+  }, [rs.base.popupAd.KYC?.Data])
 
   const handleCopy = (copyText: any) => {
     Clipboard.setString(`${copyText}`);
@@ -157,6 +170,9 @@ export default () => {
       {
         showArrge && <Agreement onClose={() => setShowArrge(false)} />
       }
+      <PopupAD visible={showAd} onClose={() => setShowAd(false)}>
+        <MyImage width={GS.mixin.rem(335)} source={{uri: ossDomain + rs.base.popupAd.KYC?.Data[0]?.BannerImg}} />
+      </PopupAD>
     </View>
   )
 

@@ -92,7 +92,7 @@ export default () => {
 
   const handleForgetPassword = () => {
     setIsShowLogin(false);
-    forward(FORWARD_TYPES['USER_INFOS'])
+    navigation.navigate('Profile');
   }
 
   const handleUnlockTrade = () => {

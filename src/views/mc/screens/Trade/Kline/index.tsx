@@ -129,16 +129,18 @@ export default () => {
               </Text>
             </View>
           </View>
-          <View style={styles.priceYestoday}>
-            <View style={styles.priceYestodayItem}>
-              <Text style={styles.priceYestodayItemText}>开盘 {symbolSummary.Open.toFixed(toFixedBit)}</Text>
-              <Text style={styles.priceYestodayItemText}>最高 {symbolSummary.High.toFixed(toFixedBit)}</Text>
-            </View>
-            <View style={styles.priceYestodayItem}>
-              <Text style={styles.priceYestodayItemText}>昨收 {symbolSummary.Close.toFixed(toFixedBit)}</Text>
-              <Text style={styles.priceYestodayItemText}>最低 {symbolSummary.Low.toFixed(toFixedBit)}</Text>
-            </View>
-          </View>
+          {
+            // <View style={styles.priceYestoday}>
+            //   <View style={styles.priceYestodayItem}>
+            //     <Text style={styles.priceYestodayItemText}>开盘 {symbolSummary.Open.toFixed(toFixedBit)}</Text>
+            //     <Text style={styles.priceYestodayItemText}>最高 {symbolSummary.High.toFixed(toFixedBit)}</Text>
+            //   </View>
+            //   <View style={styles.priceYestodayItem}>
+            //     <Text style={styles.priceYestodayItemText}>昨收 {symbolSummary.Close.toFixed(toFixedBit)}</Text>
+            //     <Text style={styles.priceYestodayItemText}>最低 {symbolSummary.Low.toFixed(toFixedBit)}</Text>
+            //   </View>
+            // </View>
+          }
         </View>
         <View style={styles.timeFrame}>
           {

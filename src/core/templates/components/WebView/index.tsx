@@ -57,7 +57,7 @@ export default React.memo(({source, invoke='', styleInject='', style={}, ...prop
 
   const newSource = {
     ...source,
-    uri: source.uri + (source.uri.indexOf('?') > -1 ? '&' : '?') + 'token=' + token + '&Terminal=AppWebView'
+    uri: source.uri + (source.uri.indexOf('?') > -1 ? '&' : '?') + 'token=' + token + '&Terminal=AppWebView&i18n=false'
   }
 
   return (

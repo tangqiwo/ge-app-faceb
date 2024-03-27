@@ -15,6 +15,7 @@ import Icon from '@icon/index';
 import usePublicState from "@core/hooks/usePublicState";
 import useRouteWebCommon, { FORWARD_TYPES } from '@core/hooks/useRouteWebCommon';
 import Disclaimer from './Disclaimer';
+import {Avatar} from '../Profile'
 import style, { LS as styles, GS } from './style';
 
 export default () => {
@@ -49,7 +50,11 @@ export default () => {
     <View>
       <BackgroundView source={require('./i/bg.png')} style={{...styles.header}} resizeMode="contain" >
         <View style={styles.userInfoView}>
-          <Image source={require('./i/avatar.png')} style={{width: GS.mixin.rem(60), height: GS.mixin.rem(60)}} />
+          <Image
+            source={infos.Username ? Avatar[infos.Avatar || 1] : require('./i/avatar.png')}
+            style={{width: GS.mixin.rem(60), height: GS.mixin.rem(60)}}
+            resizeMode='contain'
+          />
           <View style={styles.textBox}>
             <View style={styles.settingsView}>
               <Text style={styles.unlogin} >{infos.RealName || '未开户'}</Text>

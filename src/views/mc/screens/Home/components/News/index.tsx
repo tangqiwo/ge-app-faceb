@@ -54,6 +54,9 @@ export default ({ style=StyleSheet.create({}) }: NewsItemProps) => {
   }, [])
 
   React.useEffect(() => {
+    if(currentPlay){
+      return
+    }
     if(currentTab === 2){
       getVideos('video');
       return;
@@ -70,7 +73,7 @@ export default ({ style=StyleSheet.create({}) }: NewsItemProps) => {
       getVideos('new');
       return;
     }
-  }, [currentTab])
+  }, [currentTab, currentPlay])
 
   const handleClickMore = () => {
     navigation.navigate('Root', { screen: 'Strategy', params: {type: currentTab + 1} })
@@ -111,7 +114,7 @@ export default ({ style=StyleSheet.create({}) }: NewsItemProps) => {
                 <Text style={styles.updateTimeText}>{dayjs(item.UpdatedAt).format('YYYY-MM-DD')}</Text>
                 <View style={styles.playNumberView}>
                   <Image style={styles.playNumberImage} source={require('./i/icon-play.png')} />
-                  <Text style={styles.updateTimeText}>{item.Views}</Text>
+                  <Text style={styles.updateTimeText}>{item.Views + item.RealViews}</Text>
                 </View>
                 <MyTouchableOpacity style={styles.goButton} onPress={() => setCurrentPlay(item)}>
                   <Text style={GS.style.font10}>去学习</Text>
@@ -127,9 +130,18 @@ export default ({ style=StyleSheet.create({}) }: NewsItemProps) => {
           title={currentPlay.Title}
           source={{uri: `${ossDomain}${currentPlay.Video}`}}
           close={() => setCurrentPlay(null)}
+          id={currentPlay.Id}
+          type={TypeMapping[currentTab]}
         />
       }
     </View>
   )
 
+}
+
+const TypeMapping: any = {
+  [0]: 'ds',
+  [1]: 'new',
+  [2]: 'video',
+  [3]: 'ks'
 }

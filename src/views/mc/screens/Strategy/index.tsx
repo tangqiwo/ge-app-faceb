@@ -22,10 +22,10 @@ export default () => {
 
   const insets = useSafeAreaInsets();
   const route = useRoute<any>();
-  const { ossDomain, dispatch, ACTIONS } = usePublicState();
+  const { ossDomain, dispatch, ACTIONS, isFocused } = usePublicState();
   const [ currentTab, setCurrentTab ] = React.useState(0);
   const webViewHeight = G.GET('SCREEN_HEIGHT') - GS.mixin.rem(175) - insets.top - insets.bottom;
-  const [currentPlay, setCurrentPlay] = React.useState<{Video: string, Title: string}>();
+  const [currentPlay, setCurrentPlay] = React.useState<{Video: string, Title: string, Id: string | number}>();
 
   const [currentVideos, setCurrentVideos] = React.useState<any[]>([]);
 
@@ -62,6 +62,9 @@ export default () => {
   }, [])
 
   React.useEffect(() => {
+    if(currentPlay){
+      return;
+    }
     if(currentTab === 1){
       getVideos('ds');
       return;
@@ -78,7 +81,7 @@ export default () => {
       getVideos('ks');
       return;
     }
-  }, [currentTab])
+  }, [currentTab, currentPlay])
 
   return (
     <View style={{flex: 1}}>
@@ -137,7 +140,7 @@ export default () => {
                     <Text style={styles.updateTimeText}>{dayjs(item.UpdatedAt).format('YYYY-MM-DD')}</Text>
                     <View style={styles.playNumberView}>
                       <Image style={styles.playNumberImage} source={require('./i/icon-play.png')} />
-                      <Text style={styles.updateTimeText}>{item.Views}</Text>
+                      <Text style={styles.updateTimeText}>{item.Views + item.RealViews}</Text>
                     </View>
                     <MyTouchableOpacity style={styles.goButton} onPress={() => setCurrentPlay(item)}>
                       <Text style={GS.style.font10}>去学习</Text>
@@ -155,6 +158,8 @@ export default () => {
           title={currentPlay.Title}
           source={{uri: `${ossDomain}${currentPlay.Video}`}}
           close={() => setCurrentPlay(null)}
+          type={TypeMapping[currentTab]}
+          id={currentPlay.Id}
         />
       }
     </View>
@@ -162,6 +167,12 @@ export default () => {
 
 }
 
+const TypeMapping: any = {
+  [1]: 'ds',
+  [2]: 'new',
+  [3]: 'video',
+  [4]: 'ks'
+}
 
 const Tips: any = {
   [1]: {

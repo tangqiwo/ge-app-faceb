@@ -9,13 +9,40 @@ import React from 'react';
 import Video from 'react-native-video';
 import Orientation from 'react-native-orientation-locker';
 import Popup from '../Popup';
+import usePublicState from '@core/hooks/usePublicState';
+import { HTTP } from '@core/helpers/http';
 
 interface IProps {
   source: any,
   close: Function
-  title: string
+  title: string,
+  id: string | number,
+  type: 'ds' | 'new' | 'video' | 'ks'
 }
-export default ({ source, close, title }: IProps) => {
+export default ({ source, close, title, id, type }: IProps) => {
+
+  const { dispatch, ACTIONS } = usePublicState()
+
+  React.useEffect(() => {
+    let uri = '';
+    if(type === 'ds'){
+      uri = 'GeGoldGuruViews/Update'
+    }
+    if(type === 'new'){
+      uri = 'GeNewUserGuidViews/Update'
+    }
+    if(type === 'video'){
+      uri = 'GeVideoCounselingViews/Update'
+    }
+    if(type === 'ks'){
+      uri = 'GeNewsCounselingViews/Update'
+    }
+    dispatch(ACTIONS.BASE.commonRequest({
+      uri,
+      data: { id },
+      method: HTTP.METHODS.POST
+    }))
+  }, [])
 
   React.useEffect(() => {
     Orientation.unlockAllOrientations();

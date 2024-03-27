@@ -372,7 +372,7 @@ const Title: any = {
   'mt4-pass': '重设MT4密码'
 }
 
-const Avatar: any = {
+export const Avatar: any = {
   [1]: require('./i/avatar/user1.png'),
   [2]: require('./i/avatar/user2.png'),
   [3]: require('./i/avatar/user3.png'),

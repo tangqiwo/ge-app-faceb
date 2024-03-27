@@ -15,7 +15,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import usePublicState from '@core/hooks/usePublicState';
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 import useRegister, { QUESTION_LIST, RISKS, } from "@core/hooks/useRegister";
-import PopupAD from '@template/components/PopupAD';
 import ExitPopup from '@this/components/ExitPopup';
 import Icon from '@icon/index';
 import G from '@constants/global';
@@ -24,26 +23,15 @@ import { LS as styles, GS } from './style';
 
 export default () => {
 
-  const { rs, dispatch, ACTIONS, isFocused, navigation, ossDomain } = usePublicState();
+  const { dispatch, ACTIONS, navigation, ossDomain } = usePublicState();
   const insets = useSafeAreaInsets();
   const exitInfo = useSelector((state: any) => state.base.appDisplayConfig?.RegisterFailedDialog.Data[0]);
-  const [ showAd, setShowAd ] = React.useState(false);
   const [ showExitAd, setShowExitAd ] = React.useState(false);
   const { questionnaire, setQuestionnaire, submitQuestionnaire } = useRegister();
 
   React.useEffect(() => {
     dispatch(ACTIONS.BASE.getPopupAd());
   }, [])
-
-  React.useEffect(() => {
-    if(!isFocused){
-      return;
-    }
-    if(!rs.base.popupAd.KYC?.Data || !rs.base.popupAd.KYC.Data.length){
-      return;
-    }
-    setShowAd(true);
-  }, [rs.base.popupAd.KYC?.Data])
 
    // 设置问题答案
    const setAnswer = (index: number, answer: number) => {
@@ -156,9 +144,6 @@ export default () => {
         </View>
         <Text style={styles.rateText}>{`剩余${8 - (questionnaire.qas.filter(i => i || i===0).length + questionnaire.risk.filter(i => i).length)}题`}</Text>
       </View>
-      <PopupAD visible={showAd} onClose={() => setShowAd(false)}>
-        <MyImage width={GS.mixin.rem(335)} source={{uri: ossDomain + rs.base.popupAd.KYC?.Data[0]?.BannerImg}} />
-      </PopupAD>
       <ExitPopup
         display={showExitAd}
         close={() => setShowExitAd(false)}
