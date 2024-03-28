@@ -15,7 +15,9 @@
     "debug-release-android": "npx react-native run-android --variant=release",
     "publish-base-android": "pushy uploadApk android/app/build/outputs/apk/release/app-arm64-v8a-release.apk",
     "publish-base-ios": "pushy uploadIpa dist/ios.ipa",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "sign": "cd android/app && -genkeypair -v -keystore mc-release-key.keystore -keyalg RSA -keysize 2048 -validity 10000 -alias",
+    "vi-sign": "vi ~/.gradle/gradle.properties"
   },
   "dependencies": {
     "@gorhom/portal": "^1.0.14",
