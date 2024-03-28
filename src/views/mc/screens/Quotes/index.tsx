@@ -66,13 +66,13 @@ export default () => {
                       <View style={{...styles.contentItemViewBack, backgroundColor: INSTANT_QUOTES_STATUS_COLOR[item.bidStatus]}}>
                         <Text style={styles.contentItemViewText3}>{INSTANT_QUOTES_STATUS_ICON[item.bidStatus]} {item.Bid.toFixed(toFixNumber[item.Symbol])}</Text>
                       </View>
-                      <Text style={styles.contentItemViewText2}>最高{_.find(symbols, {Key: item.Symbol}).High.toFixed(toFixNumber[item.Symbol])}</Text>
+                      {/* <Text style={styles.contentItemViewText2}>最高{_.find(symbols, {Key: item.Symbol}).High.toFixed(toFixNumber[item.Symbol])}</Text> */}
                     </View>
                     <View style={[styles.column2, styles.contentItemView]}>
                       <View style={{...styles.contentItemViewBack, backgroundColor: INSTANT_QUOTES_STATUS_COLOR[item.askStatus]}}>
                         <Text style={styles.contentItemViewText3}>{INSTANT_QUOTES_STATUS_ICON[item.askStatus]} {item.Ask.toFixed(toFixNumber[item.Symbol])}</Text>
                       </View>
-                      <Text style={styles.contentItemViewText2}>最低{_.find(symbols, {Key: item.Symbol}).Low.toFixed(toFixNumber[item.Symbol])}</Text>
+                      {/* <Text style={styles.contentItemViewText2}>最低{_.find(symbols, {Key: item.Symbol}).Low.toFixed(toFixNumber[item.Symbol])}</Text> */}
                     </View>
                   </View>
                 </TouchableWithoutFeedback>

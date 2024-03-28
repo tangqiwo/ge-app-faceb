@@ -26,7 +26,7 @@ export default () => {
 
   const {rs, isFocused, navigation, dispatch, ACTIONS, ossDomain} = usePublicState();
   const insets = useSafeAreaInsets();
-  const { LoginPageAd } = useAds();
+  const { RegisterPageAd } = useAds();
   const {
     realNameAuth,
     setRealNameAuth,
@@ -112,9 +112,9 @@ export default () => {
         </MyTouchableOpacity>
       </View>
       {
-        LoginPageAd &&
-        <TouchableWithoutFeedback onPress={LoginPageAd.OnPress}>
-          <Image source={{uri: LoginPageAd.Image}} style={styles.banner} />
+        RegisterPageAd &&
+        <TouchableWithoutFeedback onPress={RegisterPageAd.OnPress}>
+          <Image source={{uri: RegisterPageAd.Image}} style={styles.banner} />
         </TouchableWithoutFeedback>
       }
       <PopupAD visible={showAd} onClose={() => setShowAd(false)}>

@@ -9,6 +9,7 @@ import { getDeviceInfo } from '@/core/utils/device';
 import G from '@constants/global';
 
 function postJsCode(){
+
   const TYPES = {
     LOGOUT: 'LOGOUT',
     NAVIGATE: 'NAVIGATE',
@@ -23,25 +24,33 @@ function postJsCode(){
   const postMessage = (type, params) => {
     window.ReactNativeWebView.postMessage(JSON.stringify({type, params: (params || {})}));
   }
+
   const logout = () => {
     postMessage(TYPES.LOGOUT, {});
   }
-  const alert = (message) => {
-    postMessage(TYPES.ALERT, { content: message });
-  }
+
   const navigate = (name, params) => {
     postMessage(TYPES.NAVIGATE, {name, params});
   }
+
   const openUrl = (url) => {
     postMessage(TYPES.OPEN_WEBSITE, {url});
   }
+
   window._RN_ = {
     postMessage,
     logout,
     navigate,
-    alert,
     openUrl
   };
+
+  // setInterval(() => {
+  //   var currentUrl = window.location.href;
+  //   if (currentUrl.includes('/register')) {
+  //     navigate('Register')
+  //   }
+  // }, 50)
+
 }
 
 export default `(${postJsCode})();window._RN_.uuid = '${G.GET('UUID')}';`

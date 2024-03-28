@@ -66,7 +66,7 @@ export type IBase = {
     }
     [key: string]: any
   };
-  homeInfos: {}
+  homeInfos: any
   channels: string[];
   [key        : string]: any
 };

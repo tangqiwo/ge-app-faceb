@@ -52,7 +52,11 @@ export default () => {
           </MyTouchableOpacity>
           <Text style={styles.titleText}>开户</Text>
         </View>
-        <Text style={styles.welcome}>立即领取本月限定红包！</Text>
+        <Text style={styles.welcome}>
+          {
+            rs.base.homeInfos?.CreateUserTip?.CreateUserTopTip || '立即领取本月限定红包！'
+          }
+        </Text>
       </BackgroundView>
       <View style={styles.formView}>
         <View style={styles.input} >

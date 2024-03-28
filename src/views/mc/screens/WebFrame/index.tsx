@@ -108,7 +108,10 @@ const styleCover = [
   '#m-header{display: none !important}',
   '.customer-mobile{display: none !important}',
   '.p-top-nav{display: none !important}',
-  '.profile-detail-box{display: none}'
+  '.profile-detail-box{display: none}',
+  'header.m-header{display: none}',
+  'div.register > div > div.pt-70{padding-top: 0 !important}',
+  'div.lang-select{display: none}'
 ];
 
 
