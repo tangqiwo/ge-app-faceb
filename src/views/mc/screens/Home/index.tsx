@@ -59,7 +59,7 @@ export default () => {
   }, [BottomDialogNoAuth, BottomDialogAuth, isLogined])
 
   // 推荐人活动 TYPE ID
-  const RECOMMEND_ID = 16;
+  const RECOMMEND_ID = 18;
 
   // 新人领金
   const handleNewUser = () => {

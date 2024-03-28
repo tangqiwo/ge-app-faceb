@@ -163,7 +163,7 @@ export default () => {
     }, cb: (res: any) => {
       dispatch(ACTIONS.BASE.openToast({ text: '实名验证成功' }));
       dispatch(ACTIONS.USER.getUserInfo({cb: () => {
-        navigation.replace('Questionnaire');
+        navigation.replace('DoneForRegister');
       }}));
     }}))
   }

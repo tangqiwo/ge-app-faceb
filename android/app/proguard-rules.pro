@@ -13,4 +13,4 @@
   *;
 }
 
--keep class com.** { *; }
+-keep class com.byron.** { *; }

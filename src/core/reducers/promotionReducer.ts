@@ -15,7 +15,7 @@ export default function user(state = initialState.promotion, action: any) {
     // 获取prmotion中心列表
     case TYPES.PROMOTION.GET_PROMOTION_CENTER_LIST: {
       // 临时只显示以下几种活动类型
-      const types = [8, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16]
+      const types = [8, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 18]
       // 屏蔽以下MainID对应的活动
       const mainIds = ['D002'];
       // 自动参与的活动

@@ -1,3 +1,7 @@
-baidu.com
-youdao.com
-google.com
+sll_xz_a1
+bd_xz_b2
+bd_xz_b1
+bd_xz_c2
+bd_xz_c1
+sm_xz_a1
+sm_xz_a2

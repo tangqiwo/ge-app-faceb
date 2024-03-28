@@ -7,7 +7,7 @@
  */
 import _ from 'lodash'
 import React from 'react';
-import { Alert, Dimensions} from 'react-native';
+import { Alert, Dimensions, Platform} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import store from '@helpers/storage';
 import DeviceInfo from 'react-native-device-info'
@@ -22,24 +22,21 @@ export default () => {
 
   const { dispatch, ACTIONS } = usePublicState();
   const [ cacheInit, SetCacheInit ] = React.useState(false);
+  const [ channelInit, setChannelInit ] = React.useState(false);
   const insets = useSafeAreaInsets();
   const { MyChannelModule } = NativeModules;
 
   // 框架进入时，初始化缓存，环境变量等
   const init = async () => {
-    // try{
-    //   MyChannelModule.getChannels((nativeVariable: any) => {
-    //     Alert.alert(
-    //       '渠道编码：',
-    //       nativeVariable
-    //     )
-    //   })
-    // }catch(e){
-    //   Alert.alert(
-    //     '错误',
-    //     '渠道获取失败'
-    //   )
-    // }
+    try{
+      MyChannelModule.getChannels((nativeVariable: any) => {
+        G.SET('CHANNEL_CODE', nativeVariable || Platform.OS === 'android' ? 'gegoldhk_android' : 'gegoldhk_ios')
+      })
+    }catch(e){
+      G.SET('CHANNEL_CODE', Platform.OS === 'android' ? 'gegoldhk_android' : 'gegoldhk_ios')
+    }finally{
+      setChannelInit(true)
+    }
     G.SET('SCREEN_WIDTH', width > height ? height : width);
     G.SET('SCREEN_HEIGHT', height > width ? height : width);
     G.SET('TOP_HEIGHT', insets.top);
@@ -64,7 +61,7 @@ export default () => {
   }
 
   React.useEffect(() => {
-    if(cacheInit){
+    if(cacheInit && channelInit){
       makeUniqueId();
       dispatch(ACTIONS.BASE.initUI());
       // 网站设置
@@ -85,7 +82,7 @@ export default () => {
         }}));
       }
     }
-  }, [cacheInit]);
+  }, [cacheInit, channelInit]);
 
   const makeUniqueId = () => {
     if(store.get('UNIQUE_ID')){

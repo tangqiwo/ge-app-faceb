@@ -2,7 +2,7 @@
  * @Description: 请求中间件
  * @Author: Galen.GE
  * @Date: 2019-12-19 18:03:47
- * @LastEditTime: 2024-03-21 16:29:14
+ * @LastEditTime: 2024-03-28 15:47:07
  * @LastEditors: Galen.GE
  */
 import _ from 'lodash';
@@ -113,7 +113,7 @@ export class HTTP {
       'X-Lang'          : 'zh-CN',
       'X-Origin'        : '',
       'X-Channel'       : Platform.OS === 'android' ? 'Android' : 'IOS',
-      'X-Channel-Code'  : CONFIGS.CHANNEL_CODE,
+      'X-Channel-Code'  : G.GET('CHANNEL_CODE') || '',
       'X-Sem-Device-Id' : storage.get('UNIQUE_ID') || '',
       'X-Idfa'          : G.GET('UUID'),
       'X-Phone-Model'   : G.GET('PHONE_MODEL'),

@@ -30,6 +30,7 @@ type TKeys =  'API'                         // API
             | 'PHONE_MODEL'                 // 手机型号
             | '__TRANS_OUTPUT__'            // 翻译组件输出
             | 'INSTANT_QUOTES'
+            | 'CHANNEL_CODE'
 
 // 获取全局变量
 const GET = (key: string): any => {

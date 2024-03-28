@@ -16,6 +16,7 @@ import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 import usePopups from '@core/hooks/componentController/usePopups';
 import useLogout from '@core/hooks/useLogout';
 import storage from '@helpers/storage';
+import CONFIG from '@this/configs'
 import { LS as styles, GS } from './style';
 
 export default () => {
@@ -134,7 +135,7 @@ export default () => {
         <MyTouchableOpacity style={styles.menuItem} onPress={startUpdateCheck}>
           <View style={styles.menuItemContent}>
             <Image source={require('./i/icon-1.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(15)}} />
-            <Text style={{...styles.buttonText, color: '#2A2A2A'}}>版本检测（1.1.2）</Text>
+            <Text style={{...styles.buttonText, color: '#2A2A2A'}}>版本检测（{CONFIG.VERSION}）</Text>
           </View>
           <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
         </MyTouchableOpacity>

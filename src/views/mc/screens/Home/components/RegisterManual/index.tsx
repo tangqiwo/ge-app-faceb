@@ -89,7 +89,7 @@ export default () => {
 
   // 去交易
   const goTrade = requestAuth(() => {
-    if(!progressData.stateOfFirstDeposit){
+    if(!progressData?.stateOfFirstDeposit){
       goDeposit();
       return;
     }
@@ -102,13 +102,13 @@ export default () => {
   }
 
   // 是否注册
-  const isRegister = isLogined && progressData.stateOfRegisterGe !== 0;
+  const isRegister = isLogined && progressData?.stateOfRegisterGe !== 0;
   // 是否实名
   const isRealName = isLogined && rs.user.registerProgress.code !== ENUM.user.ERegisterProgress.WAITING_REAL_NAME_AUTHENTICATION;
   // 是否首次注资
-  const isFirstDeposit = isMt4User && progressData.stateOfFirstDeposit !== 0;
+  const isFirstDeposit = isMt4User && progressData?.stateOfFirstDeposit !== 0;
   // 是否交易
-  const isTrade = isMt4User && progressData.stateOfTrade !== 0;
+  const isTrade = isMt4User && progressData?.stateOfTrade !== 0;
 
   if(isRegister && isRealName && isFirstDeposit && isTrade){
     return <></>

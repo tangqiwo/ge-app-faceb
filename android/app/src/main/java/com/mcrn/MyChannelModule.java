@@ -27,7 +27,7 @@ public class MyChannelModule extends ReactContextBaseJavaModule {
     // 创建一个方法来暴露原生变量
     @ReactMethod
     public void getChannels(Callback callback) {
-      String channel = ChannelReaderUtil.getChannel(this.getReactApplicationContext());
-      callback.invoke(channel);
+        String channel = ChannelReaderUtil.getChannel(this.getReactApplicationContext());
+        callback.invoke(channel);
     }
 }
