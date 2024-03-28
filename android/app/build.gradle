@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply plugin: 'com.tencent.vasdolly'
 
 import com.android.build.OutputFile
 
@@ -280,6 +281,8 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
+    implementation 'com.tencent.vasdolly:helper:3.0.6'
+
     //noinspection GradleDynamicVersion
     // implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation project(':ReactAndroid')
@@ -345,4 +348,19 @@ def isNewArchitectureEnabled() {
     // - Invoke gradle with `-newArchEnabled=true`
     // - Set an environment variable `ORG_GRADLE_PROJECT_newArchEnabled=true`
     return project.hasProperty("newArchEnabled") && project.newArchEnabled == "true"
+}
+
+channel{
+    //指定渠道文件
+    channelFile = new File(project.rootDir, "channel.txt")
+     //多渠道包的输出目录，默认为new File(project.buildDir,"channel")
+    outputDir = new File(project.buildDir, "CHANNEL_APK")
+    //多渠道包的命名规则，默认为：${appName}-${versionName}-${versionCode}-${flavorName}-${buildType}-${buildTime}
+    apkNameFormat ='${appName}-${versionName}-${versionCode}-${flavorName}-${buildType}'
+    //快速模式：生成渠道包时不进行校验（速度可以提升10倍以上，默认为false）
+    fastMode = true
+    //buildTime的时间格式，默认格式：yyyyMMdd-HHmmss
+    buildTimeDateFormat = 'yyyyMMdd-HH:mm:ss'
+    //低内存模式（仅针对V2签名，默认为false）：只把签名块、中央目录和EOCD读取到内存，不把最大头的内容块读取到内存，在手机上合成APK时，可以使用该模式
+    lowMemory = false
 }
