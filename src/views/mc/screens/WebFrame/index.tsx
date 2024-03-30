@@ -15,6 +15,7 @@ import CONFIG from '@this/configs';
 import ExitPopup from '@this/components/ExitPopup';
 import MyImage from '@core/templates/components/Base/Image';
 import { LS as styles, GS } from './style';
+import { useSelector } from 'react-redux';
 
 export default () => {
 
@@ -23,8 +24,10 @@ export default () => {
   const {dispatch, ACTIONS, ossDomain, isLogined} = usePublicState();
   const [ showExitAd, setShowExitAd ] = React.useState(false);
   const [extInfo, setExtInfo] = React.useState<any>({});
+  const config = useSelector((state: any) => state.base?.faceBConfig?.OthersConfig);
+
   // 官网
-  const domain = route.params.type === 'origin' ? '' : route.params.type === 'official' ? CONFIG.OFFICE_WEB_DOMAIN : CONFIG.MC_WEB_DOMAIN;
+  const domain = route.params.type === 'origin' ? '' : route.params.type === 'official' ? (config?.official_website_url || CONFIG.OFFICE_WEB_DOMAIN) : (config?.member_center_url || CONFIG.MC_WEB_DOMAIN);
   // 样式注入
   const styelInject = [...styleCover, ...(pageStyleCover[route.params.page] || [])].join('');
 
