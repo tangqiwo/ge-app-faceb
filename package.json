@@ -9,14 +9,14 @@
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "build": "cd cli && node ./index.js",
-    "release-android": "cd android && ./gradlew channelRelease",
+    "release-android": "source ~/.bash_profile && cd android && ./gradlew channelRelease",
     "release-ios": "npx react-native bundle --entry-file index.js --platform ios --dev false --bundle-output dist/main.jsbundle --assets-dest dist/",
     "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=8081'",
     "debug-release-android": "npx react-native run-android --variant=release",
     "publish-base-android": "pushy uploadApk android/app/build/outputs/apk/release/app-arm64-v8a-release.apk",
     "publish-base-ios": "pushy uploadIpa dist/ios.ipa",
     "postinstall": "patch-package",
-    "sign": "cd android/app && -genkeypair -v -keystore mc-release-key.keystore -keyalg RSA -keysize 2048 -validity 10000 -alias",
+    "sign": "cd android/app && ./make-new-sign.sh",
     "vi-sign": "vi ~/.gradle/gradle.properties"
   },
   "dependencies": {
