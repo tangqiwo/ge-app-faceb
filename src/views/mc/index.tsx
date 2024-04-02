@@ -5,21 +5,42 @@
  * @FilePath: /app_face_b/src/views/mc/index.tsx
  * @Description: 应用主入口
  */
-import APP from '@template/index';
+import React from 'react';
+import { View } from 'react-native';
+import store from '@helpers/storage';
+import Privacy from './screens/Home/components/Privacy';
+import { PortalProvider } from '@gorhom/portal';
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import APP from './app';
 
-import * as Sentry from "@sentry/react-native";
 
-export default (() => {
-  if(__DEV__){
-    return APP;
+// 隐私协议
+export default () => {
+
+  const [ isAgreePrivacy, setIsAgreePrivacy ] = React.useState(null);
+
+  React.useEffect(() => {
+    store.init(() => {
+      setIsAgreePrivacy(store.get('IS_AGREE_PRIVACY') || false);
+    })
+  }, [])
+
+  if(isAgreePrivacy === null){
+    return <></>;
   }
 
-  Sentry.init({
-    dsn: "https://36fb5a6a6202856c892dd98bc794ae1d@o4506782664294400.ingest.sentry.io/4506782678908928",
-    // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
-    // We recommend adjusting this value in production.
-    tracesSampleRate: 1.0,
-  });
+  if(isAgreePrivacy === false){
+    return (
+      <SafeAreaProvider>
+        <View style={{flex: 1}}>
+          <PortalProvider>
+            <Privacy setShowPrivacy={() => setIsAgreePrivacy(true)} />
+          </PortalProvider>
+        </View>
+      </SafeAreaProvider>
+    )
+  }
 
-  return Sentry.wrap(APP);
-})()
+  return <APP />
+
+}

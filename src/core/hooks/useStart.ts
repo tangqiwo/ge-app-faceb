@@ -21,7 +21,6 @@ const { width, height } = Dimensions.get('window');
 export default () => {
 
   const { dispatch, ACTIONS } = usePublicState();
-  const [ cacheInit, SetCacheInit ] = React.useState(false);
   const [ channelInit, setChannelInit ] = React.useState(false);
   const insets = useSafeAreaInsets();
   const { MyChannelModule } = NativeModules;
@@ -52,20 +51,16 @@ export default () => {
       G.SET('UUID', uniqueId)
     });
     G.SET('PHONE_MODEL', `${DeviceInfo.getBrand()}-${DeviceInfo.getModel()}`)
-    store.init(async () => {
-      // store.clearAll();
-      if(store.get('USER-PROFILE')){
-        dispatch(ACTIONS.USER.setProfile({ data: store.get('USER-PROFILE') }))
-      }
-      if(!store.get('DEBUG-SETTINGS')){
-        store.set('DEBUG-SETTINGS', {}, 3600 * 24)
-      }
-      SetCacheInit(true)
-    })
+    if(store.get('USER-PROFILE')){
+      dispatch(ACTIONS.USER.setProfile({ data: store.get('USER-PROFILE') }))
+    }
+    if(!store.get('DEBUG-SETTINGS')){
+      store.set('DEBUG-SETTINGS', {}, 3600 * 24)
+    }
   }
 
   React.useEffect(() => {
-    if(cacheInit && channelInit){
+    if(channelInit){
       makeUniqueId();
       dispatch(ACTIONS.BASE.initUI());
       // 网站设置
@@ -86,7 +81,7 @@ export default () => {
         }}));
       }
     }
-  }, [cacheInit, channelInit]);
+  }, [channelInit]);
 
   const makeUniqueId = () => {
     if(store.get('UNIQUE_ID')){

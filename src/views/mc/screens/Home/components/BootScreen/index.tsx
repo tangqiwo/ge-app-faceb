@@ -11,9 +11,7 @@ import { Image } from 'react-native';
 import { useSelector } from 'react-redux';
 import usePublicState from '@core/hooks/usePublicState';
 import Overlay from '@core/templates/components/Overlay';
-import Privacy from '../Privacy';
 import G from '@constants/global'
-import store from '@helpers/storage'
 
 interface IProps {
   close: () => void;
@@ -21,10 +19,9 @@ interface IProps {
 export default ({close}: IProps) => {
 
   const appDisplayConfig = useSelector((state: any) => state.base.appDisplayConfig);
-  const {ossDomain, cacheReady} = usePublicState();
+  const {ossDomain} = usePublicState();
   const ref = React.useRef<any>(null);
   const [ realPath, setRealPath ] = React.useState<string>('');
-  const [ showPrivacy, setShowPrivacy ] = React.useState(false);
   const [ isClose, setIsClose ] = React.useState(false);
 
   React.useEffect(() => {
@@ -37,19 +34,10 @@ export default ({close}: IProps) => {
   }, [])
 
   React.useEffect(() => {
-    if(isClose && !showPrivacy){
+    if(isClose){
       close();
     }
-  }, [isClose, showPrivacy])
-
-  React.useEffect(() => {
-    if(cacheReady){
-      const isAgreePrivacy = store.get('IS_AGREE_PRIVACY');
-      if(!isAgreePrivacy){
-        setShowPrivacy(true)
-      }
-    }
-  }, [cacheReady])
+  }, [isClose])
 
   React.useEffect(() => {
     if(_.isEmpty(appDisplayConfig) || !ossDomain || G.GET('INIT_BOOT_SCREEN')){
@@ -75,10 +63,6 @@ export default ({close}: IProps) => {
           style={{width: '100%', height: '100%'}}
           source={{uri: realPath}}
         />
-      }
-      {
-        showPrivacy &&
-        <Privacy setShowPrivacy={setShowPrivacy} />
       }
     </Overlay>
   )
