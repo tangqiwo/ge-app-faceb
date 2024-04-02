@@ -31,7 +31,7 @@ export const CHANNEL_CODE = Platform.OS === 'android' ? 'gegoldhk.com-android' :
 
 export const IS_ACTIVE_ANIMATION = isActiveAnimation();
 
-export const VERSION = '1.3.0.032801';
+export const VERSION = '1.3.0.040201';
 
 export default {
   ...CONFIGS,

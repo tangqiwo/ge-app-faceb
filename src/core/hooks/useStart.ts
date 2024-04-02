@@ -30,7 +30,11 @@ export default () => {
   const init = async () => {
     try{
       MyChannelModule.getChannels((nativeVariable: any) => {
-        G.SET('CHANNEL_CODE', nativeVariable || Platform.OS === 'android' ? 'gegoldhk_android' : 'gegoldhk_ios')
+        let channelCode = nativeVariable;
+        if(!channelCode){
+          channelCode = Platform.OS === 'android' ? 'gegoldhk_android' : 'gegoldhk_ios'
+        }
+        G.SET('CHANNEL_CODE', channelCode)
       })
     }catch(e){
       G.SET('CHANNEL_CODE', Platform.OS === 'android' ? 'gegoldhk_android' : 'gegoldhk_ios')
