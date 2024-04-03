@@ -11,6 +11,7 @@ import store from '@helpers/storage';
 import Privacy from './screens/Home/components/Privacy';
 import { PortalProvider } from '@gorhom/portal';
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import SplashScreen from 'react-native-splash-screen';
 import APP from './app';
 
 
@@ -20,6 +21,7 @@ export default () => {
   const [ isAgreePrivacy, setIsAgreePrivacy ] = React.useState(null);
 
   React.useEffect(() => {
+    SplashScreen.hide();
     store.init(() => {
       setIsAgreePrivacy(store.get('IS_AGREE_PRIVACY') || false);
     })
