@@ -9,7 +9,6 @@ import _ from 'lodash';
 import React from 'react';
 import { useIsFocused } from '@react-navigation/native';
 import { useBackHandler } from '@react-native-community/hooks'
-import SplashScreen from 'react-native-splash-screen';
 import { Image, ImageBackground, Platform } from 'react-native';
 import usePublicState from '@core/hooks/usePublicState';
 import BootScreen from '@this/screens/Home/components/BootScreen';
@@ -30,10 +29,6 @@ export default () => {
   const { navigation, infos } = usePublicState();
   const [ showBoot, setShowBoot ] = React.useState(true);
   const isFocused = useIsFocused();
-
-  React.useEffect(() => {
-    SplashScreen.hide();
-  }, [])
 
   // 在首页时不允许安卓设备通过返回键关闭应用
   useBackHandler(() => {
