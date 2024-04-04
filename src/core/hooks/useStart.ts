@@ -9,7 +9,7 @@ import _ from 'lodash'
 import React from 'react';
 import { Alert, Dimensions, Platform} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Orientation from 'react-native-orientation-locker';
+// import Orientation from 'react-native-orientation-locker';
 import store from '@helpers/storage';
 import DeviceInfo from 'react-native-device-info'
 import usePublicState from './usePublicState';
@@ -39,7 +39,6 @@ export default () => {
     }catch(e){
       G.SET('CHANNEL_CODE', Platform.OS === 'android' ? 'gegoldhk_android' : 'gegoldhk_ios')
     }finally{
-      Orientation.lockToPortrait();
       setChannelInit(true)
     }
     G.SET('SCREEN_WIDTH', width > height ? height : width);

@@ -7,7 +7,7 @@
  */
 import React from 'react';
 import Video from 'react-native-video';
-import Orientation from 'react-native-orientation-locker';
+// import Orientation from 'react-native-orientation-locker';
 import Popup from '../Popup';
 import usePublicState from '@core/hooks/usePublicState';
 import { HTTP } from '@core/helpers/http';
@@ -44,13 +44,13 @@ export default ({ source, close, title, id, type }: IProps) => {
     }))
   }, [])
 
-  React.useEffect(() => {
-    Orientation.unlockAllOrientations();
-    Orientation.lockToLandscape()
-    return () => {
-      Orientation.lockToPortrait();
-    }
-  }, [])
+  // React.useEffect(() => {
+  //   Orientation.unlockAllOrientations();
+  //   Orientation.lockToLandscape()
+  //   return () => {
+  //     Orientation.lockToPortrait();
+  //   }
+  // }, [])
 
   return (
     <Popup display={true} title={title} top={0} close={close} orientation="landscape" isFull >
