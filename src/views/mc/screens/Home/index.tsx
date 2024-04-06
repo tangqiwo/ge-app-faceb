@@ -78,7 +78,7 @@ export default () => {
   // 快速入金
   const handleDeposit = () => {
     if(isLogined) {
-      forward(FORWARD_TYPES['DEPOSIT'])
+      navigation.navigate('Deposit')
     } else {
       navigation.navigate('Login')
     }

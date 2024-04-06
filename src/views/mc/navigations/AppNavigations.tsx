@@ -29,6 +29,7 @@ import ProfileScreen from '@this/screens/Profile'
 import ScreenHOC from '@views/mc/shadow/ScreenHOC';
 import KLine from '@this/screens/Trade/Kline';
 import WebView from '@this/screens/WebFrame';
+import DepositScreen from '@this/screens/Deposit';
 import CONFIG from '@this/configs';
 
 const MainStack = createNativeStackNavigator();
@@ -68,6 +69,7 @@ export default () => {
       <MainStack.Screen name='TradeDone' component={ScreenHOC(TradeDone)}  />
       <MainStack.Screen name='KLine' component={KLine} />
       <MainStack.Screen name='WEB-COMMON' component={ScreenHOC(WebView)} />
+      <MainStack.Screen name='Deposit' component={ScreenHOC(DepositScreen)} options={{headerShown: true, title: '注资'}} />
     </MainStack.Navigator>
   )
 }
