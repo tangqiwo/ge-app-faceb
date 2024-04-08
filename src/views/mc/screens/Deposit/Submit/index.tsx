@@ -36,10 +36,10 @@ export default () => {
       </View>
       <View style={styles.inputMoney}>
         <TextInput
-        style={styles.input}
-        keyboardType='numeric'
-        placeholder='请输入金额'
-        placeholderTextColor='#94938F'
+          style={styles.input}
+          keyboardType='numeric'
+          placeholder='请输入金额'
+          placeholderTextColor='#94938F'
         />
         <Text style={styles.inputRMB}>¥</Text>
       </View>

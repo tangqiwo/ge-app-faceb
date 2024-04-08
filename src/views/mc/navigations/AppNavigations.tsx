@@ -29,7 +29,7 @@ import ProfileScreen from '@this/screens/Profile'
 import ScreenHOC from '@views/mc/shadow/ScreenHOC';
 import KLine from '@this/screens/Trade/Kline';
 import WebView from '@this/screens/WebFrame';
-import DepositScreen from '@this/screens/Deposit/Submit';
+import DepositScreen from '@this/screens/Deposit/Payment';
 import CONFIG from '@this/configs';
 
 const MainStack = createNativeStackNavigator();
