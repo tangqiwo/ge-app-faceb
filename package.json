@@ -33,7 +33,6 @@
     "@react-navigation/native-stack": "^6.7.0",
     "@rneui/base": "^4.0.0-rc.5",
     "@rneui/themed": "^4.0.0-rc.7",
-    "@sentry/react-native": "^5.19.0",
     "@types/md5": "^2.3.2",
     "@types/react-native-video": "^5.0.18",
     "@yz1311/react-native-wheel-picker": "tangqiwo/react-native-wheel-picker",
