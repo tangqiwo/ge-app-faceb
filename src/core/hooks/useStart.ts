@@ -5,9 +5,9 @@
  * @FilePath: /app_face_b/src/core/hooks/useStart.ts
  * @Description: 初始化
  */
-import _ from 'lodash'
+import _, { set } from 'lodash'
 import React from 'react';
-import { Dimensions, Platform} from 'react-native';
+import { Dimensions, Platform, Alert} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 // import Orientation from 'react-native-orientation-locker';
 import store from '@helpers/storage';
@@ -27,8 +27,8 @@ export default () => {
   const { MyChannelModule } = NativeModules;
 
   // 框架进入时，初始化缓存，环境变量等
-  const init = async () => {
-    getChannelCode();
+  const init = () => {
+    getBaiduVID();
     G.SET('SCREEN_WIDTH', width > height ? height : width);
     G.SET('SCREEN_HEIGHT', height > width ? height : width);
     G.SET('TOP_HEIGHT', insets.top);
@@ -60,7 +60,14 @@ export default () => {
     }catch(e){
       G.SET('CHANNEL_CODE', Platform.OS === 'android' ? 'gegoldhk_android' : 'gegoldhk_ios')
     }finally{
-      getBaiduVID()
+      const confirmGlobal = () => {
+        if(G.GET('CHANNEL_CODE')){
+          setChannelInit(true)
+          return;
+        }
+        setTimeout(confirmGlobal, 50);
+      }
+      confirmGlobal();
     }
   }
 
@@ -73,7 +80,7 @@ export default () => {
     }catch(e){
       G.SET('BAIDU_VID', '')
     }finally{
-      setChannelInit(true)
+      getChannelCode();
     }
   }
 
