@@ -1,13 +1,13 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-08-02 00:56:42
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/hooks/useStart.ts
  * @Description: 初始化
  */
 import _ from 'lodash'
 import React from 'react';
-import { Alert, Dimensions, Platform} from 'react-native';
+import { Dimensions, Platform} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 // import Orientation from 'react-native-orientation-locker';
 import store from '@helpers/storage';
@@ -28,19 +28,7 @@ export default () => {
 
   // 框架进入时，初始化缓存，环境变量等
   const init = async () => {
-    try{
-      MyChannelModule.getChannels((nativeVariable: any) => {
-        let channelCode = nativeVariable;
-        if(!channelCode){
-          channelCode = Platform.OS === 'android' ? 'gegoldhk_android' : 'gegoldhk_ios'
-        }
-        G.SET('CHANNEL_CODE', channelCode)
-      })
-    }catch(e){
-      G.SET('CHANNEL_CODE', Platform.OS === 'android' ? 'gegoldhk_android' : 'gegoldhk_ios')
-    }finally{
-      setChannelInit(true)
-    }
+    getChannelCode();
     G.SET('SCREEN_WIDTH', width > height ? height : width);
     G.SET('SCREEN_HEIGHT', height > width ? height : width);
     G.SET('TOP_HEIGHT', insets.top);
@@ -57,6 +45,35 @@ export default () => {
     }
     if(!store.get('DEBUG-SETTINGS')){
       store.set('DEBUG-SETTINGS', {}, 3600 * 24)
+    }
+  }
+
+  const getChannelCode = () => {
+    try{
+      MyChannelModule.getChannels((nativeVariable: any) => {
+        let channelCode = nativeVariable;
+        if(!channelCode){
+          channelCode = Platform.OS === 'android' ? 'gegoldhk_android' : 'gegoldhk_ios'
+        }
+        G.SET('CHANNEL_CODE', channelCode)
+      })
+    }catch(e){
+      G.SET('CHANNEL_CODE', Platform.OS === 'android' ? 'gegoldhk_android' : 'gegoldhk_ios')
+    }finally{
+      getBaiduVID()
+    }
+  }
+
+  const getBaiduVID = () => {
+    try{
+      MyChannelModule.getBaiduVID((nativeVariable: any) => {
+        let vid = nativeVariable;
+        G.SET('BAIDU_VID', vid)
+      })
+    }catch(e){
+      G.SET('BAIDU_VID', '')
+    }finally{
+      setChannelInit(true)
     }
   }
 
