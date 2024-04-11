@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:31
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/Register/DoneForRegister/index.tsx
  * @Description: 登录
  */
@@ -76,7 +76,9 @@ export default () => {
           <Text style={styles.tipsText}>开户成功</Text>
         </View>
         <Text style={styles.desc}>
-          恭喜，您已符合我司对专业投资者级别要求，可享有200倍杠杆，$26/手点差回赠。
+          {
+            rs.base.homeInfos?.CreateUserTip?.CreateUserSuccessTip
+          }
         </Text>
         <View style={styles.arrge}>
           <MyTouchableOpacity style={styles.arrgeView} onPress={() => setType(0)}>

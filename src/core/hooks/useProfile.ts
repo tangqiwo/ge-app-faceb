@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2024-01-30 19:28:18
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/hooks/useProfile.ts
  * @Description:
  */
@@ -27,7 +27,7 @@ export default () => {
     dispatch(ACTIONS.USER.submitIdCardImage({
       data: {
         IdCardUrlOne,
-        IdCardUrTwo
+        IdCardUrlTwo: IdCardUrTwo
       },
       cb: () => {
         dispatch(ACTIONS.BASE.openToast({text: '上传成功'}));

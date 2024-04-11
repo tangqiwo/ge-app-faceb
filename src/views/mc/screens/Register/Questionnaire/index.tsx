@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:31
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/Register/Questionnaire/index.tsx
  * @Description: 登录
  */
@@ -23,7 +23,7 @@ import { LS as styles, GS } from './style';
 
 export default () => {
 
-  const { dispatch, ACTIONS, navigation, ossDomain } = usePublicState();
+  const { dispatch, ACTIONS, navigation, ossDomain, rs } = usePublicState();
   const insets = useSafeAreaInsets();
   const exitInfo = useSelector((state: any) => state.base.appDisplayConfig?.RegisterFailedDialog.Data[0]);
   const [ showExitAd, setShowExitAd ] = React.useState(false);
@@ -85,7 +85,7 @@ export default () => {
           </MyTouchableOpacity>
           <Text style={styles.titleText}>问卷调查</Text>
         </View>
-        <Text style={styles.welcome}>立即领取本月限定红包！</Text>
+        <Text style={styles.welcome}>{ rs.base.homeInfos?.CreateUserTip?.CreateUserTopTip || '立即领取本月限定红包！'}</Text>
       </BackgroundView>
       <View style={{
         ...styles.formScorllViewBox,
