@@ -1,12 +1,13 @@
 /*
  * @Author: Galen.GE
  * @Date: 2024-04-04 11:04:08
- * @LastEditors: Galen.GE
- * @FilePath: /app_face_b/src/views/mc/screens/Deposit/index.tsx
+ * @LastEditors: ammo@xyzzdev.com
+ * @FilePath: /app_face_b/src/views/mc/screens/Deposit/Submit/index.tsx
  * @Description:
  */
 import React from 'react';
 import { View, Image, Text, TextInput} from 'react-native';
+import { useRoute } from '@react-navigation/native';
 import Button from '@this/components/Button'
 import { LS } from './style';
 
@@ -14,6 +15,13 @@ const styles = LS.main;
 
 
 export default () => {
+
+  const { params } = useRoute<any>();
+
+  console.log(params);
+  React.useEffect(() => {
+    params.submitDeposit();
+  }, [])
 
   return (
     <View style={styles.contenBox}>

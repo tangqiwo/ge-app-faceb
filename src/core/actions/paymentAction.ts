@@ -2,7 +2,7 @@
  * @Author: Shawn.GE
  * @Date: 2023-07-26 13:33:53
  * @LastEditors: ammo@xyzzdev.com
- * @LastEditTime: 2023-11-09 12:33:45
+ * @LastEditTime: 2024-04-11 12:18:54
  * @FilePath: /app_face_b/src/core/actions/paymentAction.ts
  * @Description: 支付相关
  */
@@ -17,6 +17,8 @@ export const getAllChannels = ({ cb }: INTERFACE.IProps): INTERFACE.IAPI => ({
   payload: {
     key: 'payment/get_all_channels',
     method: HTTP.METHODS.GET,
+    loading: true,
+    cache: { expires: 10, forward: true, isUserBind: true },
   },
   cb,
 });

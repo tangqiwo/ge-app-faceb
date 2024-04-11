@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/Deposit/style.ts
  * @Description:
  */
@@ -15,8 +15,8 @@ export const LS = {
     contenBox:{
       paddingLeft:G.mixin.rem(15),
       paddingRight:G.mixin.rem(15),
-      paddingTop:G.mixin.rem(30),
-      paddingBottom:G.mixin.rem(5),
+      paddingTop:G.mixin.rem(15),
+      paddingBottom:G.mixin.rem(20),
       marginHorizontal: 'auto',
       backgroundColor:'#fff'
     },
@@ -32,11 +32,11 @@ export const LS = {
       lineHeight:G.mixin.rem(17),
     },
     itemBox:{
-      paddingTop:G.mixin.rem(15),
+      paddingTop:G.mixin.rem(10),
       paddingBottom:G.mixin.rem(20),
     },
     item:{
-      height:G.mixin.rem(74),
+      height:G.mixin.rem(60),
       paddingLeft:G.mixin.rem(12),
       paddingRight:G.mixin.rem(12),
       paddingTop:G.mixin.rem(5),
@@ -63,13 +63,14 @@ export const LS = {
     },
     middleTitle:{
       color: '#000000',
-      fontSize: G.mixin.rem(16),
+      fontSize: G.mixin.rem(15),
       fontWeight: '500',
       marginBottom:G.mixin.rem(6),
+      maxWidth: G.mixin.rem(200),
     },
     middleTips:{
       color: '#94938F',
-      fontSize: G.mixin.rem(14),
+      fontSize: G.mixin.rem(13),
     },
     recommend:{
       height:G.mixin.rem(16),

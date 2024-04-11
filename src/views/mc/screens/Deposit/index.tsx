@@ -1,24 +1,24 @@
 /*
  * @Author: Galen.GE
  * @Date: 2024-04-04 11:04:08
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/Deposit/index.tsx
  * @Description:
  */
 import React from 'react';
 import { ScrollView, View, Image, Text} from 'react-native';
-import useDeposit from '@core/hooks/useDeposit';
+import useDeposit, {TIPS_TYPE} from '@core/hooks/useDeposit';
+import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
+import Tips from './components/Tips';
 import { LS } from './style';
 
 const styles = LS.main;
 
 export default () => {
 
-  const { getAllChannels, channels } = useDeposit();
+  const useDepositHook = useDeposit();
 
-  React.useEffect(() => {
-    getAllChannels();
-  }, [])
+  const { channels, selectChannel } = useDepositHook;
 
   return (
     <ScrollView style={styles.contenBox}>
@@ -29,43 +29,31 @@ export default () => {
       {/* 支付方式 */}
       <View style={styles.itemBox}>
         {
-          channels.map((item) =>
-            <View style={styles.item} key={item.Id}>
+          channels && channels.map((item: any) =>
+            <MyTouchableOpacity
+              key={item.Id}
+              style={styles.item}
+              activeOpacity={1}
+              onPress={() => selectChannel(item)}
+            >
               <Image source={{uri: item.IconUrl}} style={styles.leftIcon} resizeMode='contain' />
               <View style={styles.middleBox}>
                 <View style={styles.middle}>
-                  <Text style={styles.middleTitle}>{item.Name}</Text>
+                  <Text style={styles.middleTitle} numberOfLines={1}>{item.Name}</Text>
                   {
                     item.Recommend && <Image source={require('./i/recommend.png')} style={styles.recommend} />
                   }
                 </View>
-                <Text style={styles.middleTips}>网银转账，15分钟到账</Text>
+                <Text style={styles.middleTips}>
+                  {
+                    `${item.TradingMin} ≤ 单笔 ≤ ${item.TradingMax}，不限笔数`
+                  }
+                </Text>
               </View>
               <Image source={require('./i/arrow.png')} style={styles.rightIcon} />
-            </View>
+            </MyTouchableOpacity>
           )
         }
-        {/* <View style={styles.item}>
-          <Image source={require('./i/unionpay.png')} style={styles.leftIcon} />
-          <View style={styles.middleBox}>
-            <View style={styles.middle}>
-              <Text style={styles.middleTitle}>银联支付</Text>
-              <Image source={require('./i/recommend.png')} style={styles.recommend} />
-            </View>
-            <Text style={styles.middleTips}>网银转账，15分钟到账</Text>
-          </View>
-          <Image source={require('./i/arrow.png')} style={styles.rightIcon} />
-        </View> */}
-        {/* <View style={styles.item}>
-          <Image source={require('./i/alipay.png')} style={styles.leftIcon} />
-          <View style={styles.middleBox}>
-            <View style={styles.middle}>
-              <Text style={styles.middleTitle}>支付宝支付</Text>
-            </View>
-            <Text style={styles.middleTips}>扫码转账，方便快捷</Text>
-          </View>
-          <Image source={require('./i/arrow.png')} style={styles.rightIcon} />
-        </View> */}
       </View>
       {/* 温馨提示 */}
       <View>
@@ -78,6 +66,7 @@ export default () => {
           3.请在15分钟内完成注资操作，逾时可能导致操作失败，如遇以上情况请联络客服。{'\n'}
         </Text>
       </View>
+      <Tips display={TIPS_TYPE.NOT_BIND_BANK_CARD} close={() => {}} selectChannel={selectChannel} />
     </ScrollView>
   )
 
