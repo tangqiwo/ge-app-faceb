@@ -6,42 +6,66 @@
  * @Description:
  */
 import React from 'react';
-import { View, Image, Text} from 'react-native';
+import { ScrollView, View, Image, Text} from 'react-native';
+import useDeposit from '@core/hooks/useDeposit';
 import { LS } from './style';
 
 const styles = LS.main;
 
 export default () => {
 
+  const { getAllChannels, channels } = useDeposit();
+
+  React.useEffect(() => {
+    getAllChannels();
+  }, [])
+
   return (
-    <View style={styles.contenBox}>
+    <ScrollView style={styles.contenBox}>
       <View>
         <Text style={styles.declare}>请选择支付方式</Text>
         <Text style={styles.declareConetnt}>本平台的交易币种为美元，因此客户如通过网上支付系统进行人民币注资，将依当时的汇率进行支付。</Text>
       </View>
       {/* 支付方式 */}
       <View style={styles.itemBox}>
-        <View style={styles.item}>
+        {
+          channels.map((item) =>
+            <View style={styles.item} key={item.Id}>
+              <Image source={{uri: item.IconUrl}} style={styles.leftIcon} resizeMode='contain' />
+              <View style={styles.middleBox}>
+                <View style={styles.middle}>
+                  <Text style={styles.middleTitle}>{item.Name}</Text>
+                  {
+                    item.Recommend && <Image source={require('./i/recommend.png')} style={styles.recommend} />
+                  }
+                </View>
+                <Text style={styles.middleTips}>网银转账，15分钟到账</Text>
+              </View>
+              <Image source={require('./i/arrow.png')} style={styles.rightIcon} />
+            </View>
+          )
+        }
+        {/* <View style={styles.item}>
           <Image source={require('./i/unionpay.png')} style={styles.leftIcon} />
           <View style={styles.middleBox}>
-            <View style={styles.middle}>   
+            <View style={styles.middle}>
               <Text style={styles.middleTitle}>银联支付</Text>
               <Image source={require('./i/recommend.png')} style={styles.recommend} />
             </View>
             <Text style={styles.middleTips}>网银转账，15分钟到账</Text>
           </View>
           <Image source={require('./i/arrow.png')} style={styles.rightIcon} />
-        </View>
-        <View style={styles.item}>
+        </View> */}
+        {/* <View style={styles.item}>
           <Image source={require('./i/alipay.png')} style={styles.leftIcon} />
           <View style={styles.middleBox}>
-            <View style={styles.middle}>   
+            <View style={styles.middle}>
               <Text style={styles.middleTitle}>支付宝支付</Text>
             </View>
             <Text style={styles.middleTips}>扫码转账，方便快捷</Text>
           </View>
           <Image source={require('./i/arrow.png')} style={styles.rightIcon} />
-        </View>
+        </View> */}
       </View>
       {/* 温馨提示 */}
       <View>
@@ -54,7 +78,7 @@ export default () => {
           3.请在15分钟内完成注资操作，逾时可能导致操作失败，如遇以上情况请联络客服。{'\n'}
         </Text>
       </View>
-    </View>
+    </ScrollView>
   )
 
 }

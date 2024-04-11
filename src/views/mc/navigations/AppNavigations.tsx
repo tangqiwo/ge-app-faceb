@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-23 15:43:48
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/navigations/AppNavigations.tsx
  * @Description: 主导航器（路由）
  */
@@ -29,7 +29,8 @@ import ProfileScreen from '@this/screens/Profile'
 import ScreenHOC from '@views/mc/shadow/ScreenHOC';
 import KLine from '@this/screens/Trade/Kline';
 import WebView from '@this/screens/WebFrame';
-import DepositScreen from '@this/screens/Deposit/Payment';
+import DepositScreen from '@this/screens/Deposit';
+import DepositSubmitScreen from '@this/screens/Deposit/Submit';
 import CONFIG from '@this/configs';
 
 const MainStack = createNativeStackNavigator();
@@ -70,6 +71,7 @@ export default () => {
       <MainStack.Screen name='KLine' component={KLine} />
       <MainStack.Screen name='WEB-COMMON' component={ScreenHOC(WebView)} />
       <MainStack.Screen name='Deposit' component={ScreenHOC(DepositScreen)} options={{headerShown: true, title: '注资'}} />
+      <MainStack.Screen name='Deposit-2' component={ScreenHOC(DepositSubmitScreen)} options={{headerShown: true, title: '注资'}} />
     </MainStack.Navigator>
   )
 }
