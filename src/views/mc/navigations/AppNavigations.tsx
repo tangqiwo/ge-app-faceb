@@ -73,9 +73,10 @@ export default () => {
       <MainStack.Screen name='TradeDone' component={ScreenHOC(TradeDone)}  />
       <MainStack.Screen name='KLine' component={KLine} />
       <MainStack.Screen name='WEB-COMMON' component={ScreenHOC(WebView)} />
-      <MainStack.Screen name='Deposit' component={ScreenHOC(DepositUploadScreen)} options={{headerShown: true, title: '注资'}} />
+      <MainStack.Screen name='Deposit' component={ScreenHOC(DepositScreen)} options={{headerShown: true, title: '注资'}} />
       <MainStack.Screen name='Deposit-2' component={ScreenHOC(DepositSubmitScreen)} options={{headerShown: true, title: '注资'}} />
       <MainStack.Screen name='Deposit-3' component={ScreenHOC(DepositPaymentScreen)} options={{headerShown: true, title: '注资'}} />
+      <MainStack.Screen name='Deposit-4' component={ScreenHOC(DepositUploadScreen)} options={{headerShown: true, title: '注资'}} />
     </MainStack.Navigator>
   )
 }

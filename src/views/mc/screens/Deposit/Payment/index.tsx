@@ -26,16 +26,11 @@ export default () => {
   const { params } = useRoute<any>();
   const navigation = useNavigation<any>();
   const [showContent, setShowContent] = useState(true);
-  const { dispatch, ACTIONS } = usePublicState();
+  const { dispatch, ACTIONS, isFocused } = usePublicState();
   const [ orderData, setOrderData ] = useState<any>(params);
   const { toPayment, showTips, setShowTips, countdownLabel } = usePayment({data: orderData});
 
   React.useEffect(() => {
-    dispatch(ACTIONS.PAYMENT.getPaymentCheck({cb: (res: any) => {
-      if(res.Data?.IsHave){
-        setOrderData({...res.Data?.Order, CutDown: res.Data?.CutDown, NowTime: _.now()});
-      }
-    }}))
     const leastRoute = _.last(routes.filter(route => !route.name.includes('Deposit')));
     navigation.setOptions({
       headerLeft: (props: any) => (
@@ -44,6 +39,16 @@ export default () => {
       headerShown: true
     });
   }, [])
+
+  React.useEffect(() => {
+    if(isFocused){
+      dispatch(ACTIONS.PAYMENT.getPaymentCheck({cb: (res: any) => {
+        if(res.Data?.IsHave){
+          setOrderData({...res.Data?.Order, CutDown: res.Data?.CutDown, NowTime: _.now()});
+        }
+      }}))
+    }
+  }, [isFocused])
 
   const cancelDepositOrder = (orderId: number) => {
     dispatch(ACTIONS.PAYMENT.cancelDepositOrder({data: {Id: orderId}, cb: (res: any) => {

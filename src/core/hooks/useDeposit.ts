@@ -129,7 +129,6 @@ export default () => {
       VirtualAddress: virtualAddress || null,
     }
     dispatch(ACTIONS.PAYMENT.createDepositOrder({data, cb: (res: any) => {
-      console.log(res);
       if (res.Type === 0 && _.includes([202, 204], res.Code)){
         const channel = getRecommendChannel(amount, _channel.Id);
         if(channel){
@@ -148,7 +147,7 @@ export default () => {
       }
       // 成功
       if (res.Code === 0 && res.Type === 0) {
-        navigation.navigate('Deposit-3', {...res.Data});
+        navigation.navigate('Deposit-3', {...res.Data, NowTime: _.now()});
         return;
       }
       // 容错

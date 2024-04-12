@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2023-07-26 15:22:49
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/hooks/useListener.ts
  * @Description: 监听所有的事件，全局监听
  */
@@ -41,7 +41,7 @@ export default () => {
 
   React.useEffect(() => {
     if(loginState.current && AppState.currentState === 'active') {
-      dispatch(ACTIONS.USER.getUserInfo({passError: true, cb: (res: any) => {
+      dispatch(ACTIONS.USER.getUserInfo({passError: true, loading: false, cb: (res: any) => {
         if(res.Code !== 0){
           dispatch(ACTIONS.BASE.openToast({text: res.Desc, types: 'error'}));
         }

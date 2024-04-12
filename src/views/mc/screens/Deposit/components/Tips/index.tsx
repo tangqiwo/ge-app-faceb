@@ -176,7 +176,7 @@ export default ({ display, close, channel, selectChannel, tipText }: IProps) => 
             display === TIPS_TYPE.GO_TO_UPLOAD_VOUCHER &&
             <>
               <Button text="继续支付" style={{...styles.button, ...styles.cancel}} onPress={close} />
-              <Button text="上传凭证" style={{...styles.button}} onPress={() => navigation.navigate('Deposit-3')} />
+              <Button text="上传凭证" style={{...styles.button}} onPress={() => {close(), navigation.navigate('Deposit-4')}} />
             </>
           }
         </View>

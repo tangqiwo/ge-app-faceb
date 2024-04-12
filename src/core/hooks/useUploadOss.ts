@@ -1,3 +1,10 @@
+/*
+ * @Author: ammo@xyzzdev.com
+ * @Date: 2024-01-30 13:55:50
+ * @LastEditors: ammo@xyzzdev.com
+ * @FilePath: /app_face_b/src/core/hooks/useUploadOss.ts
+ * @Description:
+ */
 import _ from 'lodash';
 import usePublicState from "./usePublicState";
 import {Platform} from "react-native";
@@ -6,7 +13,7 @@ export default () => {
 
   const { dispatch, ACTIONS } = usePublicState();
 
-  const uploadOss = async (file: any, type: 'font_id' | 'back_id', callback?: Function) => {
+  const uploadOss = async (file: any, type: 'font_id' | 'back_id' | 'bank_card', callback?: Function) => {
     dispatch(ACTIONS.BASE.openLoading());
     dispatch(
       ACTIONS.BASE.GET_UPLOAD_URL({
@@ -71,5 +78,6 @@ export default () => {
 
 const Prefix = {
   'font_id': 'id_one',
-  'back_id': 'id_two'
+  'back_id': 'id_two',
+  'bank_card': 'bank_card'
 }

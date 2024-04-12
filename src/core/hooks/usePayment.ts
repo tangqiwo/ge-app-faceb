@@ -18,7 +18,7 @@ interface IProps {
 }
 export default ({data}: IProps) => {
 
-  const { dispatch, ACTIONS } = usePublicState();
+  const { dispatch, ACTIONS, isFocused } = usePublicState();
   const [ paymentDomain, setPaymentDomain ] = React.useState<string>('https://pay.getzhj.com/');
   const [ paymentAddress, setPaymentAddress ] = React.useState<string>('');
   const [ countdown, setCountdown ] = React.useState<number>(data.CutDown);
@@ -26,6 +26,12 @@ export default ({data}: IProps) => {
   const [ countdownLabel, setCountdownLabel ] = React.useState<string>('');
   const [ showTips, setShowTips ] = React.useState<TIPS_TYPE>(null);
   const timer = React.useRef<any>();
+
+  React.useEffect(() => {
+    if(!isFocused) {
+      clearInterval(timer.current);
+    }
+  }, [isFocused])
 
   React.useEffect(() => {
     if(data.ShowTips){
