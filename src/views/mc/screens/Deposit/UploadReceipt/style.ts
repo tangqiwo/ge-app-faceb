@@ -1,8 +1,8 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
- * @LastEditors: Galen.GE
- * @FilePath: /app_face_b/src/views/mc/screens/Deposit/style.ts
+ * @LastEditors: ammo@xyzzdev.com
+ * @FilePath: /app_face_b/src/views/mc/screens/Deposit/Payment/style.ts
  * @Description:
  */
 
@@ -13,92 +13,120 @@ import { StyleSheet } from 'react-native';
 export const LS = {
   main: StyleSheet.create({
     contenBox:{
+      backgroundColor:'#fff',
+      flex: 1
+    },
+    box:{
       paddingLeft:G.mixin.rem(15),
       paddingRight:G.mixin.rem(15),
-      paddingBottom:G.mixin.rem(30),
-      marginBottom:G.mixin.rem(30),
+      paddingTop:G.mixin.rem(15),
+      paddingBottom:G.mixin.rem(15),
       marginHorizontal: 'auto',
-      backgroundColor:'#fff',
-    },
-    mainTitle:{
-      color: '#2A2A2A',
-      fontSize: G.mixin.rem(20),
-      fontWeight: 'bold',
-      marginTop:G.mixin.rem(25),
-      marginBottom:G.mixin.rem(10),
-    },
-    title:{
-      color: '#2A2A2A',
-      fontSize: G.mixin.rem(18),
-      fontWeight: 'bold',
-      marginTop:G.mixin.rem(25),
-      marginBottom:G.mixin.rem(10),
-    },
-    redTips:{
-      color: '#E3262A',
-      fontSize: G.mixin.rem(12),
-      lineHeight:G.mixin.rem(17),
+      flex: 1
     },
     raw:{
       flexDirection: 'row',
+      marginBottom:G.mixin.rem(7),
+    },
+    leftIcon:{
+      height:G.mixin.rem(30),
+      width:G.mixin.rem(30),
+      marginRight:G.mixin.rem(5),
+    },
+    title:{
+      color: '#000000',
+      fontSize: G.mixin.rem(22),
+      fontWeight: 'bold',
+    },
+    tips:{
+      color: '#E3262A',
+      fontSize: G.mixin.rem(14),
+    },
+    upload:{
+      backgroundColor:'#FFFAEB',
+      paddingLeft:G.mixin.rem(15),
+      paddingRight:G.mixin.rem(15),
+      paddingTop:G.mixin.rem(15),
+      paddingBottom:G.mixin.rem(15),
+    },
+    uploadbg:{
+      backgroundColor:'#fff',
+      borderRadius:G.mixin.rem(10),
+      width:'100%',
+      height:G.mixin.rem(160),
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    uploadtips:{
+      color: '#646464',
+      fontSize: G.mixin.rem(14),
+      marginTop: G.mixin.rem(15),
+      textAlign:'center',
+    },
+    subheading:{
+      color: '#000000',
+      fontSize: G.mixin.rem(16),
+      fontWeight: '500',
+      marginBottom:G.mixin.rem(15),
     },
     itemBox:{
-      borderRadius:G.mixin.rem(4),
+      borderRadius:G.mixin.rem(10),
       paddingLeft:G.mixin.rem(10),
       paddingRight:G.mixin.rem(10),
-      paddingBottom:G.mixin.rem(10),
       paddingTop:G.mixin.rem(10),
       marginBottom:G.mixin.rem(10),
-      backgroundColor:'#FAFAFA',
       width:'100%',
       height:'auto',
+      borderColor:'#EBEBEB',
+      borderWidth:G.mixin.rem(1),
+    },
+    item:{
+      height:G.mixin.rem(20),
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom:G.mixin.rem(15),
+    },
+    left:{
+      color: '#94938F',
+      fontSize: G.mixin.rem(14),
+      lineHeight:G.mixin.rem(20),
+    },
+    right:{
+      color: '#000000',
+      fontSize: G.mixin.rem(14),
+      lineHeight:G.mixin.rem(20),
+    },
+    red:{
+      color: '#E3262A',
+      fontSize: G.mixin.rem(16),
+      lineHeight:G.mixin.rem(20),
+      marginRight:G.mixin.rem(6),
+    },
+    between:{
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
     },
-    item:{
-      width:'80%',
-    },
-    copyIcon:{
-      width:G.mixin.rem(18),
-      height:G.mixin.rem(18),
-    },
-    itemTitle:{
-      color: '#94938F',
-      fontSize: G.mixin.rem(12),
-      lineHeight:G.mixin.rem(20),
-    },
-    itemContent:{
-      color: '#000000',
-      fontSize: G.mixin.rem(14),
-      lineHeight:G.mixin.rem(22),
-    },
-    itemTips:{
-      color: '#E3262A',
-      fontSize: G.mixin.rem(12),
-      lineHeight:G.mixin.rem(20),
+    icon:{
+      height:G.mixin.rem(30),
+      width:G.mixin.rem(30),
     },
     button:{
-      marginTop:G.mixin.rem(20),
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginTop:G.mixin.rem(25),
+      marginBottom:G.mixin.rem(50),
     },
-    buttonTips:{
-      color: '#E3262A',
-      fontSize: G.mixin.rem(12),
-      lineHeight:G.mixin.rem(22),
-      marginTop:G.mixin.rem(15),
-      textAlign:'center',
+    cancel:{
+      backgroundColor:'#F5F5F5',
+      width:'34%',
     },
-    infoTitle:{
-      color: '#2A2A2A',
-      fontSize: G.mixin.rem(16),
-      fontWeight: 'bold',
-      marginTop:G.mixin.rem(20),
-    },
-    info:{
-      color: '#646464',
-      fontSize: G.mixin.rem(14),
-      lineHeight:G.mixin.rem(22),
-    },
+    next:{
+      width:'63%',
+    }
   }),
 }
 
