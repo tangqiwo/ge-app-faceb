@@ -32,6 +32,7 @@ import WebView from '@this/screens/WebFrame';
 import DepositScreen from '@this/screens/Deposit';
 import DepositSubmitScreen from '@this/screens/Deposit/Submit';
 import DepositPaymentScreen from '@this/screens/Deposit/Payment';
+import DepositHKBankScreen from '@this/screens/Deposit/HKBank';
 import CONFIG from '@this/configs';
 
 const MainStack = createNativeStackNavigator();
