@@ -23,8 +23,6 @@
 		815CE8DF2B972BE5009C4FA1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815CE8DE2B972BE5009C4FA1 /* UIKit.framework */; };
 		815CE8E12B972BED009C4FA1 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815CE8E02B972BED009C4FA1 /* UserNotifications.framework */; };
 		815CE8E32B972BF5009C4FA1 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 815CE8E22B972BF5009C4FA1 /* libresolv.tbd */; };
-		819763312BB57AB7004AA5B0 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 8197632F2BB57AB6004AA5B0 /* assets */; };
-		819763322BB57AB7004AA5B0 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 819763302BB57AB7004AA5B0 /* main.jsbundle */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -64,8 +62,6 @@
 		815CE8DE2B972BE5009C4FA1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		815CE8E02B972BED009C4FA1 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		815CE8E22B972BF5009C4FA1 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
-		8197632F2BB57AB6004AA5B0 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../dist/assets; sourceTree = "<group>"; };
-		819763302BB57AB7004AA5B0 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = ../dist/main.jsbundle; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = MC_RN/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-MC_RN-MC_RNTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MC_RN-MC_RNTests.release.xcconfig"; path = "Target Support Files/Pods-MC_RN-MC_RNTests/Pods-MC_RN-MC_RNTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -162,8 +158,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				8197632F2BB57AB6004AA5B0 /* assets */,
-				819763302BB57AB7004AA5B0 /* main.jsbundle */,
 				13B07FAE1A68108700A75B9A /* MC_RN */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* MC_RNTests */,
@@ -298,10 +292,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				819763312BB57AB7004AA5B0 /* assets in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				819763322BB57AB7004AA5B0 /* main.jsbundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
