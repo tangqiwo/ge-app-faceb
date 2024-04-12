@@ -2,7 +2,7 @@
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
  * @LastEditors: ammo@xyzzdev.com
- * @FilePath: /app_face_b/src/views/mc/screens/Deposit/Payment/style.ts
+ * @FilePath: /app_face_b/src/views/mc/screens/Deposit/Succeed/style.ts
  * @Description:
  */
 
@@ -16,13 +16,14 @@ export const LS = {
       backgroundColor:'#fff',
       paddingLeft:G.mixin.rem(15),
       paddingRight:G.mixin.rem(15),
-      paddingTop:G.mixin.rem(15),
+      paddingTop:G.mixin.rem(100),
       paddingBottom:G.mixin.rem(15),
       marginHorizontal: 'auto',
       flex: 1
     },
     raw:{
       flexDirection: 'row',
+      justifyContent:'center',
     },
     leftIcon:{
       height:G.mixin.rem(30),
@@ -45,26 +46,27 @@ export const LS = {
       lineHeight:G.mixin.rem(20),
       textAlign:'center',
       marginTop:G.mixin.rem(25),
-      marginBottom:G.mixin.rem(100),
+      marginBottom:G.mixin.rem(50),
     },
     service:{
       flexDirection: 'row',
       justifyContent:'center',
-      textAlign:'center'
+      textAlign:'center',
+      marginTop:G.mixin.rem(30),
+      marginBottom:G.mixin.rem(30),
     },
     serviceText:{
       color: '#2A2A2A',
       fontSize: G.mixin.rem(14),
-      marginTop:G.mixin.rem(30),
-      marginBottom:G.mixin.rem(30),
+    },
+    logoBox:{
+      flexDirection: 'row',
+      justifyContent:'center',
+      textAlign:'center',
     },
     logo:{
-      height:G.mixin.rem(80),
-      width:G.mixin.rem(250),
-      justifyContent:'center',
-      marginHorizontal:'auto',
-      marginTop:G.mixin.rem(30),
-      marginBottom:G.mixin.rem(30),
+      height:G.mixin.rem(40),
+      width:G.mixin.rem(125),
     },
   }),
 }

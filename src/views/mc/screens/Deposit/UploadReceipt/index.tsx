@@ -69,7 +69,7 @@ export default () => {
       TransactionNo: "12341234",
     }
     dispatch(ACTIONS.PAYMENT.updateDeposit({data, cb: (res: any) => {
-      console.log(res);
+      navigation.replace('Deposit-5');
     }}))
   }
 
