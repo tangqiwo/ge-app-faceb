@@ -5,11 +5,16 @@
  * @FilePath: /app_face_b/src/views/mc/screens/Deposit/index.tsx
  * @Description:
  */
+import _ from 'lodash'
 import React from 'react';
 import { ScrollView, View, Image, Text} from 'react-native';
-import useDeposit, {TIPS_TYPE} from '@core/hooks/useDeposit';
+import useDeposit from '@core/hooks/useDeposit';
+import { useNavigationState } from '@react-navigation/native';
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
+import usePublicState from '@core/hooks/usePublicState';
+import { HeaderBackButton } from '@react-navigation/elements';
 import Tips from './components/Tips';
+import { ChannelIcon } from './components/ChannelIcon';
 import { LS } from './style';
 
 const styles = LS.main;
@@ -17,8 +22,24 @@ const styles = LS.main;
 export default () => {
 
   const useDepositHook = useDeposit();
+  const { dispatch, ACTIONS, navigation} = usePublicState();
+  const { channels, selectChannel, showTips, setShowTips, recommendChannel, tipText } = useDepositHook;
+  const routes = useNavigationState(state => state.routes);
 
-  const { channels, selectChannel } = useDepositHook;
+  React.useEffect(() => {
+    dispatch(ACTIONS.PAYMENT.getPaymentCheck({cb: (res: any) => {
+      if(res.Data?.IsHave){
+        navigation.navigate('Deposit-3', {...res.Data?.Order, CutDown: res.Data?.CutDown, NowTime: _.now(), ShowTips: true});
+      }
+    }}))
+    const leastRoute = _.last(routes.filter(route => !route.name.includes('Deposit')));
+    navigation.setOptions({
+      headerLeft: (props: any) => (
+        <HeaderBackButton {...props} onPress={() => navigation.navigate(leastRoute.name)} />
+      ),
+      headerShown: true
+    });
+  }, [])
 
   return (
     <ScrollView style={styles.contenBox}>
@@ -36,7 +57,7 @@ export default () => {
               activeOpacity={1}
               onPress={() => selectChannel(item)}
             >
-              <Image source={{uri: item.IconUrl}} style={styles.leftIcon} resizeMode='contain' />
+              <Image source={ChannelIcon[item.PaymentType]} style={styles.leftIcon} resizeMode='contain' />
               <View style={styles.middleBox}>
                 <View style={styles.middle}>
                   <Text style={styles.middleTitle} numberOfLines={1}>{item.Name}</Text>
@@ -66,7 +87,13 @@ export default () => {
           3.请在15分钟内完成注资操作，逾时可能导致操作失败，如遇以上情况请联络客服。{'\n'}
         </Text>
       </View>
-      <Tips display={TIPS_TYPE.NOT_BIND_BANK_CARD} close={() => {}} selectChannel={selectChannel} />
+      <Tips
+        display={showTips}
+        close={() => setShowTips(null)}
+        selectChannel={selectChannel}
+        channel={recommendChannel}
+        tipText={tipText}
+      />
     </ScrollView>
   )
 

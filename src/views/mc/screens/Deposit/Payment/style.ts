@@ -1,8 +1,8 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
- * @LastEditors: Galen.GE
- * @FilePath: /app_face_b/src/views/mc/screens/Deposit/style.ts
+ * @LastEditors: ammo@xyzzdev.com
+ * @FilePath: /app_face_b/src/views/mc/screens/Deposit/Payment/style.ts
  * @Description:
  */
 
@@ -19,6 +19,7 @@ export const LS = {
       paddingBottom:G.mixin.rem(30),
       marginHorizontal: 'auto',
       backgroundColor:'#fff',
+      flex: 1
     },
     raw:{
       flexDirection: 'row',
@@ -49,7 +50,6 @@ export const LS = {
       color: '#000000',
       fontSize: G.mixin.rem(16),
       fontWeight: '500',
-      marginBottom:G.mixin.rem(10)
     },
     itemBox:{
       borderRadius:G.mixin.rem(10),
@@ -58,7 +58,7 @@ export const LS = {
       paddingBottom:G.mixin.rem(10),
       paddingTop:G.mixin.rem(10),
       marginTop:G.mixin.rem(5),
-      marginBottom:G.mixin.rem(25),
+      marginBottom:G.mixin.rem(10),
       backgroundColor:'#FAFAFA',
       width:'100%',
       height:'auto',
@@ -90,9 +90,15 @@ export const LS = {
       justifyContent: 'space-between',
       alignItems: 'center',
     },
+    channelName:{
+      height:G.mixin.rem(50),
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
     rightIcon:{
-      height:G.mixin.rem(20),
-      width:G.mixin.rem(248/3)
+      height:G.mixin.rem(30),
+      width:G.mixin.rem(169)
     },
     content:{
       color: '#646464',

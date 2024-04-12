@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/My/style.ts
  * @Description:
  */
@@ -63,7 +63,6 @@ export const LS = StyleSheet.create({
     alignItems: 'center',
   },
   infosView: {
-    height: G.mixin.rem(170),
     marginTop: G.mixin.rem(-60),
     backgroundColor: '#FFFFFF',
     marginLeft: G.mixin.rem(14),

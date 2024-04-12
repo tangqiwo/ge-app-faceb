@@ -31,6 +31,7 @@ import KLine from '@this/screens/Trade/Kline';
 import WebView from '@this/screens/WebFrame';
 import DepositScreen from '@this/screens/Deposit';
 import DepositSubmitScreen from '@this/screens/Deposit/Submit';
+import DepositPaymentScreen from '@this/screens/Deposit/Payment';
 import CONFIG from '@this/configs';
 
 const MainStack = createNativeStackNavigator();
@@ -72,6 +73,7 @@ export default () => {
       <MainStack.Screen name='WEB-COMMON' component={ScreenHOC(WebView)} />
       <MainStack.Screen name='Deposit' component={ScreenHOC(DepositScreen)} options={{headerShown: true, title: '注资'}} />
       <MainStack.Screen name='Deposit-2' component={ScreenHOC(DepositSubmitScreen)} options={{headerShown: true, title: '注资'}} />
+      <MainStack.Screen name='Deposit-3' component={ScreenHOC(DepositPaymentScreen)} options={{headerShown: true, title: '注资'}} />
     </MainStack.Navigator>
   )
 }

@@ -1,8 +1,8 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
- * @LastEditors: Galen.GE
- * @FilePath: /app_face_b/src/views/mc/screens/Deposit/style.ts
+ * @LastEditors: ammo@xyzzdev.com
+ * @FilePath: /app_face_b/src/views/mc/screens/Deposit/Submit/style.ts
  * @Description:
  */
 
@@ -12,19 +12,37 @@ import { StyleSheet } from 'react-native';
 // 本组件样式写到这里
 export const LS = {
   main: StyleSheet.create({
+    ad: {
+      flexDirection: 'row',
+      height: G.mixin.rem(52),
+      alignItems: 'center',
+      backgroundColor: '#FEF6F6',
+      paddingLeft: G.mixin.rem(15),
+      paddingRight: G.mixin.rem(15),
+    },
+    adImage: {
+      width: G.mixin.rem(120),
+      height: G.mixin.rem(40),
+    },
+    adText: {
+      fontSize: G.mixin.rem(12),
+      marginLeft: G.mixin.rem(10),
+      color: '#2A2A2A ',
+      fontWeight: 'bold',
+    },
     contenBox:{
       paddingLeft:G.mixin.rem(15),
       paddingRight:G.mixin.rem(15),
-      paddingTop:G.mixin.rem(30),
       paddingBottom:G.mixin.rem(30),
       marginHorizontal: 'auto',
       backgroundColor:'#fff'
     },
     declare:{
+      marginTop:G.mixin.rem(15),
       color: '#2A2A2A',
       fontSize: G.mixin.rem(18),
       fontWeight: 'bold',
-      marginBottom:G.mixin.rem(10),
+      marginBottom:G.mixin.rem(15),
     },
     item:{
       width:'100%',
@@ -34,7 +52,6 @@ export const LS = {
       paddingTop:G.mixin.rem(5),
       paddingBottom:G.mixin.rem(5),
       marginTop:G.mixin.rem(6),
-      marginBottom:G.mixin.rem(25),
       borderRadius:G.mixin.rem(10),
       backgroundColor:'#F3FEFF',
       flexDirection: 'row',
@@ -70,6 +87,9 @@ export const LS = {
       marginRight:G.mixin.rem(6),
       backgroundColor:'#F5F5F5',
       height:G.mixin.rem(20),
+    },
+    moneyItemActive: {
+      backgroundColor: '#FFC600',
     },
     moneyText:{
       color: '#2A2A2A',
@@ -117,6 +137,19 @@ export const LS = {
     tipsRed:{
       color: '#E3262A',
     },
+    descText: {
+      color: '#646464',
+    },
+    checkIcon: {
+      width: G.mixin.rem(20),
+      height: G.mixin.rem(20),
+      marginRight: G.mixin.rem(5),
+    },
+    descView: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginTop: G.mixin.rem(10),
+    }
   }),
 }
 

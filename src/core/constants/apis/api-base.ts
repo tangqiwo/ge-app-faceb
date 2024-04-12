@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2022-07-25 10:58:18
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/constants/apis/api-base.ts
  * @Description: 基本接口
  */
@@ -54,5 +54,7 @@ export default {
 
   // 获取face B
   ['base/get-face-b-config']: 'portal/get_config_for_app_b',
+
+  ['base/get-transaction-page-config']: 'MemberCenter/GetConfig'
 
 };
