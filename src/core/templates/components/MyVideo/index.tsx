@@ -7,10 +7,13 @@
  */
 import React from 'react';
 import Video from 'react-native-video';
-import Orientation from 'react-native-orientation-locker';
-import Popup from '../Popup';
+// import Orientation from 'react-native-orientation-locker';
+import Overlay from '../Overlay';
 import usePublicState from '@core/hooks/usePublicState';
+import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
+import { View, Image, ActivityIndicator } from 'react-native';
 import { HTTP } from '@core/helpers/http';
+import G from '@constants/global';
 
 interface IProps {
   source: any,
@@ -21,7 +24,8 @@ interface IProps {
 }
 export default ({ source, close, title, id, type }: IProps) => {
 
-  const { dispatch, ACTIONS } = usePublicState()
+  const { dispatch, ACTIONS } = usePublicState();
+  const [rate, setRate] = React.useState(null);
 
   React.useEffect(() => {
     let uri = '';
@@ -44,27 +48,41 @@ export default ({ source, close, title, id, type }: IProps) => {
     }))
   }, [])
 
-  React.useEffect(() => {
-    Orientation.unlockAllOrientations();
-    Orientation.lockToLandscape()
-    return () => {
-      Orientation.lockToPortrait();
-    }
-  }, [])
+  // React.useEffect(() => {
+  //   Orientation.unlockAllOrientations();
+  //   Orientation.lockToLandscape()
+  //   return () => {
+  //     Orientation.lockToPortrait();
+  //   }
+  // }, [])
+  const handleLoad = (data: any) => {
+    setRate(data.naturalSize.height / data.naturalSize.width)
+  };
 
   return (
-    <Popup display={true} title={title} top={0} close={close} orientation="landscape" isFull >
-      <Video
-        source={source}
-        style={{width: '100%', height: '100%'}}
-        controls={true}
-        repeat={false}
-        fullscreen={true}
-        fullscreenAutorotate={true}
-        ignoreSilentSwitch="ignore"
-        resizeMode="contain"
-      />
-    </Popup>
+    <Overlay display={true} style={{backgroundColor: 'rgba(0,0,0, 0.92)'}} >
+      <View style={{width: '100%', height: Number(`${(rate || 100/192) * G.GET('SCREEN_WIDTH')}`), justifyContent: 'center'}}>
+        <Video
+          source={source}
+          style={{width: '100%', height: rate ? '100%' : 0}}
+          controls={true}
+          repeat={false}
+          fullscreen={true}
+          fullscreenAutorotate={true}
+          ignoreSilentSwitch="ignore"
+          resizeMode="contain"
+          onLoad={handleLoad}
+          fullscreenOrientation='landscape'
+        />
+        {
+          !rate &&
+          <ActivityIndicator />
+        }
+      </View>
+      <MyTouchableOpacity onPress={() => close()}>
+        <Image source={require('./i/close.png')} style={{width: 35, height: 35, marginTop: 20, marginLeft: 'auto', marginRight: 'auto'}} />
+      </MyTouchableOpacity>
+    </Overlay>
   )
 
 }

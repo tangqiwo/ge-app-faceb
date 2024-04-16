@@ -5,9 +5,9 @@
  * @format
  */
 
-const {
-  createSentryMetroSerializer
-} = require("@sentry/react-native/dist/js/tools/sentryMetroSerializer");
+// const {
+//   createSentryMetroSerializer
+// } = require("@sentry/react-native/dist/js/tools/sentryMetroSerializer");
 
 module.exports = {
   transformer: {
@@ -19,8 +19,8 @@ module.exports = {
     }),
   },
 
-  serializer: {
-    customSerializer: createSentryMetroSerializer()
-  }
+  // serializer: {
+  //   customSerializer: createSentryMetroSerializer()
+  // }
 };
 

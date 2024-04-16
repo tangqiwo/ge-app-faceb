@@ -13,8 +13,8 @@ import com.mcrn.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import cn.reactnative.modules.update.UpdateContext;
-import org.wonday.orientation.OrientationPackage;
-import org.wonday.orientation.OrientationActivityLifecycle;
+// import org.wonday.orientation.OrientationPackage;
+// import org.wonday.orientation.OrientationActivityLifecycle;
 import cn.jiguang.plugins.push.JPushModule;
 
 public class MainApplication extends Application implements ReactApplication {
@@ -64,7 +64,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-    registerActivityLifecycleCallbacks(OrientationActivityLifecycle.getInstance());
+    // registerActivityLifecycleCallbacks(OrientationActivityLifecycle.getInstance());
     // If you opted-in for the New Architecture, we enable the TurboModule system
     ReactFeatureFlags.useTurboModules = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
     ReactFeatureFlags.enableSynchronizationForAnimated = true;
@@ -103,8 +103,5 @@ public class MainApplication extends Application implements ReactApplication {
       }
     }
   }
-
-
-
 
 }
