@@ -7,6 +7,10 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
 import com.tencent.vasdolly.helper.ChannelReaderUtil;
+// import org.wonday.orientation.OrientationPackage;
+// import org.wonday.orientation.OrientationActivityLifecycle;
+import android.app.Activity;
+import com.baidu.appwalle.ChannelReader;
 
 public class MyChannelModule extends ReactContextBaseJavaModule {
 
@@ -27,7 +31,15 @@ public class MyChannelModule extends ReactContextBaseJavaModule {
     // 创建一个方法来暴露原生变量
     @ReactMethod
     public void getChannels(Callback callback) {
+        // this.getReactApplicationContext().getCurrentActivity().getApplication().registerActivityLifecycleCallbacks(OrientationActivityLifecycle.getInstance());
         String channel = ChannelReaderUtil.getChannel(this.getReactApplicationContext());
         callback.invoke(channel);
     }
+
+    @ReactMethod
+    public void getBaiduVID(Callback callback) {
+        String content = ChannelReader.get(this.getReactApplicationContext());
+        callback.invoke(content);
+    }
+
 }

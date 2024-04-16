@@ -7,7 +7,7 @@
  */
 import React from 'react';
 import { LogBox, StatusBar, Appearance } from 'react-native';
-import Orientation from 'react-native-orientation-locker';
+// import Orientation from 'react-native-orientation-locker';
 import { Provider } from 'react-redux'
 import { configureStore } from '@core/store';
 import { SafeAreaProvider } from 'react-native-safe-area-context'
@@ -28,7 +28,7 @@ export default () => {
 
   React.useEffect(() => {
     JPushInit();
-    Orientation.lockToPortrait();
+    // Orientation.lockToPortrait();
     const subscription = Appearance.addChangeListener(({ colorScheme }) => {
       setColorScheme(colorScheme);
     });

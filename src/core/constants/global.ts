@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-25 14:26:17
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/constants/global.ts
  * @Description: 全局变量，所有的全局变量都应该在此！
  * 全局变量由 GLOBAL 关键字支持，但需要再次转换之后才可以使用，不可在工程中直接使用 GLOBAL 关键字
@@ -31,6 +31,7 @@ type TKeys =  'API'                         // API
             | '__TRANS_OUTPUT__'            // 翻译组件输出
             | 'INSTANT_QUOTES'
             | 'CHANNEL_CODE'
+            | 'BAIDU_VID'
 
 // 获取全局变量
 const GET = (key: string): any => {

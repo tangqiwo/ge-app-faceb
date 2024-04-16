@@ -2,11 +2,10 @@
  * @Description: 请求中间件
  * @Author: Galen.GE
  * @Date: 2019-12-19 18:03:47
- * @LastEditTime: 2024-04-01 22:57:33
- * @LastEditors: Galen.GE
+ * @LastEditTime: 2024-04-10 12:37:58
+ * @LastEditors: ammo@xyzzdev.com
  */
 import _ from 'lodash';
-import { Alert } from 'react-native';
 import { Dispatch } from 'redux';
 import ACTIONS from '@actions/index';
 import axios from 'axios';
@@ -118,6 +117,9 @@ export class HTTP {
       'X-Sem-Device-Id' : storage.get('UNIQUE_ID') || '',
       'X-Idfa'          : G.GET('UUID'),
       'X-Phone-Model'   : G.GET('PHONE_MODEL'),
+      'X-BaiDu'         : G.GET('BAIDU_VID'),
+      'X-OAID'          : '',
+      'X-IMEI'          : G.GET('UUID'),
     }
     const dataBody = this.request.method === 'GET' ? {} : {data: requestData};
     axios(_.merge(

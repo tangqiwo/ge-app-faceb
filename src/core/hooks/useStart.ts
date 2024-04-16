@@ -1,14 +1,15 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-08-02 00:56:42
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/hooks/useStart.ts
  * @Description: 初始化
  */
-import _ from 'lodash'
+import _, { set } from 'lodash'
 import React from 'react';
-import { Alert, Dimensions, Platform} from 'react-native';
+import { Dimensions, Platform, Alert} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+// import Orientation from 'react-native-orientation-locker';
 import store from '@helpers/storage';
 import DeviceInfo from 'react-native-device-info'
 import usePublicState from './usePublicState';
@@ -26,20 +27,8 @@ export default () => {
   const { MyChannelModule } = NativeModules;
 
   // 框架进入时，初始化缓存，环境变量等
-  const init = async () => {
-    try{
-      MyChannelModule.getChannels((nativeVariable: any) => {
-        let channelCode = nativeVariable;
-        if(!channelCode){
-          channelCode = Platform.OS === 'android' ? 'gegoldhk_android' : 'gegoldhk_ios'
-        }
-        G.SET('CHANNEL_CODE', channelCode)
-      })
-    }catch(e){
-      G.SET('CHANNEL_CODE', Platform.OS === 'android' ? 'gegoldhk_android' : 'gegoldhk_ios')
-    }finally{
-      setChannelInit(true)
-    }
+  const init = () => {
+    getBaiduVID();
     G.SET('SCREEN_WIDTH', width > height ? height : width);
     G.SET('SCREEN_HEIGHT', height > width ? height : width);
     G.SET('TOP_HEIGHT', insets.top);
@@ -56,6 +45,42 @@ export default () => {
     }
     if(!store.get('DEBUG-SETTINGS')){
       store.set('DEBUG-SETTINGS', {}, 3600 * 24)
+    }
+  }
+
+  const getChannelCode = () => {
+    try{
+      MyChannelModule.getChannels((nativeVariable: any) => {
+        let channelCode = nativeVariable;
+        if(!channelCode){
+          channelCode = Platform.OS === 'android' ? 'gegoldhk_android' : 'gegoldhk_ios'
+        }
+        G.SET('CHANNEL_CODE', channelCode)
+      })
+    }catch(e){
+      G.SET('CHANNEL_CODE', Platform.OS === 'android' ? 'gegoldhk_android' : 'gegoldhk_ios')
+    }finally{
+      const confirmGlobal = () => {
+        if(G.GET('CHANNEL_CODE')){
+          setChannelInit(true)
+          return;
+        }
+        setTimeout(confirmGlobal, 50);
+      }
+      confirmGlobal();
+    }
+  }
+
+  const getBaiduVID = () => {
+    try{
+      MyChannelModule.getBaiduVID((nativeVariable: any) => {
+        let vid = nativeVariable;
+        G.SET('BAIDU_VID', vid)
+      })
+    }catch(e){
+      G.SET('BAIDU_VID', '')
+    }finally{
+      getChannelCode();
     }
   }
 
