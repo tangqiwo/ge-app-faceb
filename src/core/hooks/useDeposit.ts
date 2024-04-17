@@ -125,7 +125,7 @@ export default () => {
       ChannelId: _channel.Id,
       DepositPlatform: 'WEB',
       ExchangeRate: _channel.PaymentType.includes('VirtualCurrency') ? 1 : rate.CnyToUsd,
-      BankCardId: bankId || null,
+      BindBankCardId: bankId || null,
       VirtualAddress: virtualAddress || null,
     }
     dispatch(ACTIONS.PAYMENT.createDepositOrder({data, cb: (res: any) => {

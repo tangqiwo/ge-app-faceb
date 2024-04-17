@@ -12,6 +12,8 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import { ScrollView, View, Image, Text, TouchableOpacity, TextInput } from 'react-native';
 import Button from '@this/components/Button'
 import usePublicState from '@core/hooks/usePublicState';
+import { TransDemo } from '../components/ChannelIcon';
+import Popup from '@core/templates/components/Popup';
 import { LS } from './style';
 import dayjs from 'dayjs';
 
@@ -24,6 +26,7 @@ export default () => {
   const [ orderData, setOrderData ] = React.useState<any>(null);
   const [ transactionNo, setTransactionNo ] = React.useState('');
   const [ receiptImage, setReceiptImage ] = React.useState(null);
+  const [ showDemo, setShowDemo ] = React.useState(false);
 
   React.useEffect(() => {
     if(isFocused){
@@ -134,7 +137,7 @@ export default () => {
               <Image source={require('./i/upload.png')} style={styles.icon} />
             }
           </TouchableOpacity>
-          <Text style={styles.uploadtips}>查看示例</Text>
+          <Text style={styles.uploadtips} onPress={() => setShowDemo(true)}>查看示例</Text>
         </View>
         {/* 注资信息 */}
         {
@@ -188,7 +191,12 @@ export default () => {
           onPress={submitReceipt}
         />
       </View>
-
+      {
+        showDemo && orderData &&
+        <Popup display top={0} title='示例' close={() => setShowDemo(false)} isFull>
+          <Image source={TransDemo[orderData.PaymentType]} style={{width: '100%', height: '100%'}} resizeMode='contain' />
+        </Popup>
+      }
     </View>
   )
 

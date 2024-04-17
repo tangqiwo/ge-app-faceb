@@ -32,3 +32,12 @@ export const ChannelColor: any = {
   'VirtualCurrency:USDT:ERC20': '#FFFAFA',
   'DigitalRMB': '#FFFAFA'
 }
+
+export const TransDemo: any = {
+  'BankCard': require('./i/demo/unionpay.jpg'),
+  'AliPay': require('./i/demo/alipay.jpg'),
+  'WeChat': require('./i/demo/wechat.jpg'),
+  'VirtualCurrency:USDT:TRC20': require('./i/demo/usdt.jpg'),
+  'VirtualCurrency:USDT:ERC20': require('./i/demo/usdt.jpg'),
+  'DigitalRMB': require('./i/demo/dcep.jpg')
+}
