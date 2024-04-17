@@ -1,15 +1,16 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-09-09 13:21:10
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/templates/components/WebView/index.tsx
  * @Description: 自定义的一些 属性的webview
  */
 
 import React from 'react';
 import { WebView, WebViewProps } from 'react-native-webview';
-import { View, Text, Image, TouchableOpacity, Linking } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Linking, ScrollView } from 'react-native';
 import store from '@helpers/storage';
+import KeyboardAvoidingView from '@views/mc/shadow/KeyboardAvoidingView';
 import usePostMessage from '@core/hooks/usePostMessage';
 import INJECT_POST_MESSAGE from './postJsCode';
 import LinearGradient from 'react-native-linear-gradient';
@@ -61,19 +62,22 @@ export default React.memo(({source, invoke='', styleInject='', style={}, ...prop
   }
 
   return (
-    <WebView
-      ref={(ref: any) => webview.current = ref}
-      style={{display: (showError || style.display === 'none') ? 'none' : 'flex', ...style}}
-      onMessage={onMessage}
-      renderError={handleError}
-      source={{...newSource}}
-      injectedJavaScript={INJECT_POST_MESSAGE + styleMaker(defaultStyleCover+styleInject)}
-      allowsInlineMediaPlayback={true}
-      mediaPlaybackRequiresUserAction={false}
-      mixedContentMode={'compatibility'}
-      allowsFullscreenVideo={true}
-      onLoadEnd={() => setIsLoad(true)}
-    />
+    <KeyboardAvoidingView contentContainerStyle={{...style}}>
+        <WebView
+          ref={(ref: any) => webview.current = ref}
+          style={{display: (showError || style.display === 'none') ? 'none' : 'flex', ...style}}
+          onMessage={onMessage}
+          renderError={handleError}
+          source={{...newSource}}
+          injectedJavaScript={INJECT_POST_MESSAGE + styleMaker(defaultStyleCover+styleInject)}
+          allowsInlineMediaPlayback={true}
+          mediaPlaybackRequiresUserAction={false}
+          mixedContentMode={'compatibility'}
+          allowsFullscreenVideo={true}
+          onLoadEnd={() => setIsLoad(true)}
+        />
+    </KeyboardAvoidingView>
+
   )
 })
 
