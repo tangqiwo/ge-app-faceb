@@ -21,6 +21,7 @@ export default () => {
   const [ isAgreePrivacy, setIsAgreePrivacy ] = React.useState(null);
 
   React.useEffect(() => {
+    SplashScreen.hide();
     store.init(() => {
       SplashScreen.hide();
       setIsAgreePrivacy(store.get('IS_AGREE_PRIVACY') || false);

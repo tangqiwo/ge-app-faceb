@@ -6,7 +6,7 @@
 #import <React/RCTRootView.h>
 #import "RNSplashScreen.h"
 #import "RCTPushy.h"
-#import "Orientation.h"
+// #import "Orientation.h"
 
 #import <React/RCTAppSetupUtils.h>
 #import <React/RCTLinkingManager.h>
@@ -159,9 +159,9 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 
 #endif
 
-- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
-  return [Orientation getOrientation];
-}
+// - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+//   return [Orientation getOrientation];
+// }
 
 //************************************************JPush start************************************************
 

@@ -7,19 +7,20 @@
  */
 import APP from '@template/index';
 
-import * as Sentry from "@sentry/react-native";
+// import * as Sentry from "@sentry/react-native";
 
 export default (() => {
-  if(__DEV__){
-    return APP;
-  }
+  return APP;
+  // if(__DEV__){
+  //   return APP;
+  // }
 
-  Sentry.init({
-    dsn: "https://36fb5a6a6202856c892dd98bc794ae1d@o4506782664294400.ingest.sentry.io/4506782678908928",
-    // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
-    // We recommend adjusting this value in production.
-    tracesSampleRate: 1.0,
-  });
+  // Sentry.init({
+  //   dsn: "https://36fb5a6a6202856c892dd98bc794ae1d@o4506782664294400.ingest.sentry.io/4506782678908928",
+  //   // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+  //   // We recommend adjusting this value in production.
+  //   tracesSampleRate: 1.0,
+  // });
 
-  return Sentry.wrap(APP);
+  // return Sentry.wrap(APP);
 })()
