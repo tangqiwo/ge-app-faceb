@@ -79,6 +79,7 @@ export default () => {
       <MainStack.Screen name='Deposit-3' component={ScreenHOC(DepositPaymentScreen)} options={{headerShown: true, title: '注资'}} />
       <MainStack.Screen name='Deposit-4' component={ScreenHOC(DepositUploadScreen)} options={{headerShown: true, title: '注资'}} />
       <MainStack.Screen name='Deposit-5' component={ScreenHOC(DepositDoneScreen)} />
+      <MainStack.Screen name='Deposit-hk' component={ScreenHOC(DepositHKBankScreen)} options={{headerShown: true, title: '注资'}}/>
     </MainStack.Navigator>
   )
 }

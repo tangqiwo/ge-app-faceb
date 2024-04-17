@@ -1,14 +1,15 @@
 /*
  * @Author: Galen.GE
  * @Date: 2024-04-04 11:04:08
- * @LastEditors: Galen.GE
- * @FilePath: /app_face_b/src/views/mc/screens/Deposit/index.tsx
+ * @LastEditors: ammo@xyzzdev.com
+ * @FilePath: /app_face_b/src/views/mc/screens/Deposit/HKBank/index.tsx
  * @Description:
  */
 import React from 'react';
 import { ScrollView, View, Image, Text, TouchableOpacity } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import usePublicState from '@core/hooks/usePublicState';
+import useRouteWebCommon, { FORWARD_TYPES } from '@core/hooks/useRouteWebCommon';
 import Button from '@this/components/Button'
 import { LS } from './style';
 
@@ -16,7 +17,8 @@ const styles = LS.main;
 
 export default () => {
 
-  const { dispatch, ACTIONS } = usePublicState();
+  const { dispatch, ACTIONS, customerService } = usePublicState();
+  const { forward } = useRouteWebCommon();
 
   const handleCopy = (content: string) => {
     Clipboard.setString(content);
@@ -113,6 +115,7 @@ export default () => {
       <Button
         style={styles.button}
         text='我已汇款'
+        onPress={() => forward({...FORWARD_TYPES['CUSTOMER_SERVICE'], uri: customerService})}
       />
       <Text style={styles.buttonTips}>*请联系在线客服上传支付凭证</Text>
 

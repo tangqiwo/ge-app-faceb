@@ -8,6 +8,9 @@
 import _ from 'lodash'
 import React, { useState } from 'react';
 import { ScrollView, View, Image, Text, TouchableOpacity} from 'react-native';
+import { useLatest } from 'react-use';
+import ExitPopup from '@this/components/ExitPopup';
+import MyImage from '@core/templates/components/Base/Image';
 import { useNavigationState, useNavigation, useRoute } from '@react-navigation/native';
 import { HeaderBackButton } from '@react-navigation/elements';
 import usePublicState from '@core/hooks/usePublicState';
@@ -15,29 +18,46 @@ import Button from '@this/components/Button'
 import usePayment from '@core/hooks/usePayment';
 import Tips from '../components/Tips';
 import { ChannelIconSM } from '../components/ChannelIcon';
-import { LS } from './style';
+import { LS, GS } from './style';
 
 const styles = LS.main;
 
 
 export default () => {
 
+  const [ showExitAd, setShowExitAd ] = React.useState(false);
+  const [extInfo, setExtInfo] = React.useState<any>({});
+  const latestExtInfo = useLatest(extInfo);
   const routes = useNavigationState(state => state.routes);
   const { params } = useRoute<any>();
   const navigation = useNavigation<any>();
   const [showContent, setShowContent] = useState(true);
-  const { dispatch, ACTIONS, isFocused } = usePublicState();
+  const { dispatch, ACTIONS, isFocused, ossDomain } = usePublicState();
   const [ orderData, setOrderData ] = useState<any>(params);
   const { toPayment, showTips, setShowTips, countdownLabel } = usePayment({data: orderData});
 
   React.useEffect(() => {
-    const leastRoute = _.last(routes.filter(route => !route.name.includes('Deposit')));
     navigation.setOptions({
       headerLeft: (props: any) => (
-        <HeaderBackButton {...props} onPress={() => navigation.navigate(leastRoute.name)} />
+        <HeaderBackButton {...props} onPress={handleExit} />
       ),
       headerShown: true
     });
+    dispatch(ACTIONS.BASE.commonRequest({
+      uri: 'GetDialogTypeByDeposit/Select',
+      cb: (response: any) => {
+        if(response.Data.Status === 3 || response.Data.Dialog?.Count === 0){
+          return;
+        }
+        if(response.Desc === '已有订单'){
+          return;
+        }
+        setExtInfo({
+          image: response.Data?.Dialog?.Data[0]?.BannerImg,
+          content: JSON.parse(response.Data?.Dialog?.Data[0]?.Content)?.Content
+        })
+      }
+    }))
   }, [])
 
   React.useEffect(() => {
@@ -60,6 +80,19 @@ export default () => {
   const toggleContent = () => {
     setShowContent(!showContent);
   };
+
+  const goBack = () => {
+    const leastRoute = _.last(routes.filter(route => !route.name.includes('Deposit')));
+    navigation.navigate(leastRoute.name)
+  }
+
+  const handleExit = () => {
+    if(latestExtInfo.current.content){
+      setShowExitAd(true);
+      return;
+    }
+    goBack()
+  }
 
   return (
     <View style={styles.contenBox}>
@@ -144,6 +177,15 @@ export default () => {
         display={showTips}
         close={() => setShowTips(null)}
       />
+      <ExitPopup
+        display={showExitAd}
+        close={() => setShowExitAd(false)}
+        exit={goBack}
+        cancelText="继续注资"
+        text={extInfo.content}
+      >
+        <MyImage width={GS.mixin.rem(170)} source={{uri: ossDomain + extInfo.image}} />
+      </ExitPopup>
     </View>
   )
 

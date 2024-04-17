@@ -2,7 +2,7 @@
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
  * @LastEditors: ammo@xyzzdev.com
- * @FilePath: /app_face_b/src/views/mc/screens/Deposit/Payment/style.ts
+ * @FilePath: /app_face_b/src/views/mc/screens/Deposit/UploadReceipt/style.ts
  * @Description:
  */
 
@@ -126,7 +126,33 @@ export const LS = {
     },
     next:{
       width:'63%',
-    }
+    },
+    extInfos: {
+      marginLeft: G.mixin.rem(15),
+      marginRight: G.mixin.rem(15),
+    },
+    bankIcon: {
+      width: G.mixin.rem(22),
+      height: G.mixin.rem(22),
+      marginRight: G.mixin.rem(10),
+    },
+    inputMoney:{
+      height:G.mixin.rem(50),
+      lineHeight:G.mixin.rem(50),
+      borderRadius:G.mixin.rem(4),
+      paddingLeft:G.mixin.rem(15),
+      paddingRight:G.mixin.rem(15),
+      backgroundColor:'#F5F5F5',
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      marginBottom:G.mixin.rem(15),
+    },
+    input:{
+      color: '#2A2A2A',
+      fontSize: G.mixin.rem(16),
+      justifyContent: 'center'
+    },
   }),
 }
 

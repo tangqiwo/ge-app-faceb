@@ -9,7 +9,7 @@ import _ from 'lodash'
 import React from 'react';
 import useUploadOss from '@core/hooks/useUploadOss';
 import {launchImageLibrary} from 'react-native-image-picker';
-import { ScrollView, View, Image, Text, TouchableOpacity } from 'react-native';
+import { ScrollView, View, Image, Text, TouchableOpacity, TextInput } from 'react-native';
 import Button from '@this/components/Button'
 import usePublicState from '@core/hooks/usePublicState';
 import { LS } from './style';
@@ -22,14 +22,12 @@ export default () => {
   const { uploadOss } = useUploadOss();
   const { dispatch, ACTIONS, isFocused, navigation } = usePublicState();
   const [ orderData, setOrderData ] = React.useState<any>(null);
+  const [ transactionNo, setTransactionNo ] = React.useState('');
   const [ receiptImage, setReceiptImage ] = React.useState(null);
 
   React.useEffect(() => {
-    dispatch(ACTIONS.BASE.openLoading());
-  }, [])
-
-  React.useEffect(() => {
     if(isFocused){
+      dispatch(ACTIONS.BASE.openLoading());
       dispatch(ACTIONS.PAYMENT.getPaymentCheck({cb: (res: any) => {
         dispatch(ACTIONS.BASE.closeLoading());
         if(res.Data?.IsHave){
@@ -63,10 +61,14 @@ export default () => {
       dispatch(ACTIONS.BASE.openToast({text: '请上传凭证'}));
       return;
     }
+    if(orderData?.SourceCurrency === 'USDT' && !transactionNo){
+      dispatch(ACTIONS.BASE.openToast({text: '请输入HASH值'}));
+      return;
+    }
     const data ={
       Id: orderData.Id,
       PayDoc: receiptImage.path,
-      TransactionNo: "12341234",
+      TransactionNo: transactionNo,
     }
     dispatch(ACTIONS.PAYMENT.updateDeposit({data, cb: (res: any) => {
       navigation.replace('Deposit-5');
@@ -83,6 +85,45 @@ export default () => {
           </View>
           <Text style={styles.tips}>若您已完成注资，请上传注资凭证</Text>
         </View>
+        {
+          orderData?.SourceCurrency === 'USDT' &&
+          <View style={styles.extInfos}>
+            <View>
+              <Text style={styles.subheading}>已选择钱包地址</Text>
+              <View style={styles.inputMoney}>
+                <Text>
+                 { orderData?.PaymentAddress }
+                </Text>
+              </View>
+            </View>
+            <View>
+              <Text style={styles.subheading}>HASH</Text>
+              <View style={styles.inputMoney}>
+                <TextInput
+                  value={transactionNo}
+                  onChange={(e: any) => setTransactionNo(e.nativeEvent.text)}
+                  style={styles.input}
+                  placeholder='请输入HASH值'
+                  placeholderTextColor='#94938F'
+                />
+              </View>
+            </View>
+          </View >
+        }
+        {
+          orderData?.PaymentType === 'BankCard' &&
+          <View style={styles.extInfos}>
+            <View>
+              <Text style={styles.subheading}>已选择的银行卡</Text>
+              <View style={styles.inputMoney}>
+                <Image source={require('./i/icon-bank.png')} style={styles.bankIcon} resizeMode='contain' />
+                <Text>
+                  { `${orderData.PaymentAddress.slice(0, 4)} **** **** ${orderData?.PaymentAddress.slice(-4)}(${orderData.PaymentName})` }
+                </Text>
+              </View>
+            </View>
+          </View>
+        }
         {/* 上传注资凭证 */}
         <View style={styles.upload}>
           <Text style={styles.subheading}>上传注资凭证</Text>
