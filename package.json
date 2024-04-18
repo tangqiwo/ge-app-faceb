@@ -9,7 +9,7 @@
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "build": "cd cli && node ./index.js",
-    "release-android": "source ~/.bash_profile && cd android && ./gradlew channelRelease",
+    "release-android": "git checkout main && npm run sign && source ~/.bash_profile && cd android && ./gradlew channelRelease && git checkout main-zt && ./gradlew channelRelease && git checkout main",
     "release-ios": "npx react-native bundle --entry-file index.js --platform ios --dev false --bundle-output dist/main.jsbundle --assets-dest dist/",
     "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=8081'",
     "debug-release-android": "npx react-native run-android --variant=release",
