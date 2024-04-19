@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-09 14:00:27
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/Quotes/index.tsx
  * @Description:
  */
@@ -85,6 +85,7 @@ export default () => {
         tab === 1 &&
         <View style={{flex: 1}}>
           <WebView
+            style={{flex: 1}}
             source={{uri: 'https://www.jin10.com/example/jin10.com.html?fontSize=14px&theme=white'}}
           />
         </View>
@@ -93,8 +94,9 @@ export default () => {
         tab === 2 &&
         <View style={{flex: 1}}>
           <WebView
-              source={{uri: 'https://rili-d.jin10.com/open.php?fontSize=14px&theme=primary'}}
-            />
+            style={{flex: 1}}
+            source={{uri: 'https://rili-d.jin10.com/open.php?fontSize=14px&theme=primary'}}
+          />
         </View>
       }
     </View>
