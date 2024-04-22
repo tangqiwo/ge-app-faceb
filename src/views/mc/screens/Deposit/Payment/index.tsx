@@ -16,8 +16,9 @@ import { HeaderBackButton } from '@react-navigation/elements';
 import usePublicState from '@core/hooks/usePublicState';
 import Button from '@this/components/Button'
 import usePayment from '@core/hooks/usePayment';
+import { PAYMENT_TYPE_NAME } from '@hooks/useDeposit';
 import Tips from '../components/Tips';
-import { ChannelIconSM } from '../components/ChannelIcon';
+import { ChannelIcon, ChannelColor } from '../components/ChannelIcon';
 import { LS, GS } from './style';
 
 const styles = LS.main;
@@ -143,7 +144,10 @@ export default () => {
           <View style={styles.channelName}>
             <Text style={styles.subheading}>支付通道</Text>
             {/* 支付通道icon暫定 */}
-            <Image source={ChannelIconSM[params.PaymentType]} style={styles.rightIcon} resizeMode='contain' />
+            <View style={{...styles.channelView, backgroundColor: ChannelColor[params.PaymentType]}}>
+              <Image source={ChannelIcon[params.PaymentType]} style={styles.rightIcon} resizeMode='contain' />
+              <Text style={styles.right}>{PAYMENT_TYPE_NAME[params.PaymentType]}</Text>
+            </View>
           </View>
           <Text style={styles.content}>所有通过官网注册进行的投资交易资金，我司一经确认，即统一汇入公司指定对公账户。</Text>
           <View style={styles.line}></View>

@@ -237,6 +237,15 @@ export const PAYMENT_TYPE = [
   'DigitalRMB'
 ]
 
+export const PAYMENT_TYPE_NAME: any = {
+  'BankCard': '银联支付',
+  'AliPay': '支付宝',
+  'WeChat': '微信支付',
+  'VirtualCurrency:USDT:TRC20': 'USDT-TRC20',
+  'VirtualCurrency:USDT:ERC20': 'USDT-ERC20',
+  'DigitalRMB': '数字人民币'
+}
+
 // TIPS 类型
 export enum TIPS_TYPE {
   //  等待身份证审批

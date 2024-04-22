@@ -50,6 +50,7 @@ export const LS = {
       color: '#000000',
       fontSize: G.mixin.rem(16),
       fontWeight: '500',
+      marginBottom:G.mixin.rem(10),
     },
     itemBox:{
       borderRadius:G.mixin.rem(10),
@@ -75,10 +76,20 @@ export const LS = {
       fontSize: G.mixin.rem(14),
       lineHeight:G.mixin.rem(20),
     },
+    channelView: {
+      height:G.mixin.rem(30),
+      paddingLeft:G.mixin.rem(10),
+      paddingRight:G.mixin.rem(10),
+      borderRadius:G.mixin.rem(5),
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'row',
+    },
     right:{
       color: '#000000',
       fontSize: G.mixin.rem(14),
       lineHeight:G.mixin.rem(20),
+      marginRight:G.mixin.rem(10),
     },
     red:{
       color: '#E3262A',
@@ -103,9 +114,8 @@ export const LS = {
       alignItems: 'center',
     },
     rightIcon:{
-      height:G.mixin.rem(30),
-      width:G.mixin.rem(169),
-      alignSelf: 'flex-end'
+      height:G.mixin.rem(24),
+      width:G.mixin.rem(24),
     },
     content:{
       color: '#646464',
