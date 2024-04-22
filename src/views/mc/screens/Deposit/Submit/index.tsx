@@ -5,7 +5,7 @@
  * @FilePath: /app_face_b/src/views/mc/screens/Deposit/Submit/index.tsx
  * @Description:
  */
-import _ from 'lodash'
+import _, { set } from 'lodash'
 import React from 'react';
 import { View, Image, Text, TextInput, ScrollView} from 'react-native';
 import usePublicState from '@core/hooks/usePublicState';
@@ -29,6 +29,7 @@ export default () => {
   const [ wallet, setWallet ] = React.useState(params.virtualWallet[0]?.Address || '');
   const [ BankCard, setBankCard ] = React.useState(params.bankCards[0]?.Id || '');
   const [ agree, setAgree ] = React.useState(false);
+  const [ prize, setPrize ] = React.useState({pay: 200, get: 310});
 
   const unit = currentChannel.PaymentType.includes('VirtualCurrency') ? 'USDT' : '人民币';
 
@@ -40,12 +41,29 @@ export default () => {
     params.submitDeposit({ amount: money || usdt, bankId: BankCard, virtualAddress: wallet })
   }
 
+  React.useEffect(() => {
+    if(!money && !usdt){
+      setPrize({pay: 200, get: 310});
+      return;
+    }
+    const _money = Number(money) || Number(usdt);
+    if(_money < 3000){
+      setPrize({pay: 200, get: 310});
+      return;
+    }
+    if(_money < 15000){
+      setPrize({pay: 800, get: 1020});
+      return;
+    }
+    setPrize({pay: 2000, get: 2550});
+  }, [money, usdt])
+
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.ad}>
           <Image source={require('./i/ad.png')} style={styles.adImage} />
-          <Text style={styles.adText}>24小时内首充 $200 到账 $310</Text>
+          <Text style={styles.adText}>24小时内首充 <Text style={styles.tipsRed}>${prize.pay}</Text> 到账 <Text style={styles.tipsRed}>${prize.get}</Text></Text>
         </View>
         <View style={styles.contenBox}>
           <Text style={styles.declare}>已选支付方式</Text>

@@ -98,7 +98,8 @@ export const LS = {
     },
     rightIcon:{
       height:G.mixin.rem(30),
-      width:G.mixin.rem(169)
+      width:G.mixin.rem(169),
+      alignSelf: 'flex-end'
     },
     content:{
       color: '#646464',

@@ -16,6 +16,7 @@ export const LS = {
       flexDirection: 'row',
       height: G.mixin.rem(52),
       alignItems: 'center',
+      justifyContent: 'center',
       backgroundColor: '#FEF6F6',
       paddingLeft: G.mixin.rem(15),
       paddingRight: G.mixin.rem(15),
@@ -111,7 +112,8 @@ export const LS = {
     input:{
       color: '#2A2A2A',
       fontSize: G.mixin.rem(16),
-      justifyContent: 'center'
+      justifyContent: 'center',
+      minWidth: 200,
     },
     inputRMB:{
       color: '#2A2A2A',

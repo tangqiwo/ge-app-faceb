@@ -18,6 +18,7 @@ import { HeaderBackButton } from '@react-navigation/elements';
 import MyImage from '@core/templates/components/Base/Image';
 import Tips from './components/Tips';
 import { ChannelIcon } from './components/ChannelIcon';
+import useRouteWebCommon, { FORWARD_TYPES } from '@core/hooks/useRouteWebCommon';
 import { LS, GS } from './style';
 
 const styles = LS.main;
@@ -25,12 +26,13 @@ const styles = LS.main;
 export default () => {
 
   const useDepositHook = useDeposit();
-  const { dispatch, ACTIONS, navigation, ossDomain} = usePublicState();
+  const { dispatch, ACTIONS, navigation, ossDomain, customerService} = usePublicState();
   const { channels, selectChannel, showTips, setShowTips, recommendChannel, tipText } = useDepositHook;
   const [ showExitAd, setShowExitAd ] = React.useState(false);
   const [extInfo, setExtInfo] = React.useState<any>({});
   const latestExtInfo = useLatest(extInfo);
   const routes = useNavigationState(state => state.routes);
+  const { forward } = useRouteWebCommon();
 
   React.useEffect(() => {
     dispatch(ACTIONS.PAYMENT.getPaymentCheck({cb: (res: any) => {
@@ -131,7 +133,7 @@ export default () => {
         <Text style={styles.middleTitle}>温馨提示</Text>
         <Text style={styles.prompt}>
           1.如需大额注资请事先联系24小时
-          <Text style={styles.tips}> 在线客服</Text>
+          <Text style={styles.tips} onPress={() => forward({...FORWARD_TYPES['CUSTOMER_SERVICE'], uri: customerService})}> 在线客服</Text>
           ，我们将竭诚为您提供专属贵宾支付通道，确保您的大额资金尽快到账。{'\n'}
           2.实际兑换汇率和金额请以支付平台的最终交易结果显示为准。{'\n'}
           3.请在15分钟内完成注资操作，逾时可能导致操作失败，如遇以上情况请联络客服。{'\n'}

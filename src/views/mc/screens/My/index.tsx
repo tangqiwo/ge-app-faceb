@@ -38,6 +38,8 @@ export default () => {
             setOrder(null);
           }, 1000 * res.Data?.CutDown)
           return;
+        }else{
+          setOrder(null);
         }
       }}))
     }

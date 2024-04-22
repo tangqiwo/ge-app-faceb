@@ -116,7 +116,9 @@ export default ({data}: IProps) => {
       dispatch(ACTIONS.BASE.openToast({ text: '支付方式错误 #0121', types: 'error' }));
       return;
     }
-    setShowTips(TIPS_TYPE.GO_TO_UPLOAD_VOUCHER);
+    setTimeout(() => {
+      setShowTips(TIPS_TYPE.GO_TO_UPLOAD_VOUCHER);
+    }, 5000);
     Linking.openURL(paymentAddress);
   }
 

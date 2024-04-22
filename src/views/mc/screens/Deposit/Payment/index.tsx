@@ -35,6 +35,7 @@ export default () => {
   const { dispatch, ACTIONS, isFocused, ossDomain } = usePublicState();
   const [ orderData, setOrderData ] = useState<any>(params);
   const { toPayment, showTips, setShowTips, countdownLabel } = usePayment({data: orderData});
+  const actionType = React.useRef<'back' | 'cancel' | ''>();
 
   React.useEffect(() => {
     navigation.setOptions({
@@ -87,11 +88,21 @@ export default () => {
   }
 
   const handleExit = () => {
+    actionType.current = 'back'
     if(latestExtInfo.current.content){
       setShowExitAd(true);
       return;
     }
     goBack()
+  }
+
+  const handleCancel = () => {
+    actionType.current = 'cancel'
+    if(latestExtInfo.current.content){
+      setShowExitAd(true);
+      return;
+    }
+    cancelDepositOrder(params.Id)
   }
 
   return (
@@ -165,7 +176,7 @@ export default () => {
         <Button
           style={styles.cancel}
           text='取消支付'
-          onPress={() => cancelDepositOrder(params.Id)}
+          onPress={handleCancel}
         />
         <Button
           style={styles.next}
@@ -180,7 +191,7 @@ export default () => {
       <ExitPopup
         display={showExitAd}
         close={() => setShowExitAd(false)}
-        exit={goBack}
+        exit={actionType.current === 'back' ? goBack : () => cancelDepositOrder(params.Id)}
         cancelText="继续注资"
         text={extInfo.content}
       >

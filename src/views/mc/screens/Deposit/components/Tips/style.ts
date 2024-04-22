@@ -26,6 +26,7 @@ export const LS = StyleSheet.create({
     right: G.mixin.rem(15),
     width: G.mixin.rem(20),
     height: G.mixin.rem(20),
+    zIndex: 10,
   },
   closeIcon: {
     width: G.mixin.rem(20),

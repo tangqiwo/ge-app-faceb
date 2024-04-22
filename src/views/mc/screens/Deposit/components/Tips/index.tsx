@@ -7,7 +7,7 @@
  */
 import _ from 'lodash';
 import React from 'react';
-import { ScrollView, View, Image, Text} from 'react-native';
+import { ScrollView, View, Image, Text, TouchableOpacity} from 'react-native';
 import Overlay from '@core/templates/components/Overlay';
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 import usePublicState from '@core/hooks/usePublicState';
@@ -30,7 +30,9 @@ export default ({ display, close, channel, selectChannel, tipText }: IProps) => 
 
   const isClose = _.includes([
     TIPS_TYPE.PENDING_TO_APPROVE,
-    TIPS_TYPE.NOT_BIND_BANK_CARD
+    TIPS_TYPE.NOT_BIND_BANK_CARD,
+    TIPS_TYPE.NOT_BIND_VIRTUAL_WALLET,
+    TIPS_TYPE.CUSTOM_TIPS,
   ], display);
 
   const closeHOF = (fn: Function) => () => {
@@ -55,9 +57,9 @@ export default ({ display, close, channel, selectChannel, tipText }: IProps) => 
       <View style={styles.content}>
         {
           isClose &&
-          <MyTouchableOpacity style={styles.close} onPress={close}>
+          <TouchableOpacity style={styles.close} onPress={close}>
             <Image source={require('./i/close.png')} style={styles.closeIcon} resizeMode='contain' />
-          </MyTouchableOpacity>
+          </TouchableOpacity>
         }
         <Text style={styles.title}>温馨提示</Text>
         <Text style={styles.prompt}>
