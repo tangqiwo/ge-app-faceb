@@ -262,7 +262,7 @@ const DataSelector = ({ dataset, data, setData, title }: any) => {
   return (
     <View>
       <Text style={styles.declare}>{title}</Text>
-      <MyTouchableOpacity style={styles.inputMoney}>
+      <View style={styles.inputMoney}>
         <Selector
           style={{flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'space-between'}}
           title={title}
@@ -270,8 +270,7 @@ const DataSelector = ({ dataset, data, setData, title }: any) => {
           options={dataset}
           cb={(value: string) => setData(value)}
         />
-      </MyTouchableOpacity>
-
+      </View>
     </View>
   )
 
