@@ -148,7 +148,7 @@ export default () => {
           <Text style={styles.content}>所有通过官网注册进行的投资交易资金，我司一经确认，即统一汇入公司指定对公账户。</Text>
           <View style={styles.line}></View>
           {/* 注意事项 */}
-          <View style={styles.between}>
+          <View style={styles.caption}>
             <Text style={styles.subheading}>注意事项</Text>
             <TouchableOpacity onPress={toggleContent}>
               <Image

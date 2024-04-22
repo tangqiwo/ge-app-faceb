@@ -90,6 +90,12 @@ export const LS = {
       justifyContent: 'space-between',
       alignItems: 'center',
     },
+    caption:{
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: G.mixin.rem(10),
+    },
     channelName:{
       height:G.mixin.rem(50),
       flexDirection: 'row',
