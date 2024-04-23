@@ -128,6 +128,12 @@ export default () => {
       BindBankCardId: bankId || null,
       VirtualAddress: virtualAddress || null,
     }
+    // 如果是虚拟币渠道则删除BindBankCardId字段，如果是银行卡渠道则删除VirtualAddress字段
+    if(_channel.PaymentType.includes('VirtualCurrency')){
+      delete data.BindBankCardId;
+    }else{
+      delete data.VirtualAddress;
+    }
     dispatch(ACTIONS.PAYMENT.createDepositOrder({data, cb: (res: any) => {
       if (res.Type === 0 && _.includes([202, 204], res.Code)){
         const channel = getRecommendChannel(amount, _channel.Id);
