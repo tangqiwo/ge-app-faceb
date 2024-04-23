@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-09 14:00:27
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/Videos/index.tsx
  * @Description:
  */
@@ -59,7 +59,7 @@ export default () => {
       <View style={styles.contentView}>
         <View style={styles.tabsVeiw}>
           <MyTouchableOpacity style={[styles.tabsItem, currentTab === 0 && styles.tabsItemActive]} onPress={() => setCurrentTab(0)}>
-            <Text style={[styles.tabsItemText, currentTab === 0 && styles.tabsItemTextActive]}>巨象头条</Text>
+            <Text style={[styles.tabsItemText, currentTab === 0 && styles.tabsItemTextActive]}>AI头条</Text>
           </MyTouchableOpacity>
           <MyTouchableOpacity style={[styles.tabsItem, currentTab === 1 && styles.tabsItemActive]} onPress={() => setCurrentTab(1)}>
             <Text style={[styles.tabsItemText, currentTab === 1 && styles.tabsItemTextActive]}>金十访谈</Text>

@@ -17,7 +17,7 @@ import { LS as styles, GS } from './style';
 export default () => {
 
   const menus = useSelector((state: IStore) => state.base.appDisplayConfig?.Menus);
-  const { isLogined, ossDomain } = usePublicState();
+  const { isLogined, ossDomain, navigation } = usePublicState();
   const [displayMenus, setDisplayMenus] = React.useState<Array<any>>();
   const { forward } = useRouteWebCommon();
 
@@ -31,6 +31,10 @@ export default () => {
   }, [menus, isLogined])
 
   const handlePress = (item: any) => {
+    if(item.NativeForward){
+      navigation.navigate(item.NativeForward);
+      return;
+    }
     forward({
       uri: item.Link,
       title: item.Title,
@@ -47,7 +51,7 @@ export default () => {
       {
         displayMenus.map((item) =>
           <MyTouchableOpacity style={styles.item} key={item.Id} onPress={() => handlePress(item)} >
-            <Image source={{uri: `${ossDomain}${item.Icon}`}} style={{width: GS.mixin.rem(28), height: GS.mixin.rem(25)}} resizeMode='contain' />
+            <Image source={{uri: `${ossDomain}${item.Icon}`}} style={{width: GS.mixin.rem(30), height: GS.mixin.rem(30)}} resizeMode='contain' />
             <Text style={styles.itemText}>{item.Title}</Text>
           </MyTouchableOpacity>
         )

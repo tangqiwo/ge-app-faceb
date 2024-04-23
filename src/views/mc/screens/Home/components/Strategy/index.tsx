@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-09 21:27:09
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/Home/components/Strategy/index.tsx
  * @Description:
  */
@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import { useRoute } from '@react-navigation/native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import usePublicState from '@core/hooks/usePublicState';
+import LinearGradient from 'react-native-linear-gradient';
 import { LS as styles, GS } from './style';
 import dayjs from 'dayjs';
 
@@ -70,7 +71,7 @@ export default ({ type }: StrategyItemProps) => {
             <Text style={styles.titleMore} onPress={() => navigation.navigate('Root', { screen: 'Strategy', params: {type: 0} }) }>{`更多 >`}</Text>
           </View>
           <Carousel
-            style={{width: '100%', height: GS.mixin.rem(211), backgroundColor: 'red'}}
+            style={{width: '100%', height: GS.mixin.rem(200), backgroundColor: 'red'}}
             vertical={false}
             inactiveSlideScale={1}
             firstItem={0}
@@ -79,7 +80,7 @@ export default ({ type }: StrategyItemProps) => {
             data={_.take(list, 3)}
             onSnapToItem={(index) => setActiveSlide(index) }
             renderItem={({ item }: any) =>
-              <StrategyItem data={item} />
+              <StrategyItem data={item} isHome />
             }
           />
           <MyPagination activeSlide={activeSlide} dotsLength={list.length} />
@@ -125,7 +126,7 @@ export const ListFooterComponent = ({ type }: { type?: 'end' | 'loading' | 'none
 }
 
 // 单个策略
-const StrategyItem = ({ data, showDetail }: { data: any, showDetail?: boolean}) => {
+const StrategyItem = ({ data, showDetail, isHome }: { data: any, showDetail?: boolean, isHome?: boolean}) => {
 
   const { ossDomain } = usePublicState();
   const [countdown, setCountdown] = React.useState('');
@@ -172,8 +173,8 @@ const StrategyItem = ({ data, showDetail }: { data: any, showDetail?: boolean}) 
   }
 
   return (
-    <>
-      <View style={styles.personalView}>
+    <View style={[!isHome && styles.itemCard]}>
+      <View style={[styles.personalView, isHome && styles.personalHomeView]}>
         <Image source={{ uri: `${ossDomain}${data.TeacherProfile.Image}` }} style={styles.personalViewImage} />
         <View style={{marginLeft: GS.mixin.rem(10)}}>
           <Text style={styles.personalUpdateTime}>发布时间：{dayjs(data.StartAt).format('YYYY-MM-DD')}</Text>
@@ -186,9 +187,12 @@ const StrategyItem = ({ data, showDetail }: { data: any, showDetail?: boolean}) 
           </View>
         </View>
       </View>
-      <Text>{data.Title}</Text>
       {
-        !showDetail &&
+        !isHome &&
+        <Text>{data.Title}</Text>
+      }
+      {
+        !showDetail && !isHome &&
         <Text
           style={{marginTop: GS.mixin.rem(11), color: '#94938F', lineHeight: GS.mixin.rem(20), fontSize: GS.mixin.rem(10)}}
           numberOfLines={3}
@@ -198,21 +202,27 @@ const StrategyItem = ({ data, showDetail }: { data: any, showDetail?: boolean}) 
         </Text>
       }
       <View style={styles.progressView}>
-        <View style={styles.progressViewText}>
-          <Text style={styles.progressViewTextItem}>品种</Text>
-          <Text style={styles.progressViewTextItem}>方向</Text>
-          <Text style={styles.progressViewTextItem}>建仓价</Text>
-          <Text style={styles.progressViewTextItem}>止损价</Text>
-          <Text style={styles.progressViewTextItem}>目标价</Text>
-        </View>
-        <Image source={require('./i/progress.png')} style={styles.progressViewImage} />
-        <View style={styles.progressViewPriceText}>
-          <Text style={styles.prizeText}>{data.Category}</Text>
-          <Text style={styles.prizeText}>{data.Direction}</Text>
-          <Text style={styles.prizeText}>{Number(data.BuildPositionPrice).toFixed(2)}</Text>
-          <Text style={styles.prizeText}>{Number(data.StopLossPrice).toFixed(2)}</Text>
-          <Text style={styles.prizeText}>{Number(data.TargetPrice).toFixed(2)}</Text>
-        </View>
+        <LinearGradient
+          start={{x: 0, y: 0}}
+          end={{x: 0, y: 1}}
+          colors={['#ffc60033', '#ffc60000']}
+          style={styles.progressItemView}
+        >
+          <View style={styles.progressViewText}>
+            <Text style={styles.progressViewTextItem}>品种</Text>
+            <Text style={styles.progressViewTextItem}>方向</Text>
+            <Text style={styles.progressViewTextItem}>建仓价</Text>
+            <Text style={styles.progressViewTextItem}>止损价</Text>
+            <Text style={styles.progressViewTextItem}>目标价</Text>
+          </View>
+          <View style={styles.progressViewText}>
+            <Text style={styles.prizeText}>{data.Category}</Text>
+            <Text style={styles.prizeText}>{data.Direction}</Text>
+            <Text style={styles.prizeText}>{Number(data.BuildPositionPrice).toFixed(2)}</Text>
+            <Text style={styles.prizeText}>{Number(data.StopLossPrice).toFixed(2)}</Text>
+            <Text style={styles.prizeText}>{Number(data.TargetPrice).toFixed(2)}</Text>
+          </View>
+        </LinearGradient>
         {
           showDetail &&
           <Text style={styles.descText}>
@@ -220,7 +230,7 @@ const StrategyItem = ({ data, showDetail }: { data: any, showDetail?: boolean}) 
           </Text>
         }
       </View>
-    </>
+    </View>
   )
 
 }
@@ -257,6 +267,8 @@ export const MyPagination = ({ activeSlide, dotsLength }: IEntry) => {
       activeDotIndex={activeSlide}
       containerStyle={{
         width: '100%',
+        paddingTop: GS.mixin.rem(10),
+        paddingBottom: GS.mixin.rem(10),
       }}
       dotStyle={{
         width: GS.mixin.rem(8),

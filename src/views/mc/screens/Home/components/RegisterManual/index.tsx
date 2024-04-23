@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-09 16:47:14
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/Home/components/RegisterManual/index.tsx
  * @Description:
  */
@@ -117,8 +117,11 @@ export default () => {
   return (
     <View style={styles.container}>
       <View style={styles.title}>
-        <Image source={require('./i/icon-HOT.png')} style={styles.titleIcon} />
-        <Text style={styles.titleText}>炒金开户，四步轻松领取￥88元红包</Text>
+        <Text style={styles.titleText}>炒金开户</Text>
+        <View style={styles.titleRight}>
+          <Image source={require('./i/icon-HOT.png')} style={styles.titleIcon} resizeMode='contain' />
+          <Text style={styles.titleRightText}>四步轻松领取￥88元红包</Text>
+        </View>
       </View>
       <View style={styles.content}>
         <View style={styles.contentItem} >

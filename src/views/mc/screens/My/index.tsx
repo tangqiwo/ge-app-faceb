@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-08 12:07:33
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/My/index.tsx
  * @Description:
  */
@@ -191,17 +191,24 @@ export default () => {
             <MyTouchableOpacity style={styles.menuItem} onPress={() => forward(FORWARD_TYPES['QA'])}>
               <View style={styles.menuItemContent}>
                 <Image source={require('./i/icon/icon-2.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
+                <Text style={{...styles.buttonText, color: '#2A2A2A'}}>巨象公告</Text>
+              </View>
+              <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
+            </MyTouchableOpacity>
+            <MyTouchableOpacity style={styles.menuItem} onPress={() => forward(FORWARD_TYPES['QA'])}>
+              <View style={styles.menuItemContent}>
+                <Image source={require('./i/icon/icon-2.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
                 <Text style={{...styles.buttonText, color: '#2A2A2A'}}>常见问答</Text>
               </View>
               <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
             </MyTouchableOpacity>
-            <MyTouchableOpacity style={styles.menuItem} onPress={() => forward(FORWARD_TYPES['CMS_INVEST'])}>
+            {/* <MyTouchableOpacity style={styles.menuItem} onPress={() => forward(FORWARD_TYPES['CMS_INVEST'])}>
               <View style={styles.menuItemContent}>
                 <Image source={require('./i/icon/icon-3.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
                 <Text style={{...styles.buttonText, color: '#2A2A2A'}}>投资知识</Text>
               </View>
               <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
-            </MyTouchableOpacity>
+            </MyTouchableOpacity> */}
             <MyTouchableOpacity style={styles.menuItem} onPress={() => forward(FORWARD_TYPES['PRD_RULES'])}>
               <View style={styles.menuItemContent}>
                 <Image source={require('./i/icon/icon-4.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover'/>
@@ -251,6 +258,13 @@ export default () => {
             </MyTouchableOpacity>
           </>
         }
+        <MyTouchableOpacity style={styles.menuItem} onPress={() => forward(FORWARD_TYPES['QA'])}>
+          <View style={styles.menuItemContent}>
+            <Image source={require('./i/icon/icon-2.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
+            <Text style={{...styles.buttonText, color: '#2A2A2A'}}>巨象公告</Text>
+          </View>
+          <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
+        </MyTouchableOpacity>
         <MyTouchableOpacity style={{...styles.menuItem}} onPress={() => forward({...FORWARD_TYPES['CUSTOMER_SERVICE'], uri: customerService})}>
           <View style={styles.menuItemContent}>
             <Image source={require('./i/icon/icon-5.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />

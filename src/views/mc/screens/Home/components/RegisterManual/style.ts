@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/Home/components/RegisterManual/style.ts
  * @Description:
  */
@@ -26,9 +26,25 @@ export const LS = StyleSheet.create({
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1
   },
+  titleRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: G.mixin.rem(20),
+    paddingLeft: G.mixin.rem(5),
+    paddingRight: G.mixin.rem(5),
+    backgroundColor: '#fff3cd',
+    borderRadius: G.mixin.rem(4),
+    marginLeft: G.mixin.rem(5),
+  },
+  titleRightText: {
+    color: '#EE0C24',
+    fontSize: G.mixin.rem(10),
+    fontWeight: '600',
+  },
   titleIcon: {
-    width: G.mixin.rem(28),
-    height: G.mixin.rem(14),
+    width: G.mixin.rem(9),
+    height: G.mixin.rem(12),
+    marginRight: G.mixin.rem(5),
   },
   titleText: {
     fontWeight: '600',

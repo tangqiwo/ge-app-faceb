@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/Home/components/Strategy/style.ts
  * @Description:
  */
@@ -12,16 +12,17 @@ import { StyleSheet } from 'react-native';
 // 本组件样式写到这里
 export const LS = StyleSheet.create({
   container: {
-    marginBottom: G.mixin.rem(15),
     marginTop: G.mixin.rem(15),
     backgroundColor: 'white',
     borderRadius: G.mixin.rem(5),
     ...G.mixin.padding(14,14,14,14),
+    paddingBottom: 0,
   },
   noPadding: {
-    ...G.mixin.padding(0,0,0,0),
     marginTop: 0,
-    marginBottom: 0,
+    paddingBottom: G.mixin.rem(14),
+    ...G.mixin.padding(0,0,0,0),
+    backgroundColor: 'transparent',
   },
   title: {
     marginBottom: G.mixin.rem(15),
@@ -42,8 +43,14 @@ export const LS = StyleSheet.create({
     color: '#94938F',
     fontSize: G.mixin.rem(12),
   },
+  itemCard: {
+    backgroundColor: 'white',
+    borderRadius: G.mixin.rem(5),
+    marginBottom: G.mixin.rem(15),
+    ...G.mixin.padding(14,14,14,14),
+  },
   personalView: {
-    height: G.mixin.rem(80),
+    height: G.mixin.rem(70),
     paddingBottom: G.mixin.rem(10),
     marginBottom: G.mixin.rem(15),
     flexDirection: 'row',
@@ -51,6 +58,11 @@ export const LS = StyleSheet.create({
     alignItems: 'center',
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
+  },
+  personalHomeView: {
+    paddingBottom: 0,
+    borderBottomWidth: 0,
+    marginBottom: 0,
   },
   personalViewImage: {
     width: G.mixin.rem(55),
@@ -89,18 +101,31 @@ export const LS = StyleSheet.create({
   progressView: {
     marginTop: G.mixin.rem(15),
     marginBottom: G.mixin.rem(5),
-    paddingBottom: G.mixin.rem(10),
     borderBottomColor: '#EBEBEB',
     borderBottomWidth: 1,
     borderStyle: 'dashed'
   },
+  progressItemView: {
+    paddingTop: G.mixin.rem(10),
+    paddingBottom: G.mixin.rem(10),
+    paddingLeft: G.mixin.rem(12),
+    paddingRight: G.mixin.rem(12),
+    height: G.mixin.rem(64),
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    gap: G.mixin.rem(10),
+  },
   progressViewText: {
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    height: G.mixin.rem(32),
   },
   progressViewTextItem: {
     width: '20%',
     textAlign: 'center',
+    marginTop: G.mixin.rem(5),
   },
   progressViewImage: {
     marginTop: G.mixin.rem(10),

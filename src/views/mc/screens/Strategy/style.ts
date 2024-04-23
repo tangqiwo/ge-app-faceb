@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/Strategy/style.ts
  * @Description:
  */
@@ -52,12 +52,7 @@ export const LS = StyleSheet.create({
     marginBottom: G.mixin.rem(70),
     marginLeft: G.mixin.rem(14),
     marginRight: G.mixin.rem(14),
-    paddingTop: G.mixin.rem(14),
-    paddingBottom: G.mixin.rem(14),
-    paddingLeft: G.mixin.rem(14),
-    paddingRight: G.mixin.rem(14),
     borderRadius: G.mixin.rem(5),
-    backgroundColor: '#FFFFFF',
     flex: 1
   },
   tabsVeiw: {

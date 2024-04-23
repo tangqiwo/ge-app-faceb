@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-09 14:00:27
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/Strategy/index.tsx
  * @Description:
  */
@@ -97,7 +97,7 @@ export default () => {
             <Text style={[styles.tabsItemText, currentTab === 2 && styles.tabsItemTextActive]}>新手教学</Text>
           </MyTouchableOpacity>
           <MyTouchableOpacity style={[styles.tabsItem, currentTab === 3 && styles.tabsItemActive]} onPress={() => setCurrentTab(3)}>
-            <Text style={[styles.tabsItemText, currentTab === 3 && styles.tabsItemTextActive]}>巨象头条</Text>
+            <Text style={[styles.tabsItemText, currentTab === 3 && styles.tabsItemTextActive]}>AI头条</Text>
           </MyTouchableOpacity>
           <MyTouchableOpacity style={[styles.tabsItem, currentTab === 4 && styles.tabsItemActive]} onPress={() => setCurrentTab(4)}>
             <Text style={[styles.tabsItemText, currentTab === 4 && styles.tabsItemTextActive]}>金十访谈间</Text>
@@ -184,7 +184,7 @@ const Tips: any = {
     content: '黄金投资入门知识，MT4交易基础操作，简单易懂，小白必看。'
   },
   [3]: {
-    title: '巨象头条',
+    title: 'AI头条',
     content: '每日全球第一手财经资讯全掌握，金融热点实时播报。'
   },
   [4]: {
