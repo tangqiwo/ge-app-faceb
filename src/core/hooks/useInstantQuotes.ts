@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-30 10:29:55
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/hooks/useInstantQuotes.ts
  * @Description:
  */
@@ -45,9 +45,9 @@ export default () => {
 
   React.useEffect(() => {
     getInstantQuotes();
-    intervalTimer.current = setInterval(() => {
-      getInstantQuotes();
-    }, 15000);
+    // intervalTimer.current = setInterval(() => {
+    //   getInstantQuotes();
+    // }, 15000);
     return () => {
       if (typeof socket?.close === 'function') {
         socket?.close();
