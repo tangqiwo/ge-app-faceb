@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-23 15:43:48
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/navigations/AppNavigations.tsx
  * @Description: 主导航器（路由）
  */
@@ -31,6 +31,25 @@ import KLine from '@this/screens/Trade/Kline';
 import WebView from '@this/screens/WebFrame';
 import CONFIG from '@this/configs';
 
+const Root = ScreenHOC(RootNavigations);
+const Profile = ScreenHOC(ProfileScreen);
+const Login = ScreenHOC(LoginScreen);
+const Forgot = ScreenHOC(ForgotPass);
+const Register = ScreenHOC(RegisterScreen);
+const Realname = ScreenHOC(RealnameAuthenticationScreen);
+const Questionnaire = ScreenHOC(QuestionnaireScreen);
+const DoneForRegister = ScreenHOC(DoneForRegisterScreen);
+const RegisterGuide = ScreenHOC(RegisterGuideScreen);
+const Settings = ScreenHOC(SettingsScreen);
+const MessageCenter = ScreenHOC(MessageCenterScreen);
+const About = ScreenHOC(AboutUs);
+const Strategy = ScreenHOC(StrategyDetail);
+const VideosScreen = ScreenHOC(Videos);
+const TradeDetailScreen = ScreenHOC(TradeDetail);
+const TradeDoneScreen = ScreenHOC(TradeDone);
+const KLineScreen = ScreenHOC(KLine);
+const WebFrame = ScreenHOC(WebView);
+
 const MainStack = createNativeStackNavigator();
 
 export default () => {
@@ -50,24 +69,24 @@ export default () => {
         },
         headerTitleAlign: 'center'
       }}>
-      <MainStack.Screen name="Root" component={ScreenHOC(RootNavigations)} />
-      <MainStack.Screen name="Profile" component={ScreenHOC(ProfileScreen)} options={{headerShown: true, title: '个人信息'}} />
-      <MainStack.Screen name='Login' component={ScreenHOC(LoginScreen)} />
-      <MainStack.Screen name='ForgotPass' component={ScreenHOC(ForgotPass)} />
-      <MainStack.Screen name='Register' component={ScreenHOC(RegisterScreen)} />
-      <MainStack.Screen name='RealnameAuthentication' component={ScreenHOC(RealnameAuthenticationScreen)} />
-      <MainStack.Screen name='Questionnaire' component={ScreenHOC(QuestionnaireScreen)} />
-      <MainStack.Screen name='DoneForRegister' component={ScreenHOC(DoneForRegisterScreen)} />
-      <MainStack.Screen name='RegisterGuide' component={ScreenHOC(RegisterGuideScreen)} />
-      <MainStack.Screen name='Settings' component={ScreenHOC(SettingsScreen)} />
-      <MainStack.Screen name='MessageCenter' component={ScreenHOC(MessageCenterScreen)} />
-      <MainStack.Screen name='AboutUs' component={ScreenHOC(AboutUs)}  />
-      <MainStack.Screen name='StrategyDetail' component={ScreenHOC(StrategyDetail)} options={{headerShown: true}} />
-      <MainStack.Screen name='Videos' component={ScreenHOC(Videos)} />
-      <MainStack.Screen name='TradeDetail' component={ScreenHOC(TradeDetail)} />
-      <MainStack.Screen name='TradeDone' component={ScreenHOC(TradeDone)}  />
-      <MainStack.Screen name='KLine' component={KLine} />
-      <MainStack.Screen name='WEB-COMMON' component={ScreenHOC(WebView)} />
+      <MainStack.Screen name="Root" component={Root} />
+      <MainStack.Screen name="Profile" component={Profile} options={{headerShown: true, title: '个人信息'}} />
+      <MainStack.Screen name='Login' component={Login} />
+      <MainStack.Screen name='ForgotPass' component={Forgot} />
+      <MainStack.Screen name='Register' component={Register} />
+      <MainStack.Screen name='RealnameAuthentication' component={Realname} />
+      <MainStack.Screen name='Questionnaire' component={Questionnaire} />
+      <MainStack.Screen name='DoneForRegister' component={DoneForRegister} />
+      <MainStack.Screen name='RegisterGuide' component={RegisterGuide} />
+      <MainStack.Screen name='Settings' component={Settings} />
+      <MainStack.Screen name='MessageCenter' component={MessageCenter} />
+      <MainStack.Screen name='AboutUs' component={About}  />
+      <MainStack.Screen name='StrategyDetail' component={Strategy} options={{headerShown: true}} />
+      <MainStack.Screen name='Videos' component={VideosScreen} />
+      <MainStack.Screen name='TradeDetail' component={TradeDetailScreen} />
+      <MainStack.Screen name='TradeDone' component={TradeDoneScreen}  />
+      <MainStack.Screen name='KLine' component={KLineScreen} />
+      <MainStack.Screen name='WEB-COMMON' component={WebFrame} />
     </MainStack.Navigator>
   )
 }
