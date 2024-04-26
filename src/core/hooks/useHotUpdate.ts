@@ -35,8 +35,8 @@ export const useHotUpdateChecker = () => {
   const startUpdateCheck = async () => {
     // 开始检查
     setState(UPDATE_STATUS.PENDING);
-    // 开发模式忽略
-    if(__DEV__){
+    // 开发模式忽略 IOS 忽略
+    if(__DEV__ || Platform.OS === 'ios'){
       setState(UPDATE_STATUS.DONE);
       return;
     }

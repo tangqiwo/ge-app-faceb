@@ -145,7 +145,7 @@ export default () => {
             <Text style={styles.subheading}>支付通道</Text>
             {/* 支付通道icon暫定 */}
             <View style={{...styles.channelView, backgroundColor: ChannelColor[params.PaymentType]}}>
-              <Image source={ChannelIcon[params.PaymentType]} style={styles.rightIcon} resizeMode='contain' />
+              <Image source={{uri: params.IconUrl}} style={styles.rightIcon} resizeMode='contain' />
               <Text style={styles.right}>{PAYMENT_TYPE_NAME[params.PaymentType]}</Text>
             </View>
           </View>

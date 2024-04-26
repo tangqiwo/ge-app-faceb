@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-23 18:56:14
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/Home/index.tsx
  * @Description: 首页
  */
@@ -86,8 +86,8 @@ export default () => {
 
   const handleBottomADClick = () => {
     const content = JSON.parse(bottomAd[0].Content);
-    if(content.EnableNative){
-      navigation.navigate('Register')
+    if(bottomAd[0].NativeForward){
+      navigation.navigate(bottomAd[0].NativeForward)
       return;
     }
     forward({type: 'origin', uri: content.RedirectUrl, title: content.RedirectTitle});

@@ -37,7 +37,13 @@ export default () => {
   React.useEffect(() => {
     dispatch(ACTIONS.PAYMENT.getPaymentCheck({cb: (res: any) => {
       if(res.Data?.IsHave){
-        navigation.navigate('Deposit-3', {...res.Data?.Order, CutDown: res.Data?.CutDown, NowTime: _.now(), ShowTips: true});
+        navigation.navigate('Deposit-3', {
+          ...res.Data?.Order,
+          CutDown: res.Data?.CutDown,
+          NowTime: _.now(),
+          ShowTips: true,
+          IconUrl: res.Data?.IconUrl,
+        });
       }
     }}))
 
@@ -93,7 +99,7 @@ export default () => {
               activeOpacity={1}
               onPress={() => selectChannel(item)}
             >
-              <Image source={ChannelIcon[item.PaymentType]} style={styles.leftIcon} resizeMode='contain' />
+              <Image source={{uri: item.IconUrl}} style={styles.leftIcon} resizeMode='contain' />
               <View style={styles.middleBox}>
                 <View style={styles.middle}>
                   <Text style={styles.middleTitle} numberOfLines={1}>{item.Name}</Text>

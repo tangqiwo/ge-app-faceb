@@ -153,7 +153,7 @@ export default () => {
       }
       // 成功
       if (res.Code === 0 && res.Type === 0) {
-        navigation.navigate('Deposit-3', {...res.Data, NowTime: _.now()});
+        navigation.navigate('Deposit-3', {...res.Data, IconUrl: _channel.IconUrl, NowTime: _.now()});
         return;
       }
       // 容错

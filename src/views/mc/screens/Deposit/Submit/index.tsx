@@ -69,7 +69,7 @@ export default () => {
           <Text style={styles.declare}>已选支付方式</Text>
           {/* 支付方式 */}
           <View style={{...styles.item, backgroundColor: ChannelColor[currentChannel.PaymentType]}}>
-            <Image source={ChannelIcon[currentChannel.PaymentType]} style={styles.leftIcon} resizeMode='contain' />
+            <Image source={{uri: currentChannel.IconUrl}} style={styles.leftIcon} resizeMode='contain' />
             <View style={styles.middleBox}>
               <Text style={styles.middleTitle}>{currentChannel.Name}</Text>
               <Text style={styles.middleTips}>

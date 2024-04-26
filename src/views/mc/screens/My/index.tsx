@@ -33,7 +33,7 @@ export default () => {
       dispatch(ACTIONS.PAYMENT.getPaymentCheck({cb: (res: any) => {
         clearInterval(timer.current);
         if(res.Data?.IsHave){
-          setOrder({...res.Data?.Order, CutDown: res.Data?.CutDown, ShowTips: true, Now: _.now()});
+          setOrder({...res.Data?.Order, CutDown: res.Data?.CutDown, IconUrl: res.Data?.IconUrl, ShowTips: true, Now: _.now()});
           timer.current = setTimeout(() => {
             setOrder(null);
           }, 1000 * res.Data?.CutDown)
