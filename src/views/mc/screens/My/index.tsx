@@ -174,7 +174,7 @@ export default () => {
                   <Text style={styles.buttonText}>取款</Text>
                 </View>
               </MyTouchableOpacity>
-              <MyTouchableOpacity style={styles.buttonItem} onPress={() => forward(FORWARD_TYPES['DEPOSIT'])}>
+              <MyTouchableOpacity style={styles.buttonItem} onPress={() => navigation.navigate('Depoist')}>
                 <View style={{...styles.buttonItem, backgroundColor: '#FFC600'}}>
                   <Image source={require('./i/zz.png')} style={{...styles.buttonIcon, width: GS.mixin.rem(20), height: GS.mixin.rem(18)}} resizeMode='contain' />
                   <Text style={{...styles.buttonText, color: 'black'}}>注资</Text>
