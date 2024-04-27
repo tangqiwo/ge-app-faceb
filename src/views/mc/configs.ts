@@ -13,10 +13,10 @@ import DeviceInfo from 'react-native-device-info'
 const app_version = DeviceInfo.getVersion();
 
 // 生产
-export const API = 'http://16.163.191.94:16002';
+// export const API = 'http://16.163.191.94:16002';
 
 // 测试
-// export const API = app_version.includes('-rc') ? 'http://18.166.96.17:16002' : 'http://16.163.191.94:16002';
+export const API = app_version.includes('-rc') ? 'http://18.166.96.17:16002' : 'http://16.163.191.94:16002';
 
 // 测试环境
 // export const MC_WEB_DOMAIN = 'http://mc.lonsdg.com'
@@ -31,7 +31,7 @@ export const CHANNEL_CODE = Platform.OS === 'android' ? 'gegoldhk.com-android' :
 
 export const IS_ACTIVE_ANIMATION = isActiveAnimation();
 
-export const VERSION = '1.3.0.040201';
+export const VERSION = '1.3.0';
 
 export default {
   ...CONFIGS,
