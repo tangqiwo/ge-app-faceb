@@ -17,7 +17,7 @@ import { LS as styles, GS } from './style';
 export default () => {
 
   const menus = useSelector((state: IStore) => state.base.appDisplayConfig?.Menus);
-  const { isLogined, ossDomain } = usePublicState();
+  const { isLogined, ossDomain, navigation } = usePublicState();
   const [displayMenus, setDisplayMenus] = React.useState<Array<any>>();
   const { forward } = useRouteWebCommon();
 
@@ -31,6 +31,10 @@ export default () => {
   }, [menus, isLogined])
 
   const handlePress = (item: any) => {
+    if(item.NativeForward){
+      navigation.navigate(item.NativeForward);
+      return;
+    }
     forward({
       uri: item.Link,
       title: item.Title,

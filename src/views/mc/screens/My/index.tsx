@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-08 12:07:33
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/My/index.tsx
  * @Description:
  */
@@ -24,10 +24,24 @@ export default () => {
   const [ showMoney, setShowMoney ] = React.useState(false);
   const [ isShowDisclaimer, setIsShowDisclaimer ] = React.useState(false);
   const { forward } = useRouteWebCommon();
+  const [ order, setOrder ] = React.useState<any>();
+  const timer = React.useRef<any>(null);
 
   React.useEffect(() => {
     if(isFocused && isLogined){
       dispatch(ACTIONS.USER.getUserInfo({loading: false}))
+      dispatch(ACTIONS.PAYMENT.getPaymentCheck({cb: (res: any) => {
+        clearInterval(timer.current);
+        if(res.Data?.IsHave){
+          setOrder({...res.Data?.Order, CutDown: res.Data?.CutDown, IconUrl: res.Data?.IconUrl, ShowTips: true, Now: _.now()});
+          timer.current = setTimeout(() => {
+            setOrder(null);
+          }, 1000 * res.Data?.CutDown)
+          return;
+        }else{
+          setOrder(null);
+        }
+      }}))
     }
   }, [isFocused, isLogined])
 
@@ -43,6 +57,12 @@ export default () => {
     if(rs.user.registerProgress.code === Enum.user.ERegisterProgress.WAITING_QUESTIONNAIRE) {
       navigation.navigate('Questionnaire');
       return;
+    }
+  }
+
+  const contineDeposit = () => {
+    if(order) {
+      navigation.navigate('Deposit-3', { ...order, CutDown: order.CutDown - Math.floor((_.now() - order.Now) / 1000), NowTime: _.now() });
     }
   }
 
@@ -154,12 +174,20 @@ export default () => {
                   <Text style={styles.buttonText}>取款</Text>
                 </View>
               </MyTouchableOpacity>
-              <MyTouchableOpacity style={styles.buttonItem} onPress={() => forward(FORWARD_TYPES['DEPOSIT'])}>
+              <MyTouchableOpacity style={styles.buttonItem} onPress={() => navigation.navigate('Depoist')}>
                 <View style={{...styles.buttonItem, backgroundColor: '#FFC600'}}>
                   <Image source={require('./i/zz.png')} style={{...styles.buttonIcon, width: GS.mixin.rem(20), height: GS.mixin.rem(18)}} resizeMode='contain' />
                   <Text style={{...styles.buttonText, color: 'black'}}>注资</Text>
                 </View>
               </MyTouchableOpacity>
+            </View>
+          }
+          {
+            order &&
+            <View style={{marginTop: 20, alignItems: 'center'}}>
+              <Text style={{color: '#E3262A'}} onPress={contineDeposit}>
+                您有一笔未完成的订单，点击继续操作
+              </Text>
             </View>
           }
         </View>

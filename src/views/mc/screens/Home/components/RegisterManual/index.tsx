@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-09 16:47:14
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/Home/components/RegisterManual/index.tsx
  * @Description:
  */
@@ -84,7 +84,7 @@ export default () => {
       goRealName();
       return;
     }
-    forward(FORWARD_TYPES['DEPOSIT'])
+    navigation.navigate('Deposit')
   })
 
   // 去交易

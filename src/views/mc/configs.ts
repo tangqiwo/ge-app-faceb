@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-08-02 15:14:12
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/configs.ts
  * @Description: 私有配置
  */
@@ -13,7 +13,7 @@ import DeviceInfo from 'react-native-device-info'
 const app_version = DeviceInfo.getVersion();
 
 // 生产
-// export const API = 'http://16.163.191.94:16002';
+// export const API = 'http://18.166.96.17:16002';
 
 // 测试
 export const API = app_version.includes('-rc') ? 'http://18.166.96.17:16002' : 'http://16.163.191.94:16002';

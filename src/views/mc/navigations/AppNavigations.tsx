@@ -29,6 +29,12 @@ import ProfileScreen from '@this/screens/Profile'
 import ScreenHOC from '@views/mc/shadow/ScreenHOC';
 import KLine from '@this/screens/Trade/Kline';
 import WebView from '@this/screens/WebFrame';
+import Deposit from '@this/screens/Deposit';
+import DepositSubmit from '@this/screens/Deposit/Submit';
+import DepositPayment from '@this/screens/Deposit/Payment';
+import DepositHKBank from '@this/screens/Deposit/HKBank';
+import DepositUpload from '@this/screens/Deposit/UploadReceipt';
+import DepositDone from '@this/screens/Deposit/Succeed';
 import CONFIG from '@this/configs';
 
 const Root = ScreenHOC(RootNavigations);
@@ -49,6 +55,12 @@ const TradeDetailScreen = ScreenHOC(TradeDetail);
 const TradeDoneScreen = ScreenHOC(TradeDone);
 const KLineScreen = ScreenHOC(KLine);
 const WebFrame = ScreenHOC(WebView);
+const DepositScreen = ScreenHOC(Deposit);
+const DepositSubmitScreen = ScreenHOC(DepositSubmit);
+const DepositPaymentScreen = ScreenHOC(DepositPayment);
+const DepositHKBankScreen = ScreenHOC(DepositHKBank);
+const DepositUploadScreen = ScreenHOC(DepositUpload);
+const DepositDoneScreen = ScreenHOC(DepositDone);
 
 const MainStack = createNativeStackNavigator();
 
@@ -87,6 +99,12 @@ export default () => {
       <MainStack.Screen name='TradeDone' component={TradeDoneScreen}  />
       <MainStack.Screen name='KLine' component={KLineScreen} />
       <MainStack.Screen name='WEB-COMMON' component={WebFrame} />
+      <MainStack.Screen name='Deposit' component={DepositScreen} options={{headerShown: true, title: '注资'}} />
+      <MainStack.Screen name='Deposit-2' component={DepositSubmitScreen} options={{headerShown: true, title: '注资'}} />
+      <MainStack.Screen name='Deposit-3' component={DepositPaymentScreen} options={{headerShown: true, title: '注资'}} />
+      <MainStack.Screen name='Deposit-4' component={DepositUploadScreen} options={{headerShown: true, title: '注资'}} />
+      <MainStack.Screen name='Deposit-5' component={DepositDoneScreen} />
+      <MainStack.Screen name='Deposit-hk' component={DepositHKBankScreen} options={{headerShown: true, title: '注资'}}/>
     </MainStack.Navigator>
   )
 }

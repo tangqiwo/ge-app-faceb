@@ -68,8 +68,8 @@ export default () => {
             ...symbolData,
             Ask: Number(symbolData.Ask),
             Bid: Number(symbolData.Bid),
-            changeValue: _.floor(closePrice - symbolData.Ask, 3),
-            changePercent: _.floor((closePrice - symbolData.Ask) / closePrice * 100, 2),
+            changeValue: _.floor(symbolData.Ask - closePrice , 3),
+            changePercent: _.floor((symbolData.Ask - closePrice) / closePrice * 100, 2),
             spread: SPREAD[symbolData.Symbol],
             askStatus: currentInstant.Ask > symbolData.Ask ? INSTANT_QUOTES_STATUS.DOWN :
                        currentInstant.Ask === symbolData.Ask ? INSTANT_QUOTES_STATUS.FLAT :
