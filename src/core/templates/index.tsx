@@ -36,7 +36,7 @@ export default () => {
   }, [])
 
   const JPushInit = () => {
-    JPush.init({ "appKey":"6f37823948e5401675379669", "channel":"dev", "production": true });
+    JPush.init({ "appKey":"e46d52b0b303ccf7e87bbb50", "channel":"dev", "production": true });
     JPush.setBadge({badge: 0, appBadge: 0});
   }
 
