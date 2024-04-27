@@ -7,6 +7,7 @@
  */
 import _ from 'lodash';
 import React from "react";
+import { Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import usePublicState from '@core/hooks/usePublicState';
 import { INSTANT_QUOTES_STATUS_COLOR, INSTANT_QUOTES_STATUS_ICON } from '@core/hooks/useInstantQuotes';
@@ -14,6 +15,7 @@ import { View, Text, ScrollView, TouchableWithoutFeedback, StatusBar, Appearance
 import { useSelector } from 'react-redux';
 import WebView from "@core/templates/components/WebView";
 import useInstantQuotes from '@core/hooks/useInstantQuotes';
+import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 import { IStore } from '@schemas/redux-store';
 import { LS as styles, GS } from './style';
 
@@ -34,10 +36,18 @@ export default () => {
 
   return (
     <View style={styles.container}>
-      <View style={{...styles.header, height: GS.mixin.rem(50) + insets.top}} >
-        <Text style={{...styles.headerText, marginTop: insets.top, color: tab === 0 ? '#2a2a2a' : '#999999'}} onPress={() => setTab(0)}>产品</Text>
-        <Text style={{...styles.headerText, marginTop: insets.top, color: tab === 1 ? '#2a2a2a' : '#999999'}} onPress={() => setTab(1)}>快讯</Text>
-        <Text style={{...styles.headerText, marginTop: insets.top, color: tab === 2 ? '#2a2a2a' : '#999999'}} onPress={() => setTab(2)}>日历</Text>
+      <View style={{...styles.header, height: GS.mixin.rem(40) + insets.top, marginTop: Platform.OS === 'android' ? GS.mixin.rem(15) : 0}} >
+        <View style={styles.tabsVeiw}>
+          <MyTouchableOpacity style={[styles.tabsItem, tab === 0 && styles.tabsItemActive]} onPress={() => setTab(0)}>
+            <Text style={[styles.tabsItemText, tab === 0 && styles.tabsItemTextActive]}>产品交易</Text>
+          </MyTouchableOpacity>
+          <MyTouchableOpacity style={[styles.tabsItem, tab === 1 && styles.tabsItemActive]} onPress={() => setTab(1)}>
+            <Text style={[styles.tabsItemText, tab === 1 && styles.tabsItemTextActive]}>新闻快讯</Text>
+          </MyTouchableOpacity>
+          <MyTouchableOpacity style={[styles.tabsItem, tab === 2 && styles.tabsItemActive]} onPress={() => setTab(2)}>
+            <Text style={[styles.tabsItemText, tab === 2 && styles.tabsItemTextActive]}>财经日历</Text>
+          </MyTouchableOpacity>
+        </View>
       </View>
       {
         tab === 0 && symbols &&

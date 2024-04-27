@@ -13,10 +13,10 @@ import DeviceInfo from 'react-native-device-info'
 const app_version = DeviceInfo.getVersion();
 
 // 生产
-// export const API = 'http://18.166.96.17:16002';
+export const API = 'http://16.163.191.94:16002';
 
 // 测试
-export const API = app_version.includes('-rc') ? 'http://18.166.96.17:16002' : 'http://16.163.191.94:16002';
+// export const API = app_version.includes('-rc') ? 'http://18.166.96.17:16002' : 'http://16.163.191.94:16002';
 
 // 测试环境
 // export const MC_WEB_DOMAIN = 'http://mc.lonsdg.com'

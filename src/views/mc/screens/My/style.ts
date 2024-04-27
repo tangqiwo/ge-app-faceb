@@ -73,10 +73,15 @@ export const LS = StyleSheet.create({
     paddingTop: G.mixin.rem(20),
     paddingBottom: G.mixin.rem(20),
   },
+  subscription: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
   moneyTitle: {
     marginTop: G.mixin.rem(10),
     fontSize: G.mixin.rem(15),
-    color: '#2A2A2A',
+    color: '#646464',
   },
   moneyDetail: {
     flexDirection: 'row',
@@ -97,7 +102,7 @@ export const LS = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '100%',
+    paddingLeft: G.mixin.rem(20),
   },
   buttonItem: {
     height: G.mixin.rem(40),
