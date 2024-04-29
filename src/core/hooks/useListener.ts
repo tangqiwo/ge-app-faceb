@@ -10,7 +10,7 @@ import React from 'react';
 import usePublicState from './usePublicState';
 import { useSelector } from 'react-redux';
 import usePromotion from './usePromotion';
-import { AppState } from 'react-native';
+import { AppState, Platform } from 'react-native';
 import CONFIG from '@this/configs'
 
 export default () => {
@@ -43,7 +43,7 @@ export default () => {
 
 
   React.useEffect(() => {
-    if(!appVersion){
+    if(!appVersion || Platform.OS === 'android'){
       return;
     }
     const _version = _.chain(CONFIG.VERSION).split('.').join('').value();

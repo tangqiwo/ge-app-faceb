@@ -144,7 +144,10 @@ export default () => {
             </MyTouchableOpacity>
             {
               isLogined &&
-              <Text style={{...styles.moneyTitle, marginLeft: 'auto'}}>取款 {`>`}</Text>
+              <Text
+                onPress={() => forward(FORWARD_TYPES['ATM'])}
+                style={{...styles.moneyTitle, marginLeft: 'auto'}}
+              >取款 {`>`}</Text>
             }
           </View>
           <View style={styles.moneyDetail}>
@@ -174,7 +177,7 @@ export default () => {
               Enum.user.ERegisterProgress.SUPPLEMENTARY_INFORMATION
             ], rs.user.registerProgress.code) &&
             <View style={styles.buttons}>
-              <MyTouchableOpacity style={styles.buttonItem} onPress={() => navigation.navigate('Depoist')}>
+              <MyTouchableOpacity style={styles.buttonItem} onPress={() => navigation.navigate('Deposit')}>
                 <View style={{...styles.buttonItem, backgroundColor: '#FFC600', width: GS.mixin.rem(190)}}>
                   <Image source={require('./i/zz.png')} style={{...styles.buttonIcon, width: GS.mixin.rem(20), height: GS.mixin.rem(18)}} resizeMode='contain' />
                   <Text style={{...styles.buttonText, color: 'black'}}>立即注资</Text>
