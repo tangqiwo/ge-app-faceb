@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/Quotes/style.ts
  * @Description:
  */
@@ -18,18 +18,47 @@ export const LS = StyleSheet.create({
     backgroundColor: '#fff',
   },
   header: {
-    height: G.mixin.rem(50),
-    backgroundColor: '#FFC600',
+    backgroundColor: '#fff',
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: G.mixin.rem(20),
   },
   headerText: {
-    color: '#999999',
+    color: '#2A2A2A',
     fontWeight: '600',
+    fontSize: G.mixin.rem(18),
+  },
+  tabsVeiw: {
+    height: G.mixin.rem(40),
+    marginTop: G.mixin.rem(20),
+    paddingLeft: G.mixin.rem(14),
+    paddingRight: G.mixin.rem(14),
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  tabsItem: {
+    height: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: G.mixin.rem(10),
+  },
+  tabsItemActive: {
+    borderBottomColor: '#FFC600',
+    borderBottomWidth: 2,
+  },
+  tabsItemText:{
+    fontSize: G.mixin.rem(14),
+    color: '#646464',
+  },
+  tabsItemTextActive:{
     fontSize: G.mixin.rem(16),
-    marginLeft: G.mixin.rem(14),
+    color: '#2A2A2A',
+    fontWeight: '600',
   },
   headerTextActive: {
     color: '#2A2A2A',

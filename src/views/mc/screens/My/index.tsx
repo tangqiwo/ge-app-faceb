@@ -137,12 +137,21 @@ export default () => {
           Enum.user.ERegisterProgress.SUPPLEMENTARY_INFORMATION
         ], rs.user.registerProgress.code)) &&
         <View style={styles.infosView}>
-          <Text style={styles.moneyTitle}>资金余额（USD）</Text>
+          <View style={styles.subscription}>
+            <Text style={styles.moneyTitle} onPress={() => forward(FORWARD_TYPES['ATM_DETAIL'])}>资金余额（USD）</Text>
+            <MyTouchableOpacity onPress={() => setShowMoney(!showMoney)}>
+              <Icon.Font type={Icon.T.Feather} name={!showMoney ? 'eye-off' : 'eye' } size={GS.mixin.rem(16)} style={{marginTop: 10}} color="#94938F" />
+            </MyTouchableOpacity>
+            {
+              isLogined &&
+              <Text
+                onPress={() => forward(FORWARD_TYPES['ATM'])}
+                style={{...styles.moneyTitle, marginLeft: 'auto'}}
+              >取款 {`>`}</Text>
+            }
+          </View>
           <View style={styles.moneyDetail}>
             <Text style={styles.moneyDetailText}>{showMoney ? (infos.Balance || '0.00') : isLogined ? '****' : '----'}</Text>
-            <MyTouchableOpacity onPress={() => setShowMoney(!showMoney)}>
-              <Icon.Font type={Icon.T.Feather} name={!showMoney ? 'eye-off' : 'eye' } size={GS.mixin.rem(20)} style={{marginTop: 5}} color="#94938F" />
-            </MyTouchableOpacity>
           </View>
           {
             // 未登录
@@ -168,16 +177,18 @@ export default () => {
               Enum.user.ERegisterProgress.SUPPLEMENTARY_INFORMATION
             ], rs.user.registerProgress.code) &&
             <View style={styles.buttons}>
-              <MyTouchableOpacity style={styles.buttonItem} onPress={() => forward(FORWARD_TYPES['ATM'])}>
-                <View style={styles.buttonItem}>
-                  <Image source={require('./i/qk.png')} style={{...styles.buttonIcon, width: GS.mixin.rem(20), height: GS.mixin.rem(17)}} resizeMode='contain' />
-                  <Text style={styles.buttonText}>取款</Text>
+              <MyTouchableOpacity style={styles.buttonItem} onPress={() => navigation.navigate('Deposit')}>
+                <View style={{...styles.buttonItem, backgroundColor: '#FFC600', width: GS.mixin.rem(190)}}>
+                  <Image source={require('./i/zz.png')} style={{...styles.buttonIcon, width: GS.mixin.rem(20), height: GS.mixin.rem(18)}} resizeMode='contain' />
+                  <Text style={{...styles.buttonText, color: 'black'}}>立即注资</Text>
                 </View>
               </MyTouchableOpacity>
-              <MyTouchableOpacity style={styles.buttonItem} onPress={() => navigation.navigate('Depoist')}>
-                <View style={{...styles.buttonItem, backgroundColor: '#FFC600'}}>
-                  <Image source={require('./i/zz.png')} style={{...styles.buttonIcon, width: GS.mixin.rem(20), height: GS.mixin.rem(18)}} resizeMode='contain' />
-                  <Text style={{...styles.buttonText, color: 'black'}}>注资</Text>
+              <MyTouchableOpacity
+                style={{...styles.buttonItem,  backgroundColor: '#F5F5F5', width: GS.mixin.rem(115)}}
+                onPress={() => forward(FORWARD_TYPES['ATM_DETAIL'])}
+              >
+                <View style={{...styles.buttonItem, backgroundColor: '#F5F5F5', width: GS.mixin.rem(115)}}>
+                  <Text style={{...styles.buttonText, color: '@2a2a2a'}}>资金明细</Text>
                 </View>
               </MyTouchableOpacity>
             </View>

@@ -35,6 +35,7 @@ import DepositPayment from '@this/screens/Deposit/Payment';
 import DepositHKBank from '@this/screens/Deposit/HKBank';
 import DepositUpload from '@this/screens/Deposit/UploadReceipt';
 import DepositDone from '@this/screens/Deposit/Succeed';
+import Update from '@this/screens/Update';
 import CONFIG from '@this/configs';
 
 const Root = ScreenHOC(RootNavigations);
@@ -61,6 +62,7 @@ const DepositPaymentScreen = ScreenHOC(DepositPayment);
 const DepositHKBankScreen = ScreenHOC(DepositHKBank);
 const DepositUploadScreen = ScreenHOC(DepositUpload);
 const DepositDoneScreen = ScreenHOC(DepositDone);
+const UpdateScreen = ScreenHOC(Update);
 
 const MainStack = createNativeStackNavigator();
 
@@ -105,6 +107,7 @@ export default () => {
       <MainStack.Screen name='Deposit-4' component={DepositUploadScreen} options={{headerShown: true, title: '注资'}} />
       <MainStack.Screen name='Deposit-5' component={DepositDoneScreen} />
       <MainStack.Screen name='Deposit-hk' component={DepositHKBankScreen} options={{headerShown: true, title: '注资'}}/>
+      <MainStack.Screen name='Update' component={UpdateScreen} options={{headerShown: false}}/>
     </MainStack.Navigator>
   )
 }
