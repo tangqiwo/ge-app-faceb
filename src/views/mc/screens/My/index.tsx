@@ -177,7 +177,7 @@ export default () => {
               Enum.user.ERegisterProgress.SUPPLEMENTARY_INFORMATION
             ], rs.user.registerProgress.code) &&
             <View style={styles.buttons}>
-              <MyTouchableOpacity style={styles.buttonItem} onPress={() => navigation.navigate('Deposit')}>
+              <MyTouchableOpacity style={{...styles.buttonItem, marginLeft: GS.mixin.rem(25)}} onPress={() => navigation.navigate('Deposit')}>
                 <View style={{...styles.buttonItem, backgroundColor: '#FFC600', width: GS.mixin.rem(190)}}>
                   <Image source={require('./i/zz.png')} style={{...styles.buttonIcon, width: GS.mixin.rem(20), height: GS.mixin.rem(18)}} resizeMode='contain' />
                   <Text style={{...styles.buttonText, color: 'black'}}>立即注资</Text>
@@ -267,13 +267,13 @@ export default () => {
               </View>
               <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
             </MyTouchableOpacity>
-            <MyTouchableOpacity style={styles.menuItem} onPress={() => forward(FORWARD_TYPES['ATM_DETAIL'])}>
+            {/* <MyTouchableOpacity style={styles.menuItem} onPress={() => forward(FORWARD_TYPES['ATM_DETAIL'])}>
               <View style={styles.menuItemContent}>
                 <Image source={require('./i/icon/icon-9.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
                 <Text style={{...styles.buttonText, color: '#2A2A2A'}}>资金明细</Text>
               </View>
               <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
-            </MyTouchableOpacity>
+            </MyTouchableOpacity> */}
             {/* <MyTouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Root', {screen: 'Trade', params: {tab: 0}})}>
               <View style={styles.menuItemContent}>
                 <Image source={require('./i/icon/icon-8.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />

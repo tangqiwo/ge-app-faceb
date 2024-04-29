@@ -102,7 +102,6 @@ export const LS = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingLeft: G.mixin.rem(20),
   },
   buttonItem: {
     height: G.mixin.rem(40),

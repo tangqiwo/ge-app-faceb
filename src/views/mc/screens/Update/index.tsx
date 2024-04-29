@@ -5,6 +5,7 @@
  * @FilePath: /app_face_b/src/views/mc/screens/Update/index.tsx
  * @Description:
  */
+import _ from 'lodash'
 import React from "react";
 import { View, Text, Linking, Platform } from 'react-native';
 import BackgroundView from "@core/templates/components/BackgroundView";
@@ -24,7 +25,7 @@ export default () => {
         <Text style={styles.title}>新版本 V{appVersion.Version}</Text>
       </BackgroundView>
       <View style={styles.content}>
-        <Text style={styles.contentText}>{appVersion?.Content}</Text>
+        <Text style={styles.contentText}>{_.chain(appVersion?.Content).split('\\n').join('\n').value()}</Text>
       </View>
       <View style={{flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', flex: 1}}>
         {

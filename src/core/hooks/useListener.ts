@@ -49,6 +49,13 @@ export default () => {
     const _version = _.chain(CONFIG.VERSION).split('.').join('').value();
     const remoteVersion = _.chain(appVersion?.Version).split('.').join('').value();
     if(parseInt(remoteVersion) > parseInt(_version)){
+      if(appVersion.ForceToUpdate){
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Update'}],
+        });
+        return;
+      }
       navigation.navigate('Update');
     }
   }, [JSON.stringify(appVersion)])
