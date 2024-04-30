@@ -52,4 +52,7 @@
 - 应用到原生包时，请先绑定为当前基准版本对应的PRE版本，待测试无误后在后台https://pushy-admin.reactnative.cn/切换热更包绑定生产版
 
 
+报错汇总
 
+https://github.com/facebook/react-native/issues/43335
+https://stackoverflow.com/questions/72729591/fbreactnativespec-h-error-after-upgrading-from-0-68-x-to-0-69-0
