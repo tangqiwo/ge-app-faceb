@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-08 12:07:33
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/My/index.tsx
  * @Description:
  */
@@ -24,10 +24,24 @@ export default () => {
   const [ showMoney, setShowMoney ] = React.useState(false);
   const [ isShowDisclaimer, setIsShowDisclaimer ] = React.useState(false);
   const { forward } = useRouteWebCommon();
+  const [ order, setOrder ] = React.useState<any>();
+  const timer = React.useRef<any>(null);
 
   React.useEffect(() => {
     if(isFocused && isLogined){
       dispatch(ACTIONS.USER.getUserInfo({loading: false}))
+      dispatch(ACTIONS.PAYMENT.getPaymentCheck({cb: (res: any) => {
+        clearInterval(timer.current);
+        if(res.Data?.IsHave){
+          setOrder({...res.Data?.Order, CutDown: res.Data?.CutDown, IconUrl: res.Data?.IconUrl, ShowTips: true, Now: _.now()});
+          timer.current = setTimeout(() => {
+            setOrder(null);
+          }, 1000 * res.Data?.CutDown)
+          return;
+        }else{
+          setOrder(null);
+        }
+      }}))
     }
   }, [isFocused, isLogined])
 
@@ -43,6 +57,12 @@ export default () => {
     if(rs.user.registerProgress.code === Enum.user.ERegisterProgress.WAITING_QUESTIONNAIRE) {
       navigation.navigate('Questionnaire');
       return;
+    }
+  }
+
+  const contineDeposit = () => {
+    if(order) {
+      navigation.navigate('Deposit-3', { ...order, CutDown: order.CutDown - Math.floor((_.now() - order.Now) / 1000), NowTime: _.now() });
     }
   }
 
@@ -117,12 +137,21 @@ export default () => {
           Enum.user.ERegisterProgress.SUPPLEMENTARY_INFORMATION
         ], rs.user.registerProgress.code)) &&
         <View style={styles.infosView}>
-          <Text style={styles.moneyTitle}>资金余额（USD）</Text>
+          <View style={styles.subscription}>
+            <Text style={styles.moneyTitle} onPress={() => forward(FORWARD_TYPES['ATM_DETAIL'])}>资金余额（USD）</Text>
+            <MyTouchableOpacity onPress={() => setShowMoney(!showMoney)}>
+              <Icon.Font type={Icon.T.Feather} name={!showMoney ? 'eye-off' : 'eye' } size={GS.mixin.rem(16)} style={{marginTop: 10}} color="#94938F" />
+            </MyTouchableOpacity>
+            {
+              isLogined &&
+              <Text
+                onPress={() => forward(FORWARD_TYPES['ATM'])}
+                style={{...styles.moneyTitle, marginLeft: 'auto'}}
+              >取款 {`>`}</Text>
+            }
+          </View>
           <View style={styles.moneyDetail}>
             <Text style={styles.moneyDetailText}>{showMoney ? (infos.Balance || '0.00') : isLogined ? '****' : '----'}</Text>
-            <MyTouchableOpacity onPress={() => setShowMoney(!showMoney)}>
-              <Icon.Font type={Icon.T.Feather} name={!showMoney ? 'eye-off' : 'eye' } size={GS.mixin.rem(20)} style={{marginTop: 5}} color="#94938F" />
-            </MyTouchableOpacity>
           </View>
           {
             // 未登录
@@ -148,18 +177,28 @@ export default () => {
               Enum.user.ERegisterProgress.SUPPLEMENTARY_INFORMATION
             ], rs.user.registerProgress.code) &&
             <View style={styles.buttons}>
-              <MyTouchableOpacity style={styles.buttonItem} onPress={() => forward(FORWARD_TYPES['ATM'])}>
-                <View style={styles.buttonItem}>
-                  <Image source={require('./i/qk.png')} style={{...styles.buttonIcon, width: GS.mixin.rem(20), height: GS.mixin.rem(17)}} resizeMode='contain' />
-                  <Text style={styles.buttonText}>取款</Text>
-                </View>
-              </MyTouchableOpacity>
-              <MyTouchableOpacity style={styles.buttonItem} onPress={() => forward(FORWARD_TYPES['DEPOSIT'])}>
-                <View style={{...styles.buttonItem, backgroundColor: '#FFC600'}}>
+              <MyTouchableOpacity style={{...styles.buttonItem, marginLeft: GS.mixin.rem(25)}} onPress={() => forward(FORWARD_TYPES['DEPOSIT'])}>
+                <View style={{...styles.buttonItem, backgroundColor: '#FFC600', width: GS.mixin.rem(190)}}>
                   <Image source={require('./i/zz.png')} style={{...styles.buttonIcon, width: GS.mixin.rem(20), height: GS.mixin.rem(18)}} resizeMode='contain' />
-                  <Text style={{...styles.buttonText, color: 'black'}}>注资</Text>
+                  <Text style={{...styles.buttonText, color: 'black'}}>立即注资</Text>
                 </View>
               </MyTouchableOpacity>
+              <MyTouchableOpacity
+                style={{...styles.buttonItem,  backgroundColor: '#F5F5F5', width: GS.mixin.rem(115)}}
+                onPress={() => forward(FORWARD_TYPES['ATM_DETAIL'])}
+              >
+                <View style={{...styles.buttonItem, backgroundColor: '#F5F5F5', width: GS.mixin.rem(115)}}>
+                  <Text style={{...styles.buttonText, color: '@2a2a2a'}}>资金明细</Text>
+                </View>
+              </MyTouchableOpacity>
+            </View>
+          }
+          {
+            order &&
+            <View style={{marginTop: 20, alignItems: 'center'}}>
+              <Text style={{color: '#E3262A'}} onPress={contineDeposit}>
+                您有一笔未完成的订单，点击继续操作
+              </Text>
             </View>
           }
         </View>
@@ -228,13 +267,13 @@ export default () => {
               </View>
               <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
             </MyTouchableOpacity>
-            <MyTouchableOpacity style={styles.menuItem} onPress={() => forward(FORWARD_TYPES['ATM_DETAIL'])}>
+            {/* <MyTouchableOpacity style={styles.menuItem} onPress={() => forward(FORWARD_TYPES['ATM_DETAIL'])}>
               <View style={styles.menuItemContent}>
                 <Image source={require('./i/icon/icon-9.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />
                 <Text style={{...styles.buttonText, color: '#2A2A2A'}}>资金明细</Text>
               </View>
               <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
-            </MyTouchableOpacity>
+            </MyTouchableOpacity> */}
             {/* <MyTouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Root', {screen: 'Trade', params: {tab: 0}})}>
               <View style={styles.menuItemContent}>
                 <Image source={require('./i/icon/icon-8.png')} style={{width: GS.mixin.rem(15), height: GS.mixin.rem(20)}} resizeMode='cover' />

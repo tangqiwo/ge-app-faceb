@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-25 15:26:20
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/helpers/storage.ts
  * @Description: 原生本地存储转换成 web LS 使用方式
  */
@@ -34,6 +34,7 @@ type TKeys =  'AUTH'                          // 登录 TOKEN
             | 'IS_AGREE_PRIVACY'              // 是否同意隐私协议
             | 'LANGUAGE'                      // 语言
             | 'UNIQUE_ID'                     // 设备唯一 ID
+            | 'MODE'                          // 设备型号
 
 
 /**

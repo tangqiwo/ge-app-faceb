@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2022-07-24 21:20:05
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/actions/baseAction.ts
  * @Description: 基础类
  */
@@ -277,4 +277,12 @@ export const cacheReady = (): INTERFACE.IBase => ({
 export const getFaceBConfig = (): INTERFACE.IAPI => ({
   type: TYPES.BASE.GET_FACE_B_CONFIG,
   payload: { key: 'base/get-face-b-config', cache: { expires: 5, forward: true } }
+})
+
+//获取配置独立转账页面地址
+export const getTransactionPageConfig = ({ cb }: { cb: Function }): INTERFACE.IAPI => ({
+  type: TYPES.BASE.HTTP_ONLY,
+  payload: { key: 'base/get-transaction-page-config', cache: { expires: 5, forward: true } },
+  loading: true,
+  cb,
 })

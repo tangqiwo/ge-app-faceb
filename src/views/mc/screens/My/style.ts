@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/My/style.ts
  * @Description:
  */
@@ -63,7 +63,6 @@ export const LS = StyleSheet.create({
     alignItems: 'center',
   },
   infosView: {
-    height: G.mixin.rem(170),
     marginTop: G.mixin.rem(-60),
     backgroundColor: '#FFFFFF',
     marginLeft: G.mixin.rem(14),
@@ -74,10 +73,15 @@ export const LS = StyleSheet.create({
     paddingTop: G.mixin.rem(20),
     paddingBottom: G.mixin.rem(20),
   },
+  subscription: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
   moneyTitle: {
     marginTop: G.mixin.rem(10),
     fontSize: G.mixin.rem(15),
-    color: '#2A2A2A',
+    color: '#646464',
   },
   moneyDetail: {
     flexDirection: 'row',
@@ -98,7 +102,6 @@ export const LS = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '100%',
   },
   buttonItem: {
     height: G.mixin.rem(40),

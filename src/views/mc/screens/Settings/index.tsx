@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-27 12:20:08
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/Settings/index.tsx
  * @Description:
  */
@@ -17,10 +17,14 @@ import usePopups from '@core/hooks/componentController/usePopups';
 import useLogout from '@core/hooks/useLogout';
 import storage from '@helpers/storage';
 import CONFIG from '@this/configs'
+import DeviceInfo from 'react-native-device-info'
+import RNRestart from 'react-native-restart';
+
 import { LS as styles, GS } from './style';
 
 export default () => {
 
+  const app_version = DeviceInfo.getVersion();
   const { startUpdateCheck, total, received, state, setState } = useHotUpdate();
   const { openPopups } = usePopups();
   const { logout } = useLogout();
@@ -110,22 +114,11 @@ export default () => {
     }
   }, [state])
 
-  // 注销账号
-  const handleDelAccount = () => {
-    dispatch(ACTIONS.BASE.openConfirm({
-      title: '您是否确认注销账号？',
-      content: '',
-      actions: [{
-        text: '确认',
-        type: 'destructive',
-        cb: () => {
-          dispatch(ACTIONS.USER.delAccount({ cb: () => {
-            dispatch(ACTIONS.BASE.openToast({text: '注销成功', types: 'success'}))
-            logout();
-          }}))
-        }
-      }]
-    }))
+  const handleSwitchMode = () => {
+    const mode = storage.get('MODE') === 'prod' ? 'dev' : 'prod';
+    storage.set('MODE', mode);
+    console.log(mode)
+    RNRestart.Restart()
   }
 
   return (
@@ -170,6 +163,21 @@ export default () => {
             <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
           </View>
         </MyTouchableOpacity>
+        {
+          app_version.includes('-rc') &&
+          <MyTouchableOpacity style={{...styles.menuItem, borderBottomWidth: 0}} onPress={handleSwitchMode} >
+            <View style={styles.menuItemContent}>
+              <Text style={{...styles.buttonText, color: '#2A2A2A'}}>
+                {
+                  storage.get('MODE') === 'prod' ? '切到测试环境 API' : '切到生产环境 API'
+                }
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
+            </View>
+          </MyTouchableOpacity>
+        }
       </View>
       {
        !_.isEmpty(infos) &&

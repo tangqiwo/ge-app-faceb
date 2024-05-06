@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2024-02-05 17:29:40
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/Home/components/HomeAd/index.tsx
  * @Description:
  */
@@ -40,14 +40,14 @@ export default ({showHomeAd, setShowHomeAd}: IProps) => {
 
     const loginData = rs.base.popupAdvert?.TopDialog?.Data[0]?.Content ? JSON.parse(rs.base.popupAdvert?.TopDialog?.Data[0]?.Content) : null;
     const noLoginData = rs.base.appDisplayConfig?.TopDialog?.Data[0]?.Content ? JSON.parse(rs.base.appDisplayConfig?.TopDialog?.Data[0]?.Content) : null;
-
     setShowHomeAd(false);
-    if(isLogined && loginData.EnableNative){
-      navigation.navigate('Register');
+
+    if(isLogined && rs.base.popupAdvert?.TopDialog?.Data[0].NativeForward){
+      navigation.navigate(rs.base.popupAdvert?.TopDialog?.Data[0].NativeForward);
       return;
     }
-    if(!isLogined && noLoginData.EnableNative){
-      navigation.navigate('Register');
+    if(!isLogined && rs.base.appDisplayConfig?.TopDialog?.Data[0].NativeForward){
+      navigation.navigate(rs.base.appDisplayConfig?.TopDialog?.Data[0].NativeForward);
       return;
     }
     forward({

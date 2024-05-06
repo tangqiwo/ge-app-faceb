@@ -11,13 +11,13 @@ import { Platform, Alert, Linking } from 'react-native';
 import storage from '@core/helpers/storage';
 import RNExitApp from 'react-native-exit-app';
 import RNRestart from 'react-native-restart';
-import usePublicState from './usePublicState';
-import { checkUpdate, downloadUpdate, switchVersion, isFirstTime, markSuccess, switchVersionLater } from 'react-native-update';
+// import usePublicState from './usePublicState';
+import { checkUpdate, downloadUpdate, isFirstTime, markSuccess, switchVersionLater } from 'react-native-update';
 import updateProfile from '../../../update.json'
 
 export const useHotUpdateChecker = () => {
 
-  const { dispatch, ACTIONS } = usePublicState();
+  // const { dispatch, ACTIONS } = usePublicState();
   const [state, setState] = React.useState(UPDATE_STATUS.INIT);
   const [received, setReceived] = React.useState(0);
   const [total, setTotal] = React.useState(0);
@@ -35,8 +35,8 @@ export const useHotUpdateChecker = () => {
   const startUpdateCheck = async () => {
     // 开始检查
     setState(UPDATE_STATUS.PENDING);
-    // 开发模式忽略
-    if(__DEV__){
+    // 开发模式忽略 IOS 忽略
+    if(__DEV__ || Platform.OS === 'ios'){
       setState(UPDATE_STATUS.DONE);
       return;
     }
@@ -109,21 +109,23 @@ export const useHotUpdateChecker = () => {
       }
     )
     setState(UPDATE_STATUS.NEED_RESTART);
-    dispatch(ACTIONS.BASE.openConfirm({
-      title: '重启应用',
-      content: '已更新应用版本\n是否立即重启体验新版APP？',
-      actions: [
-        {
-          text: "稍后",
-          cb: () => switchVersionLater(hash)
-        },
-        {
-          text: '立即重启',
-          type: 'destructive',
-          cb: () => switchVersion(hash)
-        }
-      ]
-    }))
+    switchVersionLater(hash);
+
+    // dispatch(ACTIONS.BASE.openConfirm({
+    //   title: '重启应用',
+    //   content: '已更新应用版本\n是否立即重启体验新版APP？',
+    //   actions: [
+    //     {
+    //       text: "稍后",
+    //       cb: () => switchVersionLater(hash)
+    //     },
+    //     {
+    //       text: '立即重启',
+    //       type: 'destructive',
+    //       cb: () => switchVersion(hash)
+    //     }
+    //   ]
+    // }))
   }
 
   return {
@@ -133,25 +135,6 @@ export const useHotUpdateChecker = () => {
     state,
     setState
   }
-
-}
-
-// 定时检查器
-export const useHotUpdateLoopChecker = () => {
-
-  const { startUpdateCheck } = useHotUpdateChecker();
-
-  React.useEffect(() => {
-    // 每30秒检查一次是否需要启动更新检查
-    setInterval(() => {
-      const lastCheckDate = storage.get('LAST_DATE_FOR_VERSION_CHECK');
-      // 距离上次检查不到4小时
-      if(!lastCheckDate || ((_.now() - lastCheckDate) < 4 * 3600 * 1000)){
-        return;
-      }
-      startUpdateCheck();
-    }, 30000)
-  }, [])
 
 }
 

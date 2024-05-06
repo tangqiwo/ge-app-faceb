@@ -1,3 +1,10 @@
+<!--
+ * @Author: ammo@xyzzdev.com
+ * @Date: 2024-05-05 23:02:58
+ * @LastEditors: ammo@xyzzdev.com
+ * @FilePath: /app_face_b/README.md
+ * @Description:
+-->
 # MC_RN
 
 # 环境安装
