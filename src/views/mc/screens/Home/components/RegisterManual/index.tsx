@@ -84,7 +84,8 @@ export default () => {
       goRealName();
       return;
     }
-    navigation.navigate('Deposit')
+    // navigation.navigate('Deposit')
+    forward(FORWARD_TYPES['DEPOSIT'])
   })
 
   // 去交易
