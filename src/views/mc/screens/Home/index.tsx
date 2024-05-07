@@ -20,6 +20,7 @@ import Strategy from './components/Strategy';
 import Trophy from './components/Trophy';
 import CustomerService from '@core/templates/components/CustomerService';
 import useRouteWebCommon, { FORWARD_TYPES} from '@core/hooks/useRouteWebCommon';
+import useNativeForward from '@core/hooks/useNativeForward';
 import usePromotion from '@core/hooks/usePromotion';
 import usePublicState from '@core/hooks/usePublicState';
 import MyImage from '@core/templates/components/Base/Image';
@@ -43,6 +44,7 @@ export default () => {
   const [ showHomeAd, setShowHomeAd ] = React.useState<boolean>(true);
   const [bottomAd, setBottomAd] = React.useState<any>(null);
   const { promotionCenterList } = usePromotion();
+  const { goDeposit } = useNativeForward();
 
   React.useEffect(() => {
     if(!showBottonAd){
@@ -78,8 +80,7 @@ export default () => {
   // 快速入金
   const handleDeposit = () => {
     if(isLogined) {
-      // navigation.navigate('Deposit')
-      forward(FORWARD_TYPES['DEPOSIT'])
+      goDeposit();
     } else {
       navigation.navigate('Login')
     }

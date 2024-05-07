@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:31
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/Login/index.tsx
  * @Description: 登录
  */
@@ -111,6 +111,7 @@ export default () => {
               keyboardType='numeric'
               onBlur={() => validate('Token')}
               onChangeText={(value: string) => setPayload({...payload, AuthCode: value})}
+              maxLength={6}
               style={{...styles.inputText, width: GS.mixin.rem(200), marginLeft: GS.mixin.rem(6)} }
               myRef={textInputRef}
             />
