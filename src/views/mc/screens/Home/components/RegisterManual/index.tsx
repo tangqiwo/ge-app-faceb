@@ -12,7 +12,8 @@ import { useSelector } from 'react-redux';
 import usePublicState from '@core/hooks/usePublicState';
 import usePromotion from '@core/hooks/usePromotion';
 import useAuth from '@hooks/useAuth';
-import useRouteWebCommon, { FORWARD_TYPES} from '@core/hooks/useRouteWebCommon';
+import useRouteWebCommon from '@core/hooks/useRouteWebCommon';
+import useNativeForward from '@core/hooks/useNativeForward';
 import Overlay from '@core/templates/components/Overlay';
 import Button from '@this/components/Button';
 import ENUM from '@core/constants/enum';
@@ -22,7 +23,7 @@ import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 export default () => {
 
   const promotionTypeId = ENUM.promotion.EPromotionTypes.RED_ENVELOPE88;
-  const { forward } = useRouteWebCommon();
+  const { goDeposit } = useNativeForward();
   const { isMt4User, isLogined, navigation, rs, isFocused } = usePublicState();
   const { promotionCenterList } = useSelector((state: any) => state.promotion);
   const { requestAuth } = useAuth();
@@ -79,19 +80,18 @@ export default () => {
   })
 
   // 去注资
-  const goDeposit = requestAuth(() => {
+  const forwardDeposit = requestAuth(() => {
     if(!isMt4User){
       goRealName();
       return;
     }
-    // navigation.navigate('Deposit')
-    forward(FORWARD_TYPES['DEPOSIT'])
+    goDeposit();
   })
 
   // 去交易
   const goTrade = requestAuth(() => {
     if(!progressData?.stateOfFirstDeposit){
-      goDeposit();
+      forwardDeposit();
       return;
     }
     setShowGoTrade(true);
@@ -151,7 +151,7 @@ export default () => {
             {
               isFirstDeposit ?
               <Text style={styles.buttonText}>已领取</Text> :
-              <Text style={styles.buttonText} onPress={() => goDeposit()}>首次注资</Text>
+              <Text style={styles.buttonText} onPress={() => forwardDeposit()}>首次注资</Text>
             }
           </View>
         </View>

@@ -123,7 +123,7 @@ export default () => {
       Amount: _channel.PaymentType.includes('VirtualCurrency') ? `${amount}` : `${_.round(amount * rate.CnyToUsd, 2)}`,
       SourceAmount: `${amount}`,
       ChannelId: _channel.Id,
-      DepositPlatform: 'WEB',
+      DepositPlatform: 'APP',
       ExchangeRate: _channel.PaymentType.includes('VirtualCurrency') ? 1 : rate.CnyToUsd,
       BindBankCardId: bankId || null,
       VirtualAddress: virtualAddress || null,

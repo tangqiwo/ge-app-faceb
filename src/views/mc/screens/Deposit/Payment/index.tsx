@@ -16,9 +16,11 @@ import { HeaderBackButton } from '@react-navigation/elements';
 import usePublicState from '@core/hooks/usePublicState';
 import Button from '@this/components/Button'
 import usePayment from '@core/hooks/usePayment';
-import { PAYMENT_TYPE_NAME } from '@hooks/useDeposit';
+import { PAYMENT_TYPE_NAME, TIPS_TYPE } from '@hooks/useDeposit';
 import Tips from '../components/Tips';
-import { ChannelIcon, ChannelColor } from '../components/ChannelIcon';
+import { ChannelColor } from '../components/ChannelIcon';
+import WebView from '@core/templates/components/WebView';
+import Popup from '@core/templates/components/Popup';
 import { LS, GS } from './style';
 
 const styles = LS.main;
@@ -27,6 +29,7 @@ const styles = LS.main;
 export default () => {
 
   const [ showExitAd, setShowExitAd ] = React.useState(false);
+  const [ showPayment, setShowPayment ] = React.useState<string | boolean>();
   const [extInfo, setExtInfo] = React.useState<any>({});
   const latestExtInfo = useLatest(extInfo);
   const routes = useNavigationState(state => state.routes);
@@ -35,7 +38,7 @@ export default () => {
   const [showContent, setShowContent] = useState(true);
   const { dispatch, ACTIONS, isFocused, ossDomain } = usePublicState();
   const [ orderData, setOrderData ] = useState<any>(params);
-  const { toPayment, showTips, setShowTips, countdownLabel } = usePayment({data: orderData});
+  const { paymentAddress, showTips, setShowTips, countdownLabel } = usePayment({data: orderData});
   const actionType = React.useRef<'back' | 'cancel' | ''>();
 
   React.useEffect(() => {
@@ -61,6 +64,20 @@ export default () => {
       }
     }))
   }, [])
+
+  React.useEffect(() => {
+    if(showPayment === 'close'){
+      setShowTips(TIPS_TYPE.GO_TO_UPLOAD_VOUCHER);
+    }
+  }, [showPayment])
+
+  const toPayment = () => {
+    if(!paymentAddress) {
+      dispatch(ACTIONS.BASE.openToast({ text: '支付方式错误 #0121', types: 'error' }));
+      return;
+    }
+    setShowPayment(paymentAddress);
+  }
 
   React.useEffect(() => {
     if(isFocused){
@@ -201,6 +218,12 @@ export default () => {
       >
         <MyImage width={GS.mixin.rem(170)} source={{uri: ossDomain + extInfo.image}} />
       </ExitPopup>
+      {
+        showPayment && showPayment !== 'close' &&
+        <Popup title='支付' top={0} isFull display close={() => setShowPayment('close')}>
+          <WebView style={{flex: 1}} source={{uri: showPayment}} />
+        </Popup>
+      }
     </View>
   )
 

@@ -13,6 +13,7 @@ import BackgroundView from "@core/templates/components/BackgroundView";
 import MyTouchableOpacity from "@core/templates/components/MyTouchableOpacity";
 import Icon from '@icon/index';
 import usePublicState from "@core/hooks/usePublicState";
+import useNativeForward from '@core/hooks/useNativeForward';
 import useRouteWebCommon, { FORWARD_TYPES } from '@core/hooks/useRouteWebCommon';
 import Disclaimer from './Disclaimer';
 import {Avatar} from '../Profile'
@@ -26,6 +27,7 @@ export default () => {
   const { forward } = useRouteWebCommon();
   const [ order, setOrder ] = React.useState<any>();
   const timer = React.useRef<any>(null);
+  const { goDeposit, isDepositNative } = useNativeForward();
 
   React.useEffect(() => {
     if(isFocused && isLogined){
@@ -177,7 +179,7 @@ export default () => {
               Enum.user.ERegisterProgress.SUPPLEMENTARY_INFORMATION
             ], rs.user.registerProgress.code) &&
             <View style={styles.buttons}>
-              <MyTouchableOpacity style={{...styles.buttonItem, marginLeft: GS.mixin.rem(25)}} onPress={() => forward(FORWARD_TYPES['DEPOSIT'])}>
+              <MyTouchableOpacity style={{...styles.buttonItem, marginLeft: GS.mixin.rem(25)}} onPress={goDeposit}>
                 <View style={{...styles.buttonItem, backgroundColor: '#FFC600', width: GS.mixin.rem(190)}}>
                   <Image source={require('./i/zz.png')} style={{...styles.buttonIcon, width: GS.mixin.rem(20), height: GS.mixin.rem(18)}} resizeMode='contain' />
                   <Text style={{...styles.buttonText, color: 'black'}}>立即注资</Text>
@@ -194,7 +196,7 @@ export default () => {
             </View>
           }
           {
-            order &&
+            order && isDepositNative &&
             <View style={{marginTop: 20, alignItems: 'center'}}>
               <Text style={{color: '#E3262A'}} onPress={contineDeposit}>
                 您有一笔未完成的订单，点击继续操作
