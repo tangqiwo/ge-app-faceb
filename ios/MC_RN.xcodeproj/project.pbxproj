@@ -12,8 +12,8 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		516E1178A32D1834ABAB5329 /* libPods-MC_RN-MC_RNTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5BD0417D1FBA5ED40B42DC5 /* libPods-MC_RN-MC_RNTests.a */; };
-		8133A6FD2BE8E7A00054B99D /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 8133A6FB2BE8E7A00054B99D /* assets */; };
-		8133A6FE2BE8E7A00054B99D /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 8133A6FC2BE8E7A00054B99D /* main.jsbundle */; };
+		81357DFA2BEB0C40008A8449 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 81357DF82BEB0C40008A8449 /* assets */; };
+		81357DFB2BEB0C40008A8449 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 81357DF92BEB0C40008A8449 /* main.jsbundle */; };
 		815CE8D12B972BA2009C4FA1 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 815CE8D02B972BA2009C4FA1 /* libz.tbd */; };
 		815CE8D32B972BB7009C4FA1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815CE8D22B972BB7009C4FA1 /* CoreTelephony.framework */; };
 		815CE8D52B972BC1009C4FA1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815CE8D42B972BC1009C4FA1 /* Security.framework */; };
@@ -51,8 +51,8 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MC_RN/main.m; sourceTree = "<group>"; };
 		71A2E421550BEED68BEF4711 /* libPods-MC_RN.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MC_RN.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		783F914582AD4CA332C3F02F /* Pods-MC_RN-MC_RNTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MC_RN-MC_RNTests.release.xcconfig"; path = "Target Support Files/Pods-MC_RN-MC_RNTests/Pods-MC_RN-MC_RNTests.release.xcconfig"; sourceTree = "<group>"; };
-		8133A6FB2BE8E7A00054B99D /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../dist/assets; sourceTree = "<group>"; };
-		8133A6FC2BE8E7A00054B99D /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = ../dist/main.jsbundle; sourceTree = "<group>"; };
+		81357DF82BEB0C40008A8449 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../dist/assets; sourceTree = "<group>"; };
+		81357DF92BEB0C40008A8449 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = ../dist/main.jsbundle; sourceTree = "<group>"; };
 		815CE8CF2B972B76009C4FA1 /* MC_RN.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = MC_RN.entitlements; path = MC_RN/MC_RN.entitlements; sourceTree = "<group>"; };
 		815CE8D02B972BA2009C4FA1 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		815CE8D22B972BB7009C4FA1 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -162,8 +162,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				8133A6FB2BE8E7A00054B99D /* assets */,
-				8133A6FC2BE8E7A00054B99D /* main.jsbundle */,
+				81357DF82BEB0C40008A8449 /* assets */,
+				81357DF92BEB0C40008A8449 /* main.jsbundle */,
 				13B07FAE1A68108700A75B9A /* MC_RN */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* MC_RNTests */,
@@ -298,10 +298,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8133A6FD2BE8E7A00054B99D /* assets in Resources */,
+				81357DFA2BEB0C40008A8449 /* assets in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				8133A6FE2BE8E7A00054B99D /* main.jsbundle in Resources */,
+				81357DFB2BEB0C40008A8449 /* main.jsbundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

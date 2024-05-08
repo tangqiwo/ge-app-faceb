@@ -219,9 +219,9 @@ export default () => {
         <MyImage width={GS.mixin.rem(170)} source={{uri: ossDomain + extInfo.image}} />
       </ExitPopup>
       {
-        showPayment &&
-        <Popup title='支付' top={0} isFull display close={() => setShowPayment(false)}>
-          <WebView source={{uri: showPayment}} />
+        showPayment && showPayment !== 'close' &&
+        <Popup title='支付' top={0} isFull display close={() => setShowPayment('close')}>
+          <WebView style={{flex: 1}} source={{uri: showPayment}} />
         </Popup>
       }
     </View>
