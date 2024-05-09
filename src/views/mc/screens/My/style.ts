@@ -144,6 +144,7 @@ export const LS = StyleSheet.create({
     marginTop: G.mixin.rem(15),
     backgroundColor: '#FFFFFF',
     borderRadius: G.mixin.rem(10),
+    marginBottom: G.mixin.rem(20),
   },
   menuItem: {
     height: G.mixin.rem(51),
