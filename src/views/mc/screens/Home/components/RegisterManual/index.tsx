@@ -12,7 +12,6 @@ import { useSelector } from 'react-redux';
 import usePublicState from '@core/hooks/usePublicState';
 import usePromotion from '@core/hooks/usePromotion';
 import useAuth from '@hooks/useAuth';
-import useRouteWebCommon from '@core/hooks/useRouteWebCommon';
 import useNativeForward from '@core/hooks/useNativeForward';
 import Overlay from '@core/templates/components/Overlay';
 import Button from '@this/components/Button';
