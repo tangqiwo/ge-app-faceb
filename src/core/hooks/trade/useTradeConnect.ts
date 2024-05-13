@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2023-12-18 11:45:44
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/hooks/trade/useTradeConnect.ts
  * @Description: 连接保持 MT4 TOKEN
  */
@@ -25,7 +25,7 @@ export default () => {
     if(pass){
       setScoketUrl('');
       if(isFocused){
-        dispatch(ACTIONS.BASE.openToast({text: 'MT4连接已断开，正在重新连接'}));
+        dispatch(ACTIONS.BASE.openToast({text: '正在加载...'}));
         dispatch(ACTIONS.BASE.openLoading({text: 'MT4连接中'}));
       }
       authToMt4({password: pass, callback: () => {}});
