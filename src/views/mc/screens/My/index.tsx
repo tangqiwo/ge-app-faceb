@@ -179,7 +179,7 @@ export default () => {
               Enum.user.ERegisterProgress.SUPPLEMENTARY_INFORMATION
             ], rs.user.registerProgress.code) &&
             <View style={styles.buttons}>
-              <MyTouchableOpacity style={{...styles.buttonItem, marginLeft: GS.mixin.rem(25)}} onPress={goDeposit}>
+              <MyTouchableOpacity style={{...styles.buttonItem, marginLeft: GS.mixin.rem(25)}} onPress={() => goDeposit()}>
                 <View style={{...styles.buttonItem, backgroundColor: '#FFC600', width: GS.mixin.rem(190)}}>
                   <Image source={require('./i/zz.png')} style={{...styles.buttonIcon, width: GS.mixin.rem(20), height: GS.mixin.rem(18)}} resizeMode='contain' />
                   <Text style={{...styles.buttonText, color: 'black'}}>立即注资</Text>

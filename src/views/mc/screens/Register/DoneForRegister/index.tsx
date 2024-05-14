@@ -149,7 +149,7 @@ export default () => {
               </View>
             </View>
             <Image source={{uri: `${ossDomain}${ProInvestorConfig?.Image}`}} style={styles.adArrge} />
-            <MyTouchableOpacity style={styles.submitView} onPress={goDeposit}>
+            <MyTouchableOpacity style={styles.submitView} onPress={() => goDeposit(true)}>
               <Text style={styles.submitText}>确认并前往注资</Text>
             </MyTouchableOpacity>
           </>

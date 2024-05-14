@@ -16,12 +16,19 @@ export default () => {
   const { navigation } = usePublicState();
 
   // 跳转到原生页面
-  const goDeposit = () => {
+  const goDeposit = (reset = false) => {
     if(NativeForward?.Deposit){
-      navigation.navigate('Deposit');
+      if(reset){
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'Root', screen: 'Home'}, {name: 'Deposit'}],
+        });
+      }else{
+        navigation.navigate('Deposit');
+      }
       return;
     }
-    forward(FORWARD_TYPES['DEPOSIT'])
+    forward({...FORWARD_TYPES['DEPOSIT'], reset})
   }
 
   return {

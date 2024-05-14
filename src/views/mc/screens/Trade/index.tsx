@@ -139,7 +139,7 @@ export default () => {
               </View>
             </View>
             <View style={styles.buttonBox}>
-              <MyTouchableOpacity style={styles.buttonItem} onPress={goDeposit}>
+              <MyTouchableOpacity style={styles.buttonItem} onPress={() => goDeposit()}>
                 <View style={styles.buttonItem}>
                   <Image source={require('./i/icon-1.png')} style={styles.buttonIcon} resizeMode='contain' />
                   <Text style={styles.buttonText}>注资</Text>
