@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/MessageCenter/style.ts
  * @Description:
  */
@@ -50,6 +50,19 @@ export const LS = StyleSheet.create({
   tabsItemTextActive:{
     color: '#2A2A2A',
     fontWeight: '600',
+  },
+  tabsItemBadge: {
+    width: G.mixin.rem(14),
+    height: G.mixin.rem(14),
+    borderRadius: G.mixin.rem(14),
+    backgroundColor: '#FF0000',
+    marginLeft: G.mixin.rem(5),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tabsItemBadgeText: {
+    fontSize: G.mixin.rem(10),
+    color: '#FFFFFF',
   },
   tips: {
     marginTop: G.mixin.rem(20),

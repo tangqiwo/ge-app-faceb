@@ -128,14 +128,13 @@ export default () => {
       ParentId: 0,
       Password: 'a12345678'
     }, cb: (res: any) => {
-      console.log(res);
       // 其他错误
       if(res.Code !== 0) {
         dispatch(ACTIONS.BASE.openToast({ text: res.desc }));
         return;
       }
       storage.set('AUTH', res.Data.Token);
-      dispatch(ACTIONS.BASE.openToast({ text: '开户成功', types: 'success' }));
+      // dispatch(ACTIONS.BASE.openToast({ text: '开户成功', types: 'success' }));
       dispatch(ACTIONS.USER.getUserInfo({cb: () => {
         navigation.replace('RealnameAuthentication');
       }}));

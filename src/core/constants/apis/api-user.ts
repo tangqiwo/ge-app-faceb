@@ -100,5 +100,8 @@ export default {
   'user/del-account': 'operator/DestroyUser',
 
   // 未读信息
-  'user/get-unread-message': 'messages/get_messages_mark'
+  'user/get-unread-message': 'messages/get_messages_mark',
+
+  // 读取消息
+  'user/read-message': 'messages/read_mark_messages'
 }

@@ -78,6 +78,17 @@ export const getUnreadMessage = ({  }: INTERFACE.IProps): INTERFACE.IAPI => ({
   },
 });
 
+// 阅读消息
+export const readMessage = ({ data, cb }: INTERFACE.IProps): INTERFACE.IAPI => ({
+  type: TYPES.BASE.HTTP_ONLY,
+  payload: {
+    key: 'user/read-message',
+    method: HTTP.METHODS.POST,
+    data
+  },
+  cb,
+});
+
 // 获取用户信息
 export const updateUserInfo = (res: UserInfo): INTERFACE.IBase => ({
   type: TYPES.USER.GET_USER_INFO,
@@ -394,7 +405,7 @@ interface IGetMessages extends INTERFACE.IProps {
   page: number;
   pageSize?: number;
 }
-export const getMessages = ({ type, page, pageSize = 10, cb }: IGetMessages): INTERFACE.IAPI => ({
+export const getMessages = ({ type, page, pageSize = 50, cb }: IGetMessages): INTERFACE.IAPI => ({
   type: TYPES.BASE.HTTP_ONLY,
   payload: {
     key: 'user/get-messages',
