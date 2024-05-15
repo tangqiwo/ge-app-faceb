@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2022-07-24 21:20:42
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/actions/userAction.ts
  * @Description: 用户相关的ACTIONS
  */
@@ -63,9 +63,19 @@ export const getUserInfo = ({ cb, loading=true, passError=false }: IGetUserInfo)
   },
   continue: ({ dispatch, res }: any) => {
     dispatch(getRegisterProgress({}));
+    dispatch(getUnreadMessage({}))
   },
   passError,
   cb,
+});
+
+// 获取未读信息
+export const getUnreadMessage = ({  }: INTERFACE.IProps): INTERFACE.IAPI => ({
+  type: TYPES.USER.GET_UNREAD_MESSAGE,
+  payload: {
+    key: 'user/get-unread-message',
+    method: HTTP.METHODS.GET,
+  },
 });
 
 // 获取用户信息
@@ -132,7 +142,6 @@ export const register = ({ data, cb }: INTERFACE.IProps): INTERFACE.IAPI => ({
     method: HTTP.METHODS.POST,
     data,
     loading: true,
-    isFormatRes: true,
   },
   passError: true,
   cb,

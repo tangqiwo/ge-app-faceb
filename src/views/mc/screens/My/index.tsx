@@ -91,7 +91,8 @@ export default () => {
                 </View>
               }
               <View style={{flexDirection: 'row'}}>
-                <MyTouchableOpacity onPress={() => navigation.navigate('MessageCenter')}>
+                <MyTouchableOpacity style={{position: 'relative'}} onPress={() => navigation.navigate('MessageCenter')}>
+                  {/* <View style={styles.unread} /> */}
                   <Icon.Font style={styles.settingIcon} type={Icon.T.FontAwesome} name='envelope-o' />
                 </MyTouchableOpacity>
                 <MyTouchableOpacity onPress={() => navigation.navigate('Settings')}>
