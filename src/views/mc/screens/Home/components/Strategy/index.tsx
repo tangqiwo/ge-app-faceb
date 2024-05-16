@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-09 21:27:09
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/Home/components/Strategy/index.tsx
  * @Description:
  */
@@ -20,7 +20,7 @@ interface StrategyItemProps {
 }
 export default ({ type }: StrategyItemProps) => {
 
-  const { navigation, dispatch, ACTIONS } = usePublicState();
+  const { navigation, dispatch, ACTIONS, isFocused } = usePublicState();
   const [ activeSlide, setActiveSlide ] = React.useState(0);
   const GeTeacherPoint = useSelector((state: any) => state.base.homeInfos?.GeTeacherPoint);
   const data = GeTeacherPoint?.Data;
@@ -32,6 +32,12 @@ export default ({ type }: StrategyItemProps) => {
   if(!data){
     return <></>
   }
+
+  React.useEffect(() => {
+    if(isFocused && type === 'home'){
+      dispatch(ACTIONS.BASE.getHomeInfos());
+    }
+  }, [isFocused, type])
 
   React.useEffect(() => {
     if(type === 'list'){
