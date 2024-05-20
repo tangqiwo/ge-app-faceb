@@ -59,6 +59,8 @@ export default () => {
         authToMt4({password: pass, callback: (res: any) => {
           makeFirstInstant(res.Data.SymbolsQuote);
         }})
+      }else{
+        setIsShowLogin(true);
       }
     }
   }, [isFocused, mt4Info, cacheReady])
