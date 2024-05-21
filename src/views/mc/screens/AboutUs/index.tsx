@@ -23,7 +23,7 @@ export default () => {
         <Image source={require('./i/logo.png')} style={styles.icon} />
       </View>
       <Text style={styles.versionText}>
-        【版本 {CONFIG.VERSION}-{G.GET('VERSION') || ''}】
+        【版本 {CONFIG.VERSION} - {G.GET('VERSION') ? G.GET('VERSION').substr(0, 4) : ''}】
       </Text>
       <View style={styles.content}>
         <View style={styles.title} >
