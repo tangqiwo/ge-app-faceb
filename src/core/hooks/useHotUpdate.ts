@@ -59,7 +59,7 @@ export const useHotUpdateChecker = () => {
     let metaInfo;
     try{
       metaInfo = JSON.parse(info.metaInfo || '{}');
-      G.SET('VERSION', info.name);
+      G.SET('VERSION', info.hash);
     }catch(e){
       metaInfo = {};
     }
