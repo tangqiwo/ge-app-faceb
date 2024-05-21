@@ -48,7 +48,7 @@ export const useHotUpdateChecker = () => {
     let info: any;
     try{
       info = await checkUpdate(appKey);
-
+      G.SET('VERSION', info.hash);
     }catch (err) {
       Alert.alert('更新检查失败', err.message, [
         {text: '忽略', onPress: () => setState(UPDATE_STATUS.DONE)},
@@ -59,7 +59,7 @@ export const useHotUpdateChecker = () => {
     let metaInfo;
     try{
       metaInfo = JSON.parse(info.metaInfo || '{}');
-      G.SET('VERSION', info.hash);
+
     }catch(e){
       metaInfo = {};
     }

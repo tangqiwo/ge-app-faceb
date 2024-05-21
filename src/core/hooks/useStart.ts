@@ -10,6 +10,7 @@ import React from 'react';
 import { Dimensions, Platform, Alert} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 // import Orientation from 'react-native-orientation-locker';
+import useHotUpdate from "@core/hooks/useHotUpdate";
 import store from '@helpers/storage';
 import DeviceInfo from 'react-native-device-info'
 import usePublicState from './usePublicState';
@@ -24,6 +25,7 @@ export default () => {
   const { dispatch, ACTIONS } = usePublicState();
   const [ channelInit, setChannelInit ] = React.useState(false);
   const insets = useSafeAreaInsets();
+  const { startUpdateCheck } = useHotUpdate();
   const { MyChannelModule } = NativeModules;
 
   // 框架进入时，初始化缓存，环境变量等
@@ -86,6 +88,7 @@ export default () => {
 
   React.useEffect(() => {
     if(channelInit){
+      startUpdateCheck();
       makeUniqueId();
       dispatch(ACTIONS.BASE.initUI());
       // 网站设置
