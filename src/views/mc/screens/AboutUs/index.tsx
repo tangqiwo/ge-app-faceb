@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-29 15:41:46
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/AboutUs/index.tsx
  * @Description:
  */
@@ -11,6 +11,7 @@ import { View, Image, Text } from 'react-native';
 import Header from '@this/components/Header';
 import CONFIG from '@this/configs';
 import { LS as styles, GS } from './style';
+import G from '@constants/global';
 
 export default () => {
 
@@ -22,7 +23,7 @@ export default () => {
         <Image source={require('./i/logo.png')} style={styles.icon} />
       </View>
       <Text style={styles.versionText}>
-        【版本 {CONFIG.VERSION}】
+        【版本 {CONFIG.VERSION}-{G.GET('VERSION') || ''}】
       </Text>
       <View style={styles.content}>
         <View style={styles.title} >

@@ -14,6 +14,7 @@ import RNRestart from 'react-native-restart';
 // import usePublicState from './usePublicState';
 import { checkUpdate, downloadUpdate, isFirstTime, markSuccess, switchVersionLater } from 'react-native-update';
 import updateProfile from '../../../update.json'
+import G from '@constants/global';
 
 export const useHotUpdateChecker = () => {
 
@@ -47,6 +48,7 @@ export const useHotUpdateChecker = () => {
     let info: any;
     try{
       info = await checkUpdate(appKey);
+
     }catch (err) {
       Alert.alert('更新检查失败', err.message, [
         {text: '忽略', onPress: () => setState(UPDATE_STATUS.DONE)},
@@ -57,6 +59,7 @@ export const useHotUpdateChecker = () => {
     let metaInfo;
     try{
       metaInfo = JSON.parse(info.metaInfo || '{}');
+      G.SET('VERSION', info.name);
     }catch(e){
       metaInfo = {};
     }
