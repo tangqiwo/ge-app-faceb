@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-24 02:38:00
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/WebFrame/index.tsx
  * @Description:
  */
@@ -14,8 +14,10 @@ import Icon from '@icon/index';
 import CONFIG from '@this/configs';
 import ExitPopup from '@this/components/ExitPopup';
 import MyImage from '@core/templates/components/Base/Image';
+import CustomerService from '@core/templates/components/CustomerService';
 import { LS as styles, GS } from './style';
 import { useSelector } from 'react-redux';
+
 
 export default () => {
 
@@ -96,6 +98,9 @@ export default () => {
         style={{ flex: 1 }}
         styleInject={styelInject}
       />
+      {
+        route.params.title === '注资' && <CustomerService />
+      }
     </>
   )
 
