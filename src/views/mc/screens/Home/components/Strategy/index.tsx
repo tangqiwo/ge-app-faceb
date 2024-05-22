@@ -82,7 +82,7 @@ export default ({ type }: StrategyItemProps) => {
             firstItem={0}
             sliderWidth={width - GS.mixin.rem(56)}
             itemWidth={width - GS.mixin.rem(56)}
-            data={_.take(list, 3)}
+            data={_.take(GeTeacherPoint?.Data, 3)}
             onSnapToItem={(index) => setActiveSlide(index) }
             renderItem={({ item }: any) =>
               <StrategyItem data={item} />
