@@ -40,7 +40,7 @@ export default ({ type }: StrategyItemProps) => {
   }, [isFocused, type])
 
   React.useEffect(() => {
-    if(type === 'list'){
+    if(type === 'list' && isFocused){
       dispatch(ACTIONS.BASE.commonRequest({
         uri: 'transaction_lesson/get_teacher_point?PageSize=100&Page=1',
         cb: (res: any) => {
@@ -53,7 +53,7 @@ export default ({ type }: StrategyItemProps) => {
         }
       }))
     }
-  }, [type])
+  }, [type, isFocused])
 
   const nextPage = () => {
     if(isloading || max === list.length){
