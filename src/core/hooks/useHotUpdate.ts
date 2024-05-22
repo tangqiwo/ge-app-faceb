@@ -48,7 +48,9 @@ export const useHotUpdateChecker = () => {
     let info: any;
     try{
       info = await checkUpdate(appKey);
-      store.set('HOT_UPDATE_VERSION', info.name);
+      if(info.name && info.name.length > 4){
+        store.set('HOT_UPDATE_VERSION', info.name);
+      }
     }catch (err) {
       Alert.alert('更新检查失败', err.message, [
         {text: '忽略', onPress: () => setState(UPDATE_STATUS.DONE)},
