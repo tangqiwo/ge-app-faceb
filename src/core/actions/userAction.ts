@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2022-07-24 21:20:42
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/actions/userAction.ts
  * @Description: 用户相关的ACTIONS
  */
@@ -63,6 +63,7 @@ export const getUserInfo = ({ cb, loading=true, passError=false }: IGetUserInfo)
   },
   continue: ({ dispatch, res }: any) => {
     dispatch(getRegisterProgress({}));
+    dispatch(getMt4Accounts({data: {id: res.Data.UserId}}))
   },
   passError,
   cb,
@@ -462,3 +463,14 @@ export const delAccount = ({ cb }: INTERFACE.IProps): INTERFACE.IAPI => ({
   },
   cb,
 });
+
+// 获取mt4 demo账户
+export const getMt4Accounts = ({ cb, data }: INTERFACE.IProps): INTERFACE.IAPI => ({
+  type: TYPES.USER.GET_MT4_ACCOUNT,
+  payload: {
+    key: 'user/get-mt4-account',
+    data: { UserId: data.id },
+    method: HTTP.METHODS.POST,
+  },
+  cb
+})

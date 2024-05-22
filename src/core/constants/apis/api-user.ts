@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2022-07-25 10:58:18
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/constants/apis/api-user.ts
  * @Description: 用户 & 权限相关接口
  */
@@ -97,5 +97,9 @@ export default {
   'user/deposit_activity_config': 'deposit_activity/get_config',
 
   // 注销账号
-  'user/del-account': 'operator/DestroyUser'
+  'user/del-account': 'operator/DestroyUser',
+
+  // 获取 MT4 账号
+  'user/get-mt4-account': 'Mt4/GetMt4Accounts',
+
 }

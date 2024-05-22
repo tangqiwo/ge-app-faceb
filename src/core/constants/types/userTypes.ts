@@ -2,7 +2,7 @@
  * @Description: 用户相关
  * @Author: Galen.GE
  * @Date: 2019-12-31 15:50:12
- * @LastEditTime: 2023-11-09 12:08:07
+ * @LastEditTime: 2024-05-22 10:47:15
  * @LastEditors: ammo@xyzzdev.com
  */
 
@@ -71,3 +71,6 @@ export const GET_REGISTER_PROGRESS = 'USER/GET_REGISTER_PROGRESS';
 
 // 退出提示
 export const LOGOUT_DIALOG = 'USER/LOGOUT_DIALOG';
+
+// 获取mt4账号
+export const GET_MT4_ACCOUNT = 'USER/GET_MT4_ACCOUNT';
