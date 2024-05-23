@@ -14,7 +14,6 @@ import Icon from '@icon/index';
 import CONFIG from '@this/configs';
 import ExitPopup from '@this/components/ExitPopup';
 import MyImage from '@core/templates/components/Base/Image';
-import CustomerService from '@core/templates/components/CustomerService';
 import { LS as styles, GS } from './style';
 import { useSelector } from 'react-redux';
 
@@ -98,9 +97,6 @@ export default () => {
         style={{ flex: 1 }}
         styleInject={styelInject}
       />
-      {
-        route.params.title === '注资' && <CustomerService />
-      }
     </>
   )
 

@@ -17,7 +17,6 @@ import usePublicState from '@core/hooks/usePublicState';
 import { HeaderBackButton } from '@react-navigation/elements';
 import MyImage from '@core/templates/components/Base/Image';
 import Tips from './components/Tips';
-import CustomerService from '@core/templates/components/CustomerService';
 import useRouteWebCommon, { FORWARD_TYPES } from '@core/hooks/useRouteWebCommon';
 import { LS, GS } from './style';
 
@@ -161,7 +160,6 @@ export default () => {
       >
         <MyImage width={GS.mixin.rem(170)} source={{uri: ossDomain + extInfo.image}} />
       </ExitPopup>
-      <CustomerService />
     </ScrollView>
   )
 
