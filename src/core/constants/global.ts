@@ -32,6 +32,7 @@ type TKeys =  'API'                         // API
             | 'INSTANT_QUOTES'
             | 'CHANNEL_CODE'
             | 'BAIDU_VID'
+            | 'VERSION'
 
 // 获取全局变量
 const GET = (key: string): any => {

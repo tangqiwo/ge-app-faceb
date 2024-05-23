@@ -28,6 +28,7 @@ export default () => {
   const [ order, setOrder ] = React.useState<any>();
   const timer = React.useRef<any>(null);
   const { goDeposit, isDepositNative } = useNativeForward();
+  const unreadMessage = rs.user.unreadMessage;
 
   React.useEffect(() => {
     if(isFocused && isLogined){
@@ -91,7 +92,12 @@ export default () => {
                 </View>
               }
               <View style={{flexDirection: 'row'}}>
-                <MyTouchableOpacity onPress={() => navigation.navigate('MessageCenter')}>
+                <MyTouchableOpacity style={{position: 'relative'}} onPress={() => navigation.navigate('MessageCenter')}>
+                  {
+                    unreadMessage.MessageGroupMemberMessage.length +
+                    unreadMessage.MessageGroupPublicMessage.length > 0 &&
+                    <View style={styles.unread} />
+                  }
                   <Icon.Font style={styles.settingIcon} type={Icon.T.FontAwesome} name='envelope-o' />
                 </MyTouchableOpacity>
                 <MyTouchableOpacity onPress={() => navigation.navigate('Settings')}>

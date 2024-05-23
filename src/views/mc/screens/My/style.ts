@@ -42,6 +42,15 @@ export const LS = StyleSheet.create({
     fontSize: G.mixin.rem(18),
     marginLeft: G.mixin.rem(8),
   },
+  unread: {
+    width: G.mixin.rem(8),
+    height: G.mixin.rem(8),
+    backgroundColor: '#FF0000',
+    borderRadius: G.mixin.rem(8),
+    position: 'absolute',
+    top: G.mixin.rem(-2),
+    right: G.mixin.rem(-5),
+  },
   continueImage: {
     width: G.mixin.rem(347),
     height: G.mixin.rem(150),

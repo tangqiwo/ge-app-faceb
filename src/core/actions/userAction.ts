@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2022-07-24 21:20:42
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/actions/userAction.ts
  * @Description: 用户相关的ACTIONS
  */
@@ -63,8 +63,29 @@ export const getUserInfo = ({ cb, loading=true, passError=false }: IGetUserInfo)
   },
   continue: ({ dispatch, res }: any) => {
     dispatch(getRegisterProgress({}));
+    dispatch(getUnreadMessage({}))
   },
   passError,
+  cb,
+});
+
+// 获取未读信息
+export const getUnreadMessage = ({  }: INTERFACE.IProps): INTERFACE.IAPI => ({
+  type: TYPES.USER.GET_UNREAD_MESSAGE,
+  payload: {
+    key: 'user/get-unread-message',
+    method: HTTP.METHODS.GET,
+  },
+});
+
+// 阅读消息
+export const readMessage = ({ data, cb }: INTERFACE.IProps): INTERFACE.IAPI => ({
+  type: TYPES.BASE.HTTP_ONLY,
+  payload: {
+    key: 'user/read-message',
+    method: HTTP.METHODS.POST,
+    data
+  },
   cb,
 });
 
@@ -132,7 +153,6 @@ export const register = ({ data, cb }: INTERFACE.IProps): INTERFACE.IAPI => ({
     method: HTTP.METHODS.POST,
     data,
     loading: true,
-    isFormatRes: true,
   },
   passError: true,
   cb,
@@ -385,7 +405,7 @@ interface IGetMessages extends INTERFACE.IProps {
   page: number;
   pageSize?: number;
 }
-export const getMessages = ({ type, page, pageSize = 10, cb }: IGetMessages): INTERFACE.IAPI => ({
+export const getMessages = ({ type, page, pageSize = 50, cb }: IGetMessages): INTERFACE.IAPI => ({
   type: TYPES.BASE.HTTP_ONLY,
   payload: {
     key: 'user/get-messages',

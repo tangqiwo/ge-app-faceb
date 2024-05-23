@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-22 18:06:16
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/templates/Framework.tsx
  * @Description: 框架（公共组件）
  */
@@ -11,7 +11,6 @@ import Loading from '@views/mc/shadow/Loader';
 import Alert from '@views/mc/shadow/Alert';
 import Toast from '@views/mc/shadow/Toast';
 import Popups from '@core/templates/components/__Popups'
-import useHotUpdate from "@core/hooks/useHotUpdate";
 import useStateKeeper from '@core/hooks/useStateKeeper';
 import useRouteHelper from '@core/hooks/useRouteHelper';
 import useListener from '@core/hooks/useListener';
@@ -28,11 +27,9 @@ export default () => {
   useListener();
   // useQuotesQuery();
 
-  const { startUpdateCheck } = useHotUpdate();
   const { init } = useStart();
 
   React.useEffect(() => {
-    startUpdateCheck();
     init();
   }, []);
 
