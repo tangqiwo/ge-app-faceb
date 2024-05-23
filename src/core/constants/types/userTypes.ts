@@ -2,7 +2,11 @@
  * @Description: 用户相关
  * @Author: Galen.GE
  * @Date: 2019-12-31 15:50:12
- * @LastEditTime: 2024-05-22 10:47:15
+<<<<<<< HEAD
+ * @LastEditTime: 2024-05-23 16:40:38
+=======
+ * @LastEditTime: 2024-05-15 00:25:02
+>>>>>>> main
  * @LastEditors: ammo@xyzzdev.com
  */
 
@@ -74,3 +78,5 @@ export const LOGOUT_DIALOG = 'USER/LOGOUT_DIALOG';
 
 // 获取mt4账号
 export const GET_MT4_ACCOUNT = 'USER/GET_MT4_ACCOUNT';
+// 获取未读信息
+export const GET_UNREAD_MESSAGE = 'USER/GET_UNREAD_MESSAGE';

@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-24 02:38:00
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/WebFrame/index.tsx
  * @Description:
  */
@@ -16,6 +16,7 @@ import ExitPopup from '@this/components/ExitPopup';
 import MyImage from '@core/templates/components/Base/Image';
 import { LS as styles, GS } from './style';
 import { useSelector } from 'react-redux';
+
 
 export default () => {
 

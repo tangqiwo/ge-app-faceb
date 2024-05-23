@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2023-06-20 18:41:07
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/hooks/useRegister.ts
  * @Description: 注册相关
 */
@@ -128,23 +128,13 @@ export default () => {
       ParentId: 0,
       Password: 'a12345678'
     }, cb: (res: any) => {
-      // 该手机号已注册
-      if(res.code === 2) {
-        dispatch(ACTIONS.BASE.openAlert({
-          content: '该手机号已注册，请前往登录',
-          cb: () => {
-            navigation.replace('Login');
-          }
-        }));
-        return;
-      }
       // 其他错误
-      if(res.code !== 0) {
+      if(res.Code !== 0) {
         dispatch(ACTIONS.BASE.openToast({ text: res.desc }));
         return;
       }
-      storage.set('AUTH', res.data);
-      dispatch(ACTIONS.BASE.openToast({ text: '开户成功', types: 'success' }));
+      storage.set('AUTH', res.Data.Token);
+      // dispatch(ACTIONS.BASE.openToast({ text: '开户成功', types: 'success' }));
       dispatch(ACTIONS.USER.getUserInfo({cb: () => {
         navigation.replace('RealnameAuthentication');
       }}));

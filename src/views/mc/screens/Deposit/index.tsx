@@ -17,7 +17,6 @@ import usePublicState from '@core/hooks/usePublicState';
 import { HeaderBackButton } from '@react-navigation/elements';
 import MyImage from '@core/templates/components/Base/Image';
 import Tips from './components/Tips';
-import { ChannelIcon } from './components/ChannelIcon';
 import useRouteWebCommon, { FORWARD_TYPES } from '@core/hooks/useRouteWebCommon';
 import { LS, GS } from './style';
 

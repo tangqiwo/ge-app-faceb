@@ -22,7 +22,7 @@ export default {
   ['user/get-verify-code']: 'portal/auth_code_for_register_by_phone_number',
 
   // 注册
-  ['user/register']: 'portal/register_by_phone_number',
+  ['user/register']: 'portal/LoginAndSignUpByPhoneNumber',
 
   // 用户消息
   'user/messages': 'messages/public_messages',
@@ -102,4 +102,9 @@ export default {
   // 获取 MT4 账号
   'user/get-mt4-account': 'Mt4/GetMt4Accounts',
 
+  // 未读信息
+  'user/get-unread-message': 'messages/get_messages_mark',
+
+  // 读取消息
+  'user/read-message': 'messages/read_mark_messages'
 }

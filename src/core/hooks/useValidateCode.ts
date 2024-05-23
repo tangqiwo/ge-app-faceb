@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2023-08-05 01:39:24
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/hooks/useValidateCode.ts
  * @Description: 验证码
  */
@@ -22,7 +22,7 @@ export default ({ type }: TValidateCode) => {
   React.useEffect(() => {
     switch(type){
       case 'register':
-        setApiType('auth_code_for_register_by_phone_number');
+        setApiType('auth_code_for_login_and_sign_up');
         break;
       case 'login':
         setApiType('AuthCodeForLogin');
