@@ -39,7 +39,7 @@ export default () => {
       <View style={{...styles.header, height: GS.mixin.rem(40) + insets.top, marginTop: Platform.OS === 'android' ? GS.mixin.rem(15) : 0}} >
         <View style={styles.tabsVeiw}>
           <MyTouchableOpacity style={[styles.tabsItem, tab === 0 && styles.tabsItemActive]} onPress={() => setTab(0)}>
-            <Text style={[styles.tabsItemText, tab === 0 && styles.tabsItemTextActive]}>产品交易</Text>
+            <Text style={[styles.tabsItemText, tab === 0 && styles.tabsItemTextActive]}>交易产品</Text>
           </MyTouchableOpacity>
           <MyTouchableOpacity style={[styles.tabsItem, tab === 1 && styles.tabsItemActive]} onPress={() => setTab(1)}>
             <Text style={[styles.tabsItemText, tab === 1 && styles.tabsItemTextActive]}>新闻快讯</Text>
