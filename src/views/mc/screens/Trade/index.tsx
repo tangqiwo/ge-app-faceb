@@ -22,7 +22,7 @@ import Placing from "./Placing";
 import Position from "./Position";
 import TradeHistory from "./TradeHistory";
 import Button from '@this/components/Button'
-import useRouteWebCommon from '@core/hooks/useRouteWebCommon';
+import Selector from '@core/templates/components/Base/Selector';
 import ENUM from '@core/constants/enum';
 import store from '@helpers/storage'
 import { LS as styles, GS } from './style';
@@ -30,15 +30,33 @@ import { LS as styles, GS } from './style';
 export default () => {
 
   // useMt4ChartQuote();
+
   const { navigation, isMt4User, rs, isFocused, cacheReady, dispatch, ACTIONS } = usePublicState();
   const mt4Info = useSelector((state: any) => state.trade.mt4Info);
+  const mt4Accounts = useSelector((state: any) => state.user.mt4Accounts);
   const route = useRoute<any>();
   const { goDeposit } = useNativeForward();
-  const { authToMt4, makeFirstInstant } = useTradeConnect();
+  const { authToMt4, makeFirstInstant, accountType, setAccountType, isShowLogin, setIsShowLogin } = useTradeConnect();
   const [ currentTab, setCurrentTab ] = React.useState(0);
-  const [ isShowLogin, setIsShowLogin ] = React.useState(false);
   const [ password, setPassword ] = React.useState<any>('');
   const [ showPassword, setShowPassword ] = React.useState(false);
+
+  React.useEffect(() => {
+    console.log(accountType);
+    navigation.setOptions({
+      headerTitle: () => (
+        <Selector
+          style={{flexDirection: 'row', alignItems: 'center',}}
+          title='交易账号类型'
+          value={accountType}
+          options={_.map(mt4Accounts, (item: any) => ({key: item.AccountType, value: item.AccountDesc}))}
+          cb={(value: string) => setAccountType(Number(value))}
+        />
+      ),
+      headerShown: true
+    });
+  }, [accountType])
+
 
   React.useEffect(() => {
     if(isShowLogin){
@@ -54,6 +72,7 @@ export default () => {
 
   React.useEffect(() => {
     if(isFocused && !mt4Info && cacheReady){
+
       const pass = store.get('MT4-PASS');
       if(pass){
         authToMt4({password: pass, callback: (res: any) => {
@@ -71,12 +90,6 @@ export default () => {
     }
   }, [isFocused])
 
-  React.useEffect(() => {
-    navigation.setOptions({
-      headerTitle: '交易',
-      headerShown: true,
-    });
-  }, [])
 
   // 未登录 或者 未开户
   React.useEffect(() => {

@@ -15,11 +15,19 @@ import { toUpperCaseObj } from '@helpers/unit';
 import { useIsFocused } from '@react-navigation/native';
 import store from '@helpers/storage';
 
+const enum ACCOUNT_TYPES {
+  REAL = 0,
+  DEMO = 1
+}
+
 export default () => {
 
   const { dispatch, ACTIONS, navigation } = usePublicState();
   const mt4Info = useSelector((state: any) => state.trade.mt4Info);
   const [scoketUrl, setScoketUrl] = React.useState('');
+  const accountType = useSelector((state: any) => state.trade.accountType);
+  const mt4Accounts = useSelector((state: any) => state.user.mt4Accounts);
+
   const { messages, socket } = useWebsocket({url: scoketUrl, protocol: 'mt4', routeName: 'xxxx', closeCallback: () => {
     const pass = store.get('MT4-PASS');
     if(pass){
@@ -131,11 +139,15 @@ export default () => {
 
   // 链接MT4
   const authToMt4 = React.useCallback(({ password, callback }: { password: string, callback: Function }) => {
+    if(accountType.id === ACCOUNT_TYPES.DEMO){
+      authToDemoMt4(callback);
+      return;
+    }
     if (!password) {
       dispatch(ACTIONS.BASE.openToast({ text: '请输入MT4密码' }));
       return;
     }
-    dispatch(ACTIONS.TRADE.connetMt4({ data: { password }, cb: (res: any) => {
+    dispatch(ACTIONS.TRADE.connetMt4({type: accountType.type, data: { password }, cb: (res: any) => {
       dispatch(ACTIONS.BASE.closeLoading());
       if(res.Code !== 0){
         store.remove('MT4-PASS');
@@ -145,16 +157,47 @@ export default () => {
       setScoketUrl(res.Data.Url)
       callback(res);
     }}))
-  }, [])
+  }, [accountType.id])
 
+  // DEMO 账号链接 MT4
+  const authToDemoMt4 = (callback: Function) => {
+    const demoAccount = _.find(mt4Accounts, {Type: ACCOUNT_TYPES.DEMO});
+    if(!demoAccount){
+      dispatch(ACTIONS.BASE.openToast({text: '请先添加模拟账号'}));
+      return;
+    }
+    dispatch(ACTIONS.TRADE.connectDemoMt4({
+      data: {
+        UserId: demoAccount.UserId,
+        MT4Id: demoAccount.MT4Id,
+      },
+      type: 'Mt4TradingDemoServer',
+      cb: (res: any) => {
+        dispatch(ACTIONS.BASE.closeLoading());
+        if(res.Code !== 0){
+          dispatch(ACTIONS.BASE.openToast({ text: res.Desc }));
+          return;
+        }
+        setScoketUrl(res.Data.Url)
+        callback(res);
+      }
+    }))
+  }
+
+  // 设置账号类型
+  const setAccountType = (id: Number) => {
+    const type = id === ACCOUNT_TYPES.REAL ? 'Mt4Trading' : 'Mt4TradingDemoServer';
+    dispatch(ACTIONS.TRADE.changeAccountType({type, id}));
+  }
 
   return {
     authToMt4,
-    makeFirstInstant
+    makeFirstInstant,
+    accountType: accountType.id,
+    setAccountType
   }
 
 }
-
 
 export const CMD_MAPPING: any = {
   0: '买入',
@@ -166,7 +209,6 @@ export const CMD_MAPPING: any = {
   6: '余额',
   7: '信用'
 }
-
 
 export const CMD_CDOE_MAPPING: any = {
   0: 'Buy',
