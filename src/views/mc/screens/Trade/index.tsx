@@ -11,7 +11,7 @@ import { View, Image, Text } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useSelector } from "react-redux";
 import usePublicState from "@core/hooks/usePublicState";
-import useTradeConnect from "@core/hooks/trade/useTradeConnect";
+import useTradeConnect, { ACCOUNT_TYPES } from "@core/hooks/trade/useTradeConnect";
 import MyTouchableOpacity from "@core/templates/components/MyTouchableOpacity";
 import Overlay from "@core/templates/components/Overlay";
 import BackgroundView from "@core/templates/components/BackgroundView";
@@ -24,25 +24,29 @@ import TradeHistory from "./TradeHistory";
 import Button from '@this/components/Button'
 import Selector from '@core/templates/components/Base/Selector';
 import ENUM from '@core/constants/enum';
-import store from '@helpers/storage'
 import { LS as styles, GS } from './style';
 
 export default () => {
 
-  // useMt4ChartQuote();
-
-  const { navigation, isMt4User, rs, isFocused, cacheReady, dispatch, ACTIONS } = usePublicState();
+  const { navigation, isMt4User, rs } = usePublicState();
   const mt4Info = useSelector((state: any) => state.trade.mt4Info);
   const mt4Accounts = useSelector((state: any) => state.user.mt4Accounts);
   const route = useRoute<any>();
   const { goDeposit } = useNativeForward();
-  const { authToMt4, makeFirstInstant, accountType, setAccountType, isShowLogin, setIsShowLogin } = useTradeConnect();
+  const {
+    authToMt4,
+    authToDemoMt4,
+    makeFirstInstant,
+    accountType,
+    setAccountType,
+    isShowLogin,
+    setIsShowLogin
+  } = useTradeConnect();
   const [ currentTab, setCurrentTab ] = React.useState(0);
   const [ password, setPassword ] = React.useState<any>('');
   const [ showPassword, setShowPassword ] = React.useState(false);
 
   React.useEffect(() => {
-    console.log(accountType);
     navigation.setOptions({
       headerTitle: () => (
         <Selector
@@ -69,27 +73,6 @@ export default () => {
       setCurrentTab(route.params.tab);
     }
   }, [route?.params?.tab])
-
-  React.useEffect(() => {
-    if(isFocused && !mt4Info && cacheReady){
-
-      const pass = store.get('MT4-PASS');
-      if(pass){
-        authToMt4({password: pass, callback: (res: any) => {
-          makeFirstInstant(res.Data.SymbolsQuote);
-        }})
-      }else{
-        setIsShowLogin(true);
-      }
-    }
-  }, [isFocused, mt4Info, cacheReady])
-
-  React.useEffect(() => {
-    if(isFocused){
-      dispatch(ACTIONS.USER.getUserInfo({loading: false}))
-    }
-  }, [isFocused])
-
 
   // 未登录 或者 未开户
   React.useEffect(() => {
@@ -119,12 +102,20 @@ export default () => {
     }})
   }
 
+  const handleGoLogin = () => {
+    if(accountType.id === ACCOUNT_TYPES.REAL){
+      setIsShowLogin(true);
+      return;
+    }
+    authToDemoMt4(() => {});
+  }
+
   return (
     <View style={styles.container}>
       {
         !mt4Info &&
         <>
-          <MyTouchableOpacity onPress={() => setIsShowLogin(true)}>
+          <MyTouchableOpacity onPress={handleGoLogin}>
             <Image style={styles.loginImage} source={require('./i/go-login.png')} resizeMode="contain" />
           </MyTouchableOpacity>
         </>

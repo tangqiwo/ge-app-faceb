@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2023-12-29 10:40:22
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/hooks/trade/useTradeOperation.ts
  * @Description:
  */
@@ -15,6 +15,7 @@ export default () => {
   const [ data, setData ] = React.useState<any>();
   const [ date, setDate ] = React.useState<'today' | '7days' | '30days' | 'others'>('today');
   const Mt4ClientApiToken = useSelector((state: any) => state.trade.mt4Info?.Mt4ClientApiToken);
+  const accountType = useSelector((state: any) => state.trade.accountType);
   const [ count, setCount ] = React.useState<number>(0);
   const [startDate, setStartDate] = React.useState<string>();
   const [endDate, setEndDate] = React.useState<string>();
@@ -27,7 +28,7 @@ export default () => {
       Page: PageNo,
       PageSize: 40,
     }
-    dispatch(ACTIONS.TRADE.getHistoryOrders({ data, cb: (res: any) => {
+    dispatch(ACTIONS.TRADE.getHistoryOrders({ type: accountType.type, data, cb: (res: any) => {
       setData(res?.Data?.Data);
       setCount(res?.Data?.Count);
       cb();
@@ -43,7 +44,7 @@ export default () => {
         text: '确认撤销',
         type: 'destructive',
         cb: () => {
-          dispatch(ACTIONS.TRADE.cancelPendingOrder({ data: { Ticket: tiketId, Mt4ClientApiToken}, cb: (res: any) => {
+          dispatch(ACTIONS.TRADE.cancelPendingOrder({ type: accountType.type, data: { Ticket: tiketId, Mt4ClientApiToken}, cb: (res: any) => {
             dispatch(ACTIONS.BASE.openToast({ text: '撤单成功' }));
           }}));
         }

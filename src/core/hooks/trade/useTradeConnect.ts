@@ -15,7 +15,7 @@ import { toUpperCaseObj } from '@helpers/unit';
 import { useIsFocused } from '@react-navigation/native';
 import store from '@helpers/storage';
 
-const enum ACCOUNT_TYPES {
+export const enum ACCOUNT_TYPES {
   REAL = 0,
   DEMO = 1
 }
@@ -27,6 +27,10 @@ export default () => {
   const [scoketUrl, setScoketUrl] = React.useState('');
   const accountType = useSelector((state: any) => state.trade.accountType);
   const mt4Accounts = useSelector((state: any) => state.user.mt4Accounts);
+  const [ isShowLogin, setIsShowLogin ] = React.useState(false);
+  const symbols = mt4Info?.Symbols
+  const instant = useSelector((state: any) => state.trade.instant);
+  const isFocused = useIsFocused();
 
   const { messages, socket } = useWebsocket({url: scoketUrl, protocol: 'mt4', routeName: 'xxxx', closeCallback: () => {
     const pass = store.get('MT4-PASS');
@@ -42,9 +46,14 @@ export default () => {
       navigation.navigate('Root', { screen: 'Trade' });
     }
   }});
-  const symbols = mt4Info?.Symbols
-  const instant = useSelector((state: any) => state.trade.instant);
-  const isFocused = useIsFocused();
+
+
+  React.useEffect(() => {
+    if(isFocused){
+      dispatch(ACTIONS.USER.getUserInfo({loading: false}))
+    }
+  }, [isFocused])
+
 
   React.useEffect(() => {
     return () => {
@@ -53,6 +62,24 @@ export default () => {
       }
     }
   }, [])
+
+  React.useEffect(() => {
+    if(typeof socket?.close === 'function'){
+      socket?.close();
+    }
+    setScoketUrl('');
+    if(accountType.id === ACCOUNT_TYPES.REAL){
+      if(store.get('MT4-PASS')){
+        authToMt4({password: store.get('MT4-PASS'), callback: (res: any) => {
+          makeFirstInstant(res.Data.SymbolsQuote);
+        }})
+      }else{
+        setIsShowLogin(true);
+      }
+      return;
+    }
+    authToDemoMt4(() => {});
+  }, [accountType.id])
 
   React.useEffect(() => {
     if(!messages){
@@ -161,7 +188,7 @@ export default () => {
 
   // DEMO 账号链接 MT4
   const authToDemoMt4 = (callback: Function) => {
-    const demoAccount = _.find(mt4Accounts, {Type: ACCOUNT_TYPES.DEMO});
+    const demoAccount = _.find(mt4Accounts, {AccountType: ACCOUNT_TYPES.DEMO});
     if(!demoAccount){
       dispatch(ACTIONS.BASE.openToast({text: '请先添加模拟账号'}));
       return;
@@ -169,7 +196,7 @@ export default () => {
     dispatch(ACTIONS.TRADE.connectDemoMt4({
       data: {
         UserId: demoAccount.UserId,
-        MT4Id: demoAccount.MT4Id,
+        MT4Id: demoAccount.Mt4Id,
       },
       type: 'Mt4TradingDemoServer',
       cb: (res: any) => {
@@ -192,9 +219,12 @@ export default () => {
 
   return {
     authToMt4,
+    authToDemoMt4,
     makeFirstInstant,
     accountType: accountType.id,
-    setAccountType
+    setAccountType,
+    isShowLogin,
+    setIsShowLogin
   }
 
 }
