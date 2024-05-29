@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2023-06-07 14:20:59
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/hooks/useLogin.ts
  * @Description: 登录
  */
@@ -37,7 +37,7 @@ export default () => {
     if(!isFocused){
       return;
     }
-    const { Password, PhoneNumber } = payload;
+    const { Password, PhoneNumber, CountryCode } = payload;
     if (key === 'Password') {
       if(!payload.Password){
         setErrors({...errors, Password: Password ? null : '请输入密码'});
@@ -50,6 +50,12 @@ export default () => {
     if(key === 'PhoneNumber') {
       // 8到20位数字
       if (!/^[0-9]{8,20}$/.test(PhoneNumber)) {
+        setErrors({...errors, PhoneNumber: '请输入正确的手机号'});
+        dispatch(ACTIONS.BASE.openToast({text: '请输入正确的手机号', types: 'error'}));
+        return false;
+      }
+      // 11位数字
+      if (!/^[0-9]{11}$/.test(PhoneNumber) && CountryCode === CONFIG.SUPPORT_PHONE_CODE[0].code) {
         setErrors({...errors, PhoneNumber: '请输入正确的手机号'});
         dispatch(ACTIONS.BASE.openToast({text: '请输入正确的手机号', types: 'error'}));
         return false;
@@ -95,6 +101,7 @@ export default () => {
   const resetPassword = (cb?: () => void) => {
     const { CountryCode, PhoneNumber, AuthCode, Password } = payload;
     // 如果还有错误提示，不允许提交
+    validate('PhoneNumber');
     if (Object.values(errors).some((item) => item)) {
       return;
     }

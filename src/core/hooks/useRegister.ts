@@ -68,6 +68,12 @@ export default () => {
         dispatch(ACTIONS.BASE.openToast({text: '请输入正确的手机号', types: 'error'}));
         return;
       }
+      // 11位数字
+      if (!/^[0-9]{11}$/.test(payload.PhoneNumber) && payload.CountryCode === CONFIG.SUPPORT_PHONE_CODE[0].code) {
+        setErrors({...errors, PhoneNumber: '请输入正确的手机号'});
+        dispatch(ACTIONS.BASE.openToast({text: '请输入正确的手机号', types: 'error'}));
+        return;
+      }
       setErrors({...errors, PhoneNumber: null});
       return;
     }
