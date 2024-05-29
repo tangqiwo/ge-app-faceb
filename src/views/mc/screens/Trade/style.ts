@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/Trade/style.ts
  * @Description:
  */
@@ -19,6 +19,20 @@ export const LS = StyleSheet.create({
     paddingRight: G.mixin.rem(14),
     paddingTop: G.mixin.rem(20),
     paddingBottom: G.mixin.rem(20),
+  },
+  loginIcon: {
+    marginTop: G.mixin.rem(150),
+    width: G.mixin.rem(100),
+    height: G.mixin.rem(100),
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  loginBtn: {
+    marginTop: G.mixin.rem(20),
+    width: G.mixin.rem(190),
+    height: G.mixin.rem(50),
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   loginImage: {
     width: '100%',

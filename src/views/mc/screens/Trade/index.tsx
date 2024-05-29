@@ -103,7 +103,7 @@ export default () => {
   }
 
   const handleGoLogin = () => {
-    if(accountType.id === ACCOUNT_TYPES.REAL){
+    if(accountType === ACCOUNT_TYPES.REAL){
       setIsShowLogin(true);
       return;
     }
@@ -114,11 +114,19 @@ export default () => {
     <View style={styles.container}>
       {
         !mt4Info &&
-        <>
-          <MyTouchableOpacity onPress={handleGoLogin}>
-            <Image style={styles.loginImage} source={require('./i/go-login.png')} resizeMode="contain" />
-          </MyTouchableOpacity>
-        </>
+        <View style={{...styles.container}}>
+          <Image
+            source={require('./i/demoacc-icon.png')}
+            style={styles.loginIcon}
+            resizeMode="contain"
+          />
+          <Button
+            text='点击验证MT4密码'
+            style={styles.loginBtn}
+            textStyle={{fontWeight: 'bold'}}
+            onPress={handleGoLogin}
+          />
+        </View>
       }
       {
         mt4Info &&
@@ -159,22 +167,22 @@ export default () => {
               </MyTouchableOpacity>
             </View>
           </BackgroundView>
+          <View style={styles.tabsVeiw}>
+            <MyTouchableOpacity style={[styles.tabsItem, currentTab === 0 && styles.tabsItemActive]} onPress={() => setCurrentTab(0)}>
+              <Text style={[styles.tabsItemText, currentTab === 0 && styles.tabsItemTextActive]}>持仓</Text>
+            </MyTouchableOpacity>
+            <MyTouchableOpacity style={[styles.tabsItem, currentTab === 1 && styles.tabsItemActive]} onPress={() => setCurrentTab(1)}>
+              <Text style={[styles.tabsItemText, currentTab === 1 && styles.tabsItemTextActive]}>挂单</Text>
+            </MyTouchableOpacity>
+            <MyTouchableOpacity style={[styles.tabsItem, currentTab === 2 && styles.tabsItemActive]} onPress={() => setCurrentTab(2)}>
+              <Text style={[styles.tabsItemText, currentTab === 2 && styles.tabsItemTextActive]}>交易记录</Text>
+            </MyTouchableOpacity>
+          </View>
+          { currentTab === 0 && <Position /> }
+          { currentTab === 1 && <Placing /> }
+          { currentTab === 2 && <TradeHistory /> }
         </>
       }
-      <View style={styles.tabsVeiw}>
-        <MyTouchableOpacity style={[styles.tabsItem, currentTab === 0 && styles.tabsItemActive]} onPress={() => setCurrentTab(0)}>
-          <Text style={[styles.tabsItemText, currentTab === 0 && styles.tabsItemTextActive]}>持仓</Text>
-        </MyTouchableOpacity>
-        <MyTouchableOpacity style={[styles.tabsItem, currentTab === 1 && styles.tabsItemActive]} onPress={() => setCurrentTab(1)}>
-          <Text style={[styles.tabsItemText, currentTab === 1 && styles.tabsItemTextActive]}>挂单</Text>
-        </MyTouchableOpacity>
-        <MyTouchableOpacity style={[styles.tabsItem, currentTab === 2 && styles.tabsItemActive]} onPress={() => setCurrentTab(2)}>
-          <Text style={[styles.tabsItemText, currentTab === 2 && styles.tabsItemTextActive]}>交易记录</Text>
-        </MyTouchableOpacity>
-      </View>
-      { currentTab === 0 && <Position /> }
-      { currentTab === 1 && <Placing /> }
-      { currentTab === 2 && <TradeHistory /> }
       {
         isShowLogin &&
         <Overlay display>
