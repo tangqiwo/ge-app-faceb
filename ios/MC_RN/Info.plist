@@ -20,6 +20,8 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>NSCameraUsageDescription</key>
+	<string>我们需要访问您的相机以便拍照</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -76,8 +78,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<!-- <string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string> -->
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>

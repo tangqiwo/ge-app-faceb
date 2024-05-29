@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-09 14:00:27
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/Trade/index.tsx
  * @Description:
  */
@@ -15,13 +15,14 @@ import useTradeConnect from "@core/hooks/trade/useTradeConnect";
 import MyTouchableOpacity from "@core/templates/components/MyTouchableOpacity";
 import Overlay from "@core/templates/components/Overlay";
 import BackgroundView from "@core/templates/components/BackgroundView";
+import useNativeForward from '@core/hooks/useNativeForward';
 import { Input } from '@ui-base/index';
 import Icon from '@icon/index';
 import Placing from "./Placing";
 import Position from "./Position";
 import TradeHistory from "./TradeHistory";
 import Button from '@this/components/Button'
-import useRouteWebCommon, { FORWARD_TYPES } from '@core/hooks/useRouteWebCommon';
+import useRouteWebCommon from '@core/hooks/useRouteWebCommon';
 import ENUM from '@core/constants/enum';
 import store from '@helpers/storage'
 import { LS as styles, GS } from './style';
@@ -32,7 +33,7 @@ export default () => {
   const { navigation, isMt4User, rs, isFocused, cacheReady, dispatch, ACTIONS } = usePublicState();
   const mt4Info = useSelector((state: any) => state.trade.mt4Info);
   const route = useRoute<any>();
-  const { forward } = useRouteWebCommon();
+  const { goDeposit } = useNativeForward();
   const { authToMt4, makeFirstInstant } = useTradeConnect();
   const [ currentTab, setCurrentTab ] = React.useState(0);
   const [ isShowLogin, setIsShowLogin ] = React.useState(false);
@@ -58,6 +59,8 @@ export default () => {
         authToMt4({password: pass, callback: (res: any) => {
           makeFirstInstant(res.Data.SymbolsQuote);
         }})
+      }else{
+        setIsShowLogin(true);
       }
     }
   }, [isFocused, mt4Info, cacheReady])
@@ -138,7 +141,7 @@ export default () => {
               </View>
             </View>
             <View style={styles.buttonBox}>
-              <MyTouchableOpacity style={styles.buttonItem} onPress={() => forward(FORWARD_TYPES['DEPOSIT'])}>
+              <MyTouchableOpacity style={styles.buttonItem} onPress={() => goDeposit()}>
                 <View style={styles.buttonItem}>
                   <Image source={require('./i/icon-1.png')} style={styles.buttonIcon} resizeMode='contain' />
                   <Text style={styles.buttonText}>注资</Text>

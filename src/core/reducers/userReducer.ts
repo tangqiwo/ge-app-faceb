@@ -2,10 +2,10 @@
  * @Description: 用户相关状态管理
  * @Author: Galen.GE
  * @Date: 2019-12-31 17:27:08
- * @LastEditTime: 2023-12-11 11:41:54
+ * @LastEditTime: 2024-05-15 00:30:52
  * @LastEditors: ammo@xyzzdev.com
  */
-
+import _ from 'lodash';
 import TYPES from '@core/constants/types';
 import initialState from './redux-store';
 
@@ -37,6 +37,10 @@ export default function user(state = initialState.user, action: any) {
     // 开户引导状态
     case TYPES.USER.SET_REGISTER_GUIDE_STATUS: {
       return { ...state, registerGuideStatus: action.res || {} };
+    }
+    // 未读信息
+    case TYPES.USER.GET_UNREAD_MESSAGE: {
+      return { ...state, unreadMessage: _.pick(action.res, ['MessageGroupMemberMessage', 'MessageGroupPublicMessage']) };
     }
     // 退出提示
     case TYPES.USER.LOGOUT_DIALOG: {

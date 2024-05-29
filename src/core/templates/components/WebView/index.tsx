@@ -16,6 +16,7 @@ import INJECT_POST_MESSAGE from './postJsCode';
 import LinearGradient from 'react-native-linear-gradient';
 import { LS } from './style';
 import usePublicState from '@core/hooks/usePublicState';
+import G from '@constants/global'
 
 interface IProps extends WebViewProps {
   styleInject?: string,
@@ -56,9 +57,11 @@ export default React.memo(({source, invoke='', styleInject='', style={}, ...prop
     return <ErrorPage errorDomain={errorDomain} errorCode={errorCode} errorDesc={errorDesc} uri={source.uri} />
   }
 
+  const channelCode = G.GET('CHANNEL_CODE');
+
   const newSource = {
     ...source,
-    uri: source.uri + (source.uri.indexOf('?') > -1 ? '&' : '?') + 'token=' + token + '&Terminal=AppWebView&i18n=false'
+    uri: source.uri + (source.uri.indexOf('?') > -1 ? '&' : '?') + 'token=' + token + '&Terminal=AppWebView&i18n=false&utm_source=' + channelCode
   }
 
   return (

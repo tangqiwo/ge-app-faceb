@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2022-07-25 10:49:02
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/schemas/redux-store.d.ts
  * @Description: 初始状态约束
  */
@@ -84,6 +84,7 @@ export type IUser = {
     img?: string;
     callback?: Function;
   };
+  unreadMessage: any
 };
 
 export type IRegisterGuideStatus = {

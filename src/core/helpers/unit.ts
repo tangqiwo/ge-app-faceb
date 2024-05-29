@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-08-12 02:50:51
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/helpers/unit.ts
  * @Description: 通用的帮助方法
  */
@@ -48,6 +48,7 @@ export const HTMLMaker = (content: string): any => {
  * @return {*}
  */
 export const formatMoney = (money: number | string): any => {
+  money = _.round(Number(money), 2)
   if(String(money).includes('.')){
     return String(money).split('.')[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '.' + String(money).split('.')[1]
   }

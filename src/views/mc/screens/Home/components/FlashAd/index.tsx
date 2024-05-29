@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-09 15:51:39
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/Home/components/FlashAd/index.tsx
  * @Description:
  */
@@ -27,6 +27,7 @@ export default (({showPopup, setShowPopup}: IProps) => {
   const { forward } = useRouteWebCommon();
   const { rs, ossDomain, infos, navigation, isFocused } = usePublicState();
   const [ content, setContent ] = React.useState<any>(null);
+  const [ nativeForward, setNativeForward ] = React.useState<any>(null);
   const [ countdown, setCountdown ] = React.useState<any>({
     days: '00',
     hours: '00',
@@ -53,6 +54,7 @@ export default (({showPopup, setShowPopup}: IProps) => {
         ...rs.base.popupAdvert?.QuickDialog.Data[0],
         Data: JSON.parse(rs.base.popupAdvert?.QuickDialog.Data[0].Content)
       });
+      setNativeForward(rs.base.popupAdvert?.QuickDialog.Data[0].NativeForward)
       return;
     }
     if(rs.base.appConfigs?.QuickDialog?.Data?.length > 0 && !infos.UserId) {
@@ -60,6 +62,7 @@ export default (({showPopup, setShowPopup}: IProps) => {
         ...rs.base.appConfigs?.QuickDialog.Data[0],
         Data: JSON.parse(rs.base.appConfigs?.QuickDialog.Data[0].Content)
       });
+      setNativeForward(rs.base.appConfigs?.QuickDialog.Data[0].NativeForward)
       return;
     }
   }, [
@@ -130,6 +133,10 @@ export default (({showPopup, setShowPopup}: IProps) => {
         return;
       }
       navigation.navigate('Register');
+      return;
+    }
+    if(nativeForward){
+      navigation.navigate(nativeForward);
       return;
     }
     if(content.Data.EnableNative){

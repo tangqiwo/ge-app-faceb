@@ -2,7 +2,7 @@
  * @Description: 请求中间件
  * @Author: Galen.GE
  * @Date: 2019-12-19 18:03:47
- * @LastEditTime: 2024-04-10 12:37:58
+ * @LastEditTime: 2024-04-26 15:52:40
  * @LastEditors: ammo@xyzzdev.com
  */
 import _ from 'lodash';
@@ -122,9 +122,13 @@ export class HTTP {
       'X-IMEI'          : G.GET('UUID'),
     }
     const dataBody = this.request.method === 'GET' ? {} : {data: requestData};
+    let API = ''
+    if(storage.get('MODE')){
+      API = storage.get('MODE') === 'prod' ? 'http://16.163.191.94:16002': 'http://18.166.96.17:16002'
+    }
     axios(_.merge(
       {
-        url: `${CONFIGS.API}/${this.request.url}`,
+        url: `${(API || CONFIGS.API)}/${this.request.url}`,
         method: this.request.method,
         params: this.request.method === 'GET' && (this.request.data || {}),
         headers,

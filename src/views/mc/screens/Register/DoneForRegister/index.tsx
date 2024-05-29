@@ -15,6 +15,7 @@ import MyImage from '@core/templates/components/Base/Image';
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 import Clipboard from '@react-native-clipboard/clipboard';
 import useRouteWebCommon, { FORWARD_TYPES } from '@core/hooks/useRouteWebCommon';
+import useNativeForward from '@core/hooks/useNativeForward';
 import Agreement from './Agreement';
 import PopupAD from '@template/components/PopupAD';
 import ICon from '@template/components/Icon';
@@ -24,6 +25,7 @@ import { LS as styles, GS } from './style';
 export default () => {
 
   const insets = useSafeAreaInsets();
+  const { goDeposit } = useNativeForward();
   const { rs, dispatch, ACTIONS, isFocused, ossDomain, navigation, customerService } = usePublicState();
   const [ showAd, setShowAd ] = React.useState(false);
   const [ showArrow, setShowArrow ] = React.useState(true)
@@ -147,7 +149,7 @@ export default () => {
               </View>
             </View>
             <Image source={{uri: `${ossDomain}${ProInvestorConfig?.Image}`}} style={styles.adArrge} />
-            <MyTouchableOpacity style={styles.submitView} onPress={() => forward({...FORWARD_TYPES['DEPOSIT'], reset: true})}>
+            <MyTouchableOpacity style={styles.submitView} onPress={() => goDeposit(true)}>
               <Text style={styles.submitText}>确认并前往注资</Text>
             </MyTouchableOpacity>
           </>

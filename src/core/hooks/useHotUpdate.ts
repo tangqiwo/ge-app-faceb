@@ -14,6 +14,7 @@ import RNRestart from 'react-native-restart';
 // import usePublicState from './usePublicState';
 import { checkUpdate, downloadUpdate, isFirstTime, markSuccess, switchVersionLater } from 'react-native-update';
 import updateProfile from '../../../update.json'
+import store from '@helpers/storage';
 
 export const useHotUpdateChecker = () => {
 
@@ -35,8 +36,8 @@ export const useHotUpdateChecker = () => {
   const startUpdateCheck = async () => {
     // 开始检查
     setState(UPDATE_STATUS.PENDING);
-    // 开发模式忽略
-    if(__DEV__){
+    // 开发模式忽略 IOS 忽略
+    if(__DEV__ || Platform.OS === 'ios'){
       setState(UPDATE_STATUS.DONE);
       return;
     }
@@ -47,6 +48,9 @@ export const useHotUpdateChecker = () => {
     let info: any;
     try{
       info = await checkUpdate(appKey);
+      if(info.name && info.name.length > 4){
+        store.set('HOT_UPDATE_VERSION', info.name);
+      }
     }catch (err) {
       Alert.alert('更新检查失败', err.message, [
         {text: '忽略', onPress: () => setState(UPDATE_STATUS.DONE)},
@@ -57,6 +61,7 @@ export const useHotUpdateChecker = () => {
     let metaInfo;
     try{
       metaInfo = JSON.parse(info.metaInfo || '{}');
+
     }catch(e){
       metaInfo = {};
     }

@@ -2,8 +2,8 @@
  * @Description: REDUX 初始化状态
  * @Author: Galen.GE
  * @Date: 2019-12-19 16:20:56
- * @LastEditTime: 2024-03-21 10:30:04
- * @LastEditors: Galen.GE
+ * @LastEditTime: 2024-05-16 00:49:56
+ * @LastEditors: ammo@xyzzdev.com
  */
 import _ from 'lodash'
 import { UserInfo, RegisterGuide } from '@core/schemas/interface';
@@ -38,6 +38,10 @@ const user: INTERFACE.IUser = {
     desc: '',
   },
   leaveModal: { display: false, content: '', img: '', callback: null },
+  unreadMessage: {
+    MessageGroupMemberMessage: [],
+    MessageGroupPublicMessage: []
+  }
 };
 
 const registerGuideStatus: INTERFACE.IRegisterGuideStatus = {

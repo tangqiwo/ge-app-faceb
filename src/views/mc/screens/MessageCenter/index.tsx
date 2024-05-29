@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-27 12:20:08
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/MessageCenter/index.tsx
  * @Description:
  */
@@ -18,13 +18,16 @@ import useMessage from '@core/hooks/dashboard/useMessage';
 import usePublicState from '@core/hooks/usePublicState';
 
 import { LS as styles, GS } from './style';
+import { useSelector } from 'react-redux';
 
 export default () => {
 
   const [ currentTab, setCurrentTab ] = React.useState(1);
   const { data, doQuery, querys } = useMessage();
-  const { infos, navigation } = usePublicState();
+  const { infos, navigation, dispatch, ACTIONS } = usePublicState();
   const [ details, setDetails ] = React.useState<any>(null);
+  const unreadMessage = useSelector((state: any) => state.user.unreadMessage);
+  const [ dataType, setDataType ] = React.useState('MessageGroupMemberMessage');
 
   React.useEffect(() => {
     if(currentTab === 0){
@@ -32,12 +35,30 @@ export default () => {
     }
     if(currentTab === 1 && !_.isEmpty(infos)){
       doQuery({...querys, type: 'member'});
+      setDataType('MessageGroupMemberMessage')
     }
     if(currentTab === 2 && !_.isEmpty(infos)){
       doQuery({...querys, type: 'public'});
+      setDataType('MessageGroupPublicMessage')
     }
 
   }, [currentTab, infos])
+
+  React.useEffect(() => {
+    // 是否已读
+    if(details && unreadMessage[dataType].includes(details.Id)){
+      dispatch(ACTIONS.USER.readMessage({
+        data: {
+          Group: dataType,
+          MessageId: details.Id
+        },
+        cb: () => {
+          dispatch(ACTIONS.USER.getUnreadMessage({}))
+        }
+      }))
+    }
+  }, [details])
+
 
   return (
     <View style={styles.container}>
@@ -49,9 +70,21 @@ export default () => {
           </MyTouchableOpacity> */}
           <MyTouchableOpacity style={[styles.tabsItem, currentTab === 1 && styles.tabsItemActive]} onPress={() => setCurrentTab(1)}>
             <Text style={[styles.tabsItemText, currentTab === 1 && styles.tabsItemTextActive]}>会员消息</Text>
+            {
+              unreadMessage.MessageGroupMemberMessage.length > 0 &&
+              <View style={styles.tabsItemBadge}>
+                <Text style={styles.tabsItemBadgeText}>{unreadMessage.MessageGroupMemberMessage.length}</Text>
+              </View>
+            }
           </MyTouchableOpacity>
           <MyTouchableOpacity style={[styles.tabsItem, currentTab === 2 && styles.tabsItemActive]} onPress={() => setCurrentTab(2)}>
             <Text style={[styles.tabsItemText, currentTab === 2 && styles.tabsItemTextActive]}>推广信息</Text>
+            {
+              unreadMessage.MessageGroupPublicMessage.length > 0 &&
+              <View style={styles.tabsItemBadge}>
+                <Text style={styles.tabsItemBadgeText}>{unreadMessage.MessageGroupPublicMessage.length}</Text>
+              </View>
+            }
           </MyTouchableOpacity>
         </View>
         <ScrollView
@@ -87,7 +120,17 @@ export default () => {
                   <Text style={styles.messageItemTitleText} numberOfLines={1}>{item.Title}</Text>
                   <Text style={styles.messageItemContentText}>{dayjs(item.CreatedAt).format('YYYY-MM-DD')}</Text>
                 </View>
-                <Text style={{...styles.messageItemContentText, marginTop: GS.mixin.rem(10)}} numberOfLines={3}>{item.Content}</Text>
+                <Text
+                  style={{
+                    ...styles.messageItemContentText,
+                    marginTop: GS.mixin.rem(10),
+                    color: unreadMessage[dataType].includes(item.Id) ? 'black' : styles.messageItemContentText.color,
+                    fontWeight: unreadMessage[dataType].includes(item.Id) ? 'bold' : 'normal'
+                  }}
+                  numberOfLines={3}
+                >
+                  {item.Content}
+                </Text>
               </MyTouchableOpacity>
             )
           }

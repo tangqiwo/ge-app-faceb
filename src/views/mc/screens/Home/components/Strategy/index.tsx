@@ -8,7 +8,6 @@
 import _ from 'lodash';
 import React from 'react';
 import { View, Text, Image, ScrollView, Dimensions, FlatList, ActivityIndicator } from 'react-native';
-import { useSelector } from 'react-redux';
 import { useRoute } from '@react-navigation/native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import usePublicState from '@core/hooks/usePublicState';
@@ -21,34 +20,30 @@ interface StrategyItemProps {
 }
 export default ({ type }: StrategyItemProps) => {
 
-  const { navigation, dispatch, ACTIONS } = usePublicState();
+  const { navigation, dispatch, ACTIONS, isFocused } = usePublicState();
   const [ activeSlide, setActiveSlide ] = React.useState(0);
-  const GeTeacherPoint = useSelector((state: any) => state.base.homeInfos?.GeTeacherPoint);
-  const data = GeTeacherPoint?.Data;
-  const [list, setList] = React.useState<any[]>(GeTeacherPoint?.Datas);
+  const [list, setList] = React.useState<any[]>();
   const [max, setMax] = React.useState<any>(3);
   const [isloading, setIsloading] = React.useState(false);
   const { width } = Dimensions.get('window');
 
-  if(!data){
-    return <></>
-  }
-
   React.useEffect(() => {
-    if(type === 'list'){
+    if(isFocused){
       dispatch(ACTIONS.BASE.commonRequest({
         uri: 'transaction_lesson/get_teacher_point?PageSize=100&Page=1',
+        cache: {expires: 10, forward: true},
         cb: (res: any) => {
           setMax(3);
           setList(_.map(res.Data.Data, i => ({
             ...i,
             Category: i.Category.includes("gold") ? '现货黄金' : '现货白银',
-            Direction: i.Direction == 0 ? '空' : '多'
+            Direction: i.Direction == 0 ? '空' : '多',
+            key: _.random(999999999) + i.Id
           })));
         }
       }))
     }
-  }, [type])
+  }, [isFocused])
 
   const nextPage = () => {
     if(isloading || max === list.length){
@@ -59,6 +54,10 @@ export default ({ type }: StrategyItemProps) => {
       setIsloading(false);
       setMax(max + 3);
     }, 1000)
+  }
+
+  if(!list){
+    return <></>
   }
 
   return (
@@ -80,10 +79,10 @@ export default ({ type }: StrategyItemProps) => {
             data={_.take(list, 3)}
             onSnapToItem={(index) => setActiveSlide(index) }
             renderItem={({ item }: any) =>
-              <StrategyItem data={item} isHome />
+              <StrategyItem data={item} key={item.key} isHome />
             }
           />
-          <MyPagination activeSlide={activeSlide} dotsLength={list.length} />
+          <MyPagination activeSlide={activeSlide} dotsLength={3} />
         </>
       }
       {
@@ -91,8 +90,7 @@ export default ({ type }: StrategyItemProps) => {
         <FlatList
           showsVerticalScrollIndicator={false}
           data={_.take(list, max)}
-          renderItem={({ item }: any) => <StrategyItem data={item} />}
-          keyExtractor={(item: any) => item.Id}
+          renderItem={({ item }: any) => <StrategyItem data={item} key={item.key} />}
           onEndReached={nextPage}
           ListFooterComponent={
             max >= list.length ?
