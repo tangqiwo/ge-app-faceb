@@ -34,7 +34,7 @@ export default () => {
 
   const { messages, socket } = useWebsocket({url: scoketUrl, protocol: 'mt4', routeName: 'xxxx', closeCallback: () => {
     const pass = store.get('MT4-PASS');
-    if(pass){
+    if(pass || accountType.id === ACCOUNT_TYPES.DEMO){
       setScoketUrl('');
       if(isFocused){
         dispatch(ACTIONS.BASE.openToast({text: '正在加载...'}));
