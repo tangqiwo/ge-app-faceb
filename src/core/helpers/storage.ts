@@ -36,6 +36,7 @@ type TKeys =  'AUTH'                          // 登录 TOKEN
             | 'UNIQUE_ID'                     // 设备唯一 ID
             | 'MODE'                          // 设备型号
             | 'HOT_UPDATE_VERSION'            // 热更版本
+            | 'LOGIN-PASSWORD'                // 登录密码
 
 
 /**
