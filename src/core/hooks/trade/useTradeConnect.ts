@@ -82,6 +82,7 @@ export default () => {
   }, [accountType.id])
 
   React.useEffect(() => {
+    console.log('ws', messages)
     if(!messages){
       return;
     }
