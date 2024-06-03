@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2023-12-27 11:22:53
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/hooks/trade/useTradeManager.ts
  * @Description: 交易管理
  */
@@ -527,8 +527,8 @@ export const STOPLOSS_TAKEPROFIT: any = {
     Takeprofit: "≥"
   },
   SellStop: {
-    Stoploss: "≤",
-    Takeprofit: "≥"
+    Stoploss: "≥",
+    Takeprofit: "≤"
   }
 }
 
