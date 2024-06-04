@@ -23,6 +23,7 @@ import Position from "./Position";
 import TradeHistory from "./TradeHistory";
 import Button from '@this/components/Button'
 import Selector from '@core/templates/components/Base/Selector';
+import LinearGradient from 'react-native-linear-gradient';
 import ENUM from '@core/constants/enum';
 import { LS as styles, GS } from './style';
 
@@ -45,16 +46,22 @@ export default () => {
   const [ currentTab, setCurrentTab ] = React.useState(0);
   const [ password, setPassword ] = React.useState<any>('');
   const [ showPassword, setShowPassword ] = React.useState(false);
+  const optionRef = React.useRef<any>(_.map(mt4Accounts, (item: any) => ({key: item.AccountType, value: item.AccountDesc})));
+  const styleRef = React.useRef<any>({flexDirection: 'row', alignItems: 'center'});
+
+  const handleAccountType = React.useCallback((value: string) => {
+    setAccountType(Number(value));
+  }, [])
 
   React.useEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
         <Selector
-          style={{flexDirection: 'row', alignItems: 'center',}}
+          style={styleRef.current}
           title='交易账号类型'
           value={accountType}
-          options={_.map(mt4Accounts, (item: any) => ({key: item.AccountType, value: item.AccountDesc}))}
-          cb={(value: string) => setAccountType(Number(value))}
+          options={optionRef.current}
+          cb={handleAccountType}
         />
       ),
       headerShown: true
@@ -131,7 +138,12 @@ export default () => {
       {
         mt4Info &&
         <>
-          <BackgroundView style={styles.loginImage} source={require('./i/banner.png')} resizeMode="contain">
+          <LinearGradient
+            start={{x: 0, y: 0}}
+            end={{x: 0, y: 1}}
+            colors={['#fff4cd', '#FFFFFF']}
+            style={styles.loginImage}
+          >
             <View style={styles.loginImageContent}>
               <View style={{width: '50%'}}>
                 <Text style={styles.loginLeftTitle}>资产净值（USD）</Text>
@@ -160,13 +172,13 @@ export default () => {
                 </View>
               </MyTouchableOpacity>
               <MyTouchableOpacity style={styles.buttonItem} onPress={() => navigation.navigate('TradeDetail')}>
-                <View style={{...styles.buttonItem, backgroundColor: '#FFFFFF'}}>
+                <View style={{...styles.buttonItem, backgroundColor: '#FFC600'}}>
                   <Image source={require('./i/icon-2.png')} style={{...styles.buttonIcon, width: GS.mixin.rem(20), height: GS.mixin.rem(18)}} resizeMode='contain'/>
                   <Text style={{...styles.buttonText, color: 'black'}}>开仓</Text>
                 </View>
               </MyTouchableOpacity>
             </View>
-          </BackgroundView>
+          </LinearGradient>
           <View style={styles.tabsVeiw}>
             <MyTouchableOpacity style={[styles.tabsItem, currentTab === 0 && styles.tabsItemActive]} onPress={() => setCurrentTab(0)}>
               <Text style={[styles.tabsItemText, currentTab === 0 && styles.tabsItemTextActive]}>持仓</Text>

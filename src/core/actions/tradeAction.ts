@@ -116,3 +116,7 @@ export const changeAccountType = ({id, type='Mt4Trading'}: IChangeAccountType): 
   type: TYPES.TRADE.CHANGE_ACCOUNT_TYPE,
   data: {type, id}
 })
+
+export const reset = (): INTERFACE.IBase => ({
+  type: TYPES.TRADE.RESET
+})

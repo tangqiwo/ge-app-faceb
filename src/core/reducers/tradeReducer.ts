@@ -94,6 +94,12 @@ export default function user(state = initialState.trade, action: any) {
         }
       }
     }
+    case TYPES.TRADE.RESET: {
+      return {
+        ...initialState.trade,
+        accountType: state.accountType
+      };
+    }
     case TYPES.USER.LOGOUT: {
       return {...initialState.trade };
     }

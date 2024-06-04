@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-08-02 16:31:36
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/templates/components/Loader/index.tsx
  * @Description: 全局Loading 等
  */
@@ -19,6 +19,7 @@ export default () => {
     return <></>
   }
 
+  console.log('loading', loading)
 
   return (
     <Modal visible={true} transparent={true} style={{width:"100%", height: '100%'}} >

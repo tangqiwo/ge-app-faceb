@@ -31,8 +31,10 @@ export default () => {
   const symbols = mt4Info?.Symbols
   const instant = useSelector((state: any) => state.trade.instant);
   const isFocused = useIsFocused();
+  const stopRetry = React.useRef(false);
 
   const { messages, socket } = useWebsocket({url: scoketUrl, protocol: 'mt4', routeName: 'xxxx', closeCallback: () => {
+    if(stopRetry.current) return;
     const pass = store.get('MT4-PASS');
     if(pass || accountType.id === ACCOUNT_TYPES.DEMO){
       setScoketUrl('');
@@ -47,12 +49,15 @@ export default () => {
     }
   }});
 
-
   React.useEffect(() => {
     if(isFocused){
       dispatch(ACTIONS.USER.getUserInfo({loading: false}))
     }
   }, [isFocused])
+
+  React.useEffect(() => {
+    stopRetry.current = scoketUrl ? false : true;
+  }, [scoketUrl])
 
 
   React.useEffect(() => {
@@ -66,6 +71,7 @@ export default () => {
   React.useEffect(() => {
     if(typeof socket?.close === 'function'){
       socket?.close();
+      dispatch(ACTIONS.TRADE.reset());
     }
     setScoketUrl('');
     if(accountType.id === ACCOUNT_TYPES.REAL){
@@ -82,7 +88,6 @@ export default () => {
   }, [accountType.id])
 
   React.useEffect(() => {
-    console.log('ws', messages)
     if(!messages){
       return;
     }
@@ -202,6 +207,7 @@ export default () => {
       type: 'Mt4TradingDemoServer',
       cb: (res: any) => {
         dispatch(ACTIONS.BASE.closeLoading());
+        makeFirstInstant(res.Data.SymbolsQuote);
         if(res.Code !== 0){
           dispatch(ACTIONS.BASE.openToast({ text: res.Desc }));
           return;

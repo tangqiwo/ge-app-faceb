@@ -26,3 +26,6 @@ export const GET_KLINE_DATA = 'TRADE/GET_KLINE_DATA';
 
 // 变更账号类型
 export const CHANGE_ACCOUNT_TYPE = 'TRADE/CHANGE_ACCOUNT_TYPE';
+
+// 重置
+export const RESET = 'TRADE/RESET';
