@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2023-06-07 14:20:59
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/hooks/useLogin.ts
  * @Description: 登录
  */
@@ -20,12 +20,13 @@ export default () => {
   const validateCode = useValidateCode({ type: 'login' });
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
   const [errors, setErrors] = React.useState<any>({});
+  const [savePassword, setSavePassword] = React.useState<boolean>(true);
   const [ payload, setPayload ] = React.useState<{
     CountryCode: string;
     Password: string;
     PhoneNumber: string;
     AuthCode: string;
-  }>({
+  }>(storage.get('LOGIN-PASSWORD') || {
     CountryCode: CONFIG.SUPPORT_PHONE_CODE[0].code,
     Password: '',
     PhoneNumber: '',
@@ -85,6 +86,14 @@ export default () => {
     const data = type === 'Password' ? _.omit(payload, ['AuthCode']) : _.omit(payload, ['Password']);
     dispatch(ACTIONS.USER.login({ data, cb: (res: any) => {
       storage.set('AUTH', res.Data.Token);
+      if(savePassword && type === 'Password'){
+        storage.set('LOGIN-PASSWORD', {
+          ...payload,
+          AuthCode: ''
+        });
+      }else{
+        storage.remove('LOGIN-PASSWORD');
+      }
       dispatch(ACTIONS.USER.getUserInfo({cb: () => {
         navigation.navigate('Root', { screen: 'Home' })
       }}))
@@ -108,6 +117,8 @@ export default () => {
     ...validateCode,
     payload,
     setPayload,
+    savePassword,
+    setSavePassword,
     showPassword,
     setShowPassword,
     login,

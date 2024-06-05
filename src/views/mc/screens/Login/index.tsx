@@ -36,7 +36,9 @@ export default () => {
     showPassword,
     setShowPassword,
     getValidateCode,
-    countDown
+    countDown,
+    savePassword,
+    setSavePassword,
   } = useLogin();
   const [ currentTab, setCurrentTab ] = React.useState(0);
 
@@ -122,6 +124,17 @@ export default () => {
             </MyTouchableOpacity>
           </View>
         }
+        <View style={styles.agreement} >
+          <MyTouchableOpacity style={{flexDirection: 'row'}} onPress={() => setSavePassword(!savePassword)}>
+            <Icon.Font
+              type={Icon.T.AntDesign}
+              name={!savePassword ? 'checkcircleo' : 'checkcircle'}
+              size={GS.mixin.rem(18)}
+              color="#FFC600"
+            />
+            <Text style={styles.agreementText}>记住密码</Text>
+          </MyTouchableOpacity>
+        </View>
         <MyTouchableOpacity style={styles.submitView} onPress={() => login(currentTab === 0 ? 'Password' : 'Token')}>
           <Text style={styles.submitText}>立即提交</Text>
         </MyTouchableOpacity>

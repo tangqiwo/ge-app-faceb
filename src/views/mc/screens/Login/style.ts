@@ -43,7 +43,6 @@ export const LS = StyleSheet.create({
     color: '#2A2A2A',
   },
   formView: {
-    height: G.mixin.rem(292),
     marginTop: G.mixin.rem(-80),
     backgroundColor: '#FFFFFF',
     marginLeft: G.mixin.rem(14),
@@ -154,7 +153,25 @@ export const LS = StyleSheet.create({
     height: G.mixin.rem(195),
     width: G.mixin.rem(347),
     borderRadius: G.mixin.rem(5),
-  }
+  },
+  agreement: {
+    marginBottom: G.mixin.rem(20),
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  agreementTextContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  agreementText: {
+    color: '#949494',
+    fontSize: G.mixin.rem(14),
+    marginLeft: G.mixin.rem(5),
+  },
+  agreementTextLink: {
+    color: '#FFC600',
+    fontSize: G.mixin.rem(14),
+  },
 })
 
 // 固定导出
