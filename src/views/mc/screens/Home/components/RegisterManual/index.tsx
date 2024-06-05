@@ -117,8 +117,11 @@ export default () => {
   return (
     <View style={styles.container}>
       <View style={styles.title}>
-        <Image source={require('./i/icon-HOT.png')} style={styles.titleIcon} />
-        <Text style={styles.titleText}>炒金开户，四步轻松领取￥88元红包</Text>
+        <Text style={styles.titleText}>炒金开户</Text>
+        <View style={styles.titleRight}>
+          <Image source={require('./i/icon-HOT.png')} style={styles.titleIcon} resizeMode='contain' />
+          <Text style={styles.titleRightText}>四步轻松领取￥88元红包</Text>
+        </View>
       </View>
       <View style={styles.content}>
         <View style={styles.contentItem} >

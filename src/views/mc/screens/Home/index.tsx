@@ -105,7 +105,7 @@ export default () => {
         <Banner />
         <View style={LS.contents.container}>
           <Ad />
-          <View style={styles.buttons}>
+          {/* <View style={styles.buttons}>
             <MyTouchableOpacity style={styles.buttonItem} onPress={handleNewUser}>
               <View style={styles.buttonItem}>
                 <Image source={require('./i/buttons/new-user.png')} style={styles.buttonIcon} />
@@ -118,12 +118,12 @@ export default () => {
                 <Text style={{...styles.buttonText, color: 'black'}}>快速入金</Text>
               </View>
             </MyTouchableOpacity>
-          </View>
-          <RegisterManual />
-          <Subsidy />
+          </View> */}
           <Shotcut />
-          <News />
+          <RegisterManual />
           <Strategy type='home' />
+          <News />
+          <Subsidy />
           <Trophy />
           {
             isFocused &&

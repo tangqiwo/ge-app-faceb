@@ -51,7 +51,7 @@ export default () => {
       {
         displayMenus.map((item) =>
           <MyTouchableOpacity style={styles.item} key={item.Id} onPress={() => handlePress(item)} >
-            <Image source={{uri: `${ossDomain}${item.Icon}`}} style={{width: GS.mixin.rem(28), height: GS.mixin.rem(25)}} resizeMode='contain' />
+            <Image source={{uri: `${ossDomain}${item.Icon}`}} style={{width: GS.mixin.rem(30), height: GS.mixin.rem(30)}} resizeMode='contain' />
             <Text style={styles.itemText}>{item.Title}</Text>
           </MyTouchableOpacity>
         )
