@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-12-12 00:49:36
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/constants/types/tradeTypes.ts
  * @Description:
  */
@@ -23,3 +23,9 @@ export const SET_INSTANT_ORDERS = 'TRADE/SET_INSTANT_ORDERS';
 
 // K线数据
 export const GET_KLINE_DATA = 'TRADE/GET_KLINE_DATA';
+
+// 变更账号类型
+export const CHANGE_ACCOUNT_TYPE = 'TRADE/CHANGE_ACCOUNT_TYPE';
+
+// 重置
+export const RESET = 'TRADE/RESET';

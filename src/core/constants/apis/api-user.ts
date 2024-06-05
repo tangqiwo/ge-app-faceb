@@ -99,6 +99,9 @@ export default {
   // 注销账号
   'user/del-account': 'operator/DestroyUser',
 
+  // 获取 MT4 账号
+  'user/get-mt4-account': 'Mt4/GetMt4Accounts',
+
   // 未读信息
   'user/get-unread-message': 'messages/get_messages_mark',
 

@@ -84,7 +84,8 @@ export type IUser = {
     img?: string;
     callback?: Function;
   };
-  unreadMessage: any
+  unreadMessage: any,
+  mt4Accounts: Array<any>;
 };
 
 export type IRegisterGuideStatus = {
@@ -139,7 +140,11 @@ export type ITrade = {
     bidStatus: 'UP' | 'DOWN' | 'FLAT'
   }>;
   mt4Info: any,
-  instantOrders: any
+  instantOrders: any,
+  accountType: {
+    type: 'Mt4TradingDemoServer' | 'Mt4Trading',
+    id: Number
+  }
 }
 
 // 入口

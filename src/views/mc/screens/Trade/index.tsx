@@ -11,7 +11,7 @@ import { View, Image, Text } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useSelector } from "react-redux";
 import usePublicState from "@core/hooks/usePublicState";
-import useTradeConnect from "@core/hooks/trade/useTradeConnect";
+import useTradeConnect, { ACCOUNT_TYPES } from "@core/hooks/trade/useTradeConnect";
 import MyTouchableOpacity from "@core/templates/components/MyTouchableOpacity";
 import Overlay from "@core/templates/components/Overlay";
 import BackgroundView from "@core/templates/components/BackgroundView";
@@ -22,23 +22,52 @@ import Placing from "./Placing";
 import Position from "./Position";
 import TradeHistory from "./TradeHistory";
 import Button from '@this/components/Button'
-import useRouteWebCommon from '@core/hooks/useRouteWebCommon';
+import Selector from '@core/templates/components/Base/Selector';
+import LinearGradient from 'react-native-linear-gradient';
 import ENUM from '@core/constants/enum';
-import store from '@helpers/storage'
 import { LS as styles, GS } from './style';
 
 export default () => {
 
-  // useMt4ChartQuote();
-  const { navigation, isMt4User, rs, isFocused, cacheReady, dispatch, ACTIONS } = usePublicState();
+  const { navigation, isMt4User, rs } = usePublicState();
   const mt4Info = useSelector((state: any) => state.trade.mt4Info);
+  const mt4Accounts = useSelector((state: any) => state.user.mt4Accounts);
   const route = useRoute<any>();
   const { goDeposit } = useNativeForward();
-  const { authToMt4, makeFirstInstant } = useTradeConnect();
+  const {
+    authToMt4,
+    authToDemoMt4,
+    makeFirstInstant,
+    accountType,
+    setAccountType,
+    isShowLogin,
+    setIsShowLogin
+  } = useTradeConnect();
   const [ currentTab, setCurrentTab ] = React.useState(0);
-  const [ isShowLogin, setIsShowLogin ] = React.useState(false);
   const [ password, setPassword ] = React.useState<any>('');
   const [ showPassword, setShowPassword ] = React.useState(false);
+  const optionRef = React.useRef<any>(_.map(mt4Accounts, (item: any) => ({key: item.AccountType, value: item.AccountDesc})));
+  const styleRef = React.useRef<any>({flexDirection: 'row', alignItems: 'center'});
+
+  const handleAccountType = React.useCallback((value: string) => {
+    setAccountType(Number(value));
+  }, [])
+
+  React.useEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => (
+        <Selector
+          style={styleRef.current}
+          title='交易账号类型'
+          value={accountType}
+          options={optionRef.current}
+          cb={handleAccountType}
+        />
+      ),
+      headerShown: true
+    });
+  }, [accountType])
+
 
   React.useEffect(() => {
     if(isShowLogin){
@@ -51,32 +80,6 @@ export default () => {
       setCurrentTab(route.params.tab);
     }
   }, [route?.params?.tab])
-
-  React.useEffect(() => {
-    if(isFocused && !mt4Info && cacheReady){
-      const pass = store.get('MT4-PASS');
-      if(pass){
-        authToMt4({password: pass, callback: (res: any) => {
-          makeFirstInstant(res.Data.SymbolsQuote);
-        }})
-      }else{
-        setIsShowLogin(true);
-      }
-    }
-  }, [isFocused, mt4Info, cacheReady])
-
-  React.useEffect(() => {
-    if(isFocused){
-      dispatch(ACTIONS.USER.getUserInfo({loading: false}))
-    }
-  }, [isFocused])
-
-  React.useEffect(() => {
-    navigation.setOptions({
-      headerTitle: '交易',
-      headerShown: true,
-    });
-  }, [])
 
   // 未登录 或者 未开户
   React.useEffect(() => {
@@ -106,20 +109,41 @@ export default () => {
     }})
   }
 
+  const handleGoLogin = () => {
+    if(accountType === ACCOUNT_TYPES.REAL){
+      setIsShowLogin(true);
+      return;
+    }
+    authToDemoMt4(() => {});
+  }
+
   return (
     <View style={styles.container}>
       {
         !mt4Info &&
-        <>
-          <MyTouchableOpacity onPress={() => setIsShowLogin(true)}>
-            <Image style={styles.loginImage} source={require('./i/go-login.png')} resizeMode="contain" />
-          </MyTouchableOpacity>
-        </>
+        <View style={{...styles.container}}>
+          <Image
+            source={require('./i/demoacc-icon.png')}
+            style={styles.loginIcon}
+            resizeMode="contain"
+          />
+          <Button
+            text='点击验证MT4密码'
+            style={styles.loginBtn}
+            textStyle={{fontWeight: 'bold'}}
+            onPress={handleGoLogin}
+          />
+        </View>
       }
       {
         mt4Info &&
         <>
-          <BackgroundView style={styles.loginImage} source={require('./i/banner.png')} resizeMode="contain">
+          <LinearGradient
+            start={{x: 0, y: 0}}
+            end={{x: 0, y: 1}}
+            colors={['#fff4cd', '#FFFFFF']}
+            style={styles.loginImage}
+          >
             <View style={styles.loginImageContent}>
               <View style={{width: '50%'}}>
                 <Text style={styles.loginLeftTitle}>资产净值（USD）</Text>
@@ -148,29 +172,29 @@ export default () => {
                 </View>
               </MyTouchableOpacity>
               <MyTouchableOpacity style={styles.buttonItem} onPress={() => navigation.navigate('TradeDetail')}>
-                <View style={{...styles.buttonItem, backgroundColor: '#FFFFFF'}}>
+                <View style={{...styles.buttonItem, backgroundColor: '#FFC600'}}>
                   <Image source={require('./i/icon-2.png')} style={{...styles.buttonIcon, width: GS.mixin.rem(20), height: GS.mixin.rem(18)}} resizeMode='contain'/>
                   <Text style={{...styles.buttonText, color: 'black'}}>开仓</Text>
                 </View>
               </MyTouchableOpacity>
             </View>
-          </BackgroundView>
+          </LinearGradient>
+          <View style={styles.tabsVeiw}>
+            <MyTouchableOpacity style={[styles.tabsItem, currentTab === 0 && styles.tabsItemActive]} onPress={() => setCurrentTab(0)}>
+              <Text style={[styles.tabsItemText, currentTab === 0 && styles.tabsItemTextActive]}>持仓</Text>
+            </MyTouchableOpacity>
+            <MyTouchableOpacity style={[styles.tabsItem, currentTab === 1 && styles.tabsItemActive]} onPress={() => setCurrentTab(1)}>
+              <Text style={[styles.tabsItemText, currentTab === 1 && styles.tabsItemTextActive]}>挂单</Text>
+            </MyTouchableOpacity>
+            <MyTouchableOpacity style={[styles.tabsItem, currentTab === 2 && styles.tabsItemActive]} onPress={() => setCurrentTab(2)}>
+              <Text style={[styles.tabsItemText, currentTab === 2 && styles.tabsItemTextActive]}>交易记录</Text>
+            </MyTouchableOpacity>
+          </View>
+          { currentTab === 0 && <Position /> }
+          { currentTab === 1 && <Placing /> }
+          { currentTab === 2 && <TradeHistory /> }
         </>
       }
-      <View style={styles.tabsVeiw}>
-        <MyTouchableOpacity style={[styles.tabsItem, currentTab === 0 && styles.tabsItemActive]} onPress={() => setCurrentTab(0)}>
-          <Text style={[styles.tabsItemText, currentTab === 0 && styles.tabsItemTextActive]}>持仓</Text>
-        </MyTouchableOpacity>
-        <MyTouchableOpacity style={[styles.tabsItem, currentTab === 1 && styles.tabsItemActive]} onPress={() => setCurrentTab(1)}>
-          <Text style={[styles.tabsItemText, currentTab === 1 && styles.tabsItemTextActive]}>挂单</Text>
-        </MyTouchableOpacity>
-        <MyTouchableOpacity style={[styles.tabsItem, currentTab === 2 && styles.tabsItemActive]} onPress={() => setCurrentTab(2)}>
-          <Text style={[styles.tabsItemText, currentTab === 2 && styles.tabsItemTextActive]}>交易记录</Text>
-        </MyTouchableOpacity>
-      </View>
-      { currentTab === 0 && <Position /> }
-      { currentTab === 1 && <Placing /> }
-      { currentTab === 2 && <TradeHistory /> }
       {
         isShowLogin &&
         <Overlay display>

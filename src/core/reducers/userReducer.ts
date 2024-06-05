@@ -2,7 +2,7 @@
  * @Description: 用户相关状态管理
  * @Author: Galen.GE
  * @Date: 2019-12-31 17:27:08
- * @LastEditTime: 2024-05-15 00:30:52
+ * @LastEditTime: 2024-05-23 16:47:34
  * @LastEditors: ammo@xyzzdev.com
  */
 import _ from 'lodash';
@@ -41,6 +41,10 @@ export default function user(state = initialState.user, action: any) {
     // 未读信息
     case TYPES.USER.GET_UNREAD_MESSAGE: {
       return { ...state, unreadMessage: _.pick(action.res, ['MessageGroupMemberMessage', 'MessageGroupPublicMessage']) };
+    }
+    // MT4账户
+    case TYPES.USER.GET_MT4_ACCOUNT: {
+      return { ...state, mt4Accounts: action.res };
     }
     // 退出提示
     case TYPES.USER.LOGOUT_DIALOG: {

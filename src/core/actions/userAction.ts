@@ -63,6 +63,7 @@ export const getUserInfo = ({ cb, loading=true, passError=false }: IGetUserInfo)
   },
   continue: ({ dispatch, res }: any) => {
     dispatch(getRegisterProgress({}));
+    dispatch(getMt4Accounts({data: {id: res.Data.UserId}}))
     dispatch(getUnreadMessage({}))
   },
   passError,
@@ -482,3 +483,14 @@ export const delAccount = ({ cb }: INTERFACE.IProps): INTERFACE.IAPI => ({
   },
   cb,
 });
+
+// 获取mt4 demo账户
+export const getMt4Accounts = ({ cb, data }: INTERFACE.IProps): INTERFACE.IAPI => ({
+  type: TYPES.USER.GET_MT4_ACCOUNT,
+  payload: {
+    key: 'user/get-mt4-account',
+    data: { UserId: data.id },
+    method: HTTP.METHODS.POST,
+  },
+  cb
+})

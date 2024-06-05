@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-30 10:29:55
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/hooks/useWebsocket.ts
  * @Description:
  */
@@ -9,8 +9,6 @@ import _ from 'lodash';
 import React from 'react';
 import { AppState } from 'react-native';
 import { useState, useEffect, useCallback, useRef } from 'react';
-// import useEventEmitter from '@core/hooks/useEventEmitter';
-import {TMitt} from '@core/constants/enum/mitt';
 import G from '@constants/global';
 
 interface IUseWebsocket {

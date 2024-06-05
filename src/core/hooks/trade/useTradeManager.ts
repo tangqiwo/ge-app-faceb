@@ -20,8 +20,8 @@ export default () => {
   const mt4Info = useSelector((state: any) => state.trade.mt4Info);
   const instant = useSelector((state: any) => state.trade.instant);
   const Mt4ClientApiToken = useSelector((state: any) => state.trade.mt4Info.Mt4ClientApiToken);
-  // const SymbolList = useSelector((state: any) => state.trade.mt4Info.Symbols);
   const [referPayment, setReferPayment] = React.useState('0');
+  const accountType = useSelector((state: any) => state.trade.accountType);
 
   const [limitInput, setLimitInput] = React.useState<any>({
     // 止盈止损
@@ -40,8 +40,6 @@ export default () => {
       SellStop: ''
     }
   })
-
-
 
   type TPayload = {
     Mt4ClientApiToken: string;
@@ -176,7 +174,7 @@ export default () => {
       Stoploss: payload.Stoploss === 0 ? '0' : `${payload.Stoploss}`,
       Takeprofit: payload.Takeprofit === 0 ? '0' : `${payload.Takeprofit}`,
     }
-    dispatch(ACTIONS.TRADE.modifyPendingOrder({ data, cb: (res: any) => {
+    dispatch(ACTIONS.TRADE.modifyPendingOrder({ type: accountType.type, data, cb: (res: any) => {
       dispatch(ACTIONS.BASE.openToast({ text: '修改挂单成功' }));
       navigation.navigate('TradeDone', { data: {...res.Data, Type: '修改挂单'} });
     }}))
@@ -190,7 +188,7 @@ export default () => {
       Stoploss: payload.Stoploss === 0 ? '0' : `${payload.Stoploss}`,
       Takeprofit: payload.Takeprofit === 0 ? '0' : `${payload.Takeprofit}`,
     }
-    dispatch(ACTIONS.TRADE.setStopLossTakeProfit({ data, cb: (res: any) => {
+    dispatch(ACTIONS.TRADE.setStopLossTakeProfit({ type: accountType.type, data, cb: (res: any) => {
       dispatch(ACTIONS.BASE.openToast({ text: '设置止盈止损操作成功' }));
       navigation.navigate('TradeDone', { data: {...res.Data, Type: '设置止盈止损'} });
     }}))
@@ -411,7 +409,7 @@ export default () => {
       Price: '0',
       Slippage: 0
     }
-    dispatch(ACTIONS.TRADE.closeOrder({ data, cb: (res: any) => {
+    dispatch(ACTIONS.TRADE.closeOrder({ type: accountType.type, data, cb: (res: any) => {
       dispatch(ACTIONS.BASE.openToast({ text: '平仓操作成功' }));
       navigation.navigate('TradeDone', { data: {...res.Data, Type: '平仓'} });
     }}))
@@ -425,7 +423,7 @@ export default () => {
       Takeprofit: !payload.Takeprofit ? '0' : `${payload.Takeprofit}`,
       Volume: Number(payload.Volume).toFixed(2),
     }
-    dispatch(ACTIONS.TRADE.openMarketOrder({ data, cb: (res: any) => {
+    dispatch(ACTIONS.TRADE.openMarketOrder({ type: accountType.type, data, cb: (res: any) => {
       dispatch(ACTIONS.BASE.openToast({ text: '建仓成功' }));
       navigation.navigate('TradeDone', { data: {...res.Data, Type: '开仓'} });
     }}))
@@ -443,7 +441,7 @@ export default () => {
       Takeprofit: !payload.Takeprofit ? '0' : `${payload.Takeprofit}`,
       Volume: Number(payload.Volume).toFixed(2),
     }
-    dispatch(ACTIONS.TRADE.openPendingOrder({ data, cb: (res: any) => {
+    dispatch(ACTIONS.TRADE.openPendingOrder({ type: accountType.type, data, cb: (res: any) => {
       dispatch(ACTIONS.BASE.openToast({ text: '创建挂单成功' }));
       navigation.navigate('TradeDone', { data: {...res.Data, Type: '创建挂单'} });
     }}))

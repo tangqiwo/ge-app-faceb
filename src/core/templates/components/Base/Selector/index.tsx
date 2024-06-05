@@ -20,7 +20,7 @@ interface IProps{
   style?:any,
   textStyle?:any
 }
-export default ({ value, title, options, style, textStyle, cb}: IProps) => {
+export default React.memo(({ value, title, options, style, textStyle, cb}: IProps) => {
 
   const [showSelector, setShowSelector] = React.useState(false);
 
@@ -44,4 +44,4 @@ export default ({ value, title, options, style, textStyle, cb}: IProps) => {
     </>
   )
 
-}
+})

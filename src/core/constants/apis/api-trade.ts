@@ -1,28 +1,28 @@
 /*
  * @Author: Galen.GE
  * @Date: 2023-12-18 11:37:38
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/constants/apis/api-trade.ts
  * @Description:
  */
 export default {
 
-  ['trade/connect-mt4']: 'Mt4Trading/Connect',
+  ['trade/connect-mt4']: '$/Connect',
 
-  ['trade/open-market-order']: 'Mt4Trading/OrderOpenMarket',
+  ['trade/open-market-order']: '$/OrderOpenMarket',
 
-  ['trade/open-pending-order']: 'Mt4Trading/OrderOpenPending',
+  ['trade/open-pending-order']: '$/OrderOpenPending',
 
-  ['trade/get-history-orders']: 'Mt4Trading/OrderHistory',
+  ['trade/get-history-orders']: '$/OrderHistory',
 
-  ['trade/cancel-pending-order']: 'Mt4Trading/OrderCancelPendingOrder',
+  ['trade/cancel-pending-order']: '$/OrderCancelPendingOrder',
 
   ['trade/get-kline-data']: 'portal/QuoteHistory',
 
-  ['trade/close-order']: 'Mt4Trading/OrderCloseMarket',
+  ['trade/close-order']: '$/OrderCloseMarket',
 
-  ['trade/set-stop-loss-take-profit']: 'Mt4Trading/OrderModifyOpenedOrder',
+  ['trade/set-stop-loss-take-profit']: '$/OrderModifyOpenedOrder',
 
-  ['trade/modify-pending-order']: 'Mt4Trading/OrderModifyPendingOrder'
+  ['trade/modify-pending-order']: '$/OrderModifyPendingOrder'
 
 }

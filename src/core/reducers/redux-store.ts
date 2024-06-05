@@ -2,7 +2,7 @@
  * @Description: REDUX 初始化状态
  * @Author: Galen.GE
  * @Date: 2019-12-19 16:20:56
- * @LastEditTime: 2024-05-16 00:49:56
+ * @LastEditTime: 2024-05-23 18:29:57
  * @LastEditors: ammo@xyzzdev.com
  */
 import _ from 'lodash'
@@ -41,7 +41,8 @@ const user: INTERFACE.IUser = {
   unreadMessage: {
     MessageGroupMemberMessage: [],
     MessageGroupPublicMessage: []
-  }
+  },
+  mt4Accounts: [],
 };
 
 const registerGuideStatus: INTERFACE.IRegisterGuideStatus = {
@@ -61,6 +62,10 @@ const trade: INTERFACE.ITrade = {
   auth: null,
   mt4Info: null,
   instantOrders: null,
+  accountType: {
+    type: 'Mt4Trading',
+    id: 0
+  }
 }
 
 const store: INTERFACE.IStore = {

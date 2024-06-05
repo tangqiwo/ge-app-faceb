@@ -1,7 +1,7 @@
 /*
  * @Author: Passion.KMG
  * @Date: 2023-12-18 11:41:34
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/core/reducers/tradeReducer.ts
  * @Description:
  */
@@ -84,6 +84,21 @@ export default function user(state = initialState.trade, action: any) {
         ...state,
         klineData: action.data
       }
+    }
+    case TYPES.TRADE.CHANGE_ACCOUNT_TYPE: {
+      return {
+        ...state,
+        accountType: {
+          type: action.data.type,
+          id: action.data.id
+        }
+      }
+    }
+    case TYPES.TRADE.RESET: {
+      return {
+        ...initialState.trade,
+        accountType: state.accountType
+      };
     }
     case TYPES.USER.LOGOUT: {
       return {...initialState.trade };

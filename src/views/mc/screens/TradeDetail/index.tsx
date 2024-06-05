@@ -1,7 +1,7 @@
 /*
  * @Author: Galen.GE
  * @Date: 2023-12-19 23:15:22
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/TradeDetail/index.tsx
  * @Description:
  */
@@ -31,7 +31,7 @@ import { LS as styles } from './style';
 
 export default () => {
 
-  const { navigation, dispatch, ACTIONS } = usePublicState();
+  const { navigation } = usePublicState();
   const params = useRoute<any>().params;
   const {
     mt4Info,
@@ -149,13 +149,13 @@ export default () => {
     setOperation(headerTitle);
   }, [payload.Symbol, params])
 
-  React.useEffect(() => {
-    if(_.find(instant, { Symbol: payload.Symbol })){
-      dispatch(ACTIONS.BASE.closeLoading());
-      return;
-    }
-    dispatch(ACTIONS.BASE.openLoading());
-  }, [_.find(instant, { Symbol: payload.Symbol })])
+  // React.useEffect(() => {
+  //   if(_.find(instant, { Symbol: payload.Symbol })){
+  //     dispatch(ACTIONS.BASE.closeLoading());
+  //     return;
+  //   }
+  //   dispatch(ACTIONS.BASE.openLoading());
+  // }, [_.find(instant, { Symbol: payload.Symbol })])
 
   React.useEffect(() => {
     if(params && _.includes(['updateOrder', 'setStopLoss'], params?.type)){

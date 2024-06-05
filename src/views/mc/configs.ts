@@ -16,7 +16,7 @@ const app_version = DeviceInfo.getVersion();
 // export const API = 'http://18.166.96.17:16002';
 
 // 测试
-export const API = app_version.includes('-rc') ? 'http://18.166.96.17:16002' : 'http://121.37.240.170:8443';
+export const API = (app_version.includes('-rc') || __DEV__) ? 'http://18.166.96.17:16002' : 'http://121.37.240.170:8443';
 
 // 测试环境
 // export const MC_WEB_DOMAIN = 'http://mc.lonsdg.com'
