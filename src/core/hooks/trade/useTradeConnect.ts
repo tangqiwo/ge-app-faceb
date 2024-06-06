@@ -9,6 +9,7 @@ import _ from 'lodash';
 import React from 'react';
 import usePublicState from "../usePublicState";
 import { useSelector } from 'react-redux';
+import { useRoute } from '@react-navigation/native';
 import useWebsocket from '../useWebsocket';
 import { INSTANT_QUOTES_STATUS } from '../useInstantQuotes';
 import { toUpperCaseObj } from '@helpers/unit';
@@ -22,7 +23,8 @@ export const enum ACCOUNT_TYPES {
 
 export default () => {
 
-  const { dispatch, ACTIONS, navigation } = usePublicState();
+  const { dispatch, ACTIONS, navigation, isLogined } = usePublicState();
+  const route = useRoute<any>();
   const mt4Info = useSelector((state: any) => state.trade.mt4Info);
   const [scoketUrl, setScoketUrl] = React.useState('');
   const accountType = useSelector((state: any) => state.trade.accountType);
@@ -32,6 +34,14 @@ export default () => {
   const instant = useSelector((state: any) => state.trade.instant);
   const isFocused = useIsFocused();
   const stopRetry = React.useRef(false);
+
+  React.useEffect(() => {
+    console.log(route)
+    if(route.params?.type === 'demo'){
+      setIsShowLogin(false);
+      setAccountType(ACCOUNT_TYPES.DEMO);
+    }
+  }, [])
 
   const { messages, socket } = useWebsocket({url: scoketUrl, protocol: 'mt4', routeName: 'xxxx', closeCallback: () => {
     if(stopRetry.current) return;
@@ -84,8 +94,15 @@ export default () => {
       }
       return;
     }
+    setIsShowLogin(false);
     authToDemoMt4(() => {});
   }, [accountType.id])
+
+  React.useEffect(() => {
+    if(!isLogined){
+      setIsShowLogin(false);
+    }
+  }, [isLogined])
 
   React.useEffect(() => {
     if(!messages){

@@ -31,6 +31,8 @@ export default () => {
   }, [menus, isLogined])
 
   const handlePress = (item: any) => {
+    navigation.navigate('Trade-Demo');
+    return;
     if(item.NativeForward){
       navigation.navigate(item.NativeForward);
       return;
