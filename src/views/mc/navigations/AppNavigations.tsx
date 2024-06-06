@@ -35,6 +35,7 @@ import DepositPayment from '@this/screens/Deposit/Payment';
 import DepositHKBank from '@this/screens/Deposit/HKBank';
 import DepositUpload from '@this/screens/Deposit/UploadReceipt';
 import DepositDone from '@this/screens/Deposit/Succeed';
+import Forward from '@this/screens/Forward';
 import Update from '@this/screens/Update';
 import CONFIG from '@this/configs';
 
@@ -63,6 +64,7 @@ const DepositHKBankScreen = ScreenHOC(DepositHKBank);
 const DepositUploadScreen = ScreenHOC(DepositUpload);
 const DepositDoneScreen = ScreenHOC(DepositDone);
 const UpdateScreen = ScreenHOC(Update);
+const ForwardScreen = ScreenHOC(Forward);
 
 const MainStack = createNativeStackNavigator();
 
@@ -108,6 +110,7 @@ export default () => {
       <MainStack.Screen name='Deposit-5' component={DepositDoneScreen} />
       <MainStack.Screen name='Deposit-hk' component={DepositHKBankScreen} options={{headerShown: true, title: '注资'}}/>
       <MainStack.Screen name='Update' component={UpdateScreen} options={{headerShown: false}}/>
+      <MainStack.Screen name='Trade-Demo' component={ForwardScreen} options={{headerShown: false}}/>
     </MainStack.Navigator>
   )
 }
