@@ -159,7 +159,7 @@ export default () => {
             <Text style={{...styles.buttonText, color: '#2A2A2A'}}>APP备案号</Text>
           </View>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style={{ color: '#8f8f8f'}}>闽ICP备2023019404号</Text>
+            <Text style={{ color: '#8f8f8f'}}>闽ICP备2023019404号-1A</Text>
             <Icon.Font type={Icon.T.MaterialIcons} name="keyboard-arrow-right" size={GS.mixin.rem(20)} />
           </View>
         </MyTouchableOpacity>
