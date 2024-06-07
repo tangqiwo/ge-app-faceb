@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2023-11-27 12:20:08
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/Register/Guide/index.tsx
  * @Description:
  */
@@ -61,7 +61,7 @@ export default () => {
           </View>
           <View style={styles.ad}>
             <Image style={styles.adIcon} source={require('./i/icon-05.png')} />
-            <Text style={styles.adText}>{`出入金可靠\n投资无忧`}</Text>
+            <Text style={styles.adText}>{`$20万模拟资金\n轻松学习`}</Text>
           </View>
         </View>
         <MyTouchableOpacity style={styles.submitView} onPress={() => navigation.navigate('Register')}>
