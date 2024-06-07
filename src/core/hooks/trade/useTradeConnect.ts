@@ -36,7 +36,6 @@ export default () => {
   const stopRetry = React.useRef(false);
 
   React.useEffect(() => {
-    console.log(route)
     if(route.params?.type === 'demo'){
       setIsShowLogin(false);
       setAccountType(ACCOUNT_TYPES.DEMO);
