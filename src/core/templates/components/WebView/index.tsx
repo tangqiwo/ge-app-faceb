@@ -53,8 +53,10 @@ export default React.memo(({source, invoke='', styleInject='', style={}, ...prop
 
 
   const handleError = (errorDomain: string | undefined, errorCode: number, errorDesc: string) => {
-    setShowError(true)
-    return <ErrorPage errorDomain={errorDomain} errorCode={errorCode} errorDesc={errorDesc} uri={source.uri} />
+    dispatch(ACTIONS.BASE.openToast({text: '您当前网络状况不佳，请重试'}))
+    return (<></>);
+    // setShowError(true)
+    // return <ErrorPage errorDomain={errorDomain} errorCode={errorCode} errorDesc={errorDesc} uri={source.uri} />
   }
 
   const channelCode = G.GET('CHANNEL_CODE');
