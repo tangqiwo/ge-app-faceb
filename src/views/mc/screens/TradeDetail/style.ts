@@ -1,7 +1,7 @@
 /*
  * @Author: ammo@xyzzdev.com
  * @Date: 2022-07-27 11:07:43
- * @LastEditors: Galen.GE
+ * @LastEditors: ammo@xyzzdev.com
  * @FilePath: /app_face_b/src/views/mc/screens/TradeDetail/style.ts
  * @Description:
  */
@@ -222,7 +222,6 @@ export const LS = StyleSheet.create({
   },
   confirmView: {
     width: G.mixin.rem(295),
-    height: G.mixin.rem(236),
     backgroundColor: '#fff',
     paddingLeft: G.mixin.rem(14),
     paddingRight: G.mixin.rem(14),
@@ -249,6 +248,17 @@ export const LS = StyleSheet.create({
   },
   confirmBtn: {
     marginTop: G.mixin.rem(15),
+  },
+  demoTips: {
+    backgroundColor: '#FFC600',
+    fonsSize: G.mixin.rem(14),
+    fontWeight: 'bold',
+    color: '#FFF',
+    paddingLeft: G.mixin.rem(5),
+    paddingRight: G.mixin.rem(5),
+    paddingTop: G.mixin.rem(2),
+    paddingBottom: G.mixin.rem(2),
+    borderRadius: G.mixin.rem(5),
   }
 });
 

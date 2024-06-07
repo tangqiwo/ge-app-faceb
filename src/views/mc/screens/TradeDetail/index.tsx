@@ -25,9 +25,10 @@ import Selector from '@core/templates/components/Base/Selector';
 import MyTouchableOpacity from '@core/templates/components/MyTouchableOpacity';
 import CommonPicker from "@core/templates/components/CommonPicker";
 import Input from '@core/templates/components/Base/Input';
-import { CMD_MAPPING, CMD_CDOE_MAPPING } from '@core/hooks/trade/useTradeConnect';
+import { CMD_MAPPING, CMD_CDOE_MAPPING, ACCOUNT_TYPES } from '@core/hooks/trade/useTradeConnect';
 import ConfirmSubmit from './Confirm';
 import { LS as styles } from './style';
+import { HeaderRight } from '@this/navigations/AppNavigations';
 
 export default () => {
 
@@ -48,7 +49,8 @@ export default () => {
     closeOrder,
     setStoplossTakeprofit,
     modifyPendingOrder,
-    limitInput
+    limitInput,
+    accountType
   } = useTradeManager();
   const [ currentTab, setCurrentTab ] = React.useState(0);
   const [ operation, setOperation ] = React.useState('');
@@ -116,6 +118,7 @@ export default () => {
   }, [currentTab, params?.type])
 
   React.useEffect(() => {
+
     if(!params ||  params.type === 'sell' || params.type === 'buy'){
       navigation.setOptions({
         headerTitle: () => (
@@ -127,6 +130,7 @@ export default () => {
             cb={(value: string) => setPayload((state: any) => ({...state, Symbol: value}))}
           />
         ),
+        headerRight: accountType === ACCOUNT_TYPES.DEMO ? () => (<Text style={styles.demoTips}>模拟交易</Text>) : null,
         headerShown: true
       });
       setOperation('修改订单');

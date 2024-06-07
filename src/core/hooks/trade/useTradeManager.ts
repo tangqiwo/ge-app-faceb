@@ -465,7 +465,8 @@ export default () => {
     limitInput,
     closeOrder,
     setStoplossTakeprofit,
-    modifyPendingOrder
+    modifyPendingOrder,
+    accountType: accountType.id,
   }
 
 }
