@@ -5,6 +5,7 @@
  * @FilePath: /app_face_b/src/core/hooks/trade/useTradeOperation.ts
  * @Description:
  */
+import _ from 'lodash';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import usePublicState from '@hooks/usePublicState';
@@ -16,17 +17,20 @@ export default () => {
   const [ date, setDate ] = React.useState<'today' | '7days' | '30days' | 'others'>('today');
   const Mt4ClientApiToken = useSelector((state: any) => state.trade.mt4Info?.Mt4ClientApiToken);
   const accountType = useSelector((state: any) => state.trade.accountType);
+  const mt4Accounts = useSelector((state: any) => state.user.mt4Accounts);
   const [ count, setCount ] = React.useState<number>(0);
   const [startDate, setStartDate] = React.useState<string>();
   const [endDate, setEndDate] = React.useState<string>();
 
   // 历史订单
   const getHistoryOrders = (Range: Array<any>, PageNo = 1, cb?: Function) => {
+    const accouont = _.find(mt4Accounts, {AccountType: accountType.id});
     const data: any = {
       Symbol: "",
       Range,
       Page: PageNo,
       PageSize: 40,
+      Mt4Id: accouont.Mt4Id
     }
     dispatch(ACTIONS.TRADE.getHistoryOrders({ type: accountType.type, data, cb: (res: any) => {
       setData(res?.Data?.Data);

@@ -14,7 +14,6 @@ import usePublicState from "@core/hooks/usePublicState";
 import useTradeConnect, { ACCOUNT_TYPES } from "@core/hooks/trade/useTradeConnect";
 import MyTouchableOpacity from "@core/templates/components/MyTouchableOpacity";
 import Overlay from "@core/templates/components/Overlay";
-import BackgroundView from "@core/templates/components/BackgroundView";
 import useNativeForward from '@core/hooks/useNativeForward';
 import { Input } from '@ui-base/index';
 import Icon from '@icon/index';
